@@ -1,0 +1,1119 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#configs > ul").tabs();
+});
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+<script type="text/javascript" src="__PUBLIC__/Images/Farbtastic/farbtastic.js"></script>
+<link href="__PUBLIC__/Images/Farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
+{script}
+	$(document).ready(function() {
+		var picker = $.farbtastic("#picker");
+		$('.change_color').focus( function() {picker.linkTo(this);} );
+	});
+{/script}
+
+
+	<div class="title"><lang package='blogoption'>博客配置设置</lang></div>
+
+
+	<div id="content" class="content">
+
+	<div id="configs">
+		<ul>
+		<li><a href="#tab_general"><span><lang package='blogoption'>常规</lang></span></a></li>
+		<li><a href="#tab_seo"><span><lang package='blogoption'>SEO 优化</lang></span></a></li>
+		<li><a href="#tab_writing"><span><lang package='blogoption'>撰写</lang></span></a></li>
+		<li><a href="#tab_reading"><span><lang package='blogoption'>阅读</lang></span></a></li>
+		<li><a href="#tab_discussion"><span><lang package='blogoption'>讨论</lang></span></a></li>
+		<li><a href="#tab_media"><span><lang package='blogoption'>媒体</lang></span></a></li>
+		<li><a href="#tab_privacy"><span><lang package='blogoption'>隐私</lang></span></a></li>
+		<li><a href="#tab_permalink"><span><lang package='blogoption'>固定衔接</lang></span></a></li>
+		<li><a href="#tab_internationalization"><span><lang package='blogoption'>国际化</lang></span></a></li>
+		<li><a href="#tab_copyright"><span><lang package='blogoption'>版权修改</lang></span></a></li>
+		</ul>
+	</div>
+
+	<form action="{:G::U('blogoption/update_config')}" method="post" onsubmit="return option();">
+	<div id="tab_general">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blog_name"><lang package='blogoption'>博客名字</lang>:</label></th>
+			<td><input type="text" name="configs[blog_name]" id="blog_name" class="field" size="40" value="{$arrOptions['blog_name']}"/>
+			<div class="description"><lang package='blogoption'>博客的名字，给你的博客取一个个性的名字吧。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_description"><lang package='blogoption'>博客描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[blog_description]" cols="70" rows="5">{$arrOptions['blog_description']}</textarea>
+				<div class="description"><lang package='blogoption'>个性的博客描述让你魅力增倍。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_url"><lang package='blogoption'>博客地址</lang>:</label></th>
+			<td><input type="text" name="configs[blog_url]" id="blog_url" class="field" size="60" value="{$arrOptions['blog_url']}"/>
+			<div class="description"><lang package='blogoption'>博客地址的地址，后面不能带'/'。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_logo"><lang package='blogoption'>博客LOGO</lang>:</label></th>
+			<td><input type="text" name="configs[blog_logo]" id="blog_logo" class="field" size="60" value="{$arrOptions['blog_logo']}"/>
+			<div class="description">
+			<lang package='blogoption'>为你的博客添加一个个性的logo吧。</lang>
+			{if !empty( $arrOptions['blog_logo'] )}<br/><img src="{$arrOptions['blog_logo']}" title="<lang package='blogoption'>LOGO 地址</lang>"/>{/if}
+			</div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="admin_email"><lang package='blogoption'>管理员邮件地址</lang>:</label></th>
+			<td><input type="text" name="configs[admin_email]" id="admin_email" class="field" size="60" value="{$arrOptions['admin_email']}"/>
+			<div class="description"><lang package='blogoption'>管理员地址是一个重要的数据，该邮件具有强大的权限，用于取回站点的密码等</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="today_visited_num"><lang package='blogoption'>今日访问量</lang>:</label></th>
+			<td><input type="text" name="configs[today_visited_num]" id="today_visited_num" class="field" size="10"	disabled="disabled" value="{$arrOptions['today_visited_num']}"/>
+			<div class="description"><lang package='blogoption'>今日访问量，简单地统计一下今日的访问量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="all_visited_num"><lang package='blogoption'>全站总访问量</lang>:</label></th>
+			<td><input type="text" name="configs[all_visited_num]" id="all_visited_num" class="field" size="20" disabled="disabled" value="{$arrOptions['all_visited_num']}"/>
+			<div class="description"><lang package='blogoption'>博客所有访问量，同时访问量不是很准确，请自己添加第三方统计代码。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="close_blog"><lang package='blogoption'>是否关闭博客</lang>:</label></th>
+			<td><input type="radio" id="aclose_blog" class="field" name="configs[close_blog]" value="1" {if $arrOptions['close_blog']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[close_blog]" value="0" {if $arrOptions['close_blog']==0}checked="checked"{/if} /><lang>否</lang>
+			</div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="close_blog_why"><lang package='blogoption'>关闭博客原因</lang>:</label></th>
+			<td><textarea class="field" name="configs[close_blog_why]" cols="70" rows="5">{$arrOptions['close_blog_why']}</textarea>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="start_gzip"><lang package='blogoption'>是否启用GZIP</lang>:</label></th>
+			<td><input type="radio" id="start_gzip" class="field" name="configs[start_gzip]" value="1" {if $arrOptions['start_gzip']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[start_gzip]" value="0" {if $arrOptions['start_gzip']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>启用Gzip能够压缩页面数据，提高系统访问速度。</lang></div>
+			</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="tab_seo">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blog_seo_robots"><lang package='blogoption'>站点搜索引擎蜘蛛</lang>:</label></th>
+			<td><input type="text" name="configs[blog_seo_robots]" id="blog_seo_robots" class="field" size="40" value="{$arrOptions['blog_seo_robots']}"/>
+			<div class="description"><lang package='blogoption'>在这里可以设置接受的蜘蛛引擎，没事不要修改。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_seo_keywords"><lang package='blogoption'>博客SEO 关键字</lang>:</label></th>
+			<td><textarea class="field" name="configs[blog_seo_keywords]" cols="70" rows="5">{$arrOptions['blog_seo_keywords']}</textarea>
+				<div class="description"><lang package='blogoption'>博客的SEO 关键字可以让你的站点更具价值，提升在搜索引擎中的排名，吸引更多流量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_seo_descrition"><lang package='blogoption'>博客SEO 描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[blog_seo_descrition]" cols="70" rows="5">{$arrOptions['blog_seo_descrition']}</textarea>
+				<div class="description"><lang package='blogoption'>博客的SEO 描述可以让访客访问你的网站。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="seo_title"><lang package='blogoption'>博客标题附件关键字</lang>:</label></th>
+			<td><input type="text" name="configs[seo_title]" id="seo_title" class="field" size="40" value="{$arrOptions['seo_title']}"/>
+				<div class="description"><lang package='blogoption'>博客的SEO 描述可以让访客访问你的网站。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_charset"><lang package='blogoption'>博客网页头部编码</lang>:</label></th>
+			<td><input type="text" name="configs[blog_charset]" id="blog_charset" class="field" size="20" value="{$arrOptions['blog_charset']}"/>
+			<div class="description"><lang package='blogoption'>博客头部编码，没有特别的声明请不要修改其编码，否则乱码有可能将会损坏博客语言包。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="html_type"><lang package='blogoption'>博客网页头部类型</lang>:</label></th>
+			<td><input type="text" name="configs[html_type]" id="html_type" class="field" size="20" value="{$arrOptions['html_type']}"/>
+			<div class="description"><lang package='blogoption'>博客头部类型，默认为type/html，没事请不要修改。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="html_lang"><lang package='blogoption'>博客网页头部语言</lang>:</label></th>
+			<td><input type="text" name="configs[html_lang]" id="html_lang" class="field" size="20" value="{$arrOptions['html_lang']}"/>
+			<div class="description"><lang package='blogoption'>博客头部语言，默认为zh-CN，没事请不要修改。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_icp"><lang package='blogoption'>博客 ICP备案</lang>:</label></th>
+			<td><input type="text" name="configs[blog_icp]" id="blog_icp" class="field" size="40" value="{$arrOptions['blog_icp']}"/>
+			<div class="description"><lang package='blogoption'>天朝要求备案，我们能够不放一个号玩一下吗？</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="footer_extend_message"><lang package='blogoption'>首页底部信息</lang>:</label></th>
+			<td><textarea class="field" name="configs[footer_extend_message]" cols="70" rows="5">{$arrOptions['footer_extend_message']}</textarea>
+				<div class="description"><lang package='blogoption'>支持html, 可用于添加流量统计代码等等额外信息。</lang></div></td>
+			</tr>
+		</table>
+		</div>
+
+	<div id="tab_writing">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="auto_excerpt"><lang package='blogoption'>日志自动摘要</lang>:</label></th>
+			<td><input type="radio" id="auto_excerpt" class="field" name="configs[auto_excerpt]" value="1" {if $arrOptions['auto_excerpt']==1}checked="checked"{/if}/><lang>是</lang>
+				<input type="radio" id="" class="field" name="configs[auto_excerpt]" value="0" {if $arrOptions['auto_excerpt']==0}checked="checked"{/if} /><lang>否</lang>
+				<div class="description"><lang package='blogoption'>自动摘要在没有发布日志的时候，没有填写日志摘要的时候自动填充。</lang></div>
+			</td>
+			</tr>
+		</table>
+		</div>
+
+	<div id="tab_reading">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='blogoption'>前台基本设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行前台的相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="jquery_lazyload"><lang package='blogoption'>是否开启图片延迟加载</lang>:</label></th>
+			<td><input type="radio" id="jquery_lazyload" class="field" name="configs[jquery_lazyload]" value="1" {if $arrOptions['jquery_lazyload']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[jquery_lazyload]" value="0" {if $arrOptions['jquery_lazyload']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>图片延迟加载可以减少页面加载资源，但同时也使得浏览不畅快。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="jquery_slimbox"><lang package='blogoption'>是否开启simplebox 图片效果</lang>:</label></th>
+			<td><input type="radio" id="jquery_slimbox" class="field" name="configs[jquery_slimbox]" value="1" {if $arrOptions['jquery_slimbox']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[jquery_slimbox]" value="0" {if $arrOptions['jquery_slimbox']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开启后，点击一个图片衔接将会很酷，但是占用资源。</lang></div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="admineverynum"><lang package='blogoption'>后台数据显示数量</lang>:</label></th>
+			<td><input type="text" name="configs[admineverynum]" id="admineverynum" class="field" size="10" value="{$arrOptions['admineverynum']}"/>
+			<div class="description"><lang package='blogoption'>后台每页数据列表显示数量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="admin_theme_file_every"><lang package='blogoption'>后台模板文件显示数量</lang>:</label></th>
+			<td><input type="text" name="configs[admin_theme_file_every]" id="admin_theme_file_every" class="field" size="10" value="{$arrOptions['admin_theme_file_every']}"/>
+			<div class="description"><lang package='blogoption'>后台每页模板文件列表显示数量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="admin_searchindex_file_everynum"><lang package='blogoption'>后台搜索文件显示数量</lang>:</label></th>
+			<td><input type="text" name="configs[admin_searchindex_file_everynum]" id="admin_searchindex_file_everynum" class="field" size="10" value="{$arrOptions['admin_searchindex_file_everynum']}"/>
+			<div class="description"><lang package='blogoption'>后台每页搜索文件列表显示数量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="display_blog_list_num"><lang package='blogoption'>前台日志显示数量</lang>:</label></th>
+			<td><input type="text" name="configs[display_blog_list_num]" id="display_blog_list_num" class="field" size="10" value="{$arrOptions['display_blog_list_num']}"/>
+			<div class="description"><lang package='blogoption'>前台每页日志显示数量，设置大一点可以让站点看起来丰满，设置小一点可以让站点减少数据加载量，提高运行速度。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="display_blog_comment_list_num"><lang package='blogoption'>前台单篇日志评论显示数量</lang>:</label></th>
+			<td><input type="text" name="configs[display_blog_comment_list_num]" id="display_blog_comment_list_num" class="field" size="10" value="{$arrOptions['display_blog_comment_list_num']}"/>
+			<div class="description"><lang package='blogoption'>前台每篇日志的数量，可以根据需要设置，默认为5。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="display_blog_guestbook_list_num"><lang package='blogoption'>博客留言板的数量</lang>:</label></th>
+			<td><input name="configs[display_blog_guestbook_list_num]" value="{$arrOptions['display_blog_guestbook_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>博客留言板的数量，这个可以稍微设大一点，你懂的哈。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_taotao_list_num"><lang package='blogoption'>博客心情的数量</lang>:</label></th>
+			<td><input name="configs[display_blog_taotao_list_num]" value="{$arrOptions['display_blog_taotao_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>前台心情列表数量，显示你最近的生活。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_taotao_comment_list_num"><lang package='blogoption'>博客心情的评论数量</lang>:</label></th>
+			<td><input name="configs[display_taotao_comment_list_num]" value="{$arrOptions['display_taotao_comment_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>每条心情的评论数量，默认为5条数据。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_upload_comment_list_num"><lang package='blogoption'>博客附件的评论数量</lang>:</label></th>
+			<td><input name="configs[display_upload_comment_list_num]" value="{$arrOptions['display_upload_comment_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>博客附件的评论数量，默认为5条数据。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_user_list_num"><lang package='blogoption'>前台用户每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_user_list_num]" value="{$arrOptions['display_blog_user_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>以用户为中心的习惯。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_user_list_num"><lang package='blogoption'>前台用户每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_user_list_num]" value="{$arrOptions['display_blog_user_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>以用户为中心的习惯。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_friend_list_num"><lang package='blogoption'>前台好友每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_friend_list_num]" value="{$arrOptions['display_blog_friend_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>好友沟通世界。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_trackback_list_num"><lang package='blogoption'>前台引用每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_trackback_list_num]" value="{$arrOptions['display_blog_trackback_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>前台引用列表数量，这个可以多设置一点。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_comments_list_num"><lang package='blogoption'>前台评论每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_comments_list_num]" value="{$arrOptions['display_comments_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>前台评论列表数量，这个可以多设置一点。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_pm_list_num"><lang package='blogoption'>前台短消息每页分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_pm_list_num]" value="{$arrOptions['display_blog_pm_list_num']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>前台短消息列表数量，这个可以多设置一点。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="tag_list_show_color"><lang package='blogoption'>标签列表是否显示颜色</lang>:</label></th>
+			<td><input type="radio" id="tag_list_show_color" class="field" name="configs[tag_list_show_color]" value="1" {if $arrOptions['tag_list_show_color']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[tag_list_show_color]" value="0" {if $arrOptions['tag_list_show_color']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>标签加上可以让标签更加漂亮，但是可能造成很花哨，请根据喜好自行控制。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="tag_list_show_fontsize"><lang package='blogoption'>标签列表是否显示使用数量</lang>:</label></th>
+			<td><input type="radio" id="tag_list_show_fontsize" class="field" name="configs[tag_list_show_fontsize]" value="1" {if $arrOptions['tag_list_show_fontsize']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[tag_list_show_fontsize]" value="0" {if $arrOptions['tag_list_show_fontsize']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>标签列表显示数量可能让页面看起来乱，建议关闭。</lang></div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="show_content_emot"><lang package='blogoption'>是否显示内容表情</lang>:</label></th>
+			<td><input type="radio" id="show_content_emot" class="field" name="configs[show_content_emot]" value="1" {if $arrOptions['show_content_emot']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[show_content_emot]" value="0" {if $arrOptions['show_content_emot']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>1表示显示，0表示忽略。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_list_auto_excerpt_num"><lang package='blogoption'>前台日志自动摘要截取字符串数量</lang>:</label></th>
+			<td><input type="text" name="configs[blog_list_auto_excerpt_num]" id="blog_list_auto_excerpt_num" class="field" size="10" value="{$arrOptions['blog_list_auto_excerpt_num']}"/>
+			<div class="description"><lang package='blogoption'>这个对部分主题可能需要对摘要进行再次压缩，以便于规范来说，有用。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_rss1_num"><lang package='blogoption'>前台RSS1 日志数量</lang>:</label></th>
+			<td><input type="text" name="configs[blog_rss1_num]" id="blog_rss1_num" class="field" size="10" value="{$arrOptions['blog_rss1_num']}"/>
+			<div class="description"><lang package='blogoption'>RSS1 在前台的显示数量，这个可以设置多一点，提高你的站点的访客。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_rss1_excerpt"><lang package='blogoption'>RSS1 输出方式</lang>:</label></th>
+			<td><input type="radio" id="blog_rss1_excerpt" class="field" name="configs[blog_rss1_excerpt]" value="1" {if $arrOptions['blog_rss1_excerpt']==1}checked="checked"{/if}/><lang package='blogoption'>摘要</lang>
+			<input type="radio" id="" class="field" name="configs[blog_rss1_excerpt]" value="0" {if $arrOptions['blog_rss1_excerpt']==0}checked="checked"{/if} /><lang package='blogoption'>全文</lang>
+			<div class="description"><lang package='blogoption'>1表示摘要，0表示全文。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_rss2_num"><lang package='blogoption'>前台RSS2 日志数量</lang>:</label></th>
+			<td><input type="text" name="configs[blog_rss2_num]" id="blog_rss2_num" class="field" size="10" value="{$arrOptions['blog_rss2_num']}"/>
+			<div class="description"><lang package='blogoption'>RSS2 在前台的显示数量，这个可以设置多一点，提高你的站点的访客。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_rss2_excerpt"><lang package='blogoption'>RSS2 输出方式</lang>:</label></th>
+			<td><input type="radio" id="blog_rss2_excerpt" class="field" name="configs[blog_rss2_excerpt]" value="1" {if $arrOptions['blog_rss2_excerpt']==1}checked="checked"{/if}/><lang package='blogoption'>摘要</lang>
+			<input type="radio" id="" class="field" name="configs[blog_rss2_excerpt]" value="0" {if $arrOptions['blog_rss2_excerpt']==0}checked="checked"{/if} /><lang package='blogoption'>全文</lang>
+			<div class="description"><lang package='blogoption'>1表示摘要，0表示全文。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_rss_comment_num"><lang package='blogoption'>评论RSS 数量</lang>:</label></th>
+			<td><input type="text" name="configs[blog_rss_comment_num]" id="blog_rss_comment_num" class="field" size="10" value="{$arrOptions['blog_rss_comment_num']}"/>
+			<div class="description"><lang package='blogoption'>网站评论RSS 的数量，可以设置多一点，提供活跃度。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="content_auto_add_link"><lang package='blogoption'>内容是否添加衔接</lang>:</label></th>
+			<td><input type="radio" id="content_auto_add_link" class="field" name="configs[content_auto_add_link]" value="1" {if $arrOptions['content_auto_add_link']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[content_auto_add_link]" value="0" {if $arrOptions['content_auto_add_link']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>内容自动添加衔接有助于提高反垃圾外衔接的能力。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="content_short_en_url"><lang package='blogoption'>衔接URL 是否截短</lang>:</label></th>
+			<td><input type="radio" id="content_short_en_url" class="field" name="configs[content_short_en_url]" value="1" {if $arrOptions['content_short_en_url']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[content_short_en_url]" value="0" {if $arrOptions['content_short_en_url']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>将过长的URL 进行截取变短，让内容看起来简洁。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="content_url_max_len"><lang package='blogoption'>内容URL 最大长度</lang>:</label></th>
+			<td><input type="text" name="configs[content_url_max_len]" id="content_url_max_len" class="field" size="10" value="{$arrOptions['content_url_max_len']}"/>
+			<div class="description"><lang package='blogoption'>URL 最大的长度，大于这个长度会被截断。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_artdialog_skin"><lang package='blogoption'>后台台对话框皮肤</lang>:</label></th>
+			<td><select name="configs[blog_artdialog_skin]">
+				<option value='aero' {if $arrOptions['content_auto_add_link']=='aero'}selected{/if} >aero</option>
+				<option value='chrome' {if $arrOptions['blog_artdialog_skin']=='chrome'}selected{/if} >chrome</option>
+				<option value='default' {if $arrOptions['blog_artdialog_skin']=='default'}selected{/if} >default</option>
+				<option value='gray' {if $arrOptions['blog_artdialog_skin']=='gray'}selected{/if} >gray</option>
+				<option value='idialog' {if $arrOptions['blog_artdialog_skin']=='idialog'}selected{/if} >idialog</option>
+				<option value='simple' {if $arrOptions['blog_artdialog_skin']=='simple'}selected{/if} >simple</option>
+				</select>
+			<div class="description"><lang package='blogoption'>系统内置多个漂亮的dialog，在后台可以更改，以便于在前台展示。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-purple"><lang package='blogoption'>前台页面描述</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行衔接、标签、搜索的描述。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_taotao_description"><lang package='blogoption'>滔滔心情描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_taotao_description]" cols="70" rows="5">{$arrOptions['the_taotao_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“滔滔心情”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_tag_description"><lang package='blogoption'>标签描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_tag_description]" cols="70" rows="5">{$arrOptions['the_tag_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“标签”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_search_description"><lang package='blogoption'>搜索文章描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_search_description]" cols="70" rows="5">{$arrOptions['the_search_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“搜索文章”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_404_description"><lang package='blogoption'>404页面描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_404_description]" cols="70" rows="5">{$arrOptions['the_404_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“404页面”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_record_description"><lang package='blogoption'>日志归档描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_record_description]" cols="70" rows="5">{$arrOptions['the_record_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“日志归档”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_link_description"><lang package='blogoption'>友情衔接描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_link_description]" cols="70" rows="5">{$arrOptions['the_link_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“友情衔接”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_guestbook_description"><lang package='blogoption'>留言板描述</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_guestbook_description]" cols="70" rows="5">{$arrOptions['the_guestbook_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“留言板”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_uploadcateogory_description"><lang package='blogoption'>相册列表说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_uploadcateogory_description]" cols="70" rows="5">{$arrOptions['the_uploadcateogory_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“相册列表”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_upload_description"><lang package='blogoption'>附件列表说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_upload_description]" cols="70" rows="5">{$arrOptions['the_upload_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“附件列表”列表前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_register_description"><lang package='blogoption'>注册说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_register_description]" cols="70" rows="5">{$arrOptions['the_register_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“注册”前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_publish_description"><lang package='blogoption'>投稿说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_publish_description]" cols="70" rows="5">{$arrOptions['the_publish_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“投稿”前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_user_description"><lang package='blogoption'>用户列表说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_user_description]" cols="70" rows="5">{$arrOptions['the_user_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“用户列表”前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_trackback_description"><lang package='blogoption'>引用列表说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_trackback_description]" cols="70" rows="5">{$arrOptions['the_trackback_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“引用列表”前面的描述。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="the_comment_description"><lang package='blogoption'>评论列表说明</lang>:</label></th>
+			<td><textarea class="field" name="configs[the_comment_description]" cols="70" rows="5">{$arrOptions['the_comment_description']}</textarea>
+				<div class="description"><lang package='blogoption'>在这里可以设置“评论列表”前面的描述。</lang></div></td>
+			</tr>
+	</table>
+	</div>
+
+	<div id="tab_discussion">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='blogoption'>评论基本设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行评论的相关设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="default_comment_status"><lang package='blogoption'>是否开启评论</lang>:</label></th>
+			<td><input type="radio" id="default_comment_status" class="field" name="configs[default_comment_status]" value="1" {if $arrOptions['default_comment_status']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[default_comment_status]" value="0" {if $arrOptions['default_comment_status']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>评论总开关，这里关闭后，所有评论将不会被接受。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="guestbook_status"><lang package='blogoption'>是否开启留言板</lang>:</label></th>
+			<td><input type="radio" id="guestbook_status" class="field" name="configs[guestbook_status]" value="1" {if $arrOptions['guestbook_status']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[guestbook_status]" value="0" {if $arrOptions['guestbook_status']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>留言板开关，用于留言板相关数据处理。</lang></div>
+			<div class="warning"><lang package='blogoption'>只有评论总开关开启后，这里才有效果</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="blog_comment_status"><lang package='blogoption'>是否开启日志评论</lang>:</label></th>
+			<td><input type="radio" id="blog_comment_status" class="field" name="configs[blog_comment_status]" value="1" {if $arrOptions['blog_comment_status']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[blog_comment_status]" value="0" {if $arrOptions['blog_comment_status']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>日志评论开关，用于日志评论相关数据处理。</lang></div>
+			<div class="warning"><lang package='blogoption'>只有评论总开关开启后，这里才有效果</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="taotao_status"><lang package='blogoption'>是否开启心情评论</lang>:</label></th>
+			<td><input type="radio" id="taotao_status" class="field" name="configs[taotao_status]" value="1" {if $arrOptions['taotao_status']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[taotao_status]" value="0" {if $arrOptions['taotao_status']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>心情评论开关，用于心情评论相关数据处理。</lang></div>
+			<div class="warning"><lang package='blogoption'>只有评论总开关开启后，这里才有效果</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="upload_status"><lang package='blogoption'>是否开启附件评论</lang>:</label></th>
+			<td><input type="radio" id="upload_status" class="field" name="configs[upload_status]" value="1" {if $arrOptions['upload_status']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[upload_status]" value="0" {if $arrOptions['upload_status']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>附件评论开关，用于附件评论相关数据处理。</lang></div>
+			<div class="warning"><lang package='blogoption'>只有评论总开关开启后，这里才有效果</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_comment"><lang package='blogoption'>全局评论是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_comment" class="field" name="configs[audit_comment]" value="1" {if $arrOptions['audit_comment']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_comment]" value="0" {if $arrOptions['audit_comment']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>全局评论审核开启，那么其它的评论审核会以它为标准。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_blog_comment"><lang package='blogoption'>日志评论是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_blog_comment" class="field" name="configs[audit_blog_comment]" value="1" {if $arrOptions['audit_blog_comment']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_blog_comment]" value="0" {if $arrOptions['audit_blog_comment']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>访客发表的评论需要管理员在后台审核过才会在前台显示。</lang></div>
+			{if $arrOptions['audit_comment']==1}<div class="warning"><lang>对不起，系统全局审核已经开启，这里设置无效。</lang></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_blog_guestbook"><lang package='blogoption'>日志留言板是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_blog_guestbook" class="field" name="configs[audit_blog_guestbook]" value="1" {if $arrOptions['audit_blog_guestbook']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_blog_guestbook]" value="0" {if $arrOptions['audit_blog_guestbook']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>访客发表的留言板需要管理员在后台审核过才会在前台显示。</lang></div>
+			{if $arrOptions['audit_comment']==1}<div class="warning"><lang>对不起，系统全局审核已经开启，这里设置无效。</lang></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_taotao_comment"><lang package='blogoption'>心情评论是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_taotao_comment" class="field" name="configs[audit_taotao_comment]" value="1" {if $arrOptions['audit_taotao_comment']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_taotao_comment]" value="0" {if $arrOptions['audit_taotao_comment']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>访客发表的心情评论需要管理员在后台审核过才会在前台显示。</lang></div>
+			{if $arrOptions['audit_comment']==1}<div class="warning"><lang>对不起，系统全局审核已经开启，这里设置无效。</lang></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_upload_comment"><lang package='blogoption'>附件评论是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_upload_comment" class="field" name="configs[audit_upload_comment]" value="1" {if $arrOptions['audit_upload_comment']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_upload_comment]" value="0" {if $arrOptions['audit_upload_comment']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>访客发表的附件评论需要管理员在后台审核过才会在前台显示。</lang></div>
+			{if $arrOptions['audit_comment']==1}<div class="warning"><lang>对不起，系统全局审核已经开启，这里设置无效。</lang></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="blog_comment_seccode"><lang package='blogoption'>是否启用日志评论验证码</lang>:</label></th>
+			<td><input type="radio" id="blog_comment_seccode" class="field" name="configs[blog_comment_seccode]" value="1" {if $arrOptions['blog_comment_seccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[blog_comment_seccode]" value="0" {if $arrOptions['blog_comment_seccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>用于前台日志评论是否开启验证码，只有后台“系统设置”中的全局验证码开启才有效。</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang> &nbsp;<a href="{:G::U('option/index')}"><lang>点击修改</lang></a></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="blog_guestbook_seccode"><lang package='blogoption'>是否启用日志留言板验证码</lang>:</label></th>
+			<td><input type="radio" id="blog_guestbook_seccode" class="field" name="configs[blog_guestbook_seccode]" value="1" {if $arrOptions['blog_guestbook_seccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[blog_guestbook_seccode]" value="0" {if $arrOptions['blog_guestbook_seccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>用于前台留言板是否开启验证码，只有后台“系统设置”中的全局验证码开启才有效。</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang> &nbsp;<a href="{:G::U('option/index')}"><lang>点击修改</lang></a></div>{/if}
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="comment_mail_to_admin"><lang package='blogoption'>评论是否邮件通知管理员</lang>:</label></th>
+			<td><input type="radio" id="comment_mail_to_admin" class="field" name="configs[comment_mail_to_admin]" value="1" {if $arrOptions['comment_mail_to_admin']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[comment_mail_to_admin]" value="0" {if $arrOptions['comment_mail_to_admin']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开启本功能，管理员更易轻松掌握网站动态。</lang></div>
+			<div class="warning"><lang>注意，如果邮件服务器没有设置正确，可能造成评论发表巨慢，如果错误，请关闭此功能。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="comment_mail_to_author"><lang package='blogoption'>评论是否邮件通知作者</lang>:</label></th>
+			<td><input type="radio" id="comment_mail_to_author" class="field" name="configs[comment_mail_to_author]" value="1" {if $arrOptions['comment_mail_to_author']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[comment_mail_to_author]" value="0" {if $arrOptions['comment_mail_to_author']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开启本功能，可以加强网站用户间的交流。</lang></div>
+			<div class="warning"><lang>注意，如果邮件服务器没有设置正确，可能造成评论发表巨慢，如果错误，请关闭此功能。</lang>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="use_blog_system_avatar"><lang package='blogoption'>是否启用系统头像</lang>:</label></th>
+			<td><input type="radio" id="use_blog_system_avatar" class="field" name="configs[use_blog_system_avatar]" value="1" {if $arrOptions['use_blog_system_avatar']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[use_blog_system_avatar]" value="0" {if $arrOptions['use_blog_system_avatar']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>系统头像是本博客系统本身内置的头像，系统头像想对于第三方的头像来说，其价值是非常大的。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="show_comment_avatar"><lang package='blogoption'>是否开启评论头像功能</lang>:</label></th>
+			<td><input type="radio" id="show_comment_avatar" class="field" name="configs[show_comment_avatar]" value="1" {if $arrOptions['show_comment_avatar']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[show_comment_avatar]" value="0" {if $arrOptions['show_comment_avatar']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>这会作用在评论列表中的头像上。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for=""><span class="label label-silver"><lang package='blogoption'>引用基本设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行引用的相关设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="allow_trackback"><lang package='blogoption'>是否开启引用</lang>:</label></th>
+			<td><input type="radio" id="allow_trackback" class="field" name="configs[allow_trackback]" value="1" {if $arrOptions['allow_trackback']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[allow_trackback]" value="0" {if $arrOptions['allow_trackback']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>如果站点遇到大量垃圾spam，可以关闭引用来阻止。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="trackback_url_expire"><lang package='blogoption'>是否启用引用地址过期设置</lang>:</label></th>
+			<td><input type="radio" id="trackback_url_expire" class="field" name="configs[trackback_url_expire]" value="1" {if $arrOptions['trackback_url_expire']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[trackback_url_expire]" value="0" {if $arrOptions['trackback_url_expire']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>设置引用地址过期设置，可以提高防治spam 的性能。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="max_trackback_length"><lang package='blogoption'>引用内容最长接受</lang>:</label></th>
+			<td><input name="configs[max_trackback_length]" value="{$arrOptions['max_trackback_length']}" class="field" type="text" size="30">
+			<div class="description"><lang package='blogoption'>引用接受的最长字节数，单位为字节</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="audit_trackback"><lang package='blogoption'>Trackback轰炸防御等级</lang>:</label></th>
+			<td><select name="configs[audit_trackback]" id="tbfilter">
+					<option value="0" {if $arrOptions['audit_trackback']==0}selected="selected"{/if}><lang package='blogoption'>不启用</lang></option>
+					<option value="1" {if $arrOptions['audit_trackback']==1}selected="selected"{/if}><lang package='blogoption'>宽松</lang></option>
+					<option value="2" {if $arrOptions['audit_trackback']==2}selected="selected"{/if}><lang package='blogoption'>严格</lang></option>
+					<option value="3" {if $arrOptions['audit_trackback']==3}selected="selected"{/if}><lang package='blogoption'>最严格，所有引用均需审核</lang></option>
+				</select>
+			<div class="description"><lang package='blogoption'>用后可以防范垃圾Trackback。疑似为垃圾信息的Trackback将被标记为等待审核。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="trackback_url_javascript"><lang package='blogoption'>JS写入引用地址</lang>:</label></th>
+			<td><input type="radio" id="trackback_url_javascript" class="field" name="configs[trackback_url_javascript]" value="1" {if $arrOptions['trackback_url_javascript']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[trackback_url_javascript]" value="0" {if $arrOptions['trackback_url_javascript']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>用javascript写入引用地址，群发软件无法自动抓取</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="trackback_url_math"><lang package='blogoption'>手动获取引用地址</lang>:</label></th>
+			<td><input type="radio" id="trackback_url_math" class="field" name="configs[trackback_url_math]" value="1" {if $arrOptions['trackback_url_math']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[trackback_url_math]" value="0" {if $arrOptions['trackback_url_math']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>访客需要输入一道数学题的答案才能获取引用地址。必须先打开‘JS写入引用地址’选项。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for=""><span class="label label-yellow"><lang package='blogoption'>头像裁剪相关</lang></span></label></th>
+			<td><lang package='blogoption'>这里可以对头像系统进行相关设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatar_crop_jpeg_quality"><lang package='blogoption'>头像裁剪保存后的压缩率</lang>:</label></th>
+			<td><input name="configs[avatar_crop_jpeg_quality]" value="{$arrOptions['avatar_crop_jpeg_quality']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>头像裁剪的压缩率将直接决定头像最后的品质，100表示不进行压缩，数字越小图像越小，品质越差。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatar_origin_jpeg_quality"><lang package='blogoption'>头像高清原图保存压缩率</lang>:</label></th>
+			<td><input name="configs[avatar_origin_jpeg_quality]" value="{$arrOptions['avatar_origin_jpeg_quality']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>头像会保存最后的高清原图，这里可以设置对高清原图进行压缩处理，100表示不压缩，数字越小图像越小，品质越差。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for=""><span class="label label-gray"><lang package='blogoption'>评论属性设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里可以对头像系统进行相关设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="comment_dateformat"><lang package='blogoption'>评论日期格式</lang>:</label></th>
+			<td><input name="configs[comment_dateformat]" value="{$arrOptions['comment_dateformat']}" class="field" type="text" size="30">
+			<div class="description"><lang package='blogoption'>PHP时间格式日期，例如：Y-m-d h:i:s。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="comment_url_nofollow"><lang package='blogoption'>是否开启评论Nofollow属性</lang>:</label></th>
+			<td><input type="radio" id="comment_url_nofollow" class="field" name="configs[comment_url_nofollow]" value="1" {if $arrOptions['comment_url_nofollow']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[comment_url_nofollow]" value="0" {if $arrOptions['comment_url_nofollow']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开始Nofollow 将会屏蔽评论中的网址的外衔接价值，这对防止垃圾评论有一定的效果。</lang></div>
+			</td>
+			</tr>
+		<tr>
+			<th valign="top"><label for="thread_comments_depth"><lang package='blogoption'>嵌套评论深度</lang>:</label></th>
+			<td><select name="configs[thread_comments_depth] id="thread_comments_depth" >
+				<loop start=1 end=20 var=the_depth >
+				<option value='{$the_depth}' {if $arrOptions['thread_comments_depth']==$the_depth}selected{/if} >{$the_depth}</option>
+				</loop>
+				</select>
+			<div class="description"><lang package='blogoption'>嵌套评论深度请不要设置过大，否则会将部分模板打乱。</lang></div>
+		</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for=""><span class="label label-purple"><lang package='blogoption'>Gravatar.com 第三方头像设置</lang></span></label></th>
+			<td><lang package='blogoption'>系统内置两个头像系统，一个为系统提供的头衔系统，另外一个为gravatar.com 的头像服务。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="comment_avatar_size"><lang package='blogoption'>头衔大小</lang>:</label></th>
+			<td><input name="configs[comment_avatar_size]" value="{$arrOptions['comment_avatar_size']}" class="field" type="text" size="10">
+			<div class="description"><lang package='blogoption'>头像大小，gravatar.com为一个正方向的头像，这里可以设置大小。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatars_rating"><lang package='blogoption'>头像最高等级</lang>:</label></th>
+			<td><input type="radio" name="configs[avatars_rating]" class="field" value="G" {if $arrOptions['avatars_rating']=='G'}checked{/if} />G &#8212; <lang package='blogoption'>普通级别, 任何年龄的访客都适合查看</lang><br/>
+				<input type="radio" name="configs[avatars_rating]" class="field" value="PG" {if $arrOptions['avatars_rating']=='PG'}checked{/if} /> PG &#8212; <lang package='blogoption'>有一定争议性的头像, 只适合13岁以上查看</lang><br/>
+				<input type="radio" name="configs[avatars_rating]" class="field" value="R" {if $arrOptions['avatars_rating']=='R'}checked{/if} />	R &#8212; <lang package='blogoption'>成人级, 只适合17岁以上成年人查看</lang><br />
+				<input type="radio" name="configs[avatars_rating]" class="field" value="X" {if $arrOptions['avatars_rating']=='X'}checked{/if} /> X &#8212; <lang package='blogoption'>最高等级, 不适合大多数人查看</lang>
+				<div class="description"><lang package='blogoption'>头像级别，一般设为G 级别，当然可以根据你的头像的淫荡程度进行评级。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatars_rating"><lang package='blogoption'>头像默认显示</lang>:</label></th>
+			<td><label>
+					<input type='radio' name='configs[avatar_default]' value='mystery' {if $arrOptions['avatar_default']=='mystery'}checked{/if}/>
+					<img alt=''
+						src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G&amp;forcedefault=1'
+						class='avatar avatar-32 photo' height='32' width='32'
+					/> Mystery Man
+				</label><br/>
+				<label>
+					<input type='radio' name='configs[avatar_default]' value='blank' {if $arrOptions['avatar_default']=='blank'}checked{/if}>
+					{~$sNoneGravatar =urlencode($arrOptions['blog_url'].'/Public/Images/Common/none.gif')}
+					<img alt=''
+						src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d={$sNoneGravatar}&amp;r=G&amp;forcedefault=1'
+						class='avatar avatar-32 photo' height='32' width='32'
+					/> <lang package='blogoption'>空白</lang>
+				</label><br />
+				<label>
+					<input type='radio' name='configs[avatar_default]' value='gravatar_default' {if $arrOptions['avatar_default']=='gravatar_default'}checked{/if}/>
+						<img alt=''
+								src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d=&amp;r=G&amp;forcedefault=1'
+								class='avatar avatar-32 photo' height='32' width='32'
+						/> Gravatar Logo
+				</label><br/>
+				<label>
+					<input type='radio' name='configs[avatar_default]' value='identicon' {if $arrOptions['avatar_default']=='identicon'}checked{/if}/>
+					<img alt=''
+						src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d=identicon&amp;r=G&amp;forcedefault=1'
+						class='avatar avatar-32 photo' height='32' width='32'
+					/> Identicon（<lang package='blogoption'>自动生成</lang>）
+				</label><br />
+				<label>
+					<input type='radio' name='configs[avatar_default]' value='wavatar' {if $arrOptions['avatar_default']=='wavatar'}checked{/if}/>
+					<img alt=''
+						src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d=wavatar&amp;r=G&amp;forcedefault=1'
+						class='avatar avatar-32 photo' height='32' width='32'
+					/>Wavatar（<lang package='blogoption'>自动生成</lang>）
+				</label><br />
+				<label>
+					<input type='radio' name='configs[avatar_default]' value='monsterid' {if $arrOptions['avatar_default']=='monsterid'}checked{/if}/>
+					<img alt=''
+							src='http://0.gravatar.com/avatar/a257fba92acca55e85977c9bff627fa2?s=32&amp;d=monsterid&amp;r=G&amp;forcedefault=1'
+							class='avatar avatar-32 photo' height='32' width='32'
+					/> MonsterID（<lang package='blogoption'>自动生成</lang>）
+				</label>
+				<div class="description"><lang package='blogoption'>头像级别，一般设为G 级别，当然可以根据你的头像的淫荡程度进行评级。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatar_cache"><lang package='blogoption'>头像是否启用缓存</lang>:</label></th>
+			<td><input type="radio" id="avatar_cache" class="field" name="configs[avatar_cache]" value="1" {if $arrOptions['avatar_cache']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[avatar_cache]" value="0" {if $arrOptions['avatar_cache']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>头像开启缓存后，头像将会被缓存到本地，加快读取速度。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="avatar_cache_time"><lang package='blogoption'>头像缓存时间</lang>:</label></th>
+			<td><input name="configs[avatar_cache_time]" value="{$arrOptions['avatar_cache_time']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>头像缓存时间，单位为天，默认为7天，也就是一周。</lang></div>
+			</td>
+		</tr>
+		</table>
+	</div>
+
+		<div id="tab_media">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for=""><span class="label label-purple"><lang package='blogoption'>附件上传</lang></span></label></th>
+			<td><lang package='blogoption'>这里都是附件上传相关的设置，请小心控制。</lang></td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="upload_file_default"><lang package='blogoption'>附件上传方式</lang>:</label></th>
+			<td><input type="radio" id="upload_file_default" class="field" name="configs[upload_file_default]" value="1" {if $arrOptions['upload_file_default']==1}checked="checked"{/if}/><lang package='blogoption'>传统表单</lang>
+			<input type="radio" id="" class="field" name="configs[upload_file_default]" value="0" {if $arrOptions['upload_file_default']==0}checked="checked"{/if} /><lang package='blogoption'>Flash 批量上传</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="all_allowed_upload_type"><lang package='blogoption'>全站附件允许上传格式</lang>:</label></th>
+			<td><input name="configs[all_allowed_upload_type]" value="{$arrOptions['all_allowed_upload_type']}" class="field" type="text" size="80">
+			<div class="description"><lang package='blogoption'>全站允许的附件格式，用|分割，例如jpg|jpeg|gif|mp3|php。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="upload_store_where_type"><lang package='blogoption'>附件存放方式</lang>:</label></th>
+			<td><select name="configs[upload_store_where_type]">
+				<option value="" <if condition="empty( $arrOptions['upload_store_where_type'] )">selected='selected'</if>><lang package='blogoption'>同一文件夹</lang></option>
+				<option value="month" <if condition="$arrOptions['upload_store_where_type'] eq 'month'">selected='selected'</if>><lang package='blogoption'>按月归档</lang></option>
+				<option value="day" <if condition="$arrOptions['upload_store_where_type'] eq 'day'">selected='selected'</if>><lang package='blogoption'>按天归档</lang></option>
+				</select></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="file_input_num"><lang package='blogoption'>传统表单上传方式input数量</lang>:</label></th>
+			<td><input name="configs[file_input_num]" value="{$arrOptions['file_input_num']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>传统表单上传方式的文件表单域数量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadfile_maxsize"><lang package='blogoption'>附件最大上传限制(B)</lang>:</label></th>
+			<td><input name="configs[uploadfile_maxsize]" value="{$arrOptions['uploadfile_maxsize']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>系统最大附件上传大小，单位为B，-1表示不限制。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_makeimage_thumb"><lang package='blogoption'>附件是否生成缩略图</lang>:</label></th>
+			<td><input type="radio" id="is_makeimage_thumb" class="field" name="configs[is_makeimage_thumb]" value="1" {if $arrOptions['is_makeimage_thumb']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_makeimage_thumb]" value="0" {if $arrOptions['is_makeimage_thumb']==0}checked="checked"{/if} /><lang>否</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_upload_auto"><lang package='blogoption'>附件是否自动上传</lang>:</label></th>
+			<td><input type="radio" id="is_upload_auto" class="field" name="configs[is_upload_auto]" value="1" {if $arrOptions['is_upload_auto']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_upload_auto]" value="0" {if $arrOptions['is_upload_auto']==0}checked="checked"{/if} /><lang>否</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="sim_upload_limit"><lang package='blogoption'>Flash每次上传数量</lang>:</label></th>
+			<td><input name="configs[sim_upload_limit]" value="{$arrOptions['sim_upload_limit']}" class="field" type="text">
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogfile_thumb_width_heigth"><lang package='blogoption'>附件缩略图大小</lang>:</label></th>
+			<td><input name="configs[blogfile_thumb_width_heigth]" value="{$arrOptions['blogfile_thumb_width_heigth']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>系统缩略图大小，用|分割，例如500|500。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_images_water_mark"><lang package='blogoption'>附件是否开启水印</lang>:</label></th>
+			<td><input type="radio" id="is_images_water_mark" class="field" name="configs[is_images_water_mark]" value="1" {if $arrOptions['is_images_water_mark']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_images_water_mark]" value="0" {if $arrOptions['is_images_water_mark']==0}checked="checked"{/if} /><lang>否</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_type"><lang package='blogoption'>附件水印格式</lang>:</label></th>
+			<td><input type="radio" id="images_water_type" class="field" name="configs[images_water_type]" value="img" {if $arrOptions['images_water_type']=='img'}checked="checked"{/if}/><lang package='blogoption'>图片</lang>
+			<input type="radio" id="" class="field" name="configs[images_water_type]" value="text" {if $arrOptions['images_water_type']=='text'}checked="checked"{/if} /><lang package='blogoption'>文字</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_position"><lang package='blogoption'>附件水印位置</lang>:</label></th>
+			<td><select name="configs[images_water_position]">
+				<foreach for=arrWaterMarkPosition value=images_water_position_value key=images_water_position_key>
+				<option value="{$images_water_position_key}" <if condition="$arrOptions['images_water_position'] eq $images_water_position_key">selected='selected'</if>>{$images_water_position_value}</option>
+				</foreach>
+				</select></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_position_offset"><lang package='blogoption'>水印位置偏移量</lang>:</label></th>
+			<td><input name="configs[images_water_position_offset]" value="{$arrOptions['images_water_position_offset']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>能够更加精确地控制水印图片的位置。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_img_imgurl"><lang package='blogoption'>水印图片路径</lang>:</label></th>
+			<td><input name="configs[images_water_mark_img_imgurl]" value="{$arrOptions['images_water_mark_img_imgurl']}" class="field" type="text" size="80">
+			<div class="description"><lang package='blogoption'>请填写一个水印图片的绝对路径。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_text_content"><lang package='blogoption'>水印文字内容</lang>:</label></th>
+			<td><input name="configs[images_water_mark_text_content]" value="{$arrOptions['images_water_mark_text_content']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>文字水印的内容。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_text_color"><lang package='blogoption'>水印文字颜色</lang>:</label></th>
+			<td><input name="configs[images_water_mark_text_color]" value="{$arrOptions['images_water_mark_text_color']}" id="images_water_mark_text_color" class="field change_color" type="text">
+			<div class="description"><lang package='blogoption'>文字水印的文字颜色。</lang></div>
+			<div id="picker"></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_text_fontsize"><lang package='blogoption'>水印文字大小</lang>:</label></th>
+			<td><input name="configs[images_water_mark_text_fontsize]" value="{$arrOptions['images_water_mark_text_fontsize']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>文字水印的文字大小。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_text_fontpath"><lang package='blogoption'>水印文字字体路径</lang>:</label></th>
+			<td><input name="configs[images_water_mark_text_fontpath]" value="{$arrOptions['images_water_mark_text_fontpath']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>不填则默认为Window 字体目录，填写framework-font将会加载框架内部字体。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="images_water_mark_text_fonttype"><lang package='blogoption'>水印文字字体</lang>:</label></th>
+			<td><input name="configs[images_water_mark_text_fonttype]" value="{$arrOptions['images_water_mark_text_fonttype']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>不填则默认为simkai.ttf。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-yellow"><lang package='blogoption'>文章内容显示</lang></span></label></th>
+			<td><lang package='blogoption'>这里对内容中的附件进行控制。</lang></td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="only_login_can_view_upload"><lang package='blogoption'>只有会员才能查看附件</lang>:</label></th>
+			<td><input type="radio" id="only_login_can_view_upload" class="field" name="configs[only_login_can_view_upload]" value="1" {if $arrOptions['only_login_can_view_upload']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[only_login_can_view_upload]" value="0" {if $arrOptions['only_login_can_view_upload']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>设置是否只有会员才能够查看附件。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="attach_expire_hour"><lang package='blogoption'>附件过期时间</lang>:</label></th>
+			<td><input name="configs[attach_expire_hour]" value="{$arrOptions['attach_expire_hour']}" class="field" type="text">
+			<div class="description"><lang package='blogoption'>单位：小时，0 或留空表示附件链接永久有效，过期后链接自动更新。本功能可有效防止附件被盗链或附件被软件批量下载，但是会给会员的正常下载带来不便。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="content_count_download"><lang package='blogoption'>是否加上下载次数</lang>:</label></th>
+			<td><input type="radio" id="content_count_download" class="field" name="configs[content_count_download]" value="1" {if $arrOptions['content_count_download']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[content_count_download]" value="0" {if $arrOptions['content_count_download']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>设置了下载显示次数，那么下载次数会显示在文章内容中。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="content_auto_resize_img"><lang package='blogoption'>文章内容图片自动文件宽度</lang>:</label></th>
+			<td><input name="configs[content_auto_resize_img]" value="{$arrOptions['content_auto_resize_img']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>如果设置了宽度为0，那么不会进行图片宽度自动维护。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-gray"><lang package='blogoption'>附件隐私</lang></span></label></th>
+			<td><lang package='blogoption'>我们在这里可以对附件的隐私进行设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="is_limit_upload_leech"><lang package='blogoption'>附件是否进行防盗链处理</lang>:</label></th>
+			<td><input type="radio" id="is_limit_upload_leech" class="field" name="configs[is_limit_upload_leech]" value="1" {if $arrOptions['is_limit_upload_leech']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_limit_upload_leech]" value="0" {if $arrOptions['is_limit_upload_leech']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>设置附件是否进行防盗链处理，这有助于保持自己博客的附件，防止被引用耗尽网站的流量。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="not_limit_leech_domail"><lang package='blogoption'>附件允许的盗链的域名</lang>:</label></th>
+			<td><textarea class="field" name="configs[not_limit_leech_domail]" cols="70" rows="5">{$arrOptions['not_limit_leech_domail']}</textarea>
+				<div class="description"><lang package='blogoption'>多个域名用|分割，注意www.doyouhaobaby.net和doyouhaobaby.net是两个不同的域名。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_upload_direct_to_really_path"><lang package='blogoption'>附件是否真实地址重定向</lang>:</label></th>
+			<td><input type="radio" id="is_upload_direct_to_really_path" class="field" name="configs[is_upload_direct_to_really_path]" value="1" {if $arrOptions['is_upload_direct_to_really_path']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_upload_direct_to_really_path]" value="0" {if $arrOptions['is_upload_direct_to_really_path']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>如果设置附件重定向，这个时候，打开一个动态附件的地址，URL 会直接掉转到真实的地址。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_upload_inline"><lang package='blogoption'>附件是否直接读取</lang>:</label></th>
+			<td><input type="radio" id="is_upload_inline" class="field" name="configs[is_upload_inline]" value="1" {if $arrOptions['is_upload_inline']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_upload_inline]" value="0" {if $arrOptions['is_upload_inline']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>Content-Disposition参数，attachment（作为附件下载），inline（在线打开具体使用如），header("Content-Disposition: inline; filename=文件名.txt")。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="is_hide_upload_really_path"><lang package='blogoption'>是否隐藏附件真实路径</lang>:</label></th>
+			<td><input type="radio" id="is_hide_upload_really_path" class="field" name="configs[is_hide_upload_really_path]" value="1" {if $arrOptions['is_hide_upload_really_path']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[is_hide_upload_really_path]" value="0" {if $arrOptions['is_hide_upload_really_path']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>隐藏附件的真实地址会加强附件的安全性，但是会加大服务器开销。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-black"><lang package='blogoption'>媒体显示</lang></span></label></th>
+			<td><lang package='blogoption'>这里都是媒体显示相关的设置，你可以自行设置。</lang></td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="display_blog_ucategory_list_num"><lang package='blogoption'>前台相册列表分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_ucategory_list_num]" value="{$arrOptions['display_blog_ucategory_list_num']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>为了防止相册过多，我们对其进行了分页。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="display_blog_upload_list_num"><lang package='blogoption'>前台附件列表分页数量</lang>:</label></th>
+			<td><input name="configs[display_blog_upload_list_num]" value="{$arrOptions['display_blog_upload_list_num']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>为了防止相册过多，我们对其进行了分页。</lang></div></td>
+			</tr>
+		</table>
+		</div>
+
+		<div id="tab_privacy">
+			<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='blogoption'>数据相关设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行数据的相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="global_badword_on"><lang package='blogoption'>是否开启词语过滤功能</lang>:</label></th>
+			<td><input type="radio" id="global_badword_on" class="field" name="configs[global_badword_on]" value="1" {if $arrOptions['global_badword_on']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[global_badword_on]" value="0" {if $arrOptions['global_badword_on']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开启过滤词语后，那么一些预设的词语将会被和谐。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='blogoption'>搜索相关设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行搜索的相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="allow_search_comments"><lang package='blogoption'>是否开启评论搜索</lang>:</label></th>
+			<td><input type="radio" id="allow_search_comments" class="field" name="configs[allow_search_comments]" value="1" {if $arrOptions['allow_search_comments']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[allow_search_comments]" value="0" {if $arrOptions['allow_search_comments']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>评论搜索一般用得比较少，可以关闭。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="search_keywords_min_length"><lang package='blogoption'>搜索最小的关键字</lang>:</label></th>
+			<td><input name="configs[search_keywords_min_length]" value="{$arrOptions['search_keywords_min_length']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>设置搜索的最小的关键字可以限制低级频繁的搜索。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="search_post_space"><lang package='blogoption'>搜索间隔时间</lang>:</label></th>
+			<td><input name="configs[search_post_space]" value="{$arrOptions['search_post_space']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>设置搜索限制，单位为秒，0表示不限制，可以最大化衔接用户过频地搜索从而占有较高的服务器资源。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="show_search_result_message"><lang package='blogoption'>搜索结果是否显示跳转消息</lang>:</label></th>
+			<td><textarea class="field" name="configs[show_search_result_message]" cols="70" rows="5">{$arrOptions['show_search_result_message']}</textarea>
+			<div class="description"><lang package='blogoption'>如果为空，那么会直接跳转至结果页面。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-yellow"><lang package='blogoption'>注册设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行注册的相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="website_licence"><lang package='blogoption'>注册站点许可协议</lang>:</label></th>
+			<td><textarea class="field" name="configs[website_licence]" cols="70" rows="5">{$arrOptions['website_licence']}</textarea>
+			<div class="description"><lang package='blogoption'>如果为空，注册站点许可协议会调用官方系统的协议。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="audit_register"><lang package='blogoption'>注册是否需要审核</lang>:</label></th>
+			<td><input type="radio" id="audit_register" class="field" name="configs[audit_register]" value="1" {if $arrOptions['audit_register']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[audit_register]" value="0" {if $arrOptions['audit_register']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>注册用户审核功能开启后，只有审核通过的用户才能够登录网站。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="allowed_register"><lang package='blogoption'>是否允许注册</lang>:</label></th>
+			<td><input type="radio" id="allowed_register" class="field" name="configs[allowed_register]" value="1" {if $arrOptions['allowed_register']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[allowed_register]" value="0" {if $arrOptions['allowed_register']==0}checked="checked"{/if} /><lang>否</lang>
+			</div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-black"><lang package='blogoption'>投稿设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行投稿的相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="website_publish_licence"><lang package='blogoption'>站点投稿许可协议</lang>:</label></th>
+			<td><textarea class="field" name="configs[website_publish_licence]" cols="70" rows="5">{$arrOptions['website_publish_licence']}</textarea>
+			<div class="description"><lang package='blogoption'>如果为空，站点投稿许可协议会调用官方系统的协议。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="allowed_publish"><lang package='blogoption'>是否允许投稿</lang>:</label></th>
+			<td><input type="radio" id="allowed_publish" class="field" name="configs[allowed_publish]" value="1" {if $arrOptions['allowed_publish']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[allowed_publish]" value="0" {if $arrOptions['allowed_publish']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>是否允许游客投稿。</lang></div>
+			</td>
+			</tr>
+			</table>
+		</div>
+
+		<div id="tab_permalink">
+			<table class="form-table full">
+			<th valign="top"><label for=""><span class="label label-black"><lang package='blogoption'>系统URL模式设置</lang></span></label></th>
+				<td><lang package='blogoption'>不同的URL模式 对应不同的URL 用户体验。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="url_model"><lang package='blogoption'>URL模式设置：</lang></label></th>
+			<td><select	id="url_model" name="configs[url_model]" >
+				<option value="1">- <lang package='blogoption'>选择要使用的URL模式</lang> -</option>
+				{list $arrUrlModels $url_model}
+				<option value="{$url_model['value']}" {if $url_model['value']==$arrOptions['url_model']}selected{/if}>{$url_model['name']}</option>
+				{/list}
+			</select>
+			<br />
+			<lang package='blogoption'>URL模式共有4种，不填默认兼容模式，每一种模式都有不同的效果。</lang><br>
+			<lang package='blogoption'>普通模式 （URL_MODEL：0）、PATHINFO模式（URL_MODEL：1）、REWRITE模式（URL_MODEL：2）、兼容模式（URL_MODEL：3）。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="html_cache_on"><lang package='blogoption'>是否开启静态化引擎</lang>:</label></th>
+			<td><input type="radio" id="html_cache_on" class="field" name="configs[html_cache_on]" value="1" {if $arrOptions['html_cache_on']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[html_cache_on]" value="0" {if $arrOptions['html_cache_on']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>开启静态化后，系统将会生成静态化文件来降低系统访问压力。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="html_cache_time"><lang package='blogoption'>静态化缓存时间</lang>:</label></th>
+			<td><input name="configs[html_cache_time]" value="{$arrOptions['html_cache_time']}" size="10" class="field" type="text">
+			<div class="description"><lang package='blogoption'>-1表示永不过期，永久缓存。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="html_read_type"><lang package='blogoption'>是否直接跳转到静态化文件</lang>:</label></th>
+			<td><input type="radio" id="html_read_type" class="field" name="configs[html_read_type]" value="1" {if $arrOptions['html_read_type']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[html_read_type]" value="0" {if $arrOptions['html_read_type']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='blogoption'>设置为跳转到静态化文件，系统将自会自动定位到静态化文件。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='blogoption'>清空静态缓存目录</lang>:</label></th>
+			<td><a href="{:G::U( 'blogoption/clear_html_dir' )}"><lang package='blogoption'>开始清空</lang></a>
+			<div class="description"><lang package='blogoption'>开始清理静态化目录，提高效率。</lang></div>
+			</td>
+			</tr>
+			</table>
+		</div>
+
+		<div id="tab_internationalization">
+			<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="admin_lang_set"><lang package='blogoption'>后台语言包</lang>:</label></th>
+			<td><select name="configs[admin_lang_set]" id="admin_lang_set" >
+				<foreach for=arrAdminLangs value=sAdminLangs>
+				<option value="{$sAdminLangs|strtolower}" {if strtolower( $arrOptions['admin_lang_set'] )==strtolower( $sAdminLangs)}selected{/if}>{$sAdminLangs}</option>
+				</foreach>
+			</select></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_lang_set"><lang package='blogoption'>前台语言包</lang>:</label></th>
+			<td><select name="configs[blog_lang_set]" id="blog_lang_set" >
+				<foreach for=arrFrontLangs value=sFrontLangs>
+				<option value="{$sFrontLangs|strtolower}" {if strtolower( $arrOptions['blog_lang_set'] )==strtolower( $sFrontLangs)}selected{/if}>{$sFrontLangs}</option>
+				</foreach>
+			</select></td>
+			</tr>
+			</table>
+		</div>
+
+		<div id="tab_copyright">
+			<span class="label label-green"><lang package='blogoption'>版权警告</lang></span>
+			<p style="color:red;"><lang package='blogoption'>本软件由DoYouHaoBaby Support Team 开发，由于开发过程中，我们投入了大量的精力，希望大家能够保留版权。</lang><br/>
+			<lang package='blogoption'>如果，你希望修改版权，而且DYHB.BLOG X 能够给您带来了帮助，希望你能够捐助我们，您的捐赠将让DYHB.BLOG X 变的更好。</lang><br/>
+			<lang package='blogoption'>DYHB.BLOG 对于普通个人用户的修改版权的费用为100( RMB )，企业用户为1000( RMB )，但这并不是强制的，意味着你仍然可以自由修改。</lang><br/>
+			<lang package='blogoption'>本系统采用The DoYouHaoBaby Framework 开发，强烈希望学习PHP 的朋友使用本软件来学习我们的框架平台，提升你的PHP 竞争力。</lang></p>
+			<br/>
+			<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blog_program_name"><lang package='blogoption'>博客系统版权</lang>:</label></th>
+			<td><input name="configs[blog_program_name]" value="{$arrOptions['blog_program_name']}" size="40" id="blog_program_name" class="field" type="text">
+			<div class="description"><lang package='blogoption'>博客系统的版权，这会出现程序底部prower by 等相关版权声明的地方。</lang></div>
+			<div id="picker"></div>
+			</td>
+			</tr>
+
+			<tr>
+			<th valign="top"><label for="blog_program_url"><lang package='blogoption'>博客系统官方网站</lang>:</label></th>
+			<td><input name="configs[blog_program_url]" value="{$arrOptions['blog_program_url']}" size="40" id="blog_program_url" class="field" type="text">
+			<div class="description"><lang package='blogoption'>博客系统的官方网站地址，修改后，会直接跳转到相关的网站。</lang></div>
+			<div id="picker"></div>
+			</td>
+			</tr>
+
+			</table>
+		</div>
+
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

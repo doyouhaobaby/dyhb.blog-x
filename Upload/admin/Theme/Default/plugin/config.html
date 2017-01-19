@@ -1,0 +1,59 @@
+<include file="public+header" />
+	
+{script}
+var curInput;
+colorpicker.previewColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+
+colorpicker.chooseColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+{/script}
+
+	<div class="title">{$arrPluginModel['plugin_name']}-{$arrPluginModel['plugin_version']} | <foreach for=arrSubMenuitems key=nSubMenuitems value=arrSubMenuitem>{if $arrSubMenuitem[2]}{$arrSubMenuitem[0]}{d*else}<a href="{$arrSubMenuitem[1]}">{$arrSubMenuitem[0]}</a>{/if} | </foreach><a href="{:G::U('plugin/edit?id='.$arrPluginModel['plugin_id'])}"><lang package='plugin'>返回插件</lang></a></div>
+	
+	<div id="content" class="content">
+
+	<form action="{:G::U('plugin/update_config')}" method="post" id="configAdd" name="configAdd">
+		<table class="form-table full">
+			<foreach for=arrPluginVars key=nPluginKey value=arrPluginVar>
+			<tr>
+			<th valign="top"><label for="{$arrPluginVar['pluginvar_variable']}">{$arrPluginVar['pluginvar_title']}：</label></th>
+			<td>{if $arrPluginVar['pluginvar_type']=='text'}
+			<input type="text" name="{$arrPluginVar['pluginvar_variable']}" id="{$arrPluginVar['pluginvar_variable']}" class="field" size="40" value="{$arrPluginVar['pluginvar_value']}"/>
+			{elseif $arrPluginVar['pluginvar_type']=='textarea'}
+			<textarea name="{$arrPluginVar['pluginvar_variable']}" id="{$arrPluginVar['pluginvar_variable']}" class="field" cols="70" rows="5">{$arrPluginVar['pluginvar_value']}</textarea>
+			{elseif $arrPluginVar['pluginvar_type']=='radio'}
+			<input type="radio" class="field" name="{$arrPluginVar['pluginvar_variable']}" value="1" {if $arrPluginVar['pluginvar_value']}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="{$arrPluginVar['pluginvar_variable']}" value="0" {if !$arrPluginVar['pluginvar_value']}checked="checked"{/if} /><lang>否</lang>
+			{elseif $arrPluginVar['pluginvar_type']=='color'}
+			<input type='text' class='field' name="{$arrPluginVar['pluginvar_variable']}" id="{$arrPluginVar['pluginvar_variable']}" value='{$arrPluginVar['pluginvar_value']}' size='8' onfocus='curInput=E("{$arrPluginVar['pluginvar_variable']}"); colorpicker.choose(event);' style='color:{$arrPluginVar['pluginvar_value']}'/>
+			<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("{$arrPluginVar['pluginvar_variable']}"); colorpicker.choose(event);' />
+			{d*else}
+			{$arrPluginVar['pluginvar_type']}
+			{/if}
+			<br/><div class="description">{$arrPluginVar['pluginvar_description']|nl2br}</div>
+			</td>
+			</tr>
+			</foreach>
+			</table>
+			<p class="center">
+			<input type="hidden" name="id" value="{$arrPluginModel['plugin_id']}"/>
+			<input id="submit_button" type="submit" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,68 @@
+<include file="public+header">
+
+{script}
+function backup(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('开始备份中') );
+}
+{/script}
+
+	
+	<div class="title"><lang package='backup'>数据库备份</lang> ( <a href="{:G::U('backup/runsql')}"><lang package='backup'>运行SQL语句</lang></a> | <a href="{:G::U('backup/restore')}"><lang package='backup'>数据库恢复</lang></a> | <a href="{:G::U('backup/optimize')}"><lang package='backup'>数据库优化</lang></a> )</div>
+
+	<if condition="!empty( $sWarning )"><div id="content_warning">{$sWarning}</div></if>
+
+	
+	<div id="content" class="content">
+	<form action="{:G::U('backup/dumpsql')}" method="post" id="backup" onsubmit="backup();">
+		<div id="checkList" class="none">
+		<table style="border:1px solid #ccc;">
+			<tr>
+				<td colspan="4"><input onclick="checkAll('checkList')" type="checkbox"><b><lang>全选</lang></b></td>
+			</tr>
+			<tr>
+			<volist name="arrTables" id="sTable" mod="4">
+				<eq name="mod" value="1">
+			</tr>
+			<tr>
+			</eq>
+			<td><input name="customtables[]" value="{$sTable}"	type="checkbox">{$sTable}</td>
+			</volist>
+			</tr>
+		</table>
+		<div class="description"><lang package='backup'>请选择备份的数据库表</lang></div>
+		</div>
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="type"><lang package='backup'>备份类型</lang>：</label></th>
+			<td><input type="radio" name="type" value="full" class="field" checked="checked" onclick="document.getElementById('checkList').style.display='none'"><lang package='backup'>全部备份</lang>
+			<input type="radio" name="type" value="custom" class="field" onclick="document.getElementById('checkList').style.display='block'"><lang package='backup'>自定义备份</lang>
+			<div class="description"><lang package='backup'>请选择备份类型，可以全部备份，也可以备份一部分</lang></div></td>
+			</tr>
+			<tr>
+				<th valign="top"><label for="ext_insert"	class="field"><lang package='backup'>插入方式</lang></label></td>
+				<td><input type="radio" name="ext_insert" class="radio" value='1'	class="field"><lang>是</lang>
+				<input type="radio" name="ext_insert" class="radio" value='0' checked="checked"><lang>否</lang>
+				<div class="description"><lang package='backup'>数据库备份插入(Extended Insert)方式</lang></div></td>
+			</tr>
+			<tr>
+				<th valign="top"><label for="vol_size"><lang package='backup'>分卷文件长度</lang></label></td>
+				<td><input type="text" name="vol_size" value="{$nVolSize}"	class="field">
+				<div class="description"><lang package='backup'>当数据量大的时候，分卷备份能够解决备份时卡死的现象</lang></div>
+				<div class="warning"><lang package='backup'>分卷备份长度限制单位为(KB)</lang></div></td>
+			</tr>
+			<tr>
+				<th valign="top"><label for="sql_file_name"><lang package='backup'>备份文件名</lang></label></td>
+				<td><input type="text" name="sql_file_name" value="{$sSqlName}" class="field">
+				<div class="description"><lang package='backup'>数据库备份文件名字</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='backup'>开始备份</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

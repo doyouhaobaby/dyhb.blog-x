@@ -1,0 +1,15 @@
+{if !empty($data)}
+{$before_widget}
+{if $widget_title==1}{$before_title}{$block_title}{$after_title}{/if}
+<ul class="{$ul_class}">
+<foreach for=data value=arrTrackbackData >
+	<li class="blogtrackback-item blogtrackback-item-{$arrTrackbackData:trackback_id}">
+		<a {if $blogtrackback_nofollow==1}rel='external nofollow'{/if} {if $title==1}title="{$arrTrackbackData:trackback_title}"{/if} href="{$arrTrackbackData:trackback_url}" target="_blank" >
+		 {if $title_cutnum>0}{$arrTrackbackData:trackback_title|String+subString=0,$title_cutnum}{d*else}{$arrTrackbackData:trackback_title}{/if}
+		</a>
+		{if $blogtrackback_dateline==1}({$arrTrackbackData:create_dateline|date=$blogtrackback_dateline_type,**}){/if}
+	</li>
+</foreach>
+</ul>
+{$after_widget}
+{/if}

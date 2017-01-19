@@ -1,0 +1,128 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='public'>系统服务器消息</lang></div>
+
+	
+	<div id="content" class="content">
+
+		<div class="box box-info"><lang package='public'>欢迎使用本软件，祝你愉快每一天！</lang></div>
+		
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><span class="label label-red"><lang package='public'>服务器系统信息</lang> </label></td>
+				<td><div class="description"><lang package='public'>对服务器系统相关信息进行统计</lang></div>
+				<div class="warning"><lang package='public'>在反映您遇到的问题时可能需要提供服务器的一些信息</div></lang>
+				</td>
+			</tr>
+
+		</table>
+
+		<table class="data full">
+		<thead>
+		<tr>
+			<th width="180"><lang package='public'>系统名字</lang></th>
+			<th><lang package='public'>当前值</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrInfo >
+			<tr>
+			<th width="180">{$key}</th>
+			<td>{$value}</td>
+			</tr>
+		</foreach>
+		</tbody>
+		</table>
+		
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><span class="label label-blue"><lang package='public'>Blog 统计信息</lang> </label></td>
+				<td><div class="description"><lang package='public'>Blog 运行相关信息</lang></div></td>
+			</tr>
+
+		</table>
+
+		<table class="data full">
+		<thead>
+		<tr>
+			<th width="180"><lang package='public'>当前项</lang></th>
+			<th><lang package='public'>当前值</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrStaticInfo >
+			<tr>
+			<th width="180">{if isset( $value[2] )}<a href="{$value[2]}">{$value[0]}</a>{d*else}{$value[0]}{/if}:</th>
+			<td>{$value[1]}</td>
+			</tr>
+		</foreach>
+		</tbody>
+		</table>
+
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><span class="label label-yellow"><lang package='public'>程序版本信息</lang> </label></td>
+				<td><div class="description"><lang package='public'>记录当前使用的软件版本</lang></div></td>
+			</tr>
+
+		</table>
+
+		<table class="data full">
+		<thead>
+		<tr>
+			<th width="180"><lang package='public'>版本名字</lang></th>
+			<th><lang package='public'>当前值</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrVersionInfo >
+			<tr>
+			<th width="180">{$key}</th>
+			<td>{$value}</td>
+			</tr>
+		</foreach>
+		<tr>
+			<td colspan=2><b><lang package='public'>DYHB.BLOG X 开发精英团队</lang></b></td>
+		</tr>
+		<tr style="background:none;">
+			<td colspan=2><div style="height: 100px; width: 700px; overflow:auto;">
+			<b><lang package='public'>版权所有:</lang></b> <a href="http://doyouhaobaby.net" target="_blank"><lang package='public'>点牛(成都) (Dianniu Studio.)</lang></a><br>
+			<b><lang package='public'>创始人:</lang></b> 小牛哥Dyhb<br>
+			<b><lang package='public'>开发与支持团队:</lang></b> 马明录、刘秀成、张旭<br>
+			<b><lang package='public'>界面与用户体验团队:</lang></b> ..<br>
+			<b><lang package='public'>宣传大使:</lang></b> ..<br>
+			<b><lang package='public'>插件贡献者:</lang></b> ..<br>
+			<b><lang package='public'>主题贡献者:</lang></b> ..<br>
+			<b><lang package='public'>感谢贡献者:</lang></b> ..<br></div></td>
+			</tr>
+		</tbody>
+		</table>
+
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><span class="label label-purple"><lang package='public'>程序版权信息</lang> </label></td>
+				<td><div class="description"><lang package='public'>在使用本软件前，请仔细阅读版权许可协议</lang></div></td>
+			</tr>
+
+		</table>
+		
+		<table class="data full">
+		<thead>
+		<tr>
+			<th	width="180" ><lang package='public'>版权信息</lang></th>
+			<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr style="background:none;" >
+			<td colspan=2>
+				<div style="height: 100px; width: 700px; overflow:auto;">{$sCopyTxt}</div>
+			</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,49 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>帖子</lang></div>
+
+<div id="wrap" class="wrap s_clear">
+	<div class="main">
+		<div class="content">
+		<div class="pages_btns s_clear">
+			<span class="postbtn" id="prompt_index_postbtn"><a href="{:G::U( 'publish/index' )}"><lang package='boardTheme'>发帖</lang></a></span>
+			<p>{if $arrUserinfo = Global_Extend+isLogin(true)}
+			<lang package='boardTheme'>欢迎回来</lang> {if !empty( $arrUserinfo['user_nikename'] )}{$arrUserinfo['user_nikename']}{d*else}{$arrUserinfo['user_name']}{/if}, <lang package='boardTheme'>你上次访问时间是在</lang> <span title="{$arrUserinfo['update_dateline']|date='Y-m-d H:i:s',**}">{$arrUserinfo['update_dateline']|Date+smartDate}</span>, <a href="{:G::U( 'user@?value='.$arrUserinfo['user_id'] )}" class="lightlink" target="_blank"><lang package='boardTheme'>我的帖子</lang></a>, <a href="{:G::U( 'search/result?search_date=86400&searchsubmit=yes' )}" class="lightlink"><lang package='boardTheme'>查看新帖</lang></a>
+			{d*else}
+			<lang package='boardTheme'>你可以</lang><a href="{:G::U( 'register/index' )}" class="lightlink"><lang package='boardTheme'>注册</lang></a><lang package='boardTheme'>一个帐号，并以此</lang><a href="{:G::U( 'login/index' )}"	class="lightlink"><lang package='boardTheme'>登录</lang></a>，<lang package='boardTheme'>以浏览更多精彩内容，并随时发布观点，与大家交流。</lang>
+			{/if}</p>
+		</div>
+
+		<div class="itemtitle s_clear">
+			<p class="right forumcount">
+				<lang package='boardTheme'>今日</lang>: <em>{$oCachedata['countcache_todaynum']}</em>,
+				<lang package='boardTheme'>昨日</lang>: <em>{$oCachedata['countcache_yesterdaynum']}</em>,
+				<lang package='boardTheme'>最高日</lang>: <em>{$oCachedata['countcache_mostnum']}</em>,
+				<lang package='boardTheme'>主题</lang>: <em>{$oCachedata['countcache_topicsnum']}</em>,
+				<lang package='boardTheme'>帖子</lang>: <em>{$oCachedata['countcache_postsnum']}</em>,
+				<lang package='boardTheme'>会员</lang>: <em>{$oCachedata['countcache_usersnum']}</em>
+				<lang package='boardTheme'>新会员</lang>: <a href="{:G::U('author@?id='.$oCachedata['countcache_lastuser'] )}" class="lightlink">{$oCachedata['countcache_lastuser']}</a>
+			</p>
+			<ul>
+				<li><a href="__APP__"><span><lang package='boardTheme'>论坛版块</lang></span></a></li>
+				<li class="current"><a href="{:G::U( 'blog/index?op=newblogs' )}"><span><lang package='boardTheme'>论坛主题</lang></span></a></li>
+			</ul>
+		</div>
+
+	<include file="loop">
+
+	<div class="pages_btns s_clear">
+				<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})">
+					<a href="{:G::U( 'publish/index?cid='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']) )}"><lang package='boardTheme'>发帖</lang></a>
+				</span>
+				{$sPageNavbar}
+			</div>
+		</div>
+
+	<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+		<li><a href="{:G::U( 'publish/index')}"><lang package='boardTheme'>发新话题</lang></a></li>
+	</ul>
+
+</div></div>
+
+<include file="footer">

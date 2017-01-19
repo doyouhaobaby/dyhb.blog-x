@@ -1,0 +1,76 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='badword'>过滤词语列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'badword/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="badword_find" title="<lang package='badword'>待查找词语</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('badword_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='badword_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='badword_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='badword'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='badword'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('badword_find','{$sSortByUrl}')" {if G+getGpc('order_','G')=='badword_find' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='badword_find' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='badword'>按照不良词语</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='badword'>不良词语</lang></a></th>
+			<th><a href="javascript:sortBy('badword_replacement','{$sSortByUrl}')" {if G+getGpc('order_','G')=='badword_replacement' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='badword_replacement' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='badword'>按照替换为</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='badword'>替换为</lang></a></th>
+			<th><lang package='badword'>替换为</lang></th>
+			<th><a href="javascript:sortBy('badword_admin','{$sSortByUrl}')" title="<lang package='badword'>按照不良词语</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='badword'>操作人</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:badword_id}"></td>
+			<td>{$value:badword_id}
+			<div class="row-actions">
+				<span class='delete'><a href="javascript:foreverdel('{$value:badword_id}');" title="<lang>删除</lang> 《{$value:badword_find}》">删除</a></span>
+			</div>
+			</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="badword_find_{$value:badword_id}" onClick="clickToInput('badword_find','{$value:badword_id}')">{$value:badword_find}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="badword_replacement_{$value:badword_id}" onClick="clickToInput('badword_replacement','{$value:badword_id}')">{$value:badword_replacement}</td>
+			<td>&gt;</td>
+			<td>{$value:badword_admin}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

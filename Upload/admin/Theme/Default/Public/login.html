@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="zh-CN">
+<head>
+<title><lang>DYHB.BLOG X! 管理平台</lang> | <lang>登录</lang></title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<load file="../PUBLIC__/Css/style.css" />
+<import file="Js.Vendor.Jquery" />
+<import file="Js.Dyhb#package" />
+<script src="__PUBLIC__/Images/Admin/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/Js/global.js" type="text/javascript"></script>
+</head>
+<body onLoad="document.login.user_name.focus()" class="login-body">
+{script}
+<!--
+Dyhb.Lang.SetCurrentLang('__LANG_NAME__');
+var PUBLIC='__PUBLIC__';
+Dyhb.Ajax.Dyhb.Image=['__TMPLPUB__/Images/ajax/loading.gif', '__TMPLPUB__/Images/ajax/ok.gif','__TMPLPUB__/Images/ajax/update.gif'];
+Dyhb.Ajax.Dyhb.UpdateTips='login...';
+var URL = '__URL__';
+{:App::U()}
+function login_handle(data,status){
+	if(status==1){
+		window.location='__APP__';
+	}
+}
+//-->
+{/script}
+<div id="login">
+	<form method='post' name="login" id="form1">
+		<p><import file="Images/logo#gif" type='img'	basepath="TMPLPUB"/>
+		</p>
+		<p><div id="result" class="none"></div></p>
+		<p>
+			<label><lang package='public'>用户名/E-mail</lang><br />
+			<input type="text" name="user_name" id="user_name" class="field" size="40"/></label>
+		</p>
+		<p>
+			<label><lang package='public'>密码</lang><br />
+			<input type="password" name="user_password" id="user_password" class="field" size="40" /></label>
+		</p>
+		<if condition=$bLoginSeccode >
+		<p>
+			<label><lang package='public'>验证码</lang><br />
+			<input onfocus="updateSeccode();this.onfocus = null;"  type="text" onBlur="checkSeccode( 'result' );" class="field" name="seccode" size="10" id="seccode"/>&nbsp;
+			<div id="seccodeImage"></div>
+			</label>
+		</p>
+		</if>
+		<p>
+			<input type="hidden" name="ajax" value="1">
+			<input type="button" class="button right button-blue" value="  <lang package='public'>登 录</lang>  " onClick="Dyhb.AjaxSubmit('form1','{:G::U('public/check_login')}','result',login_handle);" />
+		</p>
+	</form>
+	<p style="margin-left:20px;margin-top:10px;" ><a href="__ROOT__/">&laquo;<lang package='public'>返回首页</lang></a></p>
+</div>
+</body>
+</html>

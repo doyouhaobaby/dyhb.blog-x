@@ -1,0 +1,60 @@
+<include file="public+header">
+
+{script}
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+	
+	<div class="title"><lang package='sound'>短消息设置</lang></div>
+
+	
+	<div id="content" class="content">
+
+	<form action="{:G::U('sound/update_config')}" method="post" onsubmit="return option();">
+
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="message_sound_on"><lang package='sound'>是否开启短消息提示音</lang>:</label></th>
+			<td><input type="radio" id="message_sound_on" class="field" name="configs[message_sound_on]" value="1" {if $arrOptions['message_sound_on']==1}checked="checked"{/if}/><lang>是</lang>
+				<input type="radio" id="" class="field" name="configs[message_sound_on]" value="0" {if $arrOptions['message_sound_on']==0}checked="checked"{/if} /><lang>否</lang>
+				<div class="description"><lang package='sound'>开启系统短消息音，将会很酷。</lang></div>
+			</td>
+			</tr>
+
+			<tr>
+			<th valign="top"><label for="message_sound_type"><lang package='sound'>系统内置短消息音</lang>:</label></th>
+			<td><select name="configs[message_sound_type]">
+				<option value='1' {if $arrOptions['message_sound_type']=='1'}selected{/if} ><lang package='sound'>提示音1</lang></option>
+				<option value='2' {if $arrOptions['message_sound_type']=='2'}selected{/if} ><lang package='sound'>提示音2</lang></option>
+				<option value='3' {if $arrOptions['message_sound_type']=='3'}selected{/if} ><lang package='sound'>提示音3</lang></option>
+				</select>
+			<div class="description"><lang package='sound'>系统内置的三个短消息声音，可以切换着听听。</lang></div></td>
+			</tr>
+			
+			<tr>
+			<th valign="top"><label for="message_sound_out_url"><lang package='sound'>短消息提示音外部地址</lang>:</label></th>
+			<td><input type="text" name="configs[message_sound_out_url]" id="message_sound_out_url" class="field" size="40" value="{$arrOptions['message_sound_out_url']}"/>
+			<div class="description"><lang package='sound'>有部分服务器可能不支持音乐文件，这个可以添加一个外部的音乐文件。</lang></div>
+			<div class="warning"><lang package='sound'>外部音乐文件不为空，系统内置声音文件将会失效。</lang>
+			</div>
+			</td>
+			</tr>
+
+
+		</table>
+	
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

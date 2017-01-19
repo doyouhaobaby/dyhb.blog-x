@@ -1,0 +1,66 @@
+<include file="public+header">
+
+{script}
+<!--
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新留言中') );
+	Dyhb.AjaxSubmit('commentAdd','{:G::U('comment/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新留言') ); });
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='comment'>编辑留言</lang> ( <a href="{:G::U('guestbook/index')}"><lang package='comment'>返回留言列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('comment/update')}" method="post" id="commentAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><lang package='comment'>留言者信息</lang>：</label></th>
+			<td>{if !empty( $oValue->user_id )}
+				<lang package='comment'>会员</lang>：{if !empty( $oValue->user->user_nikename )}{$oValue->user->user_nikename}{d*else}{$oValue->user->user_name}{/if}
+				{d*else}
+				<lang package='comment'>普通游客</lang>
+				{/if}
+			<div class="description"><lang package='comment'>评论者的信息</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='comment'>头像</lang>：</label></th>
+			<td><img src="{if !empty( $oValue->user_id )}{$TheController:get_avatar_url( 'big',$oValue->user_id )}{d*else}{$TheController:get_gravatar_com( $oValue->comment_email )}{/if}"	alt="{$oValue:comment_name}" title="{$oValue:comment_name}" />
+			<div class="description"><lang package='comment'>评论者的头像</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_name"><lang package='comment'>评论者</lang>：</label></th>
+			<td><input type="text" name="comment_name" id="comment_name" class="field" size="40" value="{$oValue:comment_name}"/>
+			<div class="description"><lang package='comment'>评论者的名字</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_url"><lang package='comment'>评论者主页</lang>：</label></th>
+			<td><input type="text" name="comment_url" id="comment_url" class="field" size="40" value="{$oValue:comment_url}"/>
+			<div class="description"><lang package='comment'>评论者的主页</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_email"><lang package='comment'>评论者E-mail</lang>：</label></th>
+			<td><input type="text" name="comment_email" id="comment_email" class="field" size="40" value="{$oValue:comment_email}"/>
+			<div class="description"><lang package='comment'>评论者的E-mail</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_content"><lang package='comment'>评论信息</lang>：</label></th>
+			<td><textarea name="comment_content" id="comment_content" class="field" cols="70" rows="10">{$oValue:comment_content|htmlspecialchars}</textarea>
+			<div class="description"><lang package='comment'>评论的内容</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="update()" class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

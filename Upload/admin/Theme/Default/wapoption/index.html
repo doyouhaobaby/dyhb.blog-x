@@ -1,0 +1,72 @@
+<include file="public+header">
+
+{script}
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+
+	<div class="title"><lang package='wapoption'>Wap 数据设置</lang></div>
+
+
+	<div id="content" class="content">
+
+	<form action="{:G::U('wapoption/update')}" method="post" onsubmit="return option();">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="close_wap"><lang package='wapoption'>是否关闭Wap</lang>:</label></th>
+			<td><input type="radio" id="close_wap" class="field" name="configs[close_wap]" value="1" {if $arrOptions['close_wap']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[close_wap]" value="0" {if $arrOptions['close_wap']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='wapoption'>这里将会决定是否开启Wap 设置。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="wap_display_blog_list_num"><lang package='wapoption'>手机日志</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_blog_list_num]" id="wap_display_blog_list_num" class="field" size="10" value="{$arrOptions['wap_display_upload_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机日志每页显示数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_blog_cutnum"><lang package='wapoption'>日志标题截取</lang>:</label></th>
+			<td><input type="text" name="configs[wap_blog_cutnum]" id="wap_blog_cutnum" class="field" size="10" value="{$arrOptions['wap_blog_cutnum']}"/>
+			<div class="description"><lang package='wapoption'>手机日志标题截取字符串数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_display_comment_list_num"><lang package='wapoption'>手机评论</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_comment_list_num]" id="wap_display_comment_list_num" class="field" size="10" value="{$arrOptions['wap_display_comment_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机日志的评论每页显示数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_display_category_list_num"><lang package='wapoption'>手机分类</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_category_list_num]" id="wap_display_category_list_num" class="field" size="10" value="{$arrOptions['wap_display_category_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机分类每页显示数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_display_tag_list_num"><lang package='wapoption'>手机标签</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_tag_list_num]" id="image_max_width" class="field" size="10" value="{$arrOptions['wap_display_tag_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机标签每页显示数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_display_taotao_list_num"><lang package='wapoption'>手机心情</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_taotao_list_num]" id="wap_display_taotao_list_num" class="field" size="10" value="{$arrOptions['wap_display_taotao_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机心情每页显示数量</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wap_display_upload_list_num"><lang package='wapoption'>手机附件</lang>:</label></th>
+			<td><input type="text" name="configs[wap_display_upload_list_num]" id="wap_display_upload_list_num" class="field" size="10" value="{$arrOptions['wap_display_upload_list_num']}"/>
+			<div class="description"><lang package='wapoption'>手机媒体每页显示数量</lang></div></td>
+			</tr>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

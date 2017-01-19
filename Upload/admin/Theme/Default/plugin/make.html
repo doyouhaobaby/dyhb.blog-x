@@ -1,0 +1,45 @@
+<include file="public+header" />
+	
+	<div class="title"><a href="{:G::U('plugin/index')}"><lang package='plugin'>插件列表</lang></a> | <a href="{:G::U('plugin/install')}"><lang package='plugin'>安装新插件</lang></a> | <lang package='plugin'>设计新插件</lang></div>
+
+	
+	<div id="content" class="content">
+
+	<form action="{:G::U('plugin/insert')}" method="post" id="pluginAdd" name="pluginAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="plugin_name"><lang package='plugin'>插件名称</lang>(name)：</label></th>
+			<td><input type="text" name="plugin_name" id="plugin_name" class="field" size="40" value="" maxlength="50"/>
+			<br/><div class="description"><lang package='plugin'>此插件的名称，中英文均可，最多 50 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_version"><lang package='plugin'>插件版本号</lang>(version)：</label></th>
+			<td><input type="text" name="plugin_version" id="plugin_version" class="field" size="40" value="" maxlength="20"/>
+			<br/><div class="description"><lang package='plugin'>此插件的版本，中英文均可，最多 20 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_copyright"><lang>版权信息</lang>(copyright)：</label></th>
+			<td><input type="text" name="plugin_copyright" id="plugin_copyright" class="field" size="40" value="" maxlength="100"/>
+				<div class="description"><lang package='plugin'>设置插件的版权信息，最多 100 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_identifier"><lang package='plugin'>唯一标识符</lang>(identifier)：</label></th>
+			<td><input type="text" name="plugin_identifier" id="plugin_identifier" class="field" size="40" value="" maxlength="40"/>
+			<br/><div class="description"><lang package='plugin'>插件的唯一英文标识，不能够与现有插件标识重复。可使用字母、数字、下划线命名，不能包含其他符号或特殊字符，最大 40 个字节。</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center">
+		<input id="submit_button" type="submit" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	
+	</div>
+	
+
+<include file="public+footer">

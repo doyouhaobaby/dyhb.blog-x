@@ -1,0 +1,89 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='emot'>表情列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'emot/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="emot_name" title="<lang package='emot'>表情名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+ 
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('emot_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='emot_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='emot_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>编号</lang></a></th>
+			<th>&nbsp;</th>
+			<th><a href="javascript:sortBy('emot_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='emot_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='emot_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照表情名字排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>表情名字</lang></a></th>
+			<th><a href="javascript:sortBy('emot_admin','{$sSortByUrl}')" {if G+getGpc('order_','G')=='emot_admin' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='emot_admin' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照操作人</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>操作人</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照创建时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>创建时间</lang></a></th>
+			<th><a href="javascript:sortBy('emot_image','{$sSortByUrl}')" {if G+getGpc('order_','G')=='emot_image' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='emot_image' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照表情路径</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>表情路径</lang></a></th>
+			<th><a href="javascript:sortBy('emot_thumb','{$sSortByUrl}')" {if G+getGpc('order_','G')=='emot_thumb' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='emot_thumb' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照表情缩略图</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>表情缩略图</lang></a></th>
+			<th><a href="javascript:sortBy('empt_compositor','{$sSortByUrl}')" {if G+getGpc('order_','G')=='empt_compositor' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='empt_compositor' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照表情排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>表情排序</lang></a></th>
+			<th><a href="javascript:sortBy('user_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='emot'>按照添加用户排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='emot'>添加用户</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:emot_id}"></td>
+			<td>{$value:emot_id}</td>
+			<td><img src="{:Global_Extend::getEmotByname( $value['emot_name'] )}" title="{$value:emot_name}" /></td>
+			<td>{$value:emot_admin}
+			{if $value['emot_id']>50}<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:emot_id}')" title="<lang>编辑</lang> 《{$value:emot_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:emot_id}');" title="<lang>删除</lang> 《{$value:emot_name}》"><lang>删除</lang></a></span>
+				</div>
+			{/if}
+			</td>
+			<td>{$value:emot_name}</td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			<td {if $value['emot_id']>50}class="pointer" title="<lang>点击修改数据</lang>" id="emot_image_{$value:emot_id}" onClick="clickToInput('emot_image','{$value:emot_id}')"{/if}>{$value:emot_image}</td>
+			<td {if $value['emot_id']>50}class="pointer" title="<lang>点击修改数据</lang>" id="emot_thumb_{$value:emot_id}" onClick="clickToInput('emot_thumb','{$value:emot_id}')"{/if}>{$value:emot_thumb}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="empt_compositor_{$value:emot_id}" onClick="clickToInput('empt_compositor','{$value:emot_id}')">{$value:empt_compositor}</td>
+			<td>{if empty( $value:user_id )}<lang package='emot'>跌名</lang>{d*else}{:UserModel::getUserNameById( $value->user_id )}{/if}</td>
+			<td>{if $value['emot_id']>50}<a href="javascript:edit('{$value:emot_id}')"><lang>编辑</lang></a>{d*else}<lang>系统表情</lang>{/if}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

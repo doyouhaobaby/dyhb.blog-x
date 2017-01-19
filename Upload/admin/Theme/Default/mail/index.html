@@ -1,0 +1,83 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='mail'>邮件列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'mail/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="mail_subject" title="<lang package='mail'>邮件主题</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('mail_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='mail_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='mail_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('mail_subject','{$sSortByUrl}')" {if G+getGpc('order_','G')=='mail_subject' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='mail_subject' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照邮件标题</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>邮件标题</lang></a></th>
+			<th><a href="javascript:sortBy('mail_tomail','{$sSortByUrl}')" {if G+getGpc('order_','G')=='mail_tomail' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='mail_tomail' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照接收者</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>接收者</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照加入时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>加入时间</lang></a></th>
+			<th><a href="javascript:sortBy('mail_failures','{$sSortByUrl}')" {if G+getGpc('order_','G')=='mail_failures' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='mail_failures' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照是否成功</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>是否成功</lang></a></th>
+			<th><a href="javascript:sortBy('mail_application','{$sSortByUrl}')" {if G+getGpc('order_','G')=='mail_application' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='mail_application' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='mail'>按照来源</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='mail'>来源</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:mail_id}"></td>
+			<td>{$value:mail_id}</td>
+			<td>{$value:mail_subject|htmlspecialchars}
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:mail_id}')" title="<lang>编辑</lang> 《{$value:mail_subject|htmlspecialchars}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:mail_id}');" title="<lang>删除</lang> 《{$value:mail_subject|htmlspecialchars}》"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td><if condition=" !empty( $value:mail_tomail ) "><a href="mailto:{$value:mail_tomail}">{$value:mail_tomail}</a><else/><lang package='mail'>匿名</lang></if></td>
+			<td>{$value:create_dateline|date='Y-m-d H:i:s',**}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:mail_isfailure eq 1" >no<else/>yes</if>.gif"/></td>
+			<td>{$value:mail_application}</td>
+			<td><a href="{:G::U('mail/send?mail_id='.$value->mail_id)}"><lang package='mail'>邮件发送</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

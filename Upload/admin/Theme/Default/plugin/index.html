@@ -1,0 +1,51 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='plugin'>插件列表</lang> | <a href="{:G::U('plugin/install')}"><lang package='plugin'>安装新插件</lang></a> | <a href="{:G::U('plugin/make')}"><lang package='plugin'>设计新插件</lang></a></div>
+
+	
+	<div id="content" class="content">
+
+	<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='plugin'>插件名字</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<php>$bExistImageLogo=file_exists(DYHB_PATH.'/../Public/Plugin/'.$value['plugin_dir'].'/logo.png')?true:false;</php>
+			<td class="{if $value['plugin_active']}plugin_on{d*else}plugin_off{/if}"><img height="40" align="left" width="40" style="margin-right: 5px;" src="{if $bExistImageLogo}__PUBLIC__/Plugin/{$value['plugin_dir']}/logo.png{d*else}__PUBLIC__/Plugin/logo.png{/if}"/>
+			<span class="{if $value['plugin_active']}plugin-bold{d*else}plugin-normal{/if}">{$value['plugin_name']}-{$value['plugin_version']}<br/>
+			<span>{$value['plugin_identifier']}</span>
+			</span>
+			<div>
+			<div class="right">
+			{if $value['plugin_active']}<a class="a-button" href="{:G::U('plugin/config?id='.$value['plugin_id'])}"><lang package='plugin'>设置</lang></a>| {/if}
+			{if $value['plugin_active']}<a class="a-button" href="{:G::U('plugin/disable?id='.$value['plugin_id'])}"><lang package='plugin'>关闭</lang></a>{d*else}
+			<a class="a-button" href="{:G::U('plugin/enable?id='.$value['plugin_id'])}"><lang package='plugin'>开启</lang></a>
+			{/if}
+			<a class="a-button" href="{:G::U('plugin/delete_plugin?id='.$value['plugin_id'])}"><lang package='plugin'>卸载</lang></a> 
+			<a class="a-button" href="{:G::U('plugin/edit?id='.$value['plugin_id'])}"><lang package='plugin'>设计</lang></a> 
+			</div><a onclick="showDiv('pluginmore{$key}')" href="javascript:;"><lang package='plugin'>介绍</lang></a></div>
+			<div style="display: none; margin: 0pt 5px 0pt 50px;" id="pluginmore{$key}"><lang package='plugin'>版权信息</lang>: {$value['plugin_copyright']}{if $value['plugin_author']} By 
+			{if $value['plugin_authorurl']}<a href="{$value['plugin_authorurl']}">{$value['plugin_author']}</a>{d*else}{$value['plugin_author']}{/if}{/if}<br/>{$value['plugin_description']}</div>
+			</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+		<br class="clear" />
+			<h3><lang package='plugin'>更新插件缓存</lang></h3>
+			<p><lang package='plugin'>如果你修改了插件，但是插件没有立刻生效，请在这里更新插件缓存。</lang></p>
+			<form action="{:G::U('plugin/update_plugin_cache')}" method="post">
+			<p>
+				<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='plugin'>更新插件缓存</lang>  " />
+				</p>
+			</form>
+	
+	</div>
+	
+
+<include file="public+footer">

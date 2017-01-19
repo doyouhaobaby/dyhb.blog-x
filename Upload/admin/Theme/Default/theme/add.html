@@ -1,0 +1,26 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='theme'>创建一个新的模板</lang> | <a href="{:G::U('theme/index')}"><lang package='theme'>前台主题</lang></a> | <a href="{:G::U('theme/admin')}"><lang package='theme'>后台主题</lang></a></div>
+
+	
+	<div id="content" class="content">
+
+	<form action="{:G::U('theme/add_yes')}" method="post" id="themeAdd" class="themeAdd">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="name"><lang package='theme'>主题名字</lang>:</label></th>
+			<td><input type="text" name="name" id="blog_name" class="field" size="40" value=""/>
+			<div class="description"><lang package='theme'>只允许英文、数字和下划线。</lang></div></td>
+			</tr>
+		</table>
+
+		<input type="hidden" name="theme" value="{$sTheme}" />
+		<input type="hidden" name="app" value="{$sApp}" />
+		<input type="submit" value="<lang package='theme'>创建新模板</lang>" class="button button-blue"/>
+	</form>
+	
+	</div>
+	
+
+<include file="public+footer">

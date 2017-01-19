@@ -1,0 +1,14 @@
+{if !empty($data)}
+{$before_widget}
+{if $widget_title==1}{$before_title}{$block_title}{$after_title}{/if}
+<ul class="{$ul_class}">
+<foreach for=data value=arrRelatedblogData >
+	<li class="relatedblog-item relatedblog-item-{$arrRelatedblogData:blog_id}">
+		<a {if $title==1}title="{$arrRelatedblogData:blog_title}"{/if} href="{:PageType_Extend::getBlogUrl($arrRelatedblogData)}" >
+		 {if $title_cutnum>0}{$arrRelatedblogData:blog_title|String+subString=0,$title_cutnum}{d*else}{$arrRelatedblogData:blog_title}{/if}
+		</a>
+	</li>
+</foreach>
+</ul>
+{$after_widget}
+{/if}

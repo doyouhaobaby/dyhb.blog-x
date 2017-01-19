@@ -1,0 +1,54 @@
+<?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/vnd.wap.wml; charset=utf-8" />
+<title>{:Global_Extend::getOption('blog_name')} | {:Global_Extend::getOption('blog_description')}</title>
+<style type="text/css" id="internalStyle">
+ body{background-color:#FFFFFF; font-size:14px; margin: 0; padding:0;font-family: Helvetica,Arial,sans-serif;-webkit-text-size-adjust: none;}
+ a:link,a:visited,a:active {text-decoration:none;color:#333;}
+ .green{ color:green; }
+ .purple{ color:purple; }
+ .gray{ color:gray; }
+ #top{background-color:#32598B; padding:1px 8px;}
+ #top #blogname{font-weight:bold; color:#FFFFFF; font-size:18px;}
+ #top .description{color:#B2D281;font-size:12px;}
+ #navi{background:#d3edb8; padding:5px 3px;}
+ #navi a{ padding:5px; }
+ #navi .active{color:red;}
+ #m{padding:10px;}
+ .list_title{ color:#32598B; }
+ .title{font-weight:bold; margin:10px 0px 5px 0px;}
+ .title a:link,a:active,a:visited,a:hover{color:#333360; text-decoration:none}
+ .info{font-size:12px;color:#999999;}.info2{font-size:12px; border-bottom:#CCCCCC dotted 1px; text-align:right; color:#666666; margin:5px 0px; padding:5px;}
+ .posttitle{font-size:13px; color:#333; font-weight:bold;}
+ .postinfo{font-size:12px; color: #999999;}
+ .postcont{border-bottom:1px dashed #DDDDDD; padding:12px 0px; margin-bottom:10px;}
+ .t{font-size:13px; font-weight:bold;}
+ .c{padding:10px;}
+ .l{border-bottom:1px dashed #DDDDDD; padding:10px 0px;}
+ .twcont{color:#333; padding-top:12px;}
+ .twinfo{text-align:right; color:#999999; border-bottom:1px dashed #DDDDDD; padding:8px 0px; font-size:12px;}
+ .comcont{color:#333; padding:6px 0px;}
+ .reply{color:#FF3300; font-size:12px;}
+ .cominfo{text-align:right; color:#999999; border-bottom:1px dashed #DDDDDD; padding:8px 0px;font-size:12px;}
+ .mobile{ color:green; }
+ .texts{width:92%; height:200px;}
+ .excerpt{width:92%; height:100px;} 
+ #page{padding:5px;margin:3px;text-align:center}
+ #page a{background:#27b;border-right:#dedfde 1px solid;padding-right:6px;background-position:50% bottom;border:#dedfde 1px solid;padding-left:6px;padding-bottom:2px;color:#fff;margin-right:3px;padding-top:2px;text-decoration:none;}
+ #page a:hover{background:#B2D281;color:#fff;text-decoration:none;}
+ #page a:active{border-right:#000 1px solid;border-top:#000 1px solid;background-image:none;border-left:#000 1px solid;color:#fff;border-bottom:#000 1px solid;background-color:#3991d1;}
+ #page span.current{font-weight:bold;padding:2px 6px;margin-right:3px;color:#333;border:#d3edb8 2px solid;background-color:#eee;}
+ #page span.disabled{padding:2px 6px;color:#999999;margin-right:3px;background-color:#f1f1f1;border:#eee 1px solid;}
+ #footer{background-color:#EFEFEF; color:#666666; padding:5px;text-align:center;font-weight:bold;}
+</style>
+</head>
+<body>
+<div id="top">
+	<div id="blogname">{:Global_Extend::getOption('blog_name')}</div>
+	<p class="description">{:Global_Extend::getOption('blog_description')}<p>
+</div>
+<div id="navi">
+	<a href="{:G::U('blog/index')}" {if defined('IS_HOME')}class="active"{/if}><lang>首页</lang></a>|<a href="{:G::U('blog/category')}" {if ACTION_NAME==='category'}class="active"{/if} ><lang>分类</lang></a>|<a href="{:G::U('blog/record')}" {if ACTION_NAME==='record'}class="active"{/if}><lang>归档</lang></a>|<a href="{:G::U('blog/tag')}" {if ACTION_NAME==='tag'}class="active"{/if}><lang>标签</lang></a><br>
+	<a href="{:G::U('blog/comment')}" {if ACTION_NAME==='comment'}class="active"{/if} ><lang>评论</lang></a>|<a href="{:G::U('blog/taotao')}" {if ACTION_NAME==='taotao'}class="active"{/if} ><lang>心情</lang></a>|<a href="{:G::U('blog/upload')}" {if ACTION_NAME==='upload'}class="active"{/if} ><lang>相册</lang></a>|{if $GLOBALS['___login___']===false}<a href="{:G::U('blog/login')}" {if ACTION_NAME==='login'}class="active"{/if} ><lang>登陆</lang></a>{d*else}<a href="{:G::U('blog/admin')}"><lang>管理</lang></a>{/if}
+</div>

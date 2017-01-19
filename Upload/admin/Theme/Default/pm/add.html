@@ -1,0 +1,50 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('发送系统短消息中') );
+	Dyhb.AjaxSubmit('pmAdd','{:G::U('pm/insert')}','',complete);
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('发送短消息') );
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='pm'>发送短消息</lang> ( <a href="{:G::U('pm/index')}"><lang package='pm'>返回短消息列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		
+		<div class="note"><p class="i"><lang package='pm'>本短消息将会被所有用户接收</lang></p></div>
+		
+		<form action="{:G::U('pm/insert')}" method="post" id="pmAdd" name="pmAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="pm_subject"><lang package='pm'>短消息主题</lang>：</label></th>
+			<td><input type="text" name="pm_subject" id="pm_subject" class="field" size="40" value=""/>
+			<br/><div class="description"><lang package='pm'>短消息主题，可以不填写。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pm_message"><lang package='pm'>短消息内容</lang>：</label></th>
+			<td><textarea name="pm_message" id="pm_message" class="field" cols="70" rows="5"></textarea>
+			<br/><div class="description"><lang package='pm'>短消息内容不能为空。</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="pm_type" value="system">
+			<input type="hidden" name="pm_fromapp" value="admin">
+		<input id="submit_button" type="button" onclick="add()" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

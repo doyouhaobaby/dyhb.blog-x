@@ -1,0 +1,27 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'trackback/index' )}"><lang package='defaultTheme'>引用列表</lang></a>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+	
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>引用列表</lang>( <span id="trackback-totalnums">{$nTotalTrackback}</span> )</h2>
+
+				<p>{$the_trackback_description}</p>
+				{:G::W( 'trackbacklist',array( 'data'=>$arrTrackbackLists ) )}
+
+				{$sPageNavbar}
+					
+			</div>
+
+		</div>
+	</div>
+	<include file="sidebarthree">	
+
+<include file="footer">

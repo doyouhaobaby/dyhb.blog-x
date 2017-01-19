@@ -1,0 +1,25 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>短消息</lang>	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	<table width='100%'>
+	<tr>
+	<td>
+	{if $oOnePm['pm_type']=='system'}
+			{:G::W( 'pmlist',array( 'type'=>$sPmType,'onepm'=>$oOnePm,'systemonepm'=>true,'readpms'=>$arrReadPms ) )}
+			{d*else}
+			{:G::W( 'pmlist',array( 'data'=>$arrPms,'type'=>$sPmType,'user'=>$nUserId,'pagenavbar'=>$sPageNavbar,'totalpm'=>$nTotalPm,'date'=>$sDate,'onepm'=>$oOnePm,'touser'=>$oToUser ) )}
+			{/if}
+	</td>
+	</tr>
+	</table>
+	</div>
+ </div>
+</div>
+
+<include file="sidebarmember">
+<include file="footer">

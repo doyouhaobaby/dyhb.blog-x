@@ -1,0 +1,60 @@
+<include file="public+header">
+
+{script}
+<!--
+function update(){
+
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新资料中') );
+	Dyhb.AjaxSubmit('informationUpd','{:G::U('public/change_info')}','',function(data,status){ $("#submit_button").attr("disabled", false);$("#submit_button").val(D.L("更新资料"));});
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='public'>修改资料</lang></div>
+
+	
+	<div id="content" class="content">
+		<form	method="post" id="informationUpd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="user_nikename"><lang package='public'>昵称：</lang></label></th>
+			<td><input type="text" name="user_nikename" id="user_nikename" class="field" size="40" value="{$oUserInfo:user_nikename}"/>
+			<div class="description"><lang package='public'>相对于登录名的一种雅称</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="user_email"><lang>Email：</lang></label></th>
+			<td><input type="text" name="user_email" id="user_email" class="field" size="40" value="{$oUserInfo:user_email}"/>
+			<div class="description"><lang package='public'>用户常用的电子邮件地址</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="user_remark"><lang package='public'>备 注：</lang></label></th>
+			<td><textarea name="user_remark" id="user_remark" class="field" cols="70" rows="5">{$oUserInfo:user_remark}</textarea>
+			<div class="description"><lang package='public'>用户更多的一些相关信息</lang></div>
+			</td>
+			</tr>
+		<if condition=$changeinfoseccode>
+			<tr>
+			<th valign="top"><label for="seccode"><lang package='public'>验证码：</lang></label></th>
+			<td><input onfocus="updateSeccode();this.onfocus = null;" onBlur="checkSeccode();" type="text"	class="field" name="seccode" size="6" id="seccode"/>
+				<div class="description"><lang package='public'>修改资料验证码</lang></div>
+				<br/>
+				<div id="seccodeImage"></div>
+			</td>
+			</tr>
+			</if>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="user_id" value="{$oUserInfo:user_id}">
+			<input id="submit_button" type="button" onclick="update()" class="button button-blue" value="  <lang package='public'>修改资料</lang>  " />
+			<input type="button" onClick="history.back()" class="button button-red" value="  <lang>取消</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

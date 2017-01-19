@@ -1,0 +1,106 @@
+<include file="public+header">
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/lang/zh_CN.js"></script>
+{script}
+<!--
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加微博中') );
+	$('#taotao_content').val( editor.html());
+	Dyhb.AjaxSubmit('taotaoAdd','{:G::U('taotao/insert')}','',complete);
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('发布微博') );
+	if(status==1){
+		window.location.href="{:G::U('taotao/taotao')}";
+	}
+}
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="taotao_content"]', {
+		allowFileManager : false,
+		allowImageUpload : false,
+		resizeMode : 1,
+		items : ['source','fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
+			'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+			'insertunorderedlist', '|', 'image', 'link'],
+		afterChange : function(id) {
+			K('#word_count').html(this.count());
+		}
+	});
+});
+-->
+{/script}
+
+
+	<div class="title"><lang package='taotao'>添加微博</lang> ( <a href="{:G::U('taotao/index')}"><lang package='taotao'>返回微博列表</lang></a> | <a href="{:G::U('taotao/taotao')}"><lang package='taotao'>微博样式</lang></a> )</div>
+
+
+	<div id="content" class="content">
+		<form action="{:G::U('taotao/insert')}" method="post" id="taotaoAdd" name="taotaoAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="taotao_content"><lang package='taotao'>微博内容</lang>：</label></th>
+			<td><textarea name="taotao_content" id="taotao_content" class="field" cols="70" rows="5"></textarea>
+			<br/><div class="description"><lang package='taotao'>微博内容，最多400个字符。</lang><lang package='taotao'>你已经输入了</lang> <span id="word_count" style="color:red;">0</span> <lang package='taotao'>个字符。</lang>
+			<a href="javascript:showDiv('taotao_box');" class="a-button"><lang package='taotao'>微博设置</lang></a>
+			</div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+		<input id="submit_button" type="button" onclick="add()" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+		<div class="taotao_box" id="taotao_box" style="display:none;">
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><label for="taotao_content"><lang package='taotao'>微博设置</lang>：</label></th>
+					<td><form method="post" action="{:G::U('taotao/set')}">
+						<div>
+							<span><lang package='taotao'>是否显示 Widget 标题</lang><input type="checkbox" style="vertical-align:middle;" value="1" name="configs[widget_taotao_titleshow]" id="widget_taotao_titleshow" {if $arrOptions['widget_taotao_titleshow']==1}checked="checked"{/if} class="field"/></span>
+							<span><lang package='taotao'>心情显示条数</lang><input type="text" name="configs[widget_taotao_display_num]" maxlength="3" value="{$arrOptions['widget_taotao_display_num']}" style="width:25px;" class="field"/></span>
+								<span><lang package='taotao'>Widget 标题</lang><input type="text" name="configs[widget_taotao_name]" value="{$arrOptions['widget_taotao_name']}" style="width:66px;" class="field"/></span>
+							<input class="button button-green" type="submit" value="<lang package='taotao'>保存</lang>" />
+						</div>
+						</form>
+					</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="clear"></div>
+
+	<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="taotao_content"><lang package='taotao'>微博列表：</lang></label></th>
+			<td>
+				<div id="taotao">
+				<ul id="taotao_list">
+					<foreach for=arrTaobaoList>
+					<li class="li">
+						<div class="main_img"><img src="{if !empty($value:user:user_id)}{$TheController:get_avatar_url( 'small',$value:user:user_id )}{d*else}__TMPLPUB__/Images/avatar.jpg{/if}" width="32px" height="32px" /></div>
+						<p class="post1"><a href="{:G::U('taotao/index?uid='.$value->user_id)}" >{if !empty($value:user:user_name)}{if !empty($value:user:user_nikename)}{$value:user:user_nikename}{d*else}{$value:user:user_name}{/if}{d*else}<lang package='taotao'>跌名</lang>{/if}</a><br />{$value:taotao_content|stripslashes}<if condition="$value:taotao_ismobile eq 1"><img src="__TMPLPUB__/Images/mobile.gif" title="<lang package='taotao'>手机心情</lang>"/></if></p>
+						<div class="clear"></div>
+						<div class="bttome">
+						<p class="time">{$value:create_dateline|Date+smartDate} <a class="a-button" href="javascript:foreverdel('{$value:taotao_id}');"><lang package='taotao'>删除</lang></a> </p>
+						</div>
+					</li>
+					</foreach>
+				</ul>
+			</div>
+		</td>
+	</th>
+	</tr>
+	<tr>
+		<td colspan='2'>{$sPageNavbar}</td>
+	</tr>
+	</table>
+
+	</div>
+
+
+<include file="public+footer">

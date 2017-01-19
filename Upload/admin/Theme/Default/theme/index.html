@@ -1,0 +1,118 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#theme_tab_menu > ul").tabs();
+});
+{/script}
+
+
+	<div class="title"><lang package='theme'>主题列表</lang>[{if $bIsAdmin===true}<lang package='theme'>后台主题</lang>{d*else}<lang package='theme'>前台主题</lang>{/if}]</lang> ( <a href="{:G::U('theme/'.($bIsAdmin===true?'index':'admin'))}">{if $bIsAdmin===true}<lang package='theme'>前台主题</lang>{d*else}<lang package='theme'>后台主题</lang>{/if}</a>	{if !empty($arrCurrentTheme)}| <a href="{:G::U('theme/edit?theme='.strtolower( $arrCurrentTheme['Template']).'&app='.$sApp )}"><lang package='theme'>编辑</lang></a>{/if} | <a href="{:G::U( 'theme/add?app='.$sApp )}" class="button button-blue" title="<lang package='theme'>创建一个新的模板</lang>"><lang package='theme'>新建</lang></a> )</div>
+
+
+	<div id="content" class="content">
+
+	{if $nPage<2}
+	<h3><lang package='theme'>当前主题</lang>{if empty($arrCurrentTheme)}<lang package='theme'>当前主题不存在或者已经损坏</lang>{/if}</h3>
+	{if !empty($arrCurrentTheme)}
+	<div id="current-theme">
+		<img src="{if $bIsAdmin===true}__THEME__{d*else}__ROOT__/blog/Theme{/if}/{$arrCurrentTheme['Template']}/{$arrCurrentTheme['Screenshot']}" alt="<lang package='theme'>主题预览</lang>" />
+		<h4>{$arrCurrentTheme['Name']}	<lang package='theme'>作者为</lang> {if !empty( $arrCurrentTheme['Author URI'])}{$arrCurrentTheme['Author']}{d*else}{$arrCurrentTheme['Author Name']}{/if}</h4>
+		<p class="theme-description">{$arrCurrentTheme['Description']}</p>
+		{if !$bIsAdmin}<div class="theme-options">
+			<span><lang package='theme'>选项：</lang></span>
+			<a href='{:G::U('widget/index')}'><lang package='theme'>小工具</lang></a>
+		</div>{/if}
+		{if !empty( $arrCurrentTheme['Tags'] )}<p><lang package='theme'>标签：</lang>{$arrCurrentTheme['Tags']|implode=',',**}</p>{/if}
+	</div>
+	<br class="clear" />
+	{/if}
+	{/if}
+
+	<div id="theme_tab_menu">
+		<ul>
+			<li><a href="#tab_theme_local"><span><lang package='theme'>系统主题</lang> [{if $bIsAdmin===true}<lang package='theme'>后台主题</lang>{d*else}<lang package='theme'>前台主题</lang>{/if}]</span></a></li>
+			<li><a href="#tab_theme_online"><span><lang package='theme'>在线主题</lang></span></a></li>
+		</ul>
+	</div>
+
+	<div id="tab_theme_local">
+		<h3><lang package='theme'>本页可用主题</lang>( <span>{$nOkThemeNums}</span> )</h3>
+
+		{$sPageNavbar}
+
+		{~$nRow=0}
+		<table class="form-table full" id="availablethemes">
+			<tbody id="the-list" class="list:themes">
+				<tr>
+				<volist name="arrOkThemes" id="arrOkTheme" mod="3">
+					<eq name="mod" value="1">
+					{~$nRow++}
+				</tr>
+				<tr>
+					</eq>
+					<td class="available-theme <eq name="nRow" value="1">top</eq><eq name="nRow" value="$nOkThemeRowNums">bottom</eq> <eq name="mod" value="1">left<elseif condition="$mod eq 0" />right</eq>>
+						<a href="#" class="thickbox thickbox-preview screenshot">
+							<img src="{if $bIsAdmin===true}__THEME__{d*else}__ROOT__/blog/Theme{/if}/{$arrOkTheme['Template']}/{$arrOkTheme['Screenshot']}" alt="{$arrOkTheme['Name']} - {$arrOkTheme['Title']}" />
+						</a>
+						<h3>{$arrOkTheme['Name']} <lang package='theme'>作者为</lang> {if !empty( $arrOkTheme['Author URI'])}{$arrOkTheme['Author']}{d*else}{$arrOkTheme['Author Name']}{/if}</h3>
+						<p class="description">{$arrOkTheme['Description']}</p>
+						<span class='action-links'>
+							<a href="{:G::U('theme/change?name='.$arrOkTheme['Template'].'&type='.( $bIsAdmin===true?'admin':'front' ))}" class="activatelink" title="<lang package='theme'>启用</lang>“{$arrOkTheme['Name']}”"><lang package='theme'>启用</lang></a> |
+							{if Global_Extend+getOption( 'allowed_default_edit' )==1||($arrOkTheme['Template']!='Default'&&$arrOkTheme['Template']!='Board'&&$arrOkTheme['Template']!='Cms')}<a href="{:G::U('theme/edit?theme='.strtolower($arrOkTheme['Template']).'&app='.$sApp)}" class="activatelink" title="<lang package='theme'>编辑</lang>“{$arrOkTheme['Name']}”"><lang package='theme'>编辑</lang></a> |{/if}
+							<a href="{:G::U('theme/add?theme='.strtolower($arrOkTheme['Template']).'&app='.$sApp)}" class="activatelink" title="<lang package='theme'>拷贝</lang>“{$arrOkTheme['Name']}”"><lang package='theme'>拷贝</lang></a> |
+							{if $sApp!='admin' && (Global_Extend+getOption( 'allowed_default_edit' )==1||($arrOkTheme['Template']!='Default'&&$arrOkTheme['Template']!='Board'&&$arrOkTheme['Template']!='Cms'))}<a href="{:G::U('theme/diy?theme='.strtolower($arrOkTheme['Template']).'&app='.$sApp)}" class="activatelink" title="<lang package='theme'>风格DIY</lang>“{$arrOkTheme['Name']}”"><lang package='theme'>风格DIY</lang></a> |{/if}
+							<a href="{:G::U('theme/cache?theme='.strtolower($arrOkTheme['Template']).'&app='.$sApp)}" class="activatelink" title="<lang package='theme'>缓存</lang>“{$arrOkTheme['Name']}”"><lang package='theme'>缓存</lang></a> |
+							{if $arrOkTheme['Template']!='Default'&&$arrOkTheme['Template']!='Board'&&$arrOkTheme['Template']!='Cms'}<a class="" onclick="return dyhbConfirm( D.L( '你确定你要删除主题吗？' ),function(){ window.location.href='{:G::U('theme/delete?name='.strtolower($arrOkTheme['Template']).'&app='.$sApp )}'; } );"><lang package='theme'>删除</lang></a>{d*else}<lang package='theme'>默认主题</lang>{/if}
+						</span>
+						<p><lang package='theme'>该主题的所有文件存放在</lang> <code>{$arrOkTheme['Template Dir']}</code>。</p>
+						{if !empty( $arrOkTheme['Tags'] )}<p><lang package='theme'>标签</lang>：{$arrOkTheme['Tags']|implode=',',**}</p>{/if}
+					</td>
+					</volist>
+				</tr>
+			</tbody>
+			</table>
+
+			{$sPageNavbar}
+
+			{if !empty( $arrBrokenThemes )}
+			<br class="clear" />
+			<h3><lang package='theme'>本页已损坏的主题</lang>( <span>{$nBrokenThemeNums}</span> )</h3>
+			<p><lang package='theme'>下列主题没有安装完全。样式表不存在或者损坏。</lang></p>
+			<table id="broken-themes" class="data full" >
+				<thead>
+				<tr>
+					<th><lang package='theme'>名称</lang></th>
+					<th><lang package='theme'>样式表路径</lang></th>
+					<th><lang package='theme'>描述</lang></th>
+				</tr>
+				</thead>
+				<foreach for=arrBrokenThemes value=arrBrokenTheme>
+				<tr class="alternate">
+					<td>{$arrBrokenTheme['Name']}</td>
+					<td>{$arrBrokenTheme['Path']}</td>
+					<td>{$arrBrokenTheme['Description']}</td>
+				</tr>
+				</foreach>
+			</table>
+			{/if}
+
+			<br class="clear" />
+			<h3><lang package='theme'>更新CSS 缓存</lang></h3>
+			<p><lang package='theme'>如果你修改了主题，但是主题没有立刻生效，请在这里更新主题Css 缓存。</lang></p>
+			<form action="{:G::U('theme/update_css')}" method="post">
+			<p>
+				<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='theme'>更新CSS 缓存</lang>  " />
+				</p>
+			</form>
+
+	</div>
+	<div id="tab_theme_online" >
+		<h3><lang package='theme'>在线主题</lang></h3>
+		wait to do ...
+	</div>
+
+	</div>
+
+
+<include file="public+footer">

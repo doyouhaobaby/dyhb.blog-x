@@ -1,0 +1,48 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='theme'>编辑模板</lang> | <a href="{:G::U( 'theme/edit?app='.$sApp.'&theme='.$sTheme )}" title="<lang package='theme'>返回模板文件列表</lang>"><lang package='theme'>返回模板文件列表</lang></a></div>
+
+	
+	<div id="content" class="content">
+		
+		<div class="note"><p class="i"><lang package='theme'>模板内的重要标签, 大部分起到处理程序流程的作用, 非专业人士请勿修改, 否则可能会造成程序不正常, 甚至崩溃</lang></p></div>
+		
+		<form action="{:G::U('theme/modify_yes')}" method="post" id="themeAdd" name="themeAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><lang package='theme'>模板应用</lang>：</label></th>
+			<td>{$sApp}
+			<div class="warning"><lang package='theme'>应用的模板，例如blog对应博客的模板，admin为首台的模板文件</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='theme'>模板套系</lang>：</label></th>
+			<td><a href="{:G::U( 'theme/edit?app='.$sApp.'&theme='.$sTheme )}" title="<lang package='theme'>返回模板文件列表</lang>">{$sTheme}</a></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='theme'>模板名字</lang>：</label></th>
+			<td>{$sName}</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='theme'>模板内容</lang>：
+			<b><a href="###" onclick="resizeUp('filecontent');">[+]</a> <a href="###" onclick="resizeDown('filecontent');">[-]</a></b>
+			</label></th>
+			<td>
+			<textarea id="filecontent" class="formarea" cols="85" rows="20" name="filecontent" style="width: 95%; height: 500px; font: 12px 'Courier New';">{$sContents}</textarea>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center">
+			<input type="hidden" name="extension" value="{$sExtension}">
+			<input type="hidden" name="name" value="{$sName}">
+			<input type="hidden" name="theme" value="{$sTheme}">
+			<input type="hidden" name="app" value="{$sApp}">
+			<input id="submit_button" type="submit"class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

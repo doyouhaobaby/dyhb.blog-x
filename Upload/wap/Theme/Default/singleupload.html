@@ -1,0 +1,13 @@
+<include file="header">
+
+	<div id="m">
+	<div class="list_title"><a href="{:G::U('blog/upload')}"><lang>最新相片</lang></a> <lang>精彩相片</lang></div>
+	{~$nPreviousId=$TheController->the_previous_upload($oUpload['upload_id'])}
+	{~$nNextId=$TheController->the_next_upload($oUpload['upload_id'])}
+	<p>{if $nPreviousId===FALSE}<lang>没有了</lang>{d*else}<a href="{:G::U('blog/singleupload?id='.$nPreviousId)}" ><lang>上一张</lang></a>{/if}</p>
+	<p><img src="{:G::U('blog/thumb?w=200&h=163&id='.$oUpload['upload_id'])}" border="0"/></p>
+	<p>{if $nNextId===FALSE}<lang>没有了</lang>{d*else}<a href="{:G::U('blog/singleupload?id='.$nNextId)}" ><lang>下一张</lang></a>{/if}</p>
+	<p><lang>查看评论</lang>(<a href='{:G::U('blog/comment?upload_id='.$oUpload['upload_id'])}'>{$oUpload['upload_commentnum']}</a>)</p>
+	</div>
+
+<include file="footer">

@@ -1,0 +1,12 @@
+<include file="header">
+
+	<div id="m">
+		<div class="twcont">[{if !empty($oTaotao:user:user_name)}
+						{if !empty($oTaotao:user:user_nikename)}{$oTaotao:user:user_nikename}{d*else}{$oTaotao:user:user_name}{/if}
+						{d*else}<lang>跌名</lang>{/if}]：{$oTaotao['taotao_content']}{if $oTaotao['taotao_ismobile']==1}<br/>{:$TheController->the_taotao_mobile($oTaotao) }<span class="mobile"><lang>此信息来自博客手机版！</lang><lang>手机访问,随时随地自由交流！</lang><br/>
+			{:Global_Extend::getOption('blog_url') }/wap.php{/if}</div>
+		<div class="info">{$oTaotao['create_dateline']|Date+smartDate}</div>
+		<div class="twinfo"><lang>查看评论</lang>(<a href="{:G::U('blog/comment?taotao_id='.$oTaotao['taotao_id'])}">{$oTaotao['taotao_commentnum']}</a>)</div>
+	</div>
+
+<include file="footer">

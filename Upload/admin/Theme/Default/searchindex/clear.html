@@ -1,0 +1,105 @@
+<include file="public+header" />
+
+{script}
+function deleteSearchindexFile( sFilename ){
+
+	dyhbConfirm( D.L( '你确定要删除搜索导出结果吗？' ),function( ){
+		window.location.href=D.U('searchindex/delete_file?name='+sFilename);
+	} );
+}
+{/script}
+
+	
+	<div class="title"><lang package='searchindex'>清空搜索记录</lang> ( <a href="{:G::U('searchindex/index')}"><lang package='searchindex'>返回搜索记录列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+	<span class="label label-blue"><lang package='searchindex'>清空搜索结果记录</lang></span>
+	<p><lang package='searchindex'>搜索记录为了提高搜索速度和效率,减轻服务器负担,但是搜索过后程序并不会自动清理,建议定期执行清理操作。</lang>
+		<lang package='searchindex'>点击下面的按钮开始清理搜索数据。</lang><br/>
+		<a href="{:G::U('searchindex/clear_all')}" title="<lang package='searchindex'>清空搜索记录</lang>" class="a-button"><lang package='searchindex'>清空搜索记录</lang></a>
+	</p><br/>
+
+	<span class="label label-blue"><lang package='searchindex'>导出搜索结果</lang></span>
+	<p><lang package='searchindex'>如果你想要知道你的用户都干了什么，你可以将搜索结果导出。</lang>
+		<lang package='searchindex'>点击下面的按钮开始导出搜索数据。</lang>
+		<lang package='searchindex'>导出的文件，请用右键另存为即可。</lang>
+	</p>
+ 
+	
+	<div id="content" class="content">
+		<form action="{:G::U('searchindex/remove')}" method="post">
+		
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="submit" name="delete" value="<lang>删除</lang>" class="button delete">
+			</div>
+		</div>
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><lang>文件名字</lang></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrData>
+			<tr>
+			<td><input type="checkbox" name="filename[]" value="{$value|strtolower}"></td>
+			<td>{$value}
+				<div class="row-actions">
+					<span class='delete'><a href="javascript:deleteSearchindexFile('{$value|strtolower}');" title="<lang>删除</lang> 《{$value}》">删除</a></span>
+				</div>
+			</td>
+			<td><a href="javascript:deleteSearchindexFile('{$value|strtolower}');"><lang>删除</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="submit" name="delete" value="<lang>删除</lang>" class="button delete">
+			</div>
+		</div>
+
+		</foreach>
+		</form>
+		
+		{$sPageNavbar}
+
+	<form action="{:G::U('searchindex/export')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="start"><lang package='searchindex'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='searchindex'>待处理的搜索记录开始ID ，如果不指定为所有搜索记录，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='searchindex'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='searchindex'>搜索记录结束ID，如果不指定则为所有最后一个搜索记录。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='searchindex'>搜索记录循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="200"/>
+			<div class="description"><lang package='searchindex'>使用循环处理，能够防止处理搜索记录的时候卡死。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='searchindex'>导出搜索结果</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+ 
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,72 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='domain'>域名解析列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'domain/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="domain_name" title="<lang package='domain'>域名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('domain_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='domain_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='domain_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='domain'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='domain'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('domain_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='domain_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='domain_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='domain'>按照域名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='domain'>域名</lang></a></th>
+			<th><a href="javascript:sortBy('domain_ip','{$sSortByUrl}')" {if G+getGpc('order_','G')=='domain_ip' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='domain_ip' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='domain'>按照Ip</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='domain'>IP</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:domain_id}"></td>
+			<td>{$value:domain_id}
+			<div class="row-actions">
+					<span class='delete'><a href="javascript:foreverdel('{$value:domain_id}');" title="<lang>删除</lang> 《{$value:domain_name}》"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="domain_name_{$value:domain_id}" onClick="clickToInput('domain_name','{$value:domain_id}')">{$value['domain_name']}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="domain_ip_{$value:domain_id}" onClick="clickToInput('domain_ip','{$value:domain_id}')">{$value:domain_ip}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

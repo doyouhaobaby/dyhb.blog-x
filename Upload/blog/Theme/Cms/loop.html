@@ -1,0 +1,14 @@
+<div class="listbox">
+	<ul class="e2">
+	<foreach for=arrBlogLists value=oBlogList>
+	<li> <a href='{$TheController:the_title_url( $oBlogList )}' class='preview'><img src='{$TheController:get_thumb_image($oBlogList)}'/></a>
+	[<b>{$TheController:the_category( $oBlogList->category,array( 'parent'=>0 ) )}</b>] <a href="{$TheController:the_title_url( $oBlogList )}" class="title">{$oBlogList:blog_title}</a> <span class="info"> <small><lang package='cmsTheme'>日期</lang>：</small>{$oBlogList:blog_dateline|date='F j, Y',**} <small><lang package='cmsTheme'>点击</lang>：</small>{$TheController:the_view( $oBlogList )} <small><lang package='cmsTheme'>好评</lang>：</small>{$oBlogList['blog_good']} </span>
+
+	<p class="intro">{if empty(	$oBlogList['blog_password'])}{$oBlogList:blog_excerpt}...{d*else}
+				[<lang package='app'>该日志已设置加密，请点击标题输入密码访问</lang>]
+				{/if}</p>
+	</li>
+	</foreach>
+	</ul>
+	</div>
+	{$sPageNavbar}

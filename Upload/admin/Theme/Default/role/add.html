@@ -1,0 +1,87 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加角色中') );
+	Dyhb.AjaxSubmit('roleAdd','{:G::U('role/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新角色中') );
+	Dyhb.AjaxSubmit('roleAdd','{:G::U('role/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新角色') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加角色') );
+	if(status==1){
+		$('#id').val(data.role_id);
+	}
+}
+function ajaxSelect() {
+	$("#ajaxSelect").css('display','block');
+	var html = $.ajax({
+		url: "{:G::U('role/select')}",
+		async: false
+	}).responseText;
+	$("#ajaxSelect").html(html);
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='role'>添加角色</lang><else/><lang package='role'>编辑角色</lang></if> ( <a href="{:G::U('role/index')}"><lang package='role'>返回角色列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('role/insert')}<else/>{:G::U('role/update')}</if>" method="post" id="roleAdd" name="roleAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="role_name"><lang package='role'>组名</lang>：</label></th>
+			<td><input type="text" name="role_name" id="role_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:role_name}</if>"/>
+			<br/><div class="description"><lang package='role'>角色的名字，比如说领导，员工</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="role_parentid"><lang package='role'>上级组</lang>：</label></th>
+			<td><input type="text" name="parentRoleName" id="parentRoleName" class="field" size="40" value="<if condition="isset( $oValue )">{$TheController:get_parent_role($oValue:role_parentid)}</if>"/>
+			<a href="" onClick="ajaxSelect();return false;" title="<lang>上级组</lang>"><img src="__TMPLPUB__/Images/top.gif"></img></a>
+			<br/><div class="description"><lang package='role'>父级角色，采用ajax加载选择</lang></div>
+			</td>
+			</tr>
+			<tr class="none" id="ajaxSelect">
+			<td><img src="__TMPLPUB__/Images/ajaxloading.gif"></img><lang package='role'>数据加载中</lang>...
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="role_status"><lang package='role'>组状态</lang>：</label></th>
+			<td><select class="field"	name="role_status">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:role_status==1">selected</if>><lang>启用</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:role_status==0 ) ">selected</if>><lang>禁用</lang></option>
+				</select>
+				<br/><div class="description"><lang package='role'>是否启用角色，只有启用的角色才能够使用</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="role_remark"><lang package='role'>描述</lang>：</label></th>
+			<td><textarea name="role_remark" id="role_remark" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:role_remark}</if></textarea>
+			<br/><div class="description"><lang package='role'>角色相关信息描述</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="role_parentid" id="role_parentid" value="<if condition="isset( $oValue )">{$oValue:role_parentid}</if>">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+		<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

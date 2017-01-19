@@ -1,0 +1,32 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='dataindex'>数据调用配置</lang> ( <a href="{:G::U('dataindex/index')}"><lang package='dataindex'>返回数据调用列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('dataindex/update_option')}" method="post" id="dataindexAdd" name="dataindexAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="global_blog_cache_expiration"><lang package='dataindex'>模板数据调用过期时间</lang>：</label></th>
+			<td><input type="text" name=configs[global_blog_cache_expiration]" id="global_blog_cache_expiration" class="field" size="10" value="{$arrOptions['global_blog_cache_expiration']}"/>
+			<div class="description"><lang package='dataindex'>模板中生成的数据调用的过期时间设置(秒)</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="global_blog_keyword_link"><lang package='dataindex'>是否开启数据调用关键字</lang>：</label></th>
+			<td><input type="radio" id="global_blog_keyword_link" class="field" name="configs[global_blog_keyword_link]" value="1" {if $arrOptions['global_blog_keyword_link']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[global_blog_keyword_link]" value="0" {if $arrOptions['global_blog_keyword_link']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='dataindex'>如果关闭了数据调用关键字匹配，那么日志调用的关键字数据将会失效。</lang></div>
+			</td>
+			</tr>
+
+		</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

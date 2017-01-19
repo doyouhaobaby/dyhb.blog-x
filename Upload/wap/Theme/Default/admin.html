@@ -1,0 +1,15 @@
+<include file="header">
+
+	<div id="m">
+		<lang>你在想什么呢?</lang>
+		<form method="post" action="{:G::U('blog/addtaotao')}" >
+			<input name="taotao_content"/><br>
+			<input type="submit" value="<lang>发碎语</lang>" />
+		</form>
+		{if $GLOBALS['___login___']['user_id']==1}<a href="{:G::U('blog/option')}"><lang>博客设置</lang></a><br>{/if}
+		<a href="{:G::U('blog/add_blog')}"><lang>发布日志</lang></a><br>		
+		<a href="{:G::U('blog/user?id='.$GLOBALS['___login___']['user_id'])}"><lang>修改个人信息</lang></a><br>
+		<a href="{:G::U('blog/logout')}"><lang>退出</lang></a>
+	</div>
+
+<include file="footer">

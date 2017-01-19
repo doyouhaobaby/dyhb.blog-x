@@ -1,0 +1,53 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='blog'>自动摘要处理</lang> ( <a href="{:G::U('blog/index')}"><lang package='blog'>返回日志列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('blog/excerpt_blog')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blog_category"><lang package='blog'>指定分类</lang>：</label></th>
+			<td><select name="blog_category" id="blog_category" >
+				<option value="0" selected >- <lang package='blog'>选择分类</lang> -</option>
+				<option value="-1"><lang package='blog'>未分类</lang></option>
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<foreach for=arrCategory value=nCId>
+					<option value="{$nCId}">|{$oCategoryTree:getLayer( $nCId, '--' )}{$oCategoryTree:getValue( $nCId )}</option>
+				</foreach>
+				</select>
+			<div class="description"><lang package='blog'>这里你可以选择是否为指定分类，不选为所有分类的文章。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="start"><lang package='blog'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='blog'>待处理的日志开始ID ，如果不指定为所有日志，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='blog'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='blog'>日志结束ID，如果不指定则为所有最后一篇日志。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='blog'>循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='blog'>为了不造成服务器处理数据太多失败，使用循环来处理。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="rebuild"><lang package='blog'>是否覆盖原来的摘要</lang>：</label></th>
+			<td><input type="radio" value="1" name="rebuild" /><lang>是</lang>
+				<input type="radio" value="0" name="rebuild" checked="checked"/><lang>否</lang>
+			<div class="description"><lang package='blog'>如果原来存在日志摘要，这里可以选择是否覆盖。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='blog'>循环处理自动摘要</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

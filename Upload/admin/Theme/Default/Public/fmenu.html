@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><lang>DYHB.BLOG X! 管理平台</lang></title>
+	<load file="../PUBLIC__/Css/style.css" />
+	{script}
+	var __DYHB_JS_LANG_ENTER__ = '__ENTER__';
+	{/script}
+	<import file="Js.Vendor.Jquery" />
+	<import file="Js.Dyhb#package" />
+	<base target="main" />
+</head>
+<body class="fmenu-body">
+{script}
+{:App::U()}
+{/script}
+	<!--[if IE 6]>
+	{style}
+	/* <![CDATA[ */
+	html {
+		overflow-y: scroll;
+	}
+	/* ]]> */
+	{/style}
+	<![endif]-->
+	<div id="menu" class="menu">
+		<ul id="submenu">
+		<li id="title"><import file="Images/submenu-home#gif" type='img'	basepath="TMPLPUB"/>&nbsp;<if condition="G+getGpc( 'title')">{$D.get.title}<else/><lang package='public'>首页</lang></if></li>
+
+		<assign name='nIndex' value="0" />
+		<foreach for=arrMenuList >
+			<php>
+			$arrNode = explode( '@',$value['node_name'] );
+			$sNodeName = $arrNode[1];
+			</php>
+			<if condition="$value['group_id'] eq $sMenuTag
+							and strtolower( $sNodeName ) neq 'public'
+							and strtolower( $sNodeName ) neq 'index'
+							and $value['node_access']==1" >
+				<li class=''><a onClick="refreshmainframe('{:G::U($sNodeName.'/index')}');currentClass({$nIndex});return false;" href="{:G::U($sNodeName.'/index')}">{$value['node_title']}</a></li>
+				{~$nIndex++}
+			</if>
+		</foreach>
+		</ul>
+
+	{script}
+	<!--
+	function refreshmainframe(url){
+		parent.main.document.location = url;
+	}
+	var oAnchor = document.anchors.length;
+	if ( oAnchor.length > 0 && document.anchors(0) ){
+		refreshmainframe(document.anchors(0).href);
+	}
+	function getFirstLink(){
+
+		oLinks = document.getElementsByTagName('a');
+		nTotal = oLinks.length;
+		if( nTotal )
+			return oLinks[0];
+		else
+			return '';
+	}
+	//-->
+	{/script}
+
+	{script}
+		function currentClass(n,bTopFirst) {
+
+			if( bTopFirst===true ){
+				var sFirstLink = getFirstLink();
+				if( sFirstLink )
+					refreshmainframe( sFirstLink );
+			}
+			var lis = document.getElementsByTagName('li');
+			for(var i = 0; i < lis.length; i++) {
+
+				lis[i].className = '';
+			}
+
+			if( typeof lis[n+1]	!= "undefined" ){
+
+				lis[n+1].className = 'active';
+			}
+		}
+		currentClass(0,true);
+	{/script}
+
+
+<include file="public+fffooter">

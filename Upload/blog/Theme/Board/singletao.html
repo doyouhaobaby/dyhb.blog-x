@@ -1,0 +1,30 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+		<div id="nav">
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" id="fjump" onmouseover="showMenu({'ctrlid':this.id})" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>我的心情</lang></div>
+
+		<div id="ad_text"></div>
+		<div id="wrap" class="wrap s_clear threadfix">
+			
+		<div class="main">
+		<div class="content">
+			{:G::W( 'taotaolist',array( 'data'=>$arrTaobaoList ) )}
+		</div>
+		</div>
+		
+		<div id="postlist" class="mainbox viewthread">
+
+		{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("taotao_status")==1 && $arrTaobaoList[0]['taotao_islock']==0}
+		<include file="commentform">
+		{/if}
+
+		<include file="boardcomments">
+	</div>
+
+		</div>
+
+<include file="footer">

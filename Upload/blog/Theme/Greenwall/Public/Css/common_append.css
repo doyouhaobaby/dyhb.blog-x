@@ -1,0 +1,14 @@
+/*
+File Name: common_append.css
+File Type: 非必需
+Description: common append
+*/
+
+/* warpper 容器 */
+#wrapper { border-top:10px solid #e8ece6;color:#e8ece6;border-bottom:5px solid #e3e3e3;padding: 20px;background:#fff;-moz-border-radius: 15px;-khtml-border-radius: 15px;-webkit-border-radius: 15px;border-radius: 15px; }
+
+/* 底部sidebar */
+#footer_sidebar{ border-top:10px solid #e8ece6;color:#e8ece6;border-bottom:5px solid #e3e3e3;background: #e8ece6 url( '{STYLE_IMG_DIR}/footerwidgetbg.gif' );}
+
+/* 页脚widget */
+.footer_widgets a{ color:#fff;}

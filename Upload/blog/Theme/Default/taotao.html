@@ -1,0 +1,28 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'taotao/index' )}"><lang package='defaultTheme'>心情列表</lang></a>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>滔滔心情</lang>( <span id="taotao-totalnums">{$nTotalTaotao}</span> )</h2>
+
+				<p>{$the_taotao_description}</p>
+				{:Global_Extend::templateHooks('index_bottom')}
+				{:G::W( 'taotaolist',array( 'data'=>$arrTaobaoList ) )}
+				{$sPageNavbar}
+				{:Global_Extend::templateHooks('index_top')}
+					
+			</div>
+
+		</div>
+	</div>
+	<include file="sidebarthree">	
+		
+<include file="footer">

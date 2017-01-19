@@ -1,0 +1,30 @@
+<include file="public+header">
+	  
+	  <!-- BEGIN COL3 -->
+	  <div id="col3_full">
+	  <div id="col3_content" class="clearfix">
+	   <if condition="empty( $sDyhbWebsetupApp )">
+		<div class="note"><lang>应用程序配置！</lang></div>
+	   <else/>
+	   <table class="data full">
+		<thead>
+		 <tr>
+		  <th width="180"><lang>项目</lang></th>
+		  <th><lang>当前值</lang></th>
+		  </tr>
+		  </thead>
+		  <tbody>
+		  <foreach for=arrConfig>
+		   <tr>
+			<th width="180">{$key}</th>
+			<td>{$value}</td>
+		  </tr>
+		  </foreach>
+		</tbody>
+		</table>
+		</if>
+	   </div>
+	   </div>
+	   <!-- END COL3 -->
+	   
+<include file="public+footer">

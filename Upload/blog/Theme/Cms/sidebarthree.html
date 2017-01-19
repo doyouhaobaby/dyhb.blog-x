@@ -1,0 +1,47 @@
+<div class="pright">
+	{if !empty($oCategory['category_id'])}
+	<div>
+	<dl class="tbox">
+	<dt><strong><lang package='cmsTheme'>栏目列表</lang></strong></dt>
+	<dd>
+	<ul class="d6">
+		<foreach for=arrBrotherCategorys value=oBrotherCategory>
+		<li><a href='{:PageType_Extend::getCategoryUrl( $oBrotherCategory )}' {if $oBrotherCategory['category_id']==$oCategory['category_id']}class='thisclass'{/if}>{$oBrotherCategory['category_name']}</a></li>
+		</foreach>
+	</ul>
+	</dd>
+	</dl>
+	</div>
+	{/if}
+	<div class="commend">
+	<dl class="tbox light">
+	<dt class='light'><strong><lang package='cmsTheme'>推荐内容</lang></strong></dt>
+	<dd class='light'>
+	<ul class="d4">
+		{~$arrHotArclists=G::W( 'arclist',array( 'row'=>'6','att'=>'c','return'=>1 ),true )}
+		<foreach for=arrHotArclists value=arrHotArclist>
+		<li><a href="{:PageType_Extend::getBlogUrl( $arrHotlist )}">{$arrHotArclist['blog_title']|String+subString=0,42}</a>
+		<p>{$arrHotArclist['blog_content']|String+subString=0,80}...</p>
+		</li>
+		</foreach>
+	</ul>
+	</dd>
+	</dl>
+	</div>
+	<div class="hot mt1 light">
+	<dl class="tbox">
+
+	<dt class='light'><strong><lang package='cmsTheme'>热点内容</lang></strong></dt>
+	<dd class='light'>
+	<ul class="c1 ico2">
+		{:G::W( 'arclist',array( 'orderby'=>'hot','titlelen'=>42,'row'=>10 ) )}
+	</ul>
+	</dd>
+	</dl>
+	</div>
+
+	{:Template_Extend::show(array( 'widget' =>'widgets_main3','before_widget'=>'<div id="#-@%s@-#" class="widget widget_#-@%s@-# #-@%s@-# mt1"><dl class="tbox light">','after_widget'=>'</dd></dl></div>','title_cutnum'=>20,'before_title'=>'<dt class="light"><strong>','after_title'=>'</strong></dt>
+	<dd class="light">','ul_class'=>'c1 ico2','tree'=>0 ) )}
+
+ </div>
+</div>

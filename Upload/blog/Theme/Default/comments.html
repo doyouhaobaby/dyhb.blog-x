@@ -1,0 +1,7 @@
+{if is_array( $arrCommentLists )}
+<ol id="comment-list" class="comment-list">
+{:G::W( 'treecomment',array( 'top'=>$arrCommentLists,'all'=>$arrAllComments ))}
+</ol>
+{/if}
+
+{$sPageNavbar}

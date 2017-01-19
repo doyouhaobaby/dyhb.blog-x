@@ -1,0 +1,29 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'upload/index' )}"><lang package='defaultTheme'>附件列表</lang></a>
+			( <a href="{:G::U( 'uploadcategory/index' )}"><lang package='defaultTheme'>附件归档</lang></a> )
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>附件列表</lang>( <span id="upload-totalnums">{$nUpload}</span> )</h2>
+
+				<p>{$the_upload_description}</p>
+				{:Global_Extend::templateHooks('index_top')}
+				{:G::W( 'uploadlist',array( 'data'=>$arrUploadLists ) )}
+				
+				{$sPageNavbar}
+				{:Global_Extend::templateHooks('index_bottom')}
+
+			</div>
+		</div>
+	</div>
+	<include file="sidebarthree">	
+		
+<include file="footer">

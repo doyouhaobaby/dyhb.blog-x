@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><lang>WebSetup for DoYouHaoBaby</lang></title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<load file="../PUBLIC__/Css/all_in_one.css" />
+{script}
+var __DYHB_JS_LANG_ENTER__ = '__ENTER__';
+{/script}
+<import file="Js.Vendor.Jquery" />
+<import file="Js.Dyhb#package" />
+<load file="../PUBLIC__/Js/Jquery.tab.js" />
+{script}
+Dyhb.Lang.SetCurrentLang( '__LANG_NAME__' );
+{/script}
+</head>
+<body>
+<div id="page_margins">
+
+  <!-- BEGIN PAGE -->
+
+  <div id="page">
+
+	<!-- BEGIN HEADER -->
+
+	<div id="header">
+	  <div id="topnav">
+	  </div>
+	  <h1><lang>WebSetup for DoYouHaoBaby</lang></h1>
+	</div>
+
+	<!-- END HEADER -->
+	<!-- BEGIN NAV -->
+
+	<div id="nav">
+	  <!-- skiplink anchor: navigation -->
+	  <a id="navigation" name="navigation"></a>
+	  <div id="nav_main">
+		{:G::W('navmain')}
+	  </div>
+	</div>
+
+	<div class="information ">
+	<div class="lang_list">
+			<div class="lang_title">Please select your language !</div>
+			{~$sLangCookieName=APP_NAME.'_language'}
+			<select name="lang-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
+				<option value="">-- Please select your language --</option>
+				<foreach for=arrListLangs>
+				<option value="?l={$value}" {if strtolower( G+cookie($sLangCookieName) )==strtolower($value)}selected{/if}>{$value}</option>
+				</foreach>
+			</select>
+		</div>
+
+	<!-- END NAV -->
+   <div class="information <if condition="empty( $sDyhbWebsetupApp )">warning<else/>note</if>">
+	 <if condition="empty( $sDyhbWebsetupApp )"><lang>警告：你尚未添加待操作的应用程序项目，请添加一个项目！</lang><br/>
+		 <form name="create_websetup_app" action="{:G::U('index/createwebsetupapp')}" method="post">
+			 <input type="text" name="dyhb_websetup_app"  class="field" size="80" value="{:DYHB_PATH}/../myapp"/>
+			 <input type="submit" class="button" name="Submit" value="<lang>添加应用程序</lang>" />
+		 </form>
+	 <else/>
+		 <lang>你的项目地址为：</lang>( <a href="{:G::U( 'index/unsetwebsetupapp' )}"><lang>注销项目</lang></a> )<br/>
+		 {$sDyhbWebsetupApp}
+	 </if>
+   </div>
+
+	<!-- BEGIN MAIN -->
+
+	<div id="main">
+
+	  <!-- BEGIN COL1 -->
+
+	  <div id="col1">
+		<div id="col1_content" class="clearfix">
+		  <!-- add your content here -->
+		  {:G::W('submenu')}
+		  {if !empty( $sHelp )}
+		  <p id="help_text" class="note">
+			{$sHelp}
+		  </p>
+		  {/if}
+		  {if !$bIsLock}
+		  <p class="warning"> <b><lang>使用完毕请锁定本工具：</lang></b>
+		  <a href="{:G::U( 'index/lock' )}" title="<lang>锁定Websetup 工具</lang>">
+				 <import type="img" file="Images.Lock#png" basepath="TMPLPUB"/>
+			  </a>
+		  </p>
+		  {/if}
+		</div>
+	  </div>

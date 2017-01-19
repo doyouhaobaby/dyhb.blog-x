@@ -1,0 +1,27 @@
+ <div class="forumcontrol s_clear">
+		<table cellspacing="0" cellpadding="0" class="narrow">
+			<tr>
+				<td class="modaction"></td>
+				<td>
+					<div style="float:right;">{$sPageNavbar}</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="f_post" class="mainbox viewthread">
+		<table cellspacing="0" cellpadding="0">
+			<tr>
+				{~$arrUserinfo = Global_Extend::isLogin( true )}
+				<td class="postauthor">{if !empty( $arrUserinfo['user_id'] )}<div class="avatar"><img src="{:Blog_Extend::getGravatar($arrUserinfo['user_id'],'middle')}" /></div>{/if}</td>
+				<td class="postcontent">
+					<span class="right">
+							<span id="newspecialtmp" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})">
+								<a href="{:G::U( 'publish/index' )}"><lang package='boardTheme'>发新话题</lang></a>
+						</span>
+					</span>
+					{:G::W( 'commentform',array('comment_relation_type'=>$sCommentRelationtype,'comment_relation_value'=>$nCommentRelationvalue,'the_data'=>$theData))}
+				</td>
+			</tr>
+		</table>
+	</div>

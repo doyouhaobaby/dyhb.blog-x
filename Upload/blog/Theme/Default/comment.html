@@ -1,0 +1,32 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'comment/index' )}"><lang package='defaultTheme'>评论列表</lang></a>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+	
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>评论列表</lang>( <span id="comment-totalnums">{$nTotalComments}</span> )</h2>
+
+				<p>{$the_comment_description}</p>
+
+				{if is_array( $arrCommentLists )}
+				<ol id="comment-list" class="comment-list">
+				{:G::W( 'treecomment',array( 'top'=>$arrCommentLists,'all'=>$arrAllComments,'replay'=>false ))}
+				</ol>
+				{/if}
+
+				{$sPageNavbar}
+					
+			</div>
+		</div>
+	</div>
+
+	<include file="sidebarthree">	
+
+<include file="footer">

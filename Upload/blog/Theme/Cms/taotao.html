@@ -1,0 +1,24 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>心情列表</lang>( <span id="taotao-totalnums">{$nTotalTaotao}</span> )	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	{:Global_Extend::templateHooks('index_bottom')}
+	<table width='100%'>
+	<tr>
+	<td>
+	{:G::W( 'taotaolist',array( 'data'=>$arrTaobaoList ) )}
+	</td>
+	</tr>
+	</table>
+	</div>
+	{$sPageNavbar}
+	{:Global_Extend::templateHooks('index_top')}
+ </div>
+</div>
+
+<include file="sidebarfour">
+<include file="footer">

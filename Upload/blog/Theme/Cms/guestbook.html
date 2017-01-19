@@ -1,0 +1,48 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>留言板</lang>( <span id="comment-totalnums">{$nTotalGuestbook}</span> ) </div>
+
+{:Global_Extend::templateHooks('index_top')}
+{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("guestbook_status")==1}
+<a name='postform'></a>
+<div class="mt1">
+		<dl class="tbox">
+			<dt>
+				<strong><lang package='cmsTheme'>发表评论</lang></strong>
+				<span class="more"></span>
+			</dt>
+			<dd>
+				<div class="dyhb_comment_post">
+					<include file="commentform">
+				</div>
+			</dd>
+		</dl>
+	</div>
+{/if}	
+
+	<a name='commettop'></a>
+	<div class="mt1">
+			<dl class="tbox">
+
+				<dt>
+					<strong><lang package='cmsTheme'>评论列表</lang>( <span id="comment-totalnums">{$nTotalGuestbook}</span> )</strong>
+					<span class="more"><a href="{:G::U( 'comment/index' )}"><lang package='cmsTheme'>所有评论</lang>&gt;&gt;</a></span>
+				</dt>
+				<dd>
+				<include file="comments">
+				</dd>
+			</dl>
+
+	</div>
+{:Global_Extend::templateHooks('index_bottom')}
+</div>
+
+<include file="sidebarfour">
+<include file="footer">

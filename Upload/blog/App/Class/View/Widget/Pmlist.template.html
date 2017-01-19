@@ -1,0 +1,136 @@
+<div class="pm_header itemtitle s_clear">
+	<a href="{:G::U('pm/pm_new')}" class="postpm">+ <lang>发送短消息</lang></a>
+	<ul>
+		<li {if $type=='new'}class="current"{/if}><a href="{:G::U('pm/index?type=new')}"><span><lang>未读消息</lang></span></a></li>
+		<li {if empty($type)||$type=='user'||($type=='singlepm'&&!empty($systemonepm))}class="current"{/if}><a href="{:G::U('pm/index?type=user')}"><span><lang>私人消息</lang></span></a></li>
+		<li {if $type=='system'||($type=='singlepm'&&!empty($systemonepm))}class="current"{/if}><a href="{:G::U('pm/index?type=system')}"><span><lang>公共消息</lang></span></a></li>
+	</ul>
+</div>
+{if $type=='singlepm'}
+
+{if isset($systemonepm)}
+<div id="pmlist">
+	<ul class="pm_list">
+		<li id="pm_{$onepm:pm_id}" class="s_clear">
+		 <a class="avatar"><img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/syspm.gif" /></a>
+		 <p class="cite">{$onepm:create_dateline|Date+smartDate}{if !in_array($onepm['pm_id'],$readpms)}&nbsp;&nbsp;<img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/notice_newpm.gif" title="<lang>未读短消息</lang>"/>{/if}</p>
+		 <div class="summary">
+				{$onepm:pm_message}
+		 </div>
+		</li>
+	</ul>
+</div>
+{d*else}
+<div class="itemtitle newpm_notice s_clear">
+	<span class="right">
+	<lang>共有短消息</lang> {$totalpm}<span class="pipe">|</span><a href="{:G::U('pm/show?id='.$onepm['pm_id'].'&uid='.$user.'&date='.$date.'&export=yes')}"><lang>导出</lang></a>
+	<span class="pipe">|</span><a href="###" onclick="showDialog(D.L('确认要清空所有短消息记录？'),'confirm','',function(){window.location.href='{:G::U('pm/del?id='.$onepm['pm_id'].'&uid='.$user.'&date='.$date)}'; });return false;"><lang>清空</lang></a>
+	<a href="javascript:history.go(-1);" class="back"><lang>返回</lang></a>
+	<span class="left"><lang>与</lang> <strong>xiaomage</strong> <lang>的短消息记录</lang>：</span>
+	<ul>
+		<li {if $date==3}class="current"{/if}><a href="{:G::U('pm/show?id='.$onepm['pm_id'].'&uid='.$user.'&date=3')}"><span><lang>最近三天</lang></span></a></li>
+		<li {if $date==1}class="current"{/if}><a href="{:G::U('pm/show?id='.$onepm['pm_id'].'&uid='.$user.'&date=1')}"><span><lang>今日</lang></span></a></li>
+		<li {if $date==7}class="current"{/if}><a href="{:G::U('pm/show?id='.$onepm['pm_id'].'&uid='.$user.'&date=7')}"><span><lang>本周</lang></span></a></li>
+		<li {if $date=='all'}class="current"{/if}><a href="{:G::U('pm/show?id='.$onepm['pm_id'].'&uid='.$user.'&date=all')}"><span><lang>全部</lang></span></a></li>
+	</ul>
+</div>
+
+<div id="pmlist">
+
+	<ul class="pm_list">
+		 <foreach for=data value=oPmList >
+			{~$sEven=$key%2==0 ? $even:$odd}
+			{if $user!=$oPmList['pm_msgfromid']}
+			<li id="pm_{$oPmList['pm_id']}" class="s_clear self {$sEven}">
+				<a name="pm_{$oPmList['pm_id']}"></a>
+				<a name="new"></a><a class="avatar"><img src="{:Blog_Extend::getGravatar($oPmList['pm_msgfromid'],'small')}" /></a>
+				<p class="cite">
+					<cite>{$oPmList['pm_msgfrom']}</cite>
+					{$oPmList['create_dateline']|Date+smartDate}{if $oPmList['pm_isread']==0}&nbsp;&nbsp;<img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/notice_newpm.gif" title="<lang>未读短消息</lang>"/>{/if}</p>
+					<div class="summary">{$oPmList['pm_message']}</div>
+					<span class="action">
+						<a href="{:G::U('pm/pm_new?pmid='.$oPmList['pm_id'])}" ><lang>转发</lang></a>
+					</span>
+			</li>
+			{d*else}
+			<li class="pm_date"><strong>{$oPmList['create_dateline']|date='Y-m-d',**}</strong></li>
+			<li id="pm_{$oPmList['pm_id']}" class="s_clear {$sEven}">
+				<a name="pm_{$oPmList['pm_id']}"></a>
+				<a href="{:G::U('author/'.$oPmList->pm_msgfromid)}" class="avatar"><img src="{:Blog_Extend::getGravatar($oPmList['pm_msgfromid'],'small')}" /></a>
+				<p class="cite"><cite>{$oPmList['pm_msgfrom']}</cite>{$oPmList['create_dateline']|Date+smartDate}{if $oPmList['pm_isread']==0}&nbsp;&nbsp;<img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/notice_newpm.gif" title="<lang>未读短消息</lang>"/>{/if}</p>
+				<div class="summary">{$oPmList['pm_message']}</div>
+				<span class="action">
+					 <a href="{:G::U('pm/pm_new?pmid='.$oPmList['pm_id'])}" ><lang>转发</lang></a>
+				</span>
+			</li>
+			{/if}
+		 </foreach>
+	 </ul>
+	 {$pagenavbar}
+	 <div>&nbsp;
+	 </div>
+	 {:G::W('pmnewform',array('data'=>$touser['user_name'],'content'=>'','hide'=>1))}
+	 <div>&nbsp;
+	 </div>
+</div>
+{/if}
+{d*else}
+<form method="post" id="pmform" action="{:G::U('pm/del_the_select')}" >
+
+	<div id="checkList">
+
+	{if $type!='system'}
+	<div class="s_clear" style="margin: 10px 0;">
+		<span class="right">
+			<input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkAll('checkList')" />
+			<label for="chkall"><lang>全选</lang></label>
+			<span class="pipe">|</span>
+			<a href="javascript:;" onclick="showDialog(D.L('确认要删除所选短消息？'),'confirm','',function(){document.getElementById('pmform').submit();});return false;" class="lightlink"><lang>删除</lang></a>
+		</span>
+		{$pagenavbar}
+	</div>
+	{/if}
+
+	 <ul class="pm_list">
+		 <foreach for=data value=oPmList >
+		 {~$sEven=$key%2==0 ? $even:$odd}
+		 {if $oPmList['pm_type']=='user'}
+		 <li id="pm_{$oPmList:pm_id}" class="s_clear {$sEven}">
+			<a href="{:G::U('author/'.$oPmList->pm_msgfromid)}" target="_blank" class="avatar">
+				<img src="{:Blog_Extend::getGravatar($oPmList->pm_msgfromid,'small')}" />
+			</a>
+			<p class="cite">
+				<cite>
+					<a href="{:G::U('author/'.$oPmList->pm_msgfromid)}" target="_blank">{$oPmList:pm_msgfrom}</a>
+				</cite>
+				{$oPmList:create_dateline|Date+smartDate} {if $oPmList:pm_isread==0}&nbsp;&nbsp;<img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/notice_newpm.gif" title="<lang>未读短消息</lang>"/>{/if}
+			</p>
+			<div class="summary">
+				{$oPmList:pm_message}
+			</div>
+			<p class="more"><a href="{:G::U('pm/show?id='.$oPmList->pm_id.'&uid='.$oPmList->pm_msgfromid)}" class="to"><lang>查看消息</lang></a></p>
+			<span class="action">
+				<input name="pmid[]" class="checkbox" type="checkbox" value="{$oPmList:pm_id}" />
+				<a href="###" id="pmd_{$oPmList:pm_id}" onclick="showDialog(D.L('确认要删除所选短消息？'),'confirm','',function(){window.location.href='{:G::U('pm/del_one_pm?id='.$oPmList['pm_id'].'&uid='.$oPmList['pm_msgfromid'])}'; });return false;" class="delete" title="删除"><lang>删除</lang></a>
+			</span>
+		</li>
+		{d*else}
+		<li id="pm_{$oPmList:pm_id}" class="s_clear {$sEven}">
+			<a class="avatar"><img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/syspm.gif" /></a>
+			<p class="cite">{$oPmList:create_dateline|Date+smartDate}{if !in_array($oPmList['pm_id'],$readpms)}&nbsp;&nbsp;<img src="{if $img_dir==1}{:IMG_DIR}{d*else}{:STYLE_IMG_DIR}{/if}/notice_newpm.gif" title="<lang>未读短消息</lang>"/>{/if}</p>
+			<div class="summary">
+				{$oPmList:pm_message}
+			</div>
+			<p class="more"><a href="{:G::U('pm/show?id='.$oPmList->pm_id)}" class="to"><lang>查看消息</lang></a></p>
+		</li>
+		{/if}
+		</foreach>
+	</ul>
+	<div class="s_clear" style="margin: 10px 0;">
+		{$pagenavbar}
+	</div>
+	</div>
+	<div>&nbsp;
+	</div>
+</form>
+{/if}

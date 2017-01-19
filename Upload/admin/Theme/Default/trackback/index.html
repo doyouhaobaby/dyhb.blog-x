@@ -1,0 +1,83 @@
+<include file="public+header" />
+
+
+	<div class="title"><lang package='trackback'>引用列表</lang></div>
+
+
+	<div class="toolbar">
+
+		<div class="operate left" >
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'trackback/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="trackback_title" title="<lang package='trackback'>引用标题</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+
+	<span class="clear"></span>
+
+
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('trackback_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('trackback_title','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_title' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_title' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照引用标题</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>引用标题</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照引用时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>引用时间</lang></a></th>
+			<th><a href="javascript:sortBy('trackback_blogname','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_blogname' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_blogname' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照引用博客</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>引用博客</lang></a></th>
+			<th><a href="javascript:sortBy('trackback_ip','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_ip' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_ip' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照IP</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>IP</lang></a></th>
+			<th><a href="javascript:sortBy('trackback_points','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_points' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_points' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照得分</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>得分</lang></a></th>
+			<th><a href="javascript:sortBy('trackback_status','{$sSortByUrl}')" {if G+getGpc('order_','G')=='trackback_status' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='trackback_status' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='trackback'>按照状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='trackback'>状态</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:trackback_id}"></td>
+			<td>{$value:trackback_id}</td>
+			<td><a href="__ROOT__/index.php?c=blog&a={$value:blog_id}" target="_blank">{$value:trackback_title}</a>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:trackback_id}')" title="<lang>编辑</lang> 《{$value:trackback_title}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:trackback_id}');" title="<lang>删除</lang> 《{$value:trackback_title}》"><lang>删除</lang></a>|</span>
+					<span class='view'><a href="{$value:trackback_url}" target="_blank" title="<lang>查看</lang> <lang package='trackback'>引用网站</lang>" ><lang>查看</lang></span>
+			</div>
+			</td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			<td><a href="{$value:trackback_url}" target="_blank">{$value:trackback_blogname}</a></td>
+			<td>{$value:trackback_ip}</td>
+			<td>{$value:trackback_points}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:trackback_status eq 1" >yes<else/>no</if>.gif"/></td>
+			<td>{if $value:trackback_status==1}<a href="javascript:forbid('{$value:trackback_id}')"><lang>禁用</lang></a>{d*else}<a href="javascript:resume('{$value:trackback_id}')"><lang>恢复</lang></a>{/if}&nbsp;<a href="javascript:edit('{$value:trackback_id}')"><lang>编辑</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+
+		<div class="toolbar">
+
+			<div class="operate" >
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+
+		{$sPageNavbar}
+
+	</div>
+
+
+<include file="public+footer">

@@ -1,0 +1,306 @@
+/*
+Theme Name: 蓝色简约
+Theme URI: http://doyouhaobaby.net/
+Description: 这是由DYHB.BLOG_X 的系统自带模板，本模板主打简洁，润眼。
+Author: Dianniu team
+Author URI: http://doyouhaobaby.net
+Version: 1.0
+License: GNU General Public License
+License URI: http://doyouhaobaby.net/license.html
+Tags: blue, front, simple
+*/
+
+/** 替换的CSS标记 */
+[SCRIPTCSS]
+
+/**===============================
+              标签列表
+================================*/
+[CURSCRIPT = taglist]
+.tags-box{ padding:10px 0; }
+.tags-box span{  }
+.tags-box a{ line-height:40px; margin:0 15 0 0px; }
+[/CURSCRIPT]
+
+/**===============================
+             用户列表
+================================*/
+[CURSCRIPT = userlist]
+.users-box{ border:1px solid {SPECIAL_BG}; }
+[/CURSCRIPT]
+
+/**===============================
+             友情衔接
+================================*/
+[CURSCRIPT = link]
+#link-box{ padding:5px; }
+.link-header-url{ margin-bottom:20px; }
+.link-header-url .link-header-url-image{ height: 80px; width: 600px; overflow: auto;border:1px solid {SPECIAL_BORDER}; padding:5px 10px; }
+.link-header-url .link-header-url-text{ height: 50px; width: 600px; overflow: auto;border:1px solid {SPECIAL_BORDER}; padding:5px 10px; }
+.link-logo-box,.link-text-box {margin:20px 0 30px 10px;}
+.link-logo-box h4,.link-text-box h4{font-size: 13px;margin: 10px 0;padding-left: 5px;border-left: 5px solid {LINK_COLOR}; }
+.link-text-box li,.link-logo-box li{float: left;width: 150px;list-style: none;}
+.link-text-box li { height: 20px; }
+.link-logo-box li { height: 40px; }
+[/CURSCRIPT]
+
+/**===============================
+             引用列表
+================================*/
+[CURSCRIPT = trackbacklist]
+.trackback-item{padding:5px 10px 0px 10px;}
+.trackbac-item-even{background:{INTERLEAVE_COLOR};}
+.trackbac-item-odd{}
+.trackback-title {font-weight:700;margin-bottom:10px;}
+.trackback-content {display:block;width:650px;clear:both;line-height:20px;margin:5px 0 15px;}
+.trackback-date {color:#777;font-size:11px;padding-top:2px;text-align:right;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed {SPECIAL_BORDER};}
+[/CURSCRIPT]
+
+/**===============================
+             微博
+================================*/
+[CURSCRIPT = taotaolist,singletao]
+#taotao-box .taotao-main-img{ border:1px {LINK_COLOR} solid; float:left;padding:0;}
+#taotao-box .taotao-main-img img{ border:1px #fff solid;display: block;}
+#taotao-box .right{ float:left; margin:0px 5px;}
+#taotao-box ul{ margin:5px 0px 3px 5px;  line-height:1.8;padding:0px;list-style:none;}
+#taotao-box ul .li{ margin:10px 0px;padding:20px 0px;border-bottom: #d5d5d5 1px solid;}
+#taotao-box ul li{margin:0px 0px; padding:0;}
+#taotao-box ul li .taotao-main-img{ margin-top:10px;}
+#taotao-box ul li .taotao-post-left{ float:left;font-size:14px; padding:0px;margin:0; padding:0px 0px 0px 8px;}
+#taotao-box ul li{ clear:both; padding:0px; margin:0px;}
+#taotao-box ul li .taotao-bottom {margin:3px 0;vertical-align:middle}
+#taotao-box ul li .taotao-bottom .taotao-time{ text-align:center; line-height:14px;margin:0;}
+#taotao-box ul li .taotao-bottom .taotao-reply{ text-align:right; }
+#taotao-box .taotao-time{ font-size:12px; color:#999999; float:left;}
+#taotao-box .taotao-mobile {color:green;}
+[/CURSCRIPT]
+
+
+/**===============================
+             短消息中心
+================================*/
+[CURSCRIPT = pmlist,singlepm]
+.pm_header{padding:6px;border:solid #E6E7E1;border-width:1px 0;}
+.pm_header #pm_search{float:right;}
+.pm_list li{position:relative;*margin-top:-2px;padding:10px 140px 10px 75px;min-height:48px;_height:48px;border-bottom:1px solid {SPECIAL_BORDER};}
+.pm_list li .avatar{position:absolute;left:5px;top:8px;}
+.pm_list .self .avatar{left:auto;right:75px;}
+.pm_list .cite{margin:-3px 0 5px;color:#999;}
+.pm_list .cite cite{margin-right:1em;color:#444;font-weight:700;}
+.pm_list .cite cite a{color:#444;}
+.more{margin-top:5px;}
+.more a,.ntc a,.pm_list .action a{color:{SPECIAL_BG};}
+.pm_list .action a{position:absolute;top:10px;right:15px;}
+.pm_list .action a.delete{display:block;width:12px;height:12px;background:url({STYLE_IMG_DIR}/close.gif) no-repeat 0 0;text-indent:-9999px;overflow:hidden;}
+.pm_list .action a.delete:hover{background-position:0 -12px;}
+.pm_list .action input{position:absolute;bottom:15px;right:13px;}
+.pm_list li.pm_date{padding:5px 0 5px 75px;min-height:0;border-bottom:none;}
+.pm_list li.pmlist-odd{ background:{INTERLEAVE_COLOR}; }
+#pm_list ul.onerror{padding:20px 0 0 95px;background-position:75px 22px;}
+#pmlist .summary a{color:{SPECIAL_BG};}
+.pmback{width:70px;padding-left:15px;w\idth:55px;}
+.newpm_notice{padding:5px 0 10px 20px;border-bottom:1px solid #E6E7E1;background:#f1f1f1;}
+.newpm_notice a{color:#09C;}
+.newpm_notice .back{float:left;display:inline;margin-left:-70px;padding-left:15px;}
+.quote{margin:10px 0;padding:0 0 0 20px;border:none;}
+.quote blockquote{margin:0;padding:0 20px 0 0;display:inline;line-height:1.6em;color:#999;text-decoration:none;}
+.blockall{margin-bottom:10px;padding:10px 0;background:#EBF2F8;text-align:center;color:#999;}
+.blockall a{color:#09C;font-size:1.17em;}.blacklist li a,.blacklist li strong{float:left;}
+.blacklist .remove{margin:4px 0 0 5px;width:12px;height:12px;line-height:100px;overflow:hidden;}
+.blacklist .hover .remove{background-position:100% 0;}
+.blacklist .remove:hover{background-position:100% -12px;}
+.allblocked{margin-bottom:10px;padding-bottom:10px;width:100% !important;border-bottom:1px solid #E6E7E1;}
+.allblocked a{margin-left:10px;color:#09C;}#buddies ul{width:400px;}
+#buddies li{float:left;width:8em;height:1.6em;overflow:hidden;white-space:nowrap;}
+[/CURSCRIPT]
+
+
+/**===============================
+             搜索引擎
+================================*/
+[CURSCRIPT = searchform]
+.searchform{position:relative;margin:0 5px 10px;padding:30px 10px 20px 10px;border-top:5px solid #FFF;background:{COMMON_BACKGROUND_COLOR};-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}
+.searchlabel{text-align:center;font-weight:300;font-size:25px;color:#27b;line-height:70px;}
+.searchlabel strong{font-size:14px;color:#666;font-weight:400;text-align:center;}
+.searchform h3{margin:10px 2px;font-size:14px;}
+.searchkey{margin-bottom:1em;zoom:1;}
+.searchkey #searchsubmit{margin:0 10px 0 10px;}
+* html #searchsubmit{height:21px;line-height:19px;}
+*+html #searchsubmit{height:21px;line-height:19px;}
+.searchkey span{background:url({IMG_DIR}/search-advance.gif) left bottom no-repeat; padding:2px 0px 2px 15px; color:#09C;}
+.searchlist{margin:5px 20px;}
+.searchlist h1{font-size:14px;}
+.searchlist h1 em{font-weight:400;}
+#srchfid optgroup,#moveto optgroup{font-style:normal;font-weight:400;font-size:12px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             相册展示
+================================*/
+[CURSCRIPT = singleupload]
+#albumlist-container-box{ overflow:hidden; margin:20px auto 0 0; width:630px;background:{COMMON_BACKGROUND_COLOR}; padding:10px 5px;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}	
+.upload-info-box{ background:{COMMON_BACKGROUND_COLOR}; padding:10px 5px;width:630px;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             相片列表
+================================*/
+[CURSCRIPT = uploadlist]
+*{ margin:0; padding:0; list-style:none}
+.upload-box-list {
+/*非IE的主流浏览器识别的垂直居中的方法*/
+display: table-cell;vertical-align:middle;
+/*设置水平居中*/text-align:center;
+/* 针对IE的Hack */
+*display: block;
+/**font-size: 175px;*//*约为高度的0.873，200*0.873 约为175*/
+*font-family:Arial;/*防止非utf-8引起的hack失效问题，如gbk编码*/
+width:200px;height:230px;border: 1px solid {INTERVAL_LINE_COLOR};margin:5px;float:left;
+background:{COMMON_BACKGROUND_COLOR};overflow:hidden;}
+.upload-box-list img {
+/*设置图片垂直居中*/
+vertical-align:middle;display:block;border:0;}
+.upload-box-list a{ display:block; background:#fff; border:1px solid {LINK_COLOR}; text-align:center; color:#27b; text-decoration:none; padding:5px; margin:10px;}
+.upload-box-list a:hover, .upload-box-list a:active{ background:{LINK_COLOR}; border:1px solid {LIGHT_TEXTCOLOR}; border-left:1px solid #fff; border-top:1px solid #fff; color:#fff}
+[/CURSCRIPT]
+
+
+/**===============================
+             相册归档列表
+================================*/
+[CURSCRIPT = uploadcategory,category]
+*{ margin:0; padding:0; list-style:none}
+.upload-box-list {
+/*非IE的主流浏览器识别的垂直居中的方法*/
+display: table-cell;
+vertical-align:middle;
+/*设置水平居中*/
+text-align:center;
+/* 针对IE的Hack */
+*display: block;
+/**font-size: 175px;*//*约为高度的0.873，200*0.873 约为175*/
+*font-family:Arial;/*防止非utf-8引起的hack失效问题，如gbk编码*/
+width:200px;height:175px;border: 1px solid {INTERVAL_LINE_COLOR};margin:5px;float:left;background:{COMMON_BACKGROUND_COLOR};}
+.upload-box-list img {
+/*设置图片垂直居中*/
+vertical-align:middle;display:block; border:0;
+}
+.upload-box-list a{ display:block; background:#fff; border:1px solid {LINK_COLOR}; text-align:center; color:#27b; text-decoration:none; padding:5px; margin:10px;}
+.upload-box-list a:hover, .upload-box-list a:active{ background:{LINK_COLOR}; border:1px solid {LIGHT_TEXTCOLOR}; border-left:1px solid #fff; border-top:1px solid #fff; color:#fff}
+[/CURSCRIPT]
+
+
+/**===============================
+             个人用户中心
+================================*/
+[CURSCRIPT = singleuser]
+.profile-header ul{margin:5px 30px;line-height:1.6em;overflow:hidden;}
+.profile-header li{margin:5px 0;background-position:0 50%;background-repeat:no-repeat;text-indent:22px;}
+.profile-header li.pm{background-image:url({IMG_DIR}/pmto.gif);}
+.profile-header li.buddy{background-image:url({IMG_DIR}/addbuddy.gif);}
+.profile-header li.space{background-image:url({IMG_DIR}/home.gif);}
+.profile-header li.searchpost{background-image:url({IMG_DIR}/fastreply.gif);}
+[/CURSCRIPT]
+
+
+/**===============================
+              日志评论
+================================*/
+[CURSCRIPT = single,guestbook,singletao,page,singleupload,commentlist]
+#comments {margin:1px;padding:10px 0;}
+#comments h2 {font-size: 14px;font-weight: bold;padding:10px 0;}
+.comment-list, .comment-list ol { padding:10px 5px; list-style: none;border-left:1px solid #e8e8e8;-moz-border-radius: 3px; -khtml-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;}
+.comment-list li {overflow: hidden;    border-top:1px solid #e8e8e8; zoom:1;-moz-border-radius: 3px; -khtml-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.comment-list .comment-author{padding:5px 0 0 5px;}
+.comment-list .comment-body{ overflow: hidden; }
+.comment-list p{padding:5px;}
+.comment-list .comment-even{background:#fff;}
+.comment-list .comment-odd{background:#fff6ed;}
+.comment-list .comment-level-even{background:#fff;}
+.comment-list .comment-level-odd{background:#e1f2fa;}
+.comment-list .comment-by-author{background:#fffff9;}
+.comment-list .comment-by-author .comment-level-even{background:#fff;}
+.comment-list .comment-by-author .comment-level-odd{background:{INTERLEAVE_COLOR};}
+.comment-list .comment-by-author .comment-by-author{background:#fffff9;}
+.comment-list li .comment-reply {text-align: right;margin:5px;}
+.comment-list li .comment-mobile {color:green;}
+.comment-list li .comment-reply a { border: none;font-size: 12px;padding: 2px 4px !important;-moz-border-radius: 3px;-khtml-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border-color: #298cba !important;font-weight: bold;color: #FFF !important;background: #00a2e9 url({STYLE_IMG_DIR}/button-grad.png) repeat-x scroll left top;text-shadow: rgba(0,0,0,0.3) 0 -1px 0;}
+.comment-meta { padding-bottom: 12px; border-bottom: 1px dashed #eee;color: #999; font-size: 12px;}
+.comment-rss{ float:right;padding-top:5px;padding-right:5px; }
+.comment-audit_warning{ color:red; }
+.comment-author {display: block; font-size: 15px; color: #ccc;line-height:15px;}
+.comment-author cite.fn {font-style: normal;font-weight:bold;font-size:12px;color:#555555;}
+.comment-list img.avatar {float: left;margin: 3px 10px 0 0;border:1px solid #ccc;}
+
+
+/* 评论表单 */
+.change-comment-information{ color:blue; }
+.comment-post .cancel-reply a{float:right;font-size:12px;cursor:pointer; _cursor:hand;color:red;font-weight:bold;padding-right:5px;}
+.comment-post .cancel-reply:hover{text-decoration:underline;}
+.comment-post .comment-name{  margin:3px 0px 5px 0px; width:35%; border:1px solid #cccccc; padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-name.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-post .comment-email{  margin:3px 0px 5px 0px; width:35%; border:1px solid #cccccc;padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-email.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-post .comment-url{  margin:3px 0px 5px 0px; width:35%; color:#0000CC; border:1px solid #cccccc; padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-site.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-content{  margin:3px 0px 5px 0px; width:70%; border:1px solid #cccccc; padding:3px; font-size:12px; font-weight:normal; }
+.comment-post .comment-content{  margin:3px 0px 5px 0px; width:80%;height:200px;heightborder:1px solid #cccccc;padding:3px; font-size:12px; font-weight:normal; }
+.seccodeMessage{ color:blue; }
+[/CURSCRIPT]
+
+
+/**===============================
+             日志归档
+================================*/
+[CURSCRIPT = record]
+.archive-list {margin:0 0 20px 0;padding:10px 0;clear:both;}
+.archive-list li {color:#666;width:100px;line-height:20px;margin:0 10px;float:left;}
+.archive-list li a {font-weight:700;}
+.archive-group {font-weight:700;font-size:14px;margin:10px 0 5px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             好友css
+================================*/
+[CURSCRIPT = friendlist]
+#buddies ul{width:400px;}
+#buddies li{float:left;width:8em;height:1.6em;overflow:hidden;white-space:nowrap;}
+.friendavatar{float:left;margin:10px 10px 10px 0;}
+.friendinfo{overflow:hidden;margin:10px 10px 10px 0;}
+* html .friendinfo{margin-left:70px;}
+.friendinfo p{color:#999}
+.friendinfo a{text-decoration:none !important;}
+.friendinfo a:hover{text-decoration:underline !important;}
+.friendinfo h5 a{font-size:14px;color:#09C;}
+.friendctrl{margin-top:5px;}
+.friendctrl a{color:;}
+.buddyname{margin-bottom:8px;line-height:16px;}
+.friendlist-even{ background:{INTERLEAVE_COLOR}; }
+[/CURSCRIPT]
+
+
+/**===============================
+             表单
+================================*/
+[CURSCRIPT = register,publish,member]
+#formwrapbox{ overflow:hidden;}
+#formwrapbox table {border-spacing: 0px;border-collapse: collapse;empty-cells: show;}
+#formwrapbox .label {padding-top: 2px;padding-right: 8px;vertical-align: top;text-align: right;width: 70px;white-space: nowrap;}
+#formwrapbox .field {padding-bottom: 10px;white-space: nowrap;}
+#formwrapbox .textfield {width: 150px;}
+#formwrapbox label.error { background:url("{IMG_DIR}/form/unchecked.gif") no-repeat 0px 0px;margin-top:2px;padding-left: 16px;padding-bottom:2px;font-weight: bold; color: #EA5200;margin:5px;}
+#formwrapbox label.checked { margin:5px;background:url("{IMG_DIR}/form/checked.gif") no-repeat 0px 0px;}
+#formwrapbox .success_msg {font-weight: bold;color: {NOTICE_TEXT};margin-left: 19px;}
+#formwrapbox #dateformatStatus, #formwrapbox #termsStatus {margin-left: 6px;}
+#formwrapbox #dateformat_eu {vertical-align: middle;}
+#formwrapbox #ldateformat_eu { font-weight: normal; vertical-align: middle;}
+#formwrapbox #dateformat_am { vertical-align: middle;}
+#formwrapbox #ldateformat_am {font-weight: normal;vertical-align: middle;}
+#formwrapbox #terms-wrap {}
+#formwrapbox #label-user-terms,#formwrapbox #label-publish-terms { font-weight: normal;vertical-align: middle;width: 350px;white-space: normal;}
+#formwrapbox #label-signup-submit,#formwrapbox #label-publish-submit { visibility: hidden;}
+#errorContainer{ text-align:center;padding:5px;border:1px dashed #FF9A9A;background:#FFF; }
+#errorContainer:hover{background:#F7F7F7;}
+[/CURSCRIPT]
+

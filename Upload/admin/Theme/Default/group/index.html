@@ -1,0 +1,85 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='group'>角色分组列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			<input type="button" name="sort" value="<lang>排序</lang>" onclick="sort()" class="sort button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'group/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="group_name" title="<lang package='group'>角色分组名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<p class="clear"></p>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('group_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='group'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('group_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照组名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='group'>组名</lang></a></th>
+			<th><a href="javascript:sortBy('group_title','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_title' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_title' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照显示名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='group'>显示名</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照添加时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='group'>添加时间</lang></a></th>
+			<th><a href="javascript:sortBy('group_sort','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_sort' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_sort' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照序号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='group'>序号</lang></a></th>
+			<th><a href="javascript:sortBy('group_status','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_status' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_status' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='group'>按照状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang>状态</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:group_id}"></td>
+			<td>{$value:group_id}</td>
+			<td><a href="javascript:edit('{$value:group_id}')">{$value:group_name}</a>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:group_id}')" title="<lang>编辑</lang> 《{$value:group_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:group_id}');" title="<lang>删除</lang> 《{$value:group_name}》"><lang>删除</lang></a>|</span>
+					<span class='hide'><if condition="$value:group_status eq 1" ><a title="<lang>禁用</lang> 《{$value:group_name}》" href="javascript:forbid('{$value:group_id}')"><lang>禁用</lang></a><else/><a title="<lang>恢复</lang> 《{$value:group_name}》" href="javascript:resume('{$value:group_id}')"><lang>恢复</lang></a></if></span>
+			</div>
+			</td>
+			<td>{$value:group_title}</td>
+			<td>{$value:create_dateline|date='Y-m-d H:i:s',**}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="group_sort_{$value:group_id}" onClick="clickToInput('group_sort','{$value:group_id}')">{$value:group_sort}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:group_status eq 1" >yes<else/>no</if>.gif"/></td>
+			<td><if condition="$value:group_status eq 1" ><a href="javascript:forbid('{$value:group_id}')"><lang>禁用</lang></a><else/><a href="javascript:resume('{$value:group_id}')"><lang>恢复</lang></a></if>&nbsp;<a href="javascript:edit('{$value:group_id}')"><lang>编辑</lang></a>&nbsp;</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+				<input type="button" name="sort" value="  <lang>排序</lang>  " onclick="sort()" class="sort button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

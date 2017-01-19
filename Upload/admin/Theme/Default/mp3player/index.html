@@ -1,0 +1,176 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#configs > ul").tabs();
+});
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+<script type="text/javascript" src="__PUBLIC__/Images/Farbtastic/farbtastic.js"></script>
+<link href="__PUBLIC__/Images/Farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
+{script}
+	$(document).ready(function() {
+		var picker = $.farbtastic("#picker");
+		$('.change_color').focus( function() {picker.linkTo(this);} );
+	});
+ {/script}
+
+	
+	<div class="title"><lang package='mp3player'>音乐播放器设置</lang></div>
+
+	
+	<div id="content" class="content">
+
+		<div class="note"><p class="i"><lang package='mp3player'>系统内置的两款音乐播放器设置，让你的站点飞扬歌声吧。</lang></p></div>
+
+		<div id="configs">
+		<ul>
+		<li><a href="#tab_singlemp3player"><span><lang package='mp3player'>单音乐播放器设置</lang></span></a></li>
+		<li><a href="#tab_mp3player"><span><lang package='mp3player'>多首音乐播放器设置</lang></span></a></li>
+		</ul>
+	</div>
+
+	<form action="{:G::U('mp3player/update_config')}" method="post" onsubmit="return option();">
+	<div id="tab_singlemp3player">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='blogoption'>播放器属性设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行播放器属性相关设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_bg"><lang package='mp3player'>中部背景色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_bg]" id="singlemp3player_bg" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_bg']};" value="{$arrOptions['singlemp3player_bg']}"/>
+			<div class="description"><lang package='mp3player'>播放器中部背景颜色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_leftbg"><lang package='mp3player'>左部背景色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_leftbg]" id="singlemp3player_leftbg" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_leftbg']};" value="{$arrOptions['singlemp3player_leftbg']}"/>
+			<div class="description"><lang package='mp3player'>播放器左部背景色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_lefticon"><lang package='mp3player'>左部标志色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_lefticon]" id="singlemp3player_lefticon" class="field change_color" style="background-color:{$arrOptions['singlemp3player_lefticon']};" size="20" value="{$arrOptions['singlemp3player_lefticon']}"/>
+			<div class="description"><lang package='mp3player'>播放器左部标志色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_rightbg"><lang package='mp3player'>右部背景色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_rightbg]" id="singlemp3player_rightbg" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_rightbg']};" value="{$arrOptions['singlemp3player_rightbg']}"/>
+			<div class="description"><lang package='mp3player'>播放器右部背景色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_rightbghover"><lang package='mp3player'>右部背景接触色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_rightbghover]" id="singlemp3player_rightbghover" class="field change_color" style="background-color:{$arrOptions['singlemp3player_rightbghover']};" size="20" value="{$arrOptions['singlemp3player_rightbghover']}"/>
+			<div class="description"><lang package='mp3player'>播放器右部背景接触色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_righticon"><lang package='mp3player'>右部标志色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_righticon]" id="singlemp3player_righticon" class="field change_color" style="background-color:{$arrOptions['singlemp3player_righticon']};" size="20" value="{$arrOptions['singlemp3player_righticon']}"/>
+			<div class="description"><lang package='mp3player'>播放器右部标志色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='mp3player'>色块</lang>:</label></th>
+			<td><div id="picker"></div>
+			<div class="description"><lang package='mp3player'>点击“色块”来进行颜色选择。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_righticonhover"><lang package='mp3player'>右部标志接触色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_righticonhover]" id="singlemp3player_righticonhover" class="field change_color" style="background-color:{$arrOptions['singlemp3player_righticonhover']};" size="20" value="{$arrOptions['singlemp3player_righticonhover']}"/>
+			<div class="description"><lang package='mp3player'>播放器右部标志接触色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_text"><lang package='mp3player'>文字色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_text]" id="singlemp3player_text" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_text']};" value="{$arrOptions['singlemp3player_text']}"/>
+			<div class="description"><lang package='mp3player'>播放器文字色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_slider"><lang package='mp3player'>滑块色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_slider]" id="singlemp3player_slider" class="field change_color" size="20"	style="background-color:{$arrOptions['singlemp3player_slider']};" value="{$arrOptions['singlemp3player_slider']}"/>
+			<div class="description"><lang package='mp3player'>播放器滑块色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_track"><lang package='mp3player'>轨道色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_track]" id="singlemp3player_track" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_track']};" value="{$arrOptions['singlemp3player_track']}"/>
+			<div class="description"><lang package='mp3player'>播放器轨道色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_border"><lang package='mp3player'>边框色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_border]" id="singlemp3player_border" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_border']};" value="{$arrOptions['singlemp3player_border']}"/>
+			<div class="description"><lang package='mp3player'>播放器边框色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_loader"><lang package='mp3player'>加载条色</lang>:</label></th>
+			<td><input type="text" name="configs[singlemp3player_loader]" id="singlemp3player_loader" class="field change_color" size="20" style="background-color:{$arrOptions['singlemp3player_loader']};" value="{$arrOptions['singlemp3player_loader']}"/>
+			<div class="description"><lang package='mp3player'>播放器加载条色设置，轻轻一点即可更改外观。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_auto"><lang package='mp3player'>自动播放</lang>:</label></th>
+			<td><input type="radio" id="singlemp3player_auto" class="field"	name="configs[singlemp3player_auto]" value="yes" {if $arrOptions['singlemp3player_auto']=='yes'}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="singlemp3player_auto" class="field" name="configs[singlemp3player_auto]" value="no"	{if $arrOptions['singlemp3player_auto']=='no'}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='mp3player'>Flash 播放器是否自动播放。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="singlemp3player_loop"><lang package='mp3player'>循环播放</lang>:</label></th>
+			<td><input type="radio" id="singlemp3player_loop" class="field"	name="configs[singlemp3player_loop]" value="yes" {if $arrOptions['singlemp3player_loop']=='yes'}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="singlemp3player_loop" class="field" name="configs[singlemp3player_loop]" value="no"	{if $arrOptions['singlemp3player_loop']=='no'}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='mp3player'>Flash 播放器是否循环播放。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-purple"><lang package='blogoption'>播放器设置</lang></span></label></th>
+			<td><lang package='blogoption'>这里进行播放器宽度、高度、背景设置。</lang></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="widget_single_mp3player_width"><lang package='mp3player'>播放器宽度</lang>:</label></th>
+			<td><input type="text" name="configs[widget_single_mp3player_width]" id="widget_single_mp3player_width" class="field" size="20" value="{$arrOptions['widget_single_mp3player_width']}"/>
+			<div class="description"><lang package='mp3player'>播放器宽度设置。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="widget_single_mp3player_height"><lang package='mp3player'>播放器高度</lang>:</label></th>
+			<td><input type="text" name="configs[widget_single_mp3player_height]" id="widget_single_mp3player_height" class="field" size="20" value="{$arrOptions['widget_single_mp3player_height']}"/>
+			<div class="description"><lang package='mp3player'>播放器高度设置。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="widget_single_mp3player_bgcolor"><lang package='mp3player'>播放器背景</lang>:</label></th>
+			<td><input type="text" name="configs[widget_single_mp3player_bgcolor]" id="widget_single_mp3player_bgcolor" class="field change_color" size="20"	style="background-color:{$arrOptions['widget_single_mp3player_bgcolor']};" value="{$arrOptions['widget_single_mp3player_bgcolor']}"/>
+			<div class="description"><lang package='mp3player'>播放器背景设置。</lang></div></td>
+			</tr>
+	</table>
+	</div>
+
+		<div id="tab_mp3player">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="mp3player_showdisplay"><lang package='mp3player'>是否显示频谱</lang>:</label></th>
+			<td><input type="radio" id="mp3player_showdisplay" class="field"	name="configs[mp3player_showdisplay]" value="yes" {if $arrOptions['mp3player_showdisplay']=='yes'}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="mp3player_showdisplay" class="field" name="configs[mp3player_showdisplay]" value="no"	{if $arrOptions['mp3player_showdisplay']=='no'}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='mp3player'>Flash 播放器是否显示频谱。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mp3player_showplaylist"><lang package='mp3player'>是否显示列表</lang>:</label></th>
+			<td><input type="radio" id="mp3player_showplaylist" class="field"	name="configs[mp3player_showplaylist]" value="yes" {if $arrOptions['mp3player_showplaylist']=='yes'}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="mp3player_showplaylist" class="field" name="configs[mp3player_showplaylist]" value="no"	{if $arrOptions['mp3player_showplaylist']=='no'}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='mp3player'>Flash 播放器是否显示列表。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mp3player_autostart"><lang package='mp3player'>是否自动播放</lang>:</label></th>
+			<td><input type="radio" id="mp3player_autostart" class="field"	name="configs[mp3player_autostart]" value="yes" {if $arrOptions['mp3player_autostart']=='yes'}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="mp3player_autostart" class="field" name="configs[mp3player_autostart]" value="no"	{if $arrOptions['mp3player_autostart']=='no'}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='mp3player'>Flash 播放器是否自动播放。</lang></div></td>
+			</tr>
+		</table>
+		</div>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

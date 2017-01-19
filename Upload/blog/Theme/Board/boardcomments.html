@@ -1,0 +1,148 @@
+<php>
+if($nPage<1){
+	$nPage =1;
+}
+$nCommentCount = ($nEveryCommentnum * ($nPage-1))+1;
+</php>
+<foreach for=arrBoardCommentLists key=nCommentListKey value=oBoardCommentLists>
+<php>
+switch( $nCommentCount ){
+	case 1:
+		$sCommentCount = G::L('沙发','boardTheme');
+		break;
+	case 2:
+		$sCommentCount = G::L('板凳','boardTheme');
+		break;
+	case 3:
+		$sCommentCount = G::L('地板','boardTheme');
+		break;
+	default:
+		$sCommentCount = $nCommentCount;
+		break;
+}
+</php>
+<a name="comment-{$oBoardCommentLists['comment_id']}"></a>
+ <div id="post_{$oBoardCommentLists['comment_id']}">
+		<table id="pid{$oBoardCommentLists['comment_id']}" summary="pid{$oBoardCommentLists['comment_id']}" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="postauthor" rowspan="2">
+				{if	$oBoardCommentLists['user_id']>0}
+				<div class="popupmenu_popup userinfopanel" id="userinfo{$oBoardCommentLists['comment_id']}" style="display: none; position: absolute;">
+					<div class="popavatar">
+					<div id="userinfo{$oBoardCommentLists['comment_id']}_ma"></div>
+						<ul class="profile_side">
+							<li class="pm"><a href="{:G::U( 'pm/pm_new?uid='.$oBoardCommentLists['user_id'] )}" onclick="hideMenu('userinfo{$oBoardCommentLists['comment_id']}');" title="<lang package='boardTheme'>发短消息</lang>"><lang package='boardTheme'>发短消息</lang></a></li>
+							<li class="buddy"><a href="###" onclick="addFriend( '{$oBoardCommentLists['user_id']}' );return false;" title="<lang package='boardTheme'>加为好友</lang>"><lang package='boardTheme'>加为好友</lang></a></li>
+						</ul>
+					</div>
+					<div class="popuserinfo">
+						<p><a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" target="_blank">{$oBoardCommentLists:user:user_name}</a>
+							{if !empty( $oBoardCommentLists:user:user_nikename )}<em>({$oBoardCommentLists:user:user_nikename})</em>{/if}</p>
+							<dl class="s_clear"><dt>UID</dt><dd>1&nbsp;</dd>
+								<dt><lang package='boardTheme'>帖子</lang></dt><dd>{$oBoardCommentLists:user:user_blogs}&nbsp;</dd>
+								<dt><lang package='boardTheme'>回复</lang></dt><dd>{$oBoardCommentLists:user:user_comments}&nbsp;</dd>
+								<dt><lang package='boardTheme'>性别</lang></dt><dd>{if $oBoardCommentLists:user:user_sex=='0'}<lang package='boardTheme'>男</lang>{elseif $oBoardCommentLists:user:user_sex=='1'}<lang package='boardTheme'>女</lang>{d*else}<lang package='boardTheme'>保密</lang>{/if}&nbsp;</dd>
+								<dt><lang package='boardTheme'>年龄</lang></dt><dd>{$oBoardCommentLists:user:user_age}&nbsp;</dd>
+								<dt><lang package='boardTheme'>登录时间</lang></dt><dd>{$oBoardCommentLists:user:user_logincount}&nbsp;</dd>
+								<dt><lang package='boardTheme'>注册时间</lang></dt><dd>{$oBoardCommentLists:user:create_dateline|date='Y-m-d',**}&nbsp;</dd>
+								<dt><lang package='boardTheme'>最后登录</lang></dt><dd>{$oBoardCommentLists:user:user_lastlogintime|date='Y-m-d',**}&nbsp;</dd>
+						</dl>
+						<div class="imicons">
+									<a href="http://edit.yahoo.com/config/send_webmesg?.target={$oBoardCommentLists:user:user_yahoo|urlencode}&amp;.src=pg" target="_blank" title="Yahoo">
+												<img src="{:IMG_DIR}/yahoo.gif" alt="Yahoo!"	/></a>
+									<a href="javascript:;" onclick="window.open('http://amos.im.alisoft.com/msg.aw?v=2&uid='+encodeURIComponent('{$oBoardCommentLists:user:user_aliwangwang}')+'&site=cntaobao&s=2&charset=utf-8')" title="taobao">
+										<img src="{:IMG_DIR}/taobao.gif" alt="<lang package='boardTheme'>阿里旺旺</lang>" />
+									</a>
+									<a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" target="_blank" title="<lang package='boardTheme'>个人空间</lang>">
+												<img src="{:IMG_DIR}/home.gif" alt="<lang package='boardTheme'>个人空间</lang>"	/>
+									</a>
+									<a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" target="_blank" title="<lang package='boardTheme'>查看详细资料</lang>"><img src="{:IMG_DIR}/userinfo.gif" alt="<lang package='boardTheme'>查看详细资料</lang>"	/></a>
+							</div>
+							<div id="avatarfeed"><span id="threadsortswait"></span></div>
+						</div>
+					</div>
+					<div>
+					<div class="avatar" onmouseover="showauthor(this, 'userinfo{$oBoardCommentLists['comment_id']}')">
+						<a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" target="_blank">
+							<img src="{:Blog_Extend::getGravatar($oBoardCommentLists->user_id,'middle')}" />
+						</a>
+					</div>
+					<p><em><a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" target="_blank">{$oBoardCommentLists:user:user_name}</a></em></p>
+				</div>
+				<dl class="profile s_clear">
+					<dt>UID</dt><dd>{$oBoardCommentLists:user_id}&nbsp;</dd>
+					<dt><lang package='boardTheme'>主题</lang></dt><dd>{$oBoardCommentLists:user:user_blogs}&nbsp;</dd>
+					<dt><lang package='boardTheme'>回复</lang></dt><dd>{$oBoardCommentLists:user:user_comments}&nbsp;</dd>
+					{if !empty( $oBoardCommentLists:user:user_hometown )}<dt><lang package='boardTheme'>来自</lang></dt><dd>{$oBoardCommentLists:user:user_hometown}&nbsp;</dd>{/if}
+					{if !empty( $oBoardCommentLists:user:user_nowplace )}<dt><lang package='boardTheme'>现居地</lang></dt><dd>{$oBoardCommentLists:user:user_nowplace}&nbsp;</dd>{/if}
+					{if !empty( $oBoardCommentLists:user:user_qq )}<dt>QQ</dt><dd><a href="http://wpa.qq.com/msgrd?V=1amp;Uin={$oBoardCommentLists:user:user_qq}amp;Site=ioshenmueMenu=yes"><img src="{:IMG_DIR}/qq.gif"/></a>&nbsp;</dd>{/if}
+					{if !empty( $oBoardCommentLists:user:user_love )}<dt><lang package='boardTheme'>爱好</lang></dt><dd>{$oBoardCommentLists:user:user_love}&nbsp;</dd>{/if}
+					{if !empty( $oBoardCommentLists:user:user_work )}<dt><lang package='boardTheme'>工作</lang></dt><dd>{$oBoardCommentLists:user:user_work}&nbsp;</dd>{/if}
+				</dl>
+				{d*else}
+				<div>
+						<div class="avatar">
+							<a href="javascript:;" title="{$oBoardCommentLists:comment_name}"><img src="{:Blog_Extend::getGravatar('','email',array( 'email'=>$oBoardCommentLists->comment_email,'size'=>120 ))}"/></a>
+						</div>
+						<p><em>{if $oBoardCommentLists['comment_url']}<a rel="{if Global_Extend+getOption( 'comment_url_nofollow' )==0}external nofollow{/if}" href="{$oBoardCommentLists['comment_url']}" target="_blank">{$oBoardCommentLists:comment_name}</a>{d*else}{$oBoardCommentLists:comment_name}{/if}</em></p>
+				</div>
+				{/if}
+			</td>
+			<td class="postcontent">
+				<div class="postinfo">
+					<strong>
+						<span id="sharecopymessage{$oBoardCommentLists['comment_id']}" style="display:none;">{$TheController:get_host_header(	)}{:CommentModel::getACommentUrl( $oBoardCommentLists )}</span>
+						<a title="<lang package='boardTheme'>复制本帖链接</lang>" id="postnum{$oBoardCommentLists:comment_id}" href="javascript:;" onclick="document.getElementById('sharecopymessage{$oBoardCommentLists:comment_id}').display='block';copyText('sharecopymessage{$oBoardCommentLists:comment_id}');"><em>{$sCommentCount}
+					</em><sup>#</sup></a>
+					</strong>
+					<div class="posterinfo">
+						<div class="pagecontrol"></div>
+						<div class="authorinfo">
+							{if	$oBoardCommentLists['user_id']!=-1}<a href="{:PageType_Extend::getAuthorUrl( $oBoardCommentLists->user )}" class="posterlink" target="_blank">{$oBoardCommentLists:user:user_name}</a><em id="authorposton{$oBoardCommentLists:comment_id}">{d*else}{$oBoardCommentLists:comment_name}{/if}<lang package='boardTheme'>发表于</lang> <span title="{$oBoardCommentLists:create_dateline|date='Y-m-d H:i:s',**}">{$oBoardCommentLists:create_dateline||Date+smartDate}</span></em>
+						</div>
+					</div>
+				</div>
+				<div class="defaultpost">
+					<div class="postmessage ">
+						<div class="t_msgfontfix">
+							<table cellspacing="0" cellpadding="0">
+								<tr>
+									<td class="t_msgfont" id="postmessage_{$oBoardCommentLists['comment_id']}">{$oBoardCommentLists['comment_content']|Ubb_Extend+convertUbb=1|Global_Extend+replaceEmot}</td>
+								</tr>
+							</table>
+						</div>
+						<div id="post_rate_div_{$oBoardCommentLists['comment_id']}"></div>
+					</div>
+				</div>
+			</td>
+			</tr>
+			<tr>
+				<td class="postcontent postbottom">
+					<div class="signatures" style="max-height:100px;maxHeightIE:100px;">{if $oBoardCommentLists:user_id!='-1'}{$oBoardCommentLists:user:user_remark}{/if}</div>
+
+				</td>
+			</tr>
+			<tr>
+			<td class="postauthor"></td>
+			<td class="postcontent">
+				<div class="postactions">
+					<div class="postact s_clear">
+						<em>
+							<a rel="external nofollow" class="fastreply" href="javascript:void(0);" onclick="AddText('{:Blog_Extend::getCommentReply( $oBoardCommentLists )}');return false;"><lang package='boardTheme'>回复</lang></a>
+							<a rel="external nofollow" class="repquote" href="javascript:void(0);" onclick="AddText('{:Blog_Extend::getCommentQuote( $oBoardCommentLists )}');return false;"><lang package='boardTheme'>引用</lang></a>
+						</em>
+						<p>
+							<a href="javascript:;" onclick="scrollTo(0,0);">TOP</a>
+						</p>
+					</div>
+				</div>
+			</td>
+			</tr>
+			<tr class="threadad">
+				<td class="postauthor"></td>
+				<td class="adcontent"></td>
+			</tr>
+		</table>
+		</div>
+		{~$nCommentCount++}
+</foreach>

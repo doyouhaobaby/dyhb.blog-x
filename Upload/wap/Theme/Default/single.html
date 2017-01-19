@@ -1,0 +1,27 @@
+<include file="header">
+
+	<div id="m">
+			<div class="posttitle">{:$TheController->the_top($oBlog) }{:$TheController->the_mobile($oBlog) }{$oBlog['blog_title']}</div>
+		<div class="postinfo">
+			<lang>post by</lang>：{:$TheController->the_author($oBlog->user)}<br>
+			<lang>分类</lang>：{:$TheController->the_category($oBlog->category) }<br>
+			<lang>Time</lang>：{$oBlog['blog_dateline']|date='Y-m-d H:i:s',**}<br>
+			{~$sTagText=$TheController->the_tag($oBlog,true)}
+			{if $sTagText!==false}
+			<div class="tag"><lang>Tag</lang>：	
+			{$sTagText}
+			</div>
+			{/if}
+		</div>
+		<div class="postcont">
+			{$oBlog:blog_content}
+		</div>
+		<div id="page">
+			{$sNewpageNavbar}
+		</div>
+		<div class="t"><lang>查看评论</lang>(<a href='{:G::U('blog/comment?blog_id='.$oBlog['blog_id'])}'>{$oBlog['blog_commentnum']}</a>)</div>
+		<div class="prelog"><lang>上一篇</lang>：{$TheController:the_previous_post($oBlog,array('cut'=>20))}</div>
+		<div class="nextlog"><lang>下一篇</lang>：{$TheController:the_next_post($oBlog,array('cut'=>20))}</div>
+	</div>
+
+<include file="footer">

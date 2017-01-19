@@ -1,0 +1,75 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='blogtrackback'>日志引用设置</lang></div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('blogtrackback/update')}" method="post" id="blogtrackbackAdd" name="blogtrackbackAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blogtrackback_sort"><lang package='blogtrackback'>日志引用排序</lang>：</label></th>
+			<td>
+				<select name="configs[blogtrackback_sort]" class="field">
+					<option value="dateline_desc" <if condition="$arrOptions['blogtrackback_sort'] eq 'dateline_desc'">selected="selected"</if>><lang package='blogtrackback'>引用时间（降序）</lang></option>
+					<option value="dateline_asc" <if condition="$arrOptions['blogtrackback_sort'] eq 'dateline_asc'">selected="selected"</if>><lang package='blogtrackback'>引用时间（升序）</lang></option>
+				</select>
+				<br/><div class="description"><lang package='blogtrackback'>多种排序取出日志引用数据。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_num"><lang package='blogtrackback'>日志引用数量</lang>：</label></th>
+			<td><input type="text" name="configs[blogtrackback_num]" id="blogtrackback_num" class="field" size="10" value="{$arrOptions['blogtrackback_num']}"/>
+			<br/><div class="description"><lang package='blogtrackback'>日志引用数量，默认为9，取出所有日志。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_title_cutnum"><lang package='blogtrackback'>日志引用标题截取字符串数量</lang>：</label></th>
+			<td><input type="text" name="configs[blogtrackback_title_cutnum]" id="blogtrackback_title_cutnum" class="field" size="10" value="{$arrOptions['blogtrackback_title_cutnum']}"/>
+			<br/><div class="description"><lang package='blogtrackback'>日志引用标题截取数量，防止标题过长影响布局。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_inrss"><lang package='blogtrackback'>显示在RSS输出里</lang>：</label></th>
+			<td><select name="configs[blogtrackback_inrss]" class="field">
+					<option value="1" <if condition="$arrOptions['blogtrackback_inrss'] eq 1">selected="selected"</if>><lang>是</lang></option>
+					<option value="0" <if condition="$arrOptions['blogtrackback_inrss'] eq 0">selected="selected"</if>><lang>否</lang></option>
+				</select>
+				<br/><div class="description"><lang package='blogtrackback'>控制日志引用是否在Rss 中输出。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_nofollow"><lang package='blogtrackback'>是否开启nofollow</lang>：</label></th>
+			<td><select name="configs[blogtrackback_nofollow]" class="field">
+					<option value="1" <if condition="$arrOptions['blogtrackback_nofollow'] eq 1">selected="selected"</if>><lang>是</lang></option>
+					<option value="0" <if condition="$arrOptions['blogtrackback_nofollow'] eq 0">selected="selected"</if>><lang>否</lang></option>
+				</select>
+				<br/><div class="description"><lang package='blogtrackback'>如果nofollow选择是，那么引用衔接将不会被记录到站点的外链。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_dateline"><lang package='blogtrackback'>是否显示引用时间</lang>：</label></th>
+			<td><select name="configs[blogtrackback_dateline]" class="field">
+					<option value="1" <if condition="$arrOptions['blogtrackback_dateline'] eq 1">selected="selected"</if>><lang>是</lang></option>
+					<option value="0" <if condition="$arrOptions['blogtrackback_dateline'] eq 0">selected="selected"</if>><lang>否</lang></option>
+				</select>
+				<br/><div class="description"><lang package='blogtrackback'>引用列表中是否显示引用的时间。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blogtrackback_dateline_type"><lang package='blogtrackback'>日志引用时间格式</lang>：</label></th>
+			<td><input type="text" name="configs[blogtrackback_dateline_type]" id="blogtrackback_dateline_type" class="field" size="40" value="{$arrOptions['blogtrackback_dateline_type']}"/>
+			<br/><div class="description"><lang package='blogtrackback'>日志引用时间unix格式化时间。</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,30 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'link/index' )}"><lang package='defaultTheme'>衔接列表</lang></a>
+		</div>
+	</div>
+
+	<div id="content">
+		<div id="content2">
+	
+			<!-- start entry post -->
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>友情衔接</lang></h2>
+
+				<p>{$the_link_description}</p>
+
+				{:Global_Extend::templateHooks('index_top')}
+				{:G::W( 'Linklist' )}
+				{:Global_Extend::templateHooks('index_bottom')}
+					
+			</div>
+			<!-- end entry post -->	
+		</div>
+	</div>
+
+	<include file="sidebarthree">	
+
+<include file="footer">

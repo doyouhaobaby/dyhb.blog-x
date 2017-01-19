@@ -1,0 +1,88 @@
+<script type="text/javascript" reload="1">
+//<![CDATA[
+function changediv(buddyid){
+	showDiv('commenthide_' + buddyid);
+	showDiv('commentbox_' + buddyid);
+	showDiv('commentedit_' + buddyid);
+}
+
+function editcomment(buddyid){
+	changediv(buddyid);
+	document.getElementById('comment_' + buddyid).focus();
+}
+
+function updatecomment(buddyid){
+	changediv(buddyid);
+	var comment=Dyhb.Browser.Ie && document.charset=='utf-8' ? encodeURIComponent(document.getElementById('comment_'+ buddyid).value): document.getElementById('comment_'+ buddyid).value;
+	document.getElementById('commenthide_' + buddyid).innerHTML=	preg_replace(['&', '<', '>', '"'], ['&amp;', '&lt;', '&gt;', '&quot;'], comment);
+	Dyhb.AjaxSend('{:G::U('my/friend_edit')}','ajax=1&friendid='+buddyid+'&comment=' + comment,'',complete);
+}
+
+function preg_replace(search, replace, str){
+	var len=search.length;
+	for(var i=0; i < len; i++){
+		re=new RegExp(search[i], "ig");
+		str=str.replace(re, typeof replace=='string' ? replace :(replace[i] ? replace[i] : replace[0]));
+	}
+	return str;
+}
+
+function complete(data,status){
+	if(status==1){
+
+	}
+}
+//]]>
+</script>
+
+<div class="itemtitle s_clear">
+
+	<form method="get" action="{:G::U('user/index')}" class="right">
+		<input type="text" size="15" name="key" class="field" />&nbsp;
+		<input type="hidden" size="15" name="c" value="user" />
+		<input type="hidden" size="15" name="a" value="index" />
+		<button type="submit" class="button"><lang>搜索</lang></button>
+	</form>
+
+	<ul>
+		<li {if empty($type)}class="current"{/if}><a href="{:G::U('my/friend')}"><span><lang>好友</lang></span></a></li>
+		<li {if $type=='fan'}class="current"{/if}><a href="{:G::U('my/friend?type=fan')}"><span><lang>关注</lang></span></a></li>
+	</ul>
+</div>
+
+<div class="datalist">
+
+	<table cellspacing="0" cellpadding="0" class="datatable" style="table-layout:fixed;margin-top:10px;">
+	<tr>
+	<volist name=data id=oFriendList mod=2>
+	{~$sEven=$key%2==0 ? $even:$odd}
+	{~$nUserId=($type=='fan'?$oFriendList['user_id'] :$oFriendList['friend_friendid'])}
+	<eq name="mod" value="1">
+	</tr>
+	<tr>
+	</eq>
+	<td valign="top" class="{$sEven}" >
+		<div class="friendavatar">
+			 <a href="{:G::U('author@?id='.$nUserId)}"><img src="{:Blog_Extend::getGravatar($nUserId,'small')}" /></a>
+		</div>
+		<div class="friendinfo">
+			<h5 class="buddyname">
+				 <a href="{:G::U('author@?id='.$nUserId)}">{:UserModel::getUserNameById($nUserId)}</a>
+			</h5>
+			<p>
+				<span id="commenthide_{$nUserId}">{$oFriendList['friend_comment']}</span> <span id="commentedit_{$nUserId}">[<a href="javascript:;" onclick="editcomment({$nUserId})">+<lang>添加备注</lang></a>]</span>
+				<span id="commentbox_{$nUserId}" style="display:none"><input name="comment_{$nUserId}" value="" id="comment_{$nUserId}" class="field" tabindex="1" onBlur="updatecomment({$nUserId})" size="30"></span>
+			</p>
+			<p class="friendctrl">
+				<a href="{:G::U('pm/pm_new?uid='.$nUserId)}" title="<lang>发短消息</lang>"><lang>发短消息</lang></a> |
+				<a href="{:G::U('author@?id='.$nUserId)}" ><lang>好友空间</lang></a> |
+				<a href="{:G::U('user@?value='.$nUserId)}"><lang>他的日志</lang></a> {if $type!='fan'}|
+				<a href="{:G::U('my/friend_del?friendid='.$nUserId)}"><lang>删除</lang></a>{/if}
+			</p>
+	 </div>
+	</td>
+	</volist>
+	</tr>
+</table>
+{$pagenavbar}
+</div>

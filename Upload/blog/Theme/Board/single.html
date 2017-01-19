@@ -1,0 +1,205 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+function addFriend( userid ){
+	Dyhb.AjaxSend('{:G::U('friend/add')}','ajax=1&uid='+userid,'',complete);
+}
+function complete(data,status){
+	if(status==1){
+
+	}
+}
+{/script}
+
+		<div id="nav">
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" id="fjump" onmouseover="showMenu({'ctrlid':this.id})" class="dropmenu" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; {$TheController:the_category( $oBlog->category )} &raquo; {$oBlog:blog_title}</div>
+
+		<div id="wrap" class="wrap s_clear threadfix">
+			<div class="forumcontrol">
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="modaction"></td>
+						<td>
+							<span class="replybtn" id="post_reply" prompt="post_reply"><a href="#respond"><lang package='boardTheme'>回复</lang></a></span>
+							<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"><a href="{:G::U( 'publish/index?cid='.$oBlog['category_id'] )}" ><lang package='boardTheme'>发帖</lang></a></span>
+							<div style="float:right;">{$sPageNavbar}</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+					<li><a href="{:G::U( 'publish/index?cid='.$oBlog['category_id'] )}" ><lang package='boardTheme'>发新话题</lang></a></li>
+			</ul>
+
+			<div id="postlist" class="mainbox viewthread"><div id="post_{$oBlog:blog_id}">
+				<table id="pid{$oBlog:blog_id}" summary="pid{$oBlog:blog_id}" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="postauthor" rowspan="2">
+						{if $oBlog['user_id']!=-1}
+						<div class="popupmenu_popup userinfopanel" id="userinfopost{$oBlog:blog_id}" style="display: none; position: absolute;">
+							<div class="popavatar">
+								<div id="userinfopost{$oBlog:blog_id}_ma"></div>
+									<ul class="profile_side">
+										<li class="pm"><a href="{:G::U( 'pm/pm_new?uid='.$oBlog['user_id'] )}" onclick="hideMenu('userinfopost{$oBlog:blog_id}');" title="<lang package='boardTheme'>发短消息</lang>"><lang package='boardTheme'>发短消息</lang></a></li>
+										<li class="buddy"><a href="###" onclick="addFriend( '{$oBlog['user_id']}' );return false;" title="<lang package='boardTheme'>加为好友</lang>"><lang package='boardTheme'>加为好友</lang></a></li>
+									</ul>
+								</div>
+								<div class="popuserinfo">
+									<p>
+										<a href="{:PageType_Extend::getAuthorUrl( $oBlog->user )}" target="_blank">{$oBlog:user:user_name}</a>
+										{if !empty( $oBlog:user:user_nikename )}<em>({$oBlog:user:user_nikename})</em>{/if}
+									</p>
+									<dl class="s_clear"><dt>UID</dt><dd>1&nbsp;</dd>
+											<dt><lang package='boardTheme'>帖子</lang></dt><dd>{$oBlog:user:user_blogs}&nbsp;</dd>
+											<dt><lang package='boardTheme'>回复</lang></dt><dd>{$oBlog:user:user_comments}&nbsp;</dd>
+											<dt><lang package='boardTheme'>性别</lang></dt><dd>{if $oBlog:user:user_sex=='0'}<lang package='boardTheme'>男</lang>{elseif $oBlog:user:user_sex=='1'}<lang package='boardTheme'>女</lang>{d*else}<lang package='boardTheme'>保密</lang>{/if}&nbsp;</dd>
+											<dt><lang package='boardTheme'>年龄</lang></dt><dd>{$oBlog:user:user_age}&nbsp;</dd>
+											<dt><lang package='boardTheme'>登录时间</lang></dt><dd>{$oBlog:user:user_logincount}&nbsp;</dd>
+											<dt><lang package='boardTheme'>注册时间</lang></dt><dd>{$oBlog:user:create_dateline|date='Y-m-d',**}&nbsp;</dd>
+											<dt><lang package='boardTheme'>最后登录</lang></dt><dd>{$oBlog:user:user_lastlogintime|date='Y-m-d',**}&nbsp;</dd>
+										</dl>
+
+										<div class="imicons">
+											<a href="http://edit.yahoo.com/config/send_webmesg?.target={$oBlog:user:user_yahoo|urlencode}&amp;.src=pg" target="_blank" title="Yahoo">
+												<img src="{:IMG_DIR}/yahoo.gif" alt="Yahoo!"	/></a>
+											<a href="javascript:;" onclick="window.open('http://amos.im.alisoft.com/msg.aw?v=2&uid='+encodeURIComponent('{$oBlog:user:user_aliwangwang}')+'&site=cntaobao&s=2&charset=utf-8')" title="taobao">
+												<img src="{:IMG_DIR}/taobao.gif" alt="<lang package='boardTheme'>阿里旺旺</lang>" />
+											</a>
+											<a href="{:PageType_Extend::getAuthorUrl( $oBlog->user )}" target="_blank" title="<lang package='boardTheme'>个人空间</lang>">
+												<img src="{:IMG_DIR}/home.gif" alt="<lang package='boardTheme'>个人空间</lang>"	/>
+										</a>
+										<a href="{:PageType_Extend::getAuthorUrl( $oBlog->user )}" target="_blank" title="<lang package='boardTheme'>查看详细资料</lang>"><img src="{:IMG_DIR}/userinfo.gif" alt="<lang package='boardTheme'>查看详细资料</lang>"	/></a>
+									</div>
+
+									<div id="avatarfeed">
+										<span id="threadsortswait"></span>
+									</div>
+								</div>
+							</div>
+							<a name="newpost"></a>
+							<div>
+							{/if}
+							{if $oBlog['user_id']!=-1}
+							<div class="avatar" onmouseover="showauthor(this, 'userinfopost{$oBlog:blog_id}')">
+								<a href="{:PageType_Extend::getAuthorUrl( $oBlog->user )}" target="_blank">
+									<img src="{:Blog_Extend::getGravatar($oBlog->user_id,'middle')}" />
+								</a>
+						</div>
+						<p><em>{$TheController:the_author_space( $oBlog->user )}</em></p>
+						{d*else}
+						<a name="lastpost"></a>
+						<div class="avatar">
+							<a href="javascript:;"><lang package='boardTheme'>游客</lang> <em>{$oBlog['blog_ip']|Global_Extend+hideIp}</em></a>
+						</div>
+						{/if}
+					</div>
+						{if $oBlog['user_id']!=-1}
+						<dl class="profile s_clear">
+							<dt>UID</dt><dd>{$oBlog:user_id}&nbsp;</dd>
+							<dt><lang package='boardTheme'>主题</lang></dt><dd>{$oBlog:user:user_blogs}&nbsp;</dd>
+							<dt><lang package='boardTheme'>回复</lang></dt><dd>{$oBlog:user:user_comments}&nbsp;</dd>
+							{if !empty( $oBlog:user:user_hometown )}<dt><lang package='boardTheme'>来自</lang></dt><dd>{$oBlog:user:user_hometown}&nbsp;</dd>{/if}
+							{if !empty( $oBlog:user:user_nowplace )}<dt><lang package='boardTheme'>现居地</lang></dt><dd>{$oBlog:user:user_nowplace}&nbsp;</dd>{/if}
+							{if !empty( $oBlog:user:user_qq )}<dt>QQ</dt><dd><a href="http://wpa.qq.com/msgrd?V=1amp;Uin={$oBlog:user:user_qq}amp;Site=ioshenmueMenu=yes"><img src="{:IMG_DIR}/qq.gif"/></a>&nbsp;</dd>{/if}
+							{if !empty( $oBlog:user:user_love )}<dt><lang package='boardTheme'>爱好</lang></dt><dd>{$oBlog:user:user_love}&nbsp;</dd>{/if}
+							{if !empty( $oBlog:user:user_work )}<dt><lang package='boardTheme'>工作</lang></dt><dd>{$oBlog:user:user_work}&nbsp;</dd>{/if}
+						</dl>
+						{/if}
+					</td>
+					<td class="postcontent">
+						<div id="threadstamp"></div>
+						<div class="postinfo">
+							<strong>
+									<span id="sharecopymessage{$oBlog:blog_id}" style="display:none;">{:Global_Extend::getOption( 'blog_url' )}/blog/index.php?c=blog&a={$oBlog:blog_id}</span>
+									<a title="<lang package='boardTheme'>复制本帖链接</lang>" id="postnum{$oBlog:blog_id}" href="javascript:;" onclick="document.getElementById('sharecopymessage{$oBlog:blog_id}').display='block';copyText('sharecopymessage{$oBlog:blog_id}');"><em>1</em><sup>#</sup></a>
+							</strong>
+							<div class="posterinfo">
+							<div class="pagecontrol">
+									{$TheController:the_toolbar( $oBlog )}
+							</div>
+							<div class="authorinfo">
+								{if	$oBlog['user_id']!=-1}<a href="{:PageType_Extend::getAuthorUrl( $oBlog->user )}" class="posterlink" target="_blank">{$oBlog:user:user_name}</a><em id="authorposton{$oBlog:blog_id}">{d*else}<lang package='boardTheme'>游客</lang>{/if}<lang package='boardTheme'>发表于</lang> <span title="{$oBlog:blog_dateline|date='Y-m-d H:i:s',**}">{$oBlog:blog_dateline|Date+smartDate}</span></em>
+							</div>
+						</div>
+						</div>
+						<div class="defaultpost">
+							<div class="postmessage firstpost">
+							<div id="threadtitle">
+								<h1>{$oBlog:blog_title}</h1>
+								{~$sTagText = $TheController->the_tag( $oBlog,array( 'display'=>0 ) )}
+								{if $sTagText!==false}
+									<div class="threadtags">
+										{$sTagText}
+									</div>
+								{/if}
+								<div class="t_msgfontfix">
+									<table cellspacing="0" cellpadding="0">
+										<tr>
+											<td class="t_msgfont" id="postmessage_{$oBlog:blog_id}">
+											<div id="content-zoom-text">{$oBlog:blog_content}</div>
+											{$sNewpageNavbar}
+											{$TheController:the_digg( $oBlog )}
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div id="post_rate_div_{$oBlog:blog_id}"></div>
+								<div class="useraction">
+									<a href="javascript:;" id="share" onclick="showDialog(document.getElementById('sharewin').innerHTML, 'info', '<lang package='boardTheme'>分享</lang>')"><lang package='boardTheme'>分享</lang></a>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="postcontent postbottom">
+						<div class="signatures" style="max-height:100px;maxHeightIE:100px;">{if $oBlog:user_id!='-1'}{$oBlog:user:user_remark}{/if}</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="postauthor"></td>
+					<td class="postcontent">
+						<div class="postactions">
+						<div class="postact s_clear">
+							<em></em>
+							<p></p>
+						</div>
+					</div>
+
+				</td>
+				</tr>
+				<tr class="threadad">
+				<td class="postauthor"></td>
+				<td class="adcontent"></td>
+		</tr>
+			</table>
+		</div>
+
+		<include file="boardcomments">
+	</div>
+
+			{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("blog_comment_status")==1 && $oBlog['blog_islock']==0}
+			<include file="commentform">
+			{/if}
+
+			<div class="popupmenu_popup" id="fjump_menu" style="display: none">
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<ul>
+					<foreach for=arrCategory value=nCId>
+					{~$oTheCategory = $arrAllCategory[$nCId];}
+					<li {if $nCId==$oBlog['category_id']}class="current"{/if}><a href="{:PageType_Extend::getCategoryUrl( $oTheCategory )}">{$oCategoryTree:getLayer( $nCId, '--' )}{$oCategoryTree:getValue( $nCId )}</a></li>
+					</foreach>
+				</ul>
+			</div>
+
+			<div id="sharewin" style="display: none">
+				<h5>
+					<span id="sharecopymessage" style="display:none;">{$oBlog:blog_title}\n{:Global_Extend::getOption( 'blog_url' )}/blog/index.php?c=blog&a={$oBlog:blog_id}</span>
+					<a href="javascript:;" onclick="document.getElementById('sharecopymessage').display='block';copyText('sharecopymessage');" class="lightlink" />[<lang package='boardTheme'>通过 QQ、MSN 分享给朋友</lang>]</a><br /><br />
+				</h5>
+			</div>
+		</div>
+
+<include file="footer">

@@ -1,0 +1,22 @@
+<include file="header">
+
+	<div id="m">
+		<form action="{:G::U('blog/saveblog')}" method="post">
+			<lang>标题</lang>：<br /><input type="text" name="blog_title" value="" /><br />
+			<lang>分类</lang>：<br />
+			<select name="category_id" id="category_id" >
+			{~$arrCategory=$oCategoryTree->getChilds()}
+			<foreach for=arrCategory value=nCId>
+			<option value="{$nCId}">|{$oCategoryTree:getLayer($nCId,'--')}{$oCategoryTree:getValue($nCId)}</option>
+			</foreach>
+			</select>
+			<br />
+			<lang>内容</lang>：<br /><input type="text" name="blog_content"/><br />
+			<lang>标签</lang>：<br /><input type="text" name="tag"/><br />
+			<input type="hidden" name="old_content" value=""/>
+			<input type="hidden" name="blog_id" value=""/>
+			<input type="submit" value="<lang>发布</lang>" />
+		</form>
+	</div>
+
+<include file="footer">

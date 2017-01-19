@@ -1,0 +1,236 @@
+<include file="public+header">
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='dataindex'>添加数据调用</lang><else/><lang package='dataindex'>编辑数据调用</lang></if> ( <a href="{:G::U('dataindex/index')}"><lang package='dataindex'>返回数据调用列表</lang></a> )</div>
+
+	<if condition="isset( $oValue ) && !empty( $oValue:dataindex_conditionstring )">{~$arrDataConfig=unserialize( $oValue['dataindex_conditionstring'] )}<else/>{~$arrDataConfig=array()}</if>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('dataindex/add_call')}<else/>{:G::U('dataindex/update_call')}</if>" method="post" id="dataindexAdd" name="dataindexAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="dataindex_id"><lang package='dataindex'>序号</lang>：</label></th>
+			<td><input type="text" name="dataindex_id" id="dataindex_id" class="field" size="10" value="<if condition="isset( $oValue ) && !empty( $oValue:dataindex_id )">{$oValue:dataindex_id}</if>" readonly="true" />
+			<div class="description"><lang package='dataindex'>数据调用唯一ID，用于数据调用</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="dataindex_md5hash"><lang package='dataindex'>数据调用唯一Hash值</lang>：</label></th>
+			<td><input type="text" name="dataindex_md5hash" id="dataindex_md5hash" class="field" size="40" value="<if condition="isset( $oValue ) && !empty( $oValue:dataindex_md5hash )">{$oValue:dataindex_md5hash}</if>" readonly="true" />
+			<div class="description"><lang package='dataindex'>数据调用唯一Hash值，用于数据调用</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_id_list"><lang package='dataindex'>日志 ID</lang>：</label></th>
+			<td><input type="text" name="blog_id_list" id="blog_id_list" class="field" size="40" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['blog_id_list']}</if>"/>
+			<div class="description"><lang package='dataindex'>* 此选项可以填入要调用的文章id,用半角的逗号(,)分隔即可。</lang></div>
+			<div class="warning"><lang package='dataindex'>(优先级：高)</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>可用变量</lang>：</label></th>
+			<td><lang package='dataindex'>文章链接{blog_url}, 标题{blog_title}, 带链接的标题{blog_title_link}, 摘要{blog_excerpt}</lang>,<br/>
+				<lang package='dataindex'>日志ID{blog_id}, 日志时间{blog_dateline}, 所属分类ID{category_id}, 分类名字{category_name}</lang>, <br/>
+				<lang package='dataindex'>作者ID{user_id}, 作者名字{user_name},作者昵称{user_nikename},浏览次数{blog_viewnum}</lang>,<br/> 
+				<lang package='dataindex'>评论数{blog_commentnum},引用数{blog_trackbacknum},文章缩略图：不带链接的{blog_thumb}</lang>, <br/>
+				<lang package='dataindex'>带链接的{blog_thumb_link}, 图片地址{blog_thumb_url}</lang>
+			<div class="description"><lang package='dataindex'>只有可用变量才能够被解析为响应的数据</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="dataindex_template"><lang package='dataindex'>数据调用模板</lang>：</label></th>
+			<td><textarea name="dataindex_template" id="dataindex_template" class="field" cols="70" rows="7"><if condition="isset( $oValue ) && !empty( $oValue:dataindex_expiration )">{$oValue:dataindex_template|htmlspecialchars}<else/>{blog_url}-{blog_title_link}<br/></if></textarea>
+			<div class="description"><lang package='dataindex'>根据数据调用模板来解析调用的数据</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="limit_start"><lang package='dataindex'>数据的起始行数</lang>：</label></th>
+			<td><input type="text" name="limit_start" id="limit_start" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['limit_start']}<else/>0</if>"/>
+			<div class="description"><lang package='dataindex'>数据调用的开始日志ID</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="limit_num"><lang package='dataindex'>数据的显示条数</lang>：</label></th>
+			<td><input type="text" name="limit_num" id="limit_num" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['limit_num']}<else/>5</if>"/>
+			<div class="description"><lang package='dataindex'>数据调用的日志条数</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="dataindex_expiration"><lang package='dataindex'>数据的缓存时间(秒)</lang>：</label></th>
+			<td><input type="text" name="dataindex_expiration" id="dataindex_expiration" class="field" size="10" value="<if condition="isset( $oValue ) && !empty( $oValue:dataindex_expiration )">{$oValue:dataindex_expiration}<else/>300</if>"/>
+			<div class="description"><lang package='dataindex'>缓存刷新时间，单位为秒</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="title_cutnum"><lang package='dataindex'>标题截取字符串</lang>：</label></th>
+			<td><input type="text" name="title_cutnum" id="title_cutnum" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['title_cutnum']}<else/>20</if>"/>
+			<div class="description"><lang package='dataindex'>标题截取字符串数量</lang>,<lang package='dataindex'>0表示不截取</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="infolen"><lang package='dataindex'>摘要截取字符串</lang>：</label></th>
+			<td><input type="text" name="infolen" id="infolen" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['infolen']}<else/>300</if>"/>
+			<div class="description"><lang package='dataindex'>摘要截取字符串数量</lang>,<lang package='dataindex'>0表示不截取</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>数据范围一(置顶)</lang>：</label></th>
+			<td><select id="filter" name="filter">
+					<option value="0" <if condition="empty( $arrDataConfig ) || (isset($arrDataConfig['filter']) && $arrDataConfig['filter']=='0')">selected="selected"</if>><lang package='dataindex'>全部文章</lang></option>
+					<option value="1" <if condition="isset($arrDataConfig['filter']) && $arrDataConfig['filter']=='1'">selected="selected"</if>><lang package='dataindex'>仅置顶文章</lang></option>
+					<option value="2" <if condition="isset($arrDataConfig['filter']) && $arrDataConfig['filter']=='2'">selected="selected"</if>><lang package='dataindex'>非置顶文章</lang></option>
+				</select>　　　　　　
+				<input id="nopwd" name="nopwd" value="1" type="checkbox"	<if condition="isset($arrDataConfig['nopwd']) && $arrDataConfig['nopwd']=='1'">checked="checked"</if>	><lang package='dataindex'>不包含密码访问的文章</lang>
+			<div class="description"><lang package='dataindex'>对置顶文章进行筛选</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>数据范围二(缩略图)</lang>：</label></th>
+			<td><select id="include_thumb" name="include_thumb">
+					<option value="0" <if condition="empty( $arrDataConfig ) || (isset($arrDataConfig['include_thumb']) && $arrDataConfig['include_thumb']=='0')">selected="selected"</if> ><lang package='dataindex'>全部文章</lang></option>
+					<option value="1" <if condition="isset($arrDataConfig['include_thumb']) && $arrDataConfig['include_thumb']=='1'">selected="selected"</if>><lang package='dataindex'>仅显示有缩略图的日志</lang></option>
+					<option value="2" <if condition="isset($arrDataConfig['include_thumb']) && $arrDataConfig['include_thumb']=='2'">selected="selected"</if>><lang package='dataindex'>仅显示没有缩略图的日志</lang></option>
+				</select>
+				<div class="description"><lang package='dataindex'>对缩略图文章进行筛选</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>数据范围三(类型)</lang>：</label></th>
+			<td><input class="field" name="blog_flag" id="blog_flag" value="1" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && $arrDataConfig['blog_flag']=='1'">checked="checked"</if>><lang package='dataindex'>全部</lang>
+				<input class="field" name="blog_flags[]" id="flags_h" value="h" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'h',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>头条</lang>[h]
+				<input class="field" name="blog_flags[]" id="flags_c" value="c" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'c',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>推荐</lang>[c]
+				<input class="field" name="blog_flags[]" id="flags_f" value="f" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'f',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>幻灯</lang>[f]
+				<input class="field" name="blog_flags[]" id="flags_a" value="a" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'a',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>特荐</lang>[a]
+				<input class="field" name="blog_flags[]" id="flags_s" value="s" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 's',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>滚动</lang>[s]
+				<input class="field" name="blog_flags[]" id="flags_b" value="b" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'b',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>加粗</lang>[b]
+				<input class="field" name="blog_flags[]" id="flags_p" value="p" type="checkbox" <if condition="isset($arrDataConfig['blog_flags']) && in_array( 'p',$arrDataConfig['blog_flags'] )">checked="checked"</if>><lang package='dataindex'>图片</lang>[p]
+				<div class="description"><lang package='dataindex'>对类型文章进行筛选,如果选择了全部则其它类型将失效。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>数据范围四(过滤类型)</lang>：</label></th>
+			<td><input class="field" name="blog_un_flags[]" id="flags_h" value="h" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'h',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>头条</lang>[h]
+				<input class="field" name="blog_un_flags[]" id="flags_c" value="c" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'c',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>推荐</lang>[c]
+				<input class="field" name="blog_un_flags[]" id="flags_f" value="f" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'f',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>幻灯</lang>[f]
+				<input class="field" name="blog_un_flags[]" id="flags_a" value="a" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'a',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>特荐</lang>[a]
+				<input class="field" name="blog_un_flags[]" id="flags_s" value="s" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 's',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>滚动</lang>[s]
+				<input class="field" name="blog_un_flags[]" id="flags_b" value="b" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'b',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>加粗</lang>[b]
+				<input class="field" name="blog_un_flags[]" id="flags_p" value="p" type="checkbox" <if condition="isset($arrDataConfig['blog_un_flags']) && in_array( 'p',$arrDataConfig['blog_un_flags'] )">checked="checked"</if>><lang package='dataindex'>图片</lang>[p]
+				<div class="description"><lang package='dataindex'>对类型文章进行筛选,选中的类型将会被拒绝。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='dataindex'>数据范围五(分类)</lang>：</label></th>
+			<td><div style="height: 150px; width: 500px; overflow:auto;background:#fff;padding:5px;border-top: 1px solid #a1c1d3;border-left: 1px solid #a8c7d7;border-right: 1px solid #a8c7d7;border-bottom: 1px solid #d4e5ed;">		
+				<ul>
+				<input class="field" name="blog_category" id="blog_category" value="1" type="checkbox" <if condition="isset($arrDataConfig['blog_category']) && $arrDataConfig['blog_category']=='1'">checked="checked"</if>><lang package='dataindex'>全部</lang><br/>
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<foreach for=arrCategory value=nCId>
+				<input class="field" name="blog_categorys[]" id="blog_categorys" value="{$nCId}" type="checkbox" <if condition="isset($arrDataConfig['blog_categorys']) && in_array( $nCId,$arrDataConfig['blog_categorys'] )">checked="checked"</if> />{$oCategoryTree:getLayer( $nCId, '--' )}{$oCategoryTree:getValue( $nCId )}<br/>
+				</foreach>
+				</ul>
+				</div>
+				<div class="description"><lang package='dataindex'>对文章分类进行筛选,如果选择了全部则其它类型将失效。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="user_id"><lang package='dataindex'>指定用户ID</lang>：</label></th>
+			<td><input type="text" name="user_id" id="user_id" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['user_id']}</if>"/>
+			<div class="description"><lang package='dataindex'>指定为特定用户的文章</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="keyword"><lang package='dataindex'>指定关键字</lang>：</label></th>
+			<td><input type="text" name="keyword" id="keyword" class="field" size="40" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['keyword']}</if>"/>
+			<div class="description"><lang package='dataindex'>指定为特定关键字的文章</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_style"><lang package='dataindex'>链接打开方式</lang>：</label></th>
+			<td><select id="link_style" name="link_style">
+					<option value="0" <if condition="isset($arrDataConfig['link_style']) && $arrDataConfig['link_style']=='0'">selected="selected"</if>>&lt;<lang package='dataindex'>没有设置</lang>&gt;</option>
+					<option value="1" <if condition="empty($arrDataConfig) || (isset($arrDataConfig['link_style']) && $arrDataConfig['link_style']=='1')">selected="selected"</if>><lang package='dataindex'>新窗口(_blank)</lang></option>
+					<option value="2" <if condition="isset($arrDataConfig['link_style']) && $arrDataConfig['link_style']=='2'">selected="selected"</if>><lang package='dataindex'>本窗口(_self)</lang></option>
+				</select>
+			<div class="description"><lang package='dataindex'>衔接打开的方式，一般设为新窗口打开很不错</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="orderby"><lang package='dataindex'>文章排序方式</lang>：</label></th>
+			<td><select id="orderby" name="orderby">
+					<option value="0" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='0'">selected="selected"</if>><lang package='dataindex'>发布时间</lang></option>
+					<option value="1" <if condition="empty($arrDataConfig) || (isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='1')">selected="selected"</if>><lang package='dataindex'>评论数</lang></option>
+					<option value="2" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='2'">selected="selected"</if>><lang package='dataindex'>浏览次数</lang></option>
+					<option value="3" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='3'">selected="selected"</if>><lang package='dataindex'>最后发表</lang></option>
+					<option value="4" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='4'">selected="selected"</if>><lang package='dataindex'>日志ID</lang></option>
+					<option value="5" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='5'">selected="selected"</if>><lang package='dataindex'>好评</lang></option>
+					<option value="6" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='6'">selected="selected"</if>><lang package='dataindex'>差评</lang></option>
+					<option value="7" <if condition="isset($arrDataConfig['orderby']) && $arrDataConfig['orderby']=='7'">selected="selected"</if>><lang package='dataindex'>随机</lang></option>
+				</select>
+			<div class="description"><lang package='dataindex'>指定文章的排序方式，取得特定的文章数据。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="orderway"><lang package='dataindex'>排序方式</lang>：</label></th>
+			<td><select id="orderway" name="orderway">
+					<option value="0" <if condition="isset($arrDataConfig['orderway']) && $arrDataConfig['orderway']=='0'">selected="selected"</if>><lang package='dataindex'>升序</lang></option>
+					<option value="1" <if condition="empty($arrDataConfig) || (isset($arrDataConfig['orderway']) && $arrDataConfig['orderway']=='1')">selected="selected"</if>><lang package='dataindex'>降序</lang></option>
+				</select>
+			<div class="description"><lang package='dataindex'>衔接打开的方式，一般设为新窗口打开很不错</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="subday"><lang package='dataindex'>指定时间内</lang>：</label></th>
+			<td><input type="text" name="subday" id="subday" class="field" size="10" value="<if condition="!empty( $arrDataConfig )">{$arrDataConfig['subday']}</if>"/>
+			<div class="description"><lang package='dataindex'>指定时间内，单位为天</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="date_style"><lang package='dataindex'>时间样式</lang>：</label></th>
+			<td><select id="date_style" name="date_style">
+					<option value="0" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='0'">selected="selected"</if>>2010-1-1</option>
+					<option value="1" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='1'">selected="selected"</if>>2010-01-01</option>
+					<option value="2" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='2'">selected="selected"</if>>2010<lang package='dataindex'>年</lang>1<lang package='dataindex'>月</lang>1<lang package='dataindex'>日</lang></option>
+					<option value="3" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='3'">selected="selected"</if>>2010<lang package='dataindex'>年</lang>01<lang package='dataindex'>月</lang>01<lang package='dataindex'>日</lang></option>
+					<option value="4" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='4'">selected="selected"</if>>2010-1-1 0:00</option>
+					<option value="5" <if condition="empty($arrDataConfig) || (isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='5')">selected="selected"</if> >2010-01-01 00:00</option>
+					<option value="6" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='6'">selected="selected"</if>>2010-1-1 0:00:00</option>
+					<option value="7" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='7'">selected="selected"</if>>2010-01-01 00:00:00</option>
+					<option value="8" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='8'">selected="selected"</if>>2010-1-1 0:00 Friday</option>
+					<option value="9" <if condition="isset($arrDataConfig['date_style']) && $arrDataConfig['date_style']=='9'">selected="selected"</if>>2010-01-01 00:00 Friday</option>
+				</select>
+			<div class="description"><lang package='dataindex'>时间样式格式化参数</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="in_call"><lang package='dataindex'>内部调用方法</lang>：</label></th>
+			<td><input type="text" id="in_call" class="field" size="80" value="" onfocus="this.select()" readonly="true" />
+			<div class="description"><lang package='dataindex'>在程序内部调用的方法</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="out_call"><lang package='dataindex'>外部调用方法</lang>：</label></th>
+			<td><textarea id="out_call" class="field" cols="80" rows="5" onfocus="this.select()" readonly="true" ><if condition="isset( $oValue ) && !empty( $oValue:dataindex_id )"><script charset="utf-8" type="text/javascript" src="{:Global_Extend::getOption( 'blog_url' )}/index.php?c=dataindex&a=call&id={$oValue:dataindex_id}"></script>
+<lang package='dataindex'>或者</lang>
+
+<script charset="utf-8" type="text/javascript" src="{:Global_Extend::getOption( 'blog_url' )}/index.php?c=dataindex&a=call&hash={$oValue:dataindex_md5hash}"></script></if></textarea>
+			<div class="description"><lang package='dataindex'>在程序外部调用的方法</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="preview"><lang package='dataindex'>预览区域</lang>：</label></th>
+			<td><div id="preview" style="width: 700px; padding: 10px; border: 1px dashed rgb(204, 204, 204); height: 100px; overflow: auto;"><if condition="isset( $oValue ) && !empty( $oValue:dataindex_id )"><script charset="utf-8" type="text/javascript" src="{:Global_Extend::getOption( 'blog_url' )}/index.php?c=dataindex&a=call&id={$oValue:dataindex_id}"></script></if></div>
+			<div class="description"><lang package='dataindex'>实时预览调用数据</lang></div>
+			</td>
+			</tr>
+
+		</table>
+			<p class="center">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input type="reset" class="button button-green" value="  <lang>重 置</lang>  " />
+			<input type="submit" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />	
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

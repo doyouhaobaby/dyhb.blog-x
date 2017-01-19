@@ -1,0 +1,33 @@
+<include file="public+header">
+
+
+	<div class="title"><lang package='cache'>框架缓存</lang> ( <a href="{:G::U('cache/index')}"><lang package='cache'>前台缓存</lang></a> | <a href="{:G::U('cache/admin')}"><lang package='cache'>后台缓存</lang></a> | <a href="{:G::U('cache/wap')}"><lang package='cache'>Wap缓存</lang></a> )</div>
+
+
+	<div id="content" class="content">
+
+		<span class="label label-blue"><lang package='cache'>DoYouHaoBaby Framework 配置缓存</lang></span>
+	<p><lang package='cache'>本软件基于DoYouHaoBaby Framework 开发，框架本身有一个配置文件，如果你需要更新该配置文件的话，可以在这里更新。</lang><br/>
+	<lang package='cache'>原则上这里不是更新而是删除，删除系统配置文件，程序会在下一次运行时在此创建改文件。</lang></p>
+		<br/>
+		<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='cache'>配置名</lang></th>
+			<th><lang package='cache'>配置值</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrConfigOption>
+			<tr>
+			<td>{$key}</td>
+			<td>{if is_array( $value )}{:G::dump( $value )}{d*else}{$value}{/if}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+	</div>
+
+
+<include file="public+footer">

@@ -1,0 +1,115 @@
+<include file="public+header">
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	$("#models > ul").tabs();
+	$("#table_name").change(function() {
+		if (this.value != 0)
+		{
+			$("#table_detail").load("{:G::U('create/getcolumns')}", {
+				table: this.value
+			});
+		}
+	});
+});
+</script>
+
+<!-- BEGIN COL2 -->
+<div id="col2">
+  <div id="col2_content" class="clearfix">
+	<div id="table_detail">
+	<lang>选择数据表后，该处将显示数据表的字段信息。</lang>
+	</div>
+  </div>
+</div>
+<!-- END COL2 -->
+
+<!-- BEGIN COL3 -->
+<div id="col3">
+  <div id="col3_content" class="clearfix">
+	<!-- add your content here -->
+	<div id="models">
+	  <ul>
+		<li><a href="#tab_list"><span><lang>现有的模型</lang></span></a></li>
+		<li><a href="#tab_new"><span><lang>创建新模型</lang></span></a></li>
+	  </ul>
+	</div>
+	<div id="tab_list">
+	  <table class="data full">
+		<thead>
+		  <tr>
+			<th nowrap><lang>模型类名称</lang></th>
+			<th nowrap><lang>模块</lang></th>
+			<th nowrap><lang>使用的数据表</lang></th>
+			<th nowrap><lang>文件</lang></th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {list $arrModels $model}
+		  <tr>
+			<th>{$model['class']}</th>
+			<td>{$model['module']}</td>
+			<td>{$model['tablename']}</td>
+			<td>{$model['path']}</td>
+		  </tr>
+		  {/list}
+		</tbody>
+	  </table>
+	</div>
+	<div id="tab_new">
+	  <form name="create_model" action="{:G::U('create/newmodel')}" method="post">
+		<table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="name"><lang>模型名称：</lang></label></th>
+			<td><input type="text" name="name" id="name" class="field" size="40" maxlength="30" />
+			<br />
+								 <lang>模型名称只能使用数字、26个英文字母或者下划线组成的字符串。还可以用 /来确定模型所属的分组。</lang><br />
+								 <lang>例如 Admin/posts 表示 Admin 分组里面的 demos 模型。</lang><font color="red">[<lang>说明：系统会自动验证模型名字格式</lang>]</font></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="attribute"><lang>模型属性：</lang></label></th>
+			<td><textarea name="attribute" id="attribute" class="field" cols="70" rows="10"></textarea>
+			<br />
+								 <lang>模型属性只能使用数字、26个英文字母或者下划线组成的字符串。每行一条属性，属性的设置的格式为（声明|名字|默认值|描述）。</lang><br />
+								 <lang>例如 public|$test|array()|我是一个演示属性。</lang><font color="red">[<lang>说明：系统不会自动验证控制器属性名字格式</lang>]</font></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="action"><lang>模型方法：</lang></label></th>
+			<td><textarea name="action" id="action" class="field" cols="70" rows="10"></textarea>
+			<br />
+								 <lang>模型方法只能使用 数字、26个英文字母或者下划线组成的字符串。方法的设置格式为 （声明|名字|参数(*表示为空参数)|描述），如果不填则默认写入一个index方法。</lang>
+			<lang>public|test|*|我是一个测试方法,后面还可以加上方法体，方法体中如果有系统指定的模块，那么会自动载入模块。</lang>
+								<lang>例如public|test|*|我是一个测试方法|demo，如果存在分组，则public|test|*|我是一个测试方法|curd:create。</lang><font color="red">[<lang>说明：系统不会自动验证模型方法名字格式</lang>]</font></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="model_name"><lang>对应的数据表：</lang></label></th>
+			<td>
+			 <select  id="table_name" name="table_name" >
+			   <option value="0" >- <lang>选择要使用的数据表</lang> -</option>
+			   {list $arrTables $table}
+			   <option value="{$table}" >{$table}</option>
+			   {/list}
+			 </select>		  
+			  <br />
+										<lang>选择模型要使用的数据表。</lang>
+			  <br />
+			  <lang>选择后，右侧会显示该数据表的字段信息。</lang>
+			</td>
+		  </tr>
+		   <tr>
+			<th valign="top"><label for="thin"><lang>是否使用简化版模板代码：</lang></label></th>
+			<td><input type="radio" name="thin" id="thin" class="field" value="1" checked><lang>简化版</lang>	  
+				<input type="radio" name="thin" id="thin" class="field" value="0"><lang>完整版</lang>
+			</td>
+		  </tr>
+		</table>
+		<p>
+		  <input type="submit" class="button" name="Submit" value="<lang>创建模型</lang>" />
+		</p>
+	  </form>
+	</div>
+  </div>
+</div>
+<!-- END COL3 -->
+
+<include file="public+footer">

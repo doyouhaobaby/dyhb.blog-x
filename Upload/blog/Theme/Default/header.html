@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="{:Global_Extend::getOption('html_lang')}">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="{:Global_Extend::getOption( 'html_type' )}; charset=utf-8" />
+
+<title>{$TheController:get_title()}</title>
+
+{$TheController:header()}
+<link rel="stylesheet" href="__TMPLPUB__/Css/print.css" type="text/css" media="print" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="__TMPLPUB__/Css/ie6.css" type="text/css" media="screen, projection" />
+<![endif]-->
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="__TMPLPUB__/Css/ie7.css" type="text/css" media="screen, projection" />
+<![endif]-->
+</head>
+<body id="{if PageType_Extend+isHome()}home{d*else}nothome{/if}">
+
+<div id="DyhbAjaxResult" class="none DyhbAjaxResult">&nbsp;</div>
+<div id="append_parent"> </div>
+<div id="ajaxwaitid"> </div>
+
+<div align="center">
+
+	<div id="header">
+
+		<div id="top-menu">
+
+			<div id="top-menu-container">
+
+			<div id="home-page" class="home-page" >
+				<a href="javascript:;" onclick="setHomepage('{:Global_Extend::getOption('blog_url')}');"><lang>设为首页</lang></a>
+				<a href="{:Global_Extend::getOption('blog_url')}" onclick="addFavorite(this.href, '{:Global_Extend::getOption('blog_name')}');return false;"><lang>收藏本站</lang></a>
+			</div>
+
+			<div id="usermenu" class="usermenu" >
+			{if Global_Extend+isLogin()}
+			{~$arrLoginPms=$TheController->usermenu()}
+			{if $arrLoginPms['total']>0}
+			<script type="text/javascript">
+//<![CDATA[
+var titleState=0;
+var promptState=0;
+var oldTitle=document.title;
+function flashTitle(){
+	document.title=(titleState ? '\u3010\u3000\u3000\u3000\u3011' : '\u3010\u65b0\u77ed\u4fe1\u3011')+ oldTitle;
+	titleState=!titleState;
+}
+window.setInterval('flashTitle();', 500);
+//]]>
+</script>
+			{if Global_Extend+getOption('message_sound_on')==1}
+				{~$sSoundOuturl=Global_Extend::getOption('message_sound_out_url')?Global_Extend::getOption('message_sound_out_url'):__PUBLIC__."/Images/Sound/pm_".Global_Extend::getOption('message_sound_type').".mp3"}
+				<div id="pmsound" style="position:absolute;top:-100000px"></div>
+<script type="text/javascript" reload="1">
+//<![CDATA[
+document.getElementById('pmsound').innerHTML=AC_FL_RunContent('id', 'pmsoundplayer', 'name', 'pmsoundplayer', 'width', '0', 'height', '0', 'src', '__PUBLIC__/Images/Sound/player.swf', 'FlashVars','sFile={$sSoundOuturl}', 'menu', 'false','allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true');
+//]]>
+</script>
+			{/if}
+{/if}
+			<cite><a href="{:PageType_Extend::getAuthorUrl($GLOBALS['___login___']['user_id'])}" class="noborder">{if !empty($GLOBALS['___login___']['user_nikename'])}{$GLOBALS['___login___']['user_nikename']}{d*else}{$GLOBALS['___login___']['user_name']}{/if}</a></cite><span class="pipe">|</span>
+			{if $arrLoginPms['total']>0}<img src="{:IMG_DIR}/notice_newpm.gif" title="<lang>私人消息</lang>({$arrLoginPms['user']}) <lang>系统消息</lang>({$arrLoginPms['system']})" />{/if}
+			<a href="{:G::U('pm/index')}" {if $arrLoginPms['total']>0}class="new" title="<lang>私人消息</lang>({$arrLoginPms['user']}) <lang>系统消息</lang>({$arrLoginPms['system']})"{/if} id="pm_ntc"><lang>短消息</lang></a>
+			<span class="pipe">|</span><a href="{:G::U('member/index')}"><lang>个人中心</lang></a>
+			<a href="__ROOT__/admin.php" target="_blank"><lang>管理中心</lang></a>
+			<a href="{:G::U('login/logout')}"><lang>退出</lang></a>
+			{d*else}
+			<a href="{:G::U( 'register/index' )}" class="noborder"><lang package='defaultTheme'>注册</lang></a>
+			<a href="{:G::U( 'login/index' )}" ><lang package='defaultTheme'>登录</lang></a>
+			{/if}
+			</div>
+
+			<div id="feedw">
+				<div id="feedr">
+					<a class="feed" href="{:G::U('feed/rss2')}" title="<lang>开始订阅</lang>"><lang>Feed阅读器</lang></a>
+					<a class="email" href="{:G::U('feed/rss2')}" title="<lang>开始订阅</lang>"><lang>Email</lang></a>
+				</div>
+			</div>
+
+			</div>
+		</div>
+
+		<div id="headiv">
+			<div id="blogname">
+			<a title="{:Global_Extend::getOption( 'blog_name' )}" href="{:Global_Extend::getOption( 'blog_url' )}"><img src="__TMPLPUB__/Images/logo.png" id="logo" alt="{:Global_Extend::getOption( 'blog_name' )}" /></a>
+			<div class="clearer"></div>
+			</div>
+		</div>
+
+		<div id="topnav">
+			<div id="nav_box">
+				<ul id="nav_menu">
+					<php>$arrBlogMenus=$TheController->menu( 'current','' );</php>
+					<foreach for=arrBlogMenus value=arrBlogMenu>
+					<li class="{$arrBlogMenu['css']} menu_item menu-item-{$key}">
+					<a <if condition="!empty( $arrBlogMenu['style'] )">style="{$arrBlogMenu['style']}"</if> title="{$arrBlogMenu['title']} - {$arrBlogMenu['description']}" href="{$arrBlogMenu['link']}" {if !empty( $arrBlogMenu['target'] )}{$arrBlogMenu['target']}{/if} >{$arrBlogMenu['title']}</a>
+					</li>
+					</foreach>
+				</ul>
+				<div class="clearer"></div>
+			</div>
+		</div>
+
+	</div>
+	{if Global_Extend+getOption('blog_style_show')}
+	<script type="text/javascript">
+//<![CDATA[
+function setStyle(sStyleId){
+location.href='?t='+sStyleId;
+}
+//]]>
+</script>
+<div id="style_switch_box">
+<ul id="style_switch" class="">
+<foreach for=__style_icons__>
+<li><a href="###" onclick="setStyle('{$key}')" title="{$key}" style="background: {$value};">{$key}</a></li>
+</foreach>
+</ul>
+</div>
+{/if}
+{:Global_Extend::templateHooks('global_header')}
+	<div id="wrapper">

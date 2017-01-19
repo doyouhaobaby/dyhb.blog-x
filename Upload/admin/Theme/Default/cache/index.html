@@ -1,0 +1,149 @@
+<include file="public+header">
+
+
+	<div class="title"><lang package='cache'>前台缓存</lang> ( <a href="{:G::U('cache/admin')}"><lang package='cache'>后台缓存</lang></a> | <a href="{:G::U('cache/wap')}"><lang package='cache'>Wap缓存</lang></a> )</div>
+
+
+	<div id="content" class="content">
+
+	<span class="label label-blue"><lang package='cache'>DoYouHaoBaby Framework 配置缓存</lang></span>
+	<p><lang package='cache'>本软件基于DoYouHaoBaby Framework 开发，框架本身有一个配置文件，如果你需要更新该配置文件的话，可以在这里更新。</lang><br/>
+	<lang package='cache'>原则上这里不是更新而是删除，删除系统配置文件，程序会在下一次运行时在此创建改文件。</lang></p>
+		<br/>
+		<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='cache'>缓存名字</lang></th>
+			<th><lang package='cache'>缓存描述</lang></th>
+			<th><lang package='cache'>缓存大小</lang></th>
+			<th><lang package='cache'>生成时间</lang></th>
+			<th><lang package='cache'>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td>{$arrConfigs['name']}</td>
+			<td>{$arrConfigs['description']}
+			<div class="row-actions">
+					<span class='edit'><a href="{:G::U('cache/update?type=config')}" title="<lang>清理</lang> 《{$arrConfigs['name']}》"><lang>清理</lang></a>|</span>
+					<span class='view'><a href="{:G::U('cache/show?type=config')}" title="<lang>查看</lang> 《{$arrConfigs['name']}》"><lang>查看</lang></a></span>
+			</div>
+			</td>
+			<td>{$arrConfigs['size']}</td>
+			<td>{$arrConfigs['mtime']}</td>
+			<td><a href="{:G::U('cache/update?type=config')}"><lang package='cache'>清理</lang></a> - <a href="{:G::U('cache/show?type=config')}"><lang package='cache'>查看</lang></a>- <a href="__ROOT__/" target="_blank" ><lang package='cache'>生成</lang></a>- <a href="###" onclick="window.location.reload();" ><lang package='cache'>刷新</lang></a></td></td>
+			</tr>
+		</tbody>
+		</table>
+
+	<span class="label label-blue"><lang package='cache'>全局配置缓存</lang></span>
+	<p><lang package='cache'>全局缓存是系统所有配置的缓存，用于保存站点的一些配置数据。</lang></p>
+		<br/>
+		<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='cache'>缓存名字</lang></th>
+			<th><lang package='cache'>缓存描述</lang></th>
+			<th><lang package='cache'>缓存大小</lang></th>
+			<th><lang package='cache'>生成时间</lang></th>
+			<th><lang package='cache'>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td>{$arrGlobalOption['name']}</td>
+			<td>{$arrGlobalOption['description']}
+			<div class="row-actions">
+					<span class='edit'><a href="{:G::U('cache/update?type=global_option')}" title="<lang>更新</lang> 《{$arrGlobalOption['name']}》"><lang>更新</lang></a>|</span>
+					<span class='view'><a href="{:G::U('cache/show?type=global_option')}" title="<lang>查看</lang> 《{$arrGlobalOption['name']}》"><lang>查看</lang></a></span>
+			</div>
+			</td>
+			<td>{$arrGlobalOption['size']}</td>
+			<td>{$arrGlobalOption['mtime']}</td>
+			<td><a href="{:G::U('cache/update?type=global_option')}"><lang package='cache'>更新</lang></a> - <a href="{:G::U('cache/show?type=global_option')}"><lang package='cache'>查看</lang></a></td></td>
+			</tr>
+		</tbody>
+		</table>
+
+		<span class="label label-blue"><lang package='cache'>Widget配置缓存</lang></span>
+	<p><lang package='cache'>Widget是本博客系统非常重要的一个组件，widget大量使用缓存技术来降低压力。</lang></p>
+		<br/>
+		<form action="{:G::U('cache/widget?extend=blog')}" method="post">
+		<table class="data full" id="checkWidgetList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkWidgetList')"></th>
+			<th><lang package='cache'>缓存名字</lang></th>
+			<th><lang package='cache'>缓存描述</lang></th>
+			<th><lang package='cache'>缓存大小</lang></th>
+			<th><lang package='cache'>生成时间</lang></th>
+			<th><lang package='cache'>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrOptionDatas value=arrOptionData >
+			<tr>
+			<td><input type="checkbox" name="widget[]" value="{$arrOptionData['name']}"></td>
+			<td>{$arrOptionData['name']}</td>
+			<td>{$arrOptionData['description']}
+			<div class="row-actions">
+					<span class='edit'><a href="{:G::U('cache/update?type='.$arrOptionData['name'])}" title="<lang>更新</lang> 《{$arrOptionData['name']}》"><lang>更新</lang></a>|</span>
+					<span class='view'><a href="{:G::U('cache/show?type='.$arrOptionData['name'])}" title="<lang>查看</lang> 《{$arrOptionData['name']}》"><lang>查看</lang></a></span>
+			</div>
+			</td>
+			<td>{$arrOptionData['size']}</td>
+			<td>{$arrOptionData['mtime']}</td>
+			<td><a href="{:G::U('cache/update?type='.$arrOptionData['name'])}"><lang package='cache'>更新</lang></a> - <a href="{:G::U('cache/show?type='.$arrOptionData['name'])}"><lang package='cache'>查看</lang></a></td></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="<lang>更新Widget 缓存</lang>" />
+			<input type="reset" class="button button-green" value="<lang>重  置</lang>" />
+		</p>
+		</form>
+
+		<span class="label label-blue"><lang package='cache'>系统字段缓存</lang></span>
+	<p><lang package='cache'>本博客软件系统的数据库字段信息，如果你修改了数据库，那么在这里可以更新一下。</lang></p>
+		<br/>
+		<form action="{:G::U('cache/meta?extend=blog')}" method="post">
+		<table class="data full" id="checkMetaList" >
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkMetaList')"></th>
+			<th><lang package='cache'>缓存名字</lang></th>
+			<th><lang package='cache'>缓存描述</lang></th>
+			<th><lang package='cache'>缓存大小</lang></th>
+			<th><lang package='cache'>生成时间</lang></th>
+			<th><lang package='cache'>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrTableOptionDatas value=arrTableOptionData >
+			<tr>
+			<td><input type="checkbox" name="meta[]" value="{$arrTableOptionData['name']}"></td>
+			<td>{$arrTableOptionData['name']}</td>
+			<td>{$arrTableOptionData['description']}
+			<div class="row-actions">
+					<span class='edit'><a href="{:G::U('cache/update?extend=meta&type='.$arrTableOptionData['name'])}" title="<lang>更新</lang> 《{$arrTableOptionData['name']}》"><lang>更新</lang></a>|</span>
+					<span class='view'><a href="{:G::U('cache/show?extend=meta&type='.$arrTableOptionData['name'])}" title="<lang>查看</lang> 《{$arrTableOptionData['name']}》"><lang>查看</lang></a></span>
+			</div>
+			</td>
+			<td>{$arrTableOptionData['size']}</td>
+			<td>{$arrTableOptionData['mtime']}</td>
+			<td><a href="{:G::U('cache/update?extend=meta&type='.$arrTableOptionData['name'])}"><lang package='cache'>更新</lang></a> - <a href="{:G::U('cache/show?extend=meta&type='.$arrTableOptionData['name'])}"><lang package='cache'>查看</lang></a></td></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>更新字段缓存</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

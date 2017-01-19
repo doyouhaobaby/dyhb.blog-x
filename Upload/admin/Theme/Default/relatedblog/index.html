@@ -1,0 +1,63 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='relatedblog'>相关日志设置</lang></div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('relatedblog/update')}" method="post" id="relatedblogAdd" name="relatedblogAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="relatedblog_type"><lang package='relatedblog'>相关类型</lang>：</label></th>
+			<td><select name="configs[relatedblog_type]" class="field">
+					<option value="category" <if condition="$arrOptions['relatedblog_type'] eq 'category'">selected="selected"</if>><lang package='relatedblog'>分类</lang></option>
+					<option value="tag" <if condition="$arrOptions['relatedblog_type'] eq 'tag'">selected="selected"</if>><lang package='relatedblog'>标签</lang></option>
+				</select>
+				<br/><div class="description"><lang package='relatedblog'>使用分类或者标签关联相关日志数据。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="relatedblog_sort"><lang package='relatedblog'>相关日至排序</lang>：</label></th>
+			<td>
+				<select name="configs[relatedblog_sort]" class="field">
+					<option value="views_desc" <if condition="$arrOptions['relatedblog_sort'] eq 'views_desc'">selected="selected"</if>><lang package='relatedblog'>点击数（降序）</lang></option>
+					<option value="comnum_desc" <if condition="$arrOptions['relatedblog_sort'] eq 'comnum_desc'">selected="selected"</if>><lang package='relatedblog'>评论数（降序）</lang></option>
+					<option value="rand" <if condition="$arrOptions['relatedblog_sort'] eq 'rand'">selected="selected"</if>><lang package='relatedblog'>随机</lang></option>
+					<option value="views_asc" <if condition="$arrOptions['relatedblog_sort'] eq 'views_asc'">selected="selected"</if>><lang package='relatedblog'>点击数（升序）</lang></option>
+					<option value="comnum_asc" <if condition="$arrOptions['relatedblog_sort'] eq 'comnum_asc'">selected="selected"</if>><lang package='relatedblog'>评论数（升序）</lang></option>
+				</select>
+				<br/><div class="description"><lang package='relatedblog'>多种排序取出相关日志数据。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="relatedblog_num"><lang package='relatedblog'>相关日志数量</lang>：</label></th>
+			<td><input type="text" name="configs[relatedblog_num]" id="relatedblog_num" class="field" size="10" value="{$arrOptions['relatedblog_num']}"/>
+			<br/><div class="description"><lang package='relatedblog'>相关日志数量，默认为5</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="relatedblog_title_cutnum"><lang package='relatedblog'>相关日志标题截取字符串数量</lang>：</label></th>
+			<td><input type="text" name="configs[relatedblog_title_cutnum]" id="relatedblog_title_cutnum" class="field" size="10" value="{$arrOptions['relatedblog_title_cutnum']}"/>
+			<br/><div class="description"><lang package='relatedblog'>相关日志标题截取数量，防止标题过长影响布局。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="relatedblog_inrss"><lang package='relatedblog'>显示在RSS输出里</lang>：</label></th>
+			<td><select name="configs[relatedblog_inrss]" class="field">
+					<option value="1" <if condition="$arrOptions['relatedblog_inrss'] eq 1">selected="selected"</if>><lang>是</lang></option>
+					<option value="0" <if condition="$arrOptions['relatedblog_inrss'] eq 0">selected="selected"</if>><lang>否</lang></option>
+				</select>
+				<br/><div class="description"><lang package='relatedblog'>控制相关日志是否在Rss 中输出。</lang></div>
+			</td>
+			</tr>
+		
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

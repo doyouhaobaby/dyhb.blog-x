@@ -1,0 +1,69 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加标签中') );
+	Dyhb.AjaxSubmit('tagAdd','{:G::U('tag/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新标签中') );
+	Dyhb.AjaxSubmit('tagAdd','{:G::U('tag/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新标签') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加标签') );
+	if(status==1){
+		$('#id').val(data.tag_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='tag'>添加标签</lang><else/><lang package='tag'>编辑标签</lang></if> ( <a href="{:G::U('tag/index')}"><lang package='tag'>返回标签列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('tag/insert')}<else/>{:G::U('tag/update')}</if>" method="post" id="tagAdd" name="tagAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="tag_name"><lang package='tag'>标签名字</lang>：</label></th>
+			<td><input type="text" name="tag_name" id="tag_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:tag_name}</if>"/>
+			<br/><div class="description"><lang package='tag'>标签名字不能为空！</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="tag_urlname"><lang package='tag'>标签别名</lang>：</label></th>
+			<td><input type="text" name="tag_urlname" id="tag_urlname" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:tag_urlname}</if>"/>
+			<br/><div class="description"><lang package='tag'>标签别名用于友好的url地址。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="tag_keyword"><lang package='tag'>标签关键字</lang>：</label></th>
+			<td><textarea name="tag_keyword" id="tag_keyword" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:tag_keyword}</if></textarea>
+			<br/><div class="description"><lang package='tag'>标签的描述，用于seo的keywords标签。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="tag_description"><lang package='tag'>标签描述</lang>：</label></th>
+			<td><textarea name="tag_description" id="tag_description" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:tag_description}</if></textarea>
+			<br/><div class="description"><lang package='tag'>标签的描述，用于seo的description标签。</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+		<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

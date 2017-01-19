@@ -1,0 +1,36 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'guestbook/index' )}"><lang package='defaultTheme'>留言板</lang></a>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+	
+			<!-- start entry post -->
+			<div class="entry" id="post-0">
+				<h2><lang package='defaultTheme'>留言板</lang></h2>
+				{:Global_Extend::templateHooks('index_top')}
+				{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("guestbook_status")==1}
+				<include file="commentform">
+				{/if}
+
+			<h2 id="comments"><lang package='defaultTheme'>总留言数</lang>( <span id="comment-totalnums">{$nTotalGuestbook}</span> )</h2>	
+			<include file="comments">	
+			{:Global_Extend::templateHooks('index_bottom')}
+			
+			</div>
+			<!-- end entry post -->	
+		</div>
+	</div>
+
+	<include file="sidebarthree">	
+		
+<include file="footer">

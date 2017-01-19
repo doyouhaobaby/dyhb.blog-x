@@ -1,0 +1,22 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>日志归档</lang></div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+			<php>$arrStatic = Blog_Extend::getWidgetCache( 'static' );</php>
+			<p>{$the_record_description}</p>
+
+			{:Global_Extend::templateHooks('index_top')}
+			<if condition="!empty( $arrStatic['blog'] )">
+				{:G::W( 'archivelist',array( 'data'=>$arrBlogRecords ) )}
+			<else/>
+				<p><strong><lang package='boardTheme'>没有任何归档</lang></strong></p>
+			</if>
+			{:Global_Extend::templateHooks('index_bottom')}
+		</div>
+	</div>
+</div>
+
+<include file="footer">

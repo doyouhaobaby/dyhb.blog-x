@@ -1,0 +1,427 @@
+/*
+Theme Name: 社区论坛
+Theme URI: http://doyouhaobaby.net/
+Description: 这是由DYHB.BLOG_X 的系统自带论坛模板，从Discuz!7.2默认风格移植而来。
+Author: Dianniu team
+Author URI: http://doyouhaobaby.net
+Version: 1.0
+License: GNU General Public License
+License URI: http://doyouhaobaby.net/license.html
+Tags: blue, front, simple
+*/
+
+/** 替换的CSS标记 */
+[SCRIPTCSS]
+
+/**===============================
+              首页和帖子列表
+================================*/
+[CURSCRIPT = index,newblogs]
+.pages_btns{ margin-bottom:15px; }
+.forumcount { margin-left: 16px; }
+.forumlinks, .forumimglink, .forumtxtlink { padding: 6px; border-top: 1px solid {INTERVAL_LINE_COLOR}; }
+.forumlinks ul li { float: left; width: 49%; height: 50px; line-height: 1.4em; }
+.forumimglink a { margin-right: 8px; }
+.forumimglink img { margin: 2px 0; }
+.forumlogo { float: left; padding-top: 2px; width: 100px; }
+.forumcontent { padding-right: 18px; height: 50px; }
+.forumcontent p { overflow: hidden; height: 17px; color: {MEDIUM_TEXTCOLOR}; }
+.forumtxtlink li { float: left; margin-right: 5px; width: 8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.feed { border-top: 3px solid {INTERVAL_LINE_COLOR}; }
+[/CURSCRIPT]
+
+
+/**===============================
+              发帖按钮
+================================*/
+[CURSCRIPT = index,newblogs,archive,user,category,search,tag,single,page,bloglist]
+.postbtn, .replybtn{ float: left;  margin-right: 10px; color: {HIGHLIGHTLINK_COLOR}; cursor: pointer; }
+.postbtn, .replybtn { width: 67px; height: 30px; background: url({IMG_DIR}/newtopic.gif) no-repeat 0 0; font-size: 14px; font-weight: 700; line-height: 28px; *line-height: 32px; text-align: center; overflow: hidden; }
+.replybtn { background-image: url({IMG_DIR}/reply.gif); }
+.postbtn a, .replybtn a { display: block; padding-left: 5px; color: #FFF; letter-spacing: 5px; }
+.postbtn a:hover, .replybtn a:hover { text-decoration: none; }
+[/CURSCRIPT]
+
+[CURSCRIPT = newblogs,archive,user,category,search,tag,single,page,bloglist]
+.postmenu { width: 100px; }
+.postmenu li{ float: left; background: url({IMG_DIR}/folder_s.gif) no-repeat 3px 50%; }
+.postmenu a { display: block; width: 75px; border-bottom: 1px solid {INTERVAL_LINE_COLOR}; padding-left: 25px; }
+.postmenu a:hover{ text-decoration: none; color: {HIGHLIGHTLINK_COLOR}; border-bottom-color: {SPECIAL_BORDER}; }
+#fjump_menu { padding: 0 30px 0 10px; }
+#fjump_menu dl { padding: 5px 0; }
+#fjump_menu dt a { font-weight: 700; color: {MEDIUM_TEXTCOLOR}; }
+#fjump_menu dd { padding-left: 1em; }
+#fjump_menu .sub { padding-left: 1em; }
+#fjump_menu .current a { font-weight: 700; }
+#fjump_menu li a { color: {HIGHLIGHTLINK_COLOR}; }
+[/CURSCRIPT]
+
+
+/**===============================
+              论坛头部
+================================*/
+[CURSCRIPT = newblogs,archive,user,category,search,tag]
+#forumheader { line-height: 24px; }
+#forumheader h1 { float: left; margin-right: 1em; font-weight: 700; }
+#forumheader .forumstats { float: left; margin-right: 1em; }
+#forumheader .forumstats strong { color: {NOTICETEXT_COLOR}; }
+.forumaction { float: left; }
+.forumaction { float: left; }
+.forumaction a { padding: 3px 1em 3px 20px; background: url({IMG_DIR}/icon_fav.gif) no-repeat 0 50%;}
+.forumaction .feed {  background: url({IMG_DIR}/icon_feed.gif) no-repeat 0 50%; }
+
+.rule { margin: 0 8px; }
+#modarea, #subforum { margin: 1em 0; }
+#modarea .list h3 { margin-bottom: 6px; border-bottom: 1px dashed {INTERVAL_LINE_COLOR}; font-weight: 400; }
+#modarea .list h3 .current { font-weight: 700; color: {HIGHLIGHTLINK_COLOR}; }
+[/CURSCRIPT]
+
+
+/**===============================
+           论坛帖子
+================================*/
+[CURSCRIPT = single,page,guestbook,singletao,singleupload,commentlist]
+.forumcontrol { }
+.forumcontrol table { width: 100%; background: {SPECIAL_BG}; }
+.forumcontrol td { padding: 15px; }
+.forumcontrol .narrow td { padding: 0 15px 5px; }
+.forumcontrol .modaction { width: 140px; background: {CONTENT_SEPARATE_COLOR}; }
+.userinfopanel { margin: -1px 0 0 9px; width: 500px; border: 1px solid {DROP_MENU_BORDER}; background: {WRAP_TABLE_BG}; filter: alpha(opacity=96); opacity: 0.96; }
+.popavatar { float: left; width: 150px; }
+.popavatar p { padding: 0 10px; }
+.popuserinfo { float: left; width: 350px; padding: 5px 0; }
+.imicons img { vertical-align: middle; margin: 0 8px 0 0; }
+.userinfopanel p { text-align: left; margin: 0 !important; padding: 0 !important; }
+.userinfopanel p a { color: {HIGHLIGHTLINK_COLOR}; }
+.userinfopanel dl { margin: 5px 0; padding: 5px 0; }
+.postauthor .userinfopanel dt { width: 70px; }
+.postauthor .userinfopanel dd { width: 100px; }
+.popupmenu_popup .postauthor { width: 180px; }
+.popupmenu_popup .postauthor a { color: {HIGHLIGHTLINK_COLOR}; }
+.userinfopanel .avatar { margin: 0 0 10px 0 !important; }
+.profile_side ul { margin: 5px 30px; line-height: 1.6em; overflow: hidden; }
+.profile_side li { margin: 5px 0; background-position: 0 50%; background-repeat: no-repeat; text-indent: 22px; }
+.profile_side li.pm { background-image: url({IMG_DIR}/pmto.gif); }
+.profile_side li.buddy { background-image: url({IMG_DIR}/addbuddy.gif); }
+.viewthread { }
+.threadfix { padding-bottom: 0!important; min-height: 300px !important; }
+* html .threadfix { height: 300px !important; }
+.viewthread table, #pmprompt table, #forumlinks, #pmlist, #specialpost, #newpost, #editpost { table-layout: fixed; }
+.viewthread td.postcontent, .viewthread td.postauthor { vertical-align: top; padding: 0 1px; border: none; overflow: hidden; }
+.viewthread td.postcontent { padding: 0 15px; }
+.viewthread td.postbottom { vertical-align:bottom; }
+.mainbox td.postauthor { padding: 0; width: 170px; background: {SPECIAL_BG}; overflow: hidden; }
+.postauthor .avatar { margin: 10px 20px; }
+.postauthor p, .postauthor dl.profile { margin: 5px 10px 5px 20px; }
+.postauthor p em, .postauthor dt em { color: {NOTICETEXT_COLOR}; }
+.postauthor dd, .postauthor dt { height: 1.6em; line-height: 1.6em; float: left; overflow: hidden; font-family: Tahoma, sans-serif; }
+.postauthor dt { margin-right: 5px; width: 50px; }
+.postauthor dd { width: 80px; }
+.postauthor .shadowline { margin: 9px 20px 4px; *margin: 0 20px -5px; }
+.posterinfo, .postmessage, .postact { max-width: {CONTENT_WIDTH}; }
+#threadstamp { position:absolute;margin-top: -70px;margin-left:170px; }
+* html .postmessage { width: {CONTENT_WIDTH}; }
+.postinfo { color: {MEDIUM_TEXTCOLOR}; margin-bottom: 10px; border-bottom: 1px dashed {INTERVAL_LINE_COLOR}; line-height: 36px; height: 36px; overflow:hide;}
+.postinfo strong a { float: right; height: 24px; font-weight: 100; color: {NORMAL_COLOR}; line-height: 24px; padding: 0 6px; margin-top: 4px; border: 1px solid {WRAP_TABLE_BG}; }
+.posterinfo a.posterlink { color: {HIGHLIGHTLINK_COLOR}; }
+.postinfo strong a:hover { border: 1px solid {HIGHLIGHTLINK_COLOR}; text-decoration: none; }
+.postinfo em { color: {HIGHLIGHTLINK_COLOR}; margin-right: 4px; }
+.posterinfo { color: {LIGHT_TEXTCOLOR}; margin-right: auto; }
+.authorinfo {  }				
+.posterinfo a, .posterinfo em { margin: 0 4px; color: {NORMAL_COLOR}; }
+.postmessage { clear: left; }
+.postmessage *  { line-height: normal; }
+.postmessage .post-excerpt{font-size:12px;line-height:16px;padding:10px; margin:10px auto; border:1px dashed #ddd; background:#fff6ed; border-radius:5px; word-wrap:break-word; white-space:normal;}
+.postmessage .entry-thumb-image{ text-align:center; }
+.postmessage h1, .postmessage h2 { margin: 8px 0; font-size: 1.17em; }
+.postmessage h1 a { font-weight: 400; color: {NORMAL_COLOR}; }
+#threadtitle { margin-bottom: 8px; border-bottom: 1px dashed {INTERVAL_LINE_COLOR}; }
+#threadtitle h2 { font-size: 1.33em; }
+.postmessage h2 em { float: right; font-size: 12px; font-weight: 400; }
+.defaultpost { padding-bottom: 1em; }
+.t_msgfont, .t_msgfont td { font-size: {MSG_FONTSIZE}; line-height: 1.6em; }
+.t_msgfont a { color: {HIGHLIGHTLINK_COLOR}; }
+.t_msgfont *,.t_msgfont * { line-height: normal; }
+.threadad {}
+.threadad td.postauthor { background: {CONTENT_SEPARATE_COLOR}; padding: 0; height: 6px; }
+.adcontent { background: {SPECIAL_BG}; overflow: hidden; }
+.signatures { overflow: hidden; padding: 20px 0 10px; color: {MEDIUM_TEXTCOLOR}; line-height: 1.6em; background: url({IMG_DIR}/sigline.gif) no-repeat 0 0; }
+.signatures * { line-height: normal; }
+.signatures strong { font-weight: 700; }
+.postactions { padding: 0 10px 0 0; border-top: 1px dashed {INTERVAL_LINE_COLOR}; }
+.postactions strong { cursor: pointer; }
+.postactions .right { margin: 8px 0 0 5px; }
+.postactions p { float: right; }
+.postactions p a { margin-right: 6px; }
+.postact { line-height: 36px; }
+.postact em { float: left;}
+.postact em a { padding: 5px 10px 5px 25px; }
+.fastreply { background: url({IMG_DIR}/fastreply.gif) no-repeat 0 50%; }
+.repquote { background: url({IMG_DIR}/repquote.gif) no-repeat 0 50%; }
+.t_msgfont ul { margin-left: 14px; }
+.t_msgfont li { margin-left: 2em; }
+.t_msgfont ul li { list-style-type: disc; }
+.useraction { height: 50px; width: 110px; clear: both; display: block; margin: 20px auto; }
+.useraction a { margin-top:0;float: left; margin-right: 10px; padding: 30px 0 0; width: 45px; height: 20px; text-align: center; background: url({IMG_DIR}/ajaxaction.gif) no-repeat 0 0; }
+.useraction #share { background-position: 0 -50px; }
+.threadtags { margin-top: -8px; padding-left: 20px; background: url({IMG_DIR}/tag.gif) no-repeat 0 50%; color: #999; }
+.threadtags a, .footoperation span.threadtags a { margin-right: 6px; color: #333; line-height: 30px; }
+.threadtags .postkeywords a { color: {NOTICETEXT_COLOR}; }
+.pagecontrol { float: right; width: 250px;height: 25px;  line-height: 20px; margin-top: 12px; }
+.postmessage strong { font-weight: bold; }
+.postmessage em { color:{MEDIUM_TEXTCOLOR}; }
+.t_msgfontfix table{ margin-left: 1px; }
+#f_post td { padding-top: 15px; padding-bottom: 20px; vertical-align: top; }
+* html .signatures { height: expression(signature(this)); }
+.t_msgfontfix { min-height: 100px; }
+* html .t_msgfontfix { height: 100px; overflow: visible; }
+[/CURSCRIPT]
+
+/**===============================
+              标签列表
+================================*/
+[CURSCRIPT = taglist]
+.tags-box{ padding:10px 0; }
+.tags-box span{  }
+.tags-box a{ line-height:40px; margin:0 15 0 0px; }
+[/CURSCRIPT]
+
+/**===============================
+             用户列表
+================================*/
+[CURSCRIPT = userlist]
+.users-box{ border:1px solid {SPECIAL_BG}; }
+[/CURSCRIPT]
+
+/**===============================
+             友情衔接
+================================*/
+[CURSCRIPT = link]
+#link-box{ padding:5px; }
+.link-header-url{ margin-bottom:20px; }
+.link-header-url .link-header-url-image{ height: 80px; width: 600px; overflow: auto;border:1px solid {SPECIAL_BORDER}; padding:5px 10px; }
+.link-header-url .link-header-url-text{ height: 50px; width: 600px; overflow: auto;border:1px solid {SPECIAL_BORDER}; padding:5px 10px; }
+.link-logo-box,.link-text-box {margin:20px 0 30px 10px;}
+.link-logo-box h4,.link-text-box h4{font-size: 13px;margin: 10px 0;padding-left: 5px;border-left: 5px solid {LINK_COLOR}; }
+.link-text-box li,.link-logo-box li{float: left;width: 150px;list-style: none;}
+.link-text-box li { height: 20px; }
+.link-logo-box li { height: 40px; }
+[/CURSCRIPT]
+
+/**===============================
+             引用列表
+================================*/
+[CURSCRIPT = trackbacklist]
+.trackback-item{padding:5px 10px 0px 10px;}
+.trackbac-item-even{background:{INTERLEAVE_COLOR};}
+.trackbac-item-odd{}
+.trackback-title {font-weight:700;margin-bottom:10px;}
+.trackback-content {display:block;width:650px;clear:both;line-height:20px;margin:5px 0 15px;}
+.trackback-date {color:#777;font-size:11px;padding-top:2px;text-align:right;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed {SPECIAL_BORDER};}
+[/CURSCRIPT]
+
+/**===============================
+             微博
+================================*/
+[CURSCRIPT = taotaolist,singletao]
+#taotao-box .taotao-main-img{ border:1px {LINK_COLOR} solid; float:left;padding:0;}
+#taotao-box .taotao-main-img img{ border:1px #fff solid;display: block;}
+#taotao-box .right{ float:left; margin:0px 5px;}
+#taotao-box ul{ margin:5px 0px 3px 5px;  line-height:1.8;padding:0px;list-style:none;}
+#taotao-box ul .li{ margin:10px 0px;padding:20px 0px;border-bottom: #d5d5d5 1px solid;}
+#taotao-box ul li{margin:0px 0px; padding:0;}
+#taotao-box ul li .taotao-main-img{ margin-top:10px;}
+#taotao-box ul li .taotao-post-left{ float:left;font-size:14px; padding:0px;margin:0; padding:0px 0px 0px 8px;}
+#taotao-box ul li{ clear:both; padding:0px; margin:0px;}
+#taotao-box ul li .taotao-bottom {margin:3px 0;vertical-align:middle}
+#taotao-box ul li .taotao-bottom .taotao-time{ text-align:center; line-height:14px;margin:0;}
+#taotao-box ul li .taotao-bottom .taotao-reply{ text-align:right; }
+#taotao-box .taotao-time{ font-size:12px; color:#999999; float:left;}
+[/CURSCRIPT]
+
+
+/**===============================
+             短消息中心
+================================*/
+[CURSCRIPT = pmlist,singlepm]
+.pm_header{padding:6px;border:solid #E6E7E1;border-width:1px 0;}
+.pm_header #pm_search{float:right;}
+.pm_list li{position:relative;*margin-top:-2px;padding:10px 140px 10px 75px;min-height:48px;_height:48px;border-bottom:1px solid {SPECIAL_BORDER};}
+.pm_list li .avatar{position:absolute;left:5px;top:8px;}
+.pm_list .self .avatar{left:auto;right:75px;}
+.pm_list .cite{margin:-3px 0 5px;color:#999;}
+.pm_list .cite cite{margin-right:1em;color:#444;font-weight:700;}
+.pm_list .cite cite a{color:#444;}
+.more{margin-top:5px;}
+.more a,.ntc a,.pm_list .action a{color:{HIGHLIGHTLINK_COLOR};}
+.pm_list .action a{position:absolute;top:10px;right:15px;}
+.pm_list .action a.delete{display:block;width:12px;height:12px;background:url({STYLE_IMG_DIR}/close.gif) no-repeat 0 0;text-indent:-9999px;overflow:hidden;}
+.pm_list .action a.delete:hover{background-position:0 -12px;}
+.pm_list .action input{position:absolute;bottom:15px;right:13px;}
+.pm_list li.pm_date{padding:5px 0 5px 75px;min-height:0;border-bottom:none;}
+.pm_list li.pmlist-odd{ background:{INTERLEAVE_COLOR}; }
+#pm_list ul.onerror{padding:20px 0 0 95px;background-position:75px 22px;}
+#pmlist .summary a{color:{HIGHLIGHTLINK_COLOR};}
+[/CURSCRIPT]
+
+
+/**===============================
+             搜索引擎
+================================*/
+[CURSCRIPT = searchform]
+.searchform{position:relative;margin:0 5px 10px;padding:10px 10px 20px 10px;background:{SPECIAL_BG};-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}
+.searchlabel{text-align:center;font-weight:300;font-size:25px;color:{HIGHLIGHTLINK_COLOR};line-height:70px;}
+.searchlabel strong{font-size:14px;color:{MEDIUM_TEXTCOLOR};font-weight:400;text-align:center;}
+.searchform h3{margin:10px 2px;font-size:14px;}
+.searchkey{margin-bottom:1em;zoom:1;}
+.searchkey #searchsubmit{margin:0 10px 0 10px;}
+* html #searchsubmit{height:21px;line-height:19px;}
+*+html #searchsubmit{height:21px;line-height:19px;}
+.searchkey span{background:url({IMG_DIR}/search-advance.gif) left bottom no-repeat; padding:2px 0px 2px 15px; color:{HIGHLIGHTLINK_COLOR};}
+.searchlist{margin:5px 20px;}
+.searchlist h1{font-size:14px;}
+.searchlist h1 em{font-weight:400;}
+#srchfid optgroup,#moveto optgroup{font-style:normal;font-weight:400;font-size:12px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             相册展示
+================================*/
+[CURSCRIPT = singleupload]
+#albumlist-container-box{ overflow:hidden; margin:20px auto 0 0; width:630px;background:{{SPECIAL_BG}}; padding:10px 5px;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}	
+.upload-info-box{ background:{{SPECIAL_BG}}; padding:10px 5px;width:630px;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             相片列表
+================================*/
+[CURSCRIPT = uploadlist]
+*{ margin:0; padding:0; list-style:none}
+.upload-box-list {
+/*非IE的主流浏览器识别的垂直居中的方法*/
+display: table-cell;vertical-align:middle;
+/*设置水平居中*/text-align:center;
+/* 针对IE的Hack */
+*display: block;
+/**font-size: 175px;*//*约为高度的0.873，200*0.873 约为175*/
+*font-family:Arial;/*防止非utf-8引起的hack失效问题，如gbk编码*/
+width:200px;height:230px;border: 1px solid {INTERLEAVE_COLOR};margin:5px;float:left;
+background:{SPECIAL_BG};overflow:hidden;}
+.upload-box-list img {
+/*设置图片垂直居中*/
+vertical-align:middle;display:block;border:0;}
+.upload-box-list a{ display:block; background:#fff; border:1px solid {HIGHLIGHTLINK_COLOR}; text-align:center; color:#27b; text-decoration:none; padding:5px; margin:10px;}
+.upload-box-list a:hover, .upload-box-list a:active{ background:{HIGHLIGHTLINK_COLOR}; border:1px solid {HEADER_BORDER_COLOR}; border-left:1px solid #fff; border-top:1px solid #fff; color:#fff}
+[/CURSCRIPT]
+
+
+/**===============================
+             相册归档列表
+================================*/
+[CURSCRIPT = uploadcategory]
+*{ margin:0; padding:0; list-style:none}
+.upload-box-list {
+/*非IE的主流浏览器识别的垂直居中的方法*/
+display: table-cell;
+vertical-align:middle;
+/*设置水平居中*/
+text-align:center;
+/* 针对IE的Hack */
+*display: block;
+/**font-size: 175px;*//*约为高度的0.873，200*0.873 约为175*/
+*font-family:Arial;/*防止非utf-8引起的hack失效问题，如gbk编码*/
+width:200px;height:175px;border: 1px solid {INTERLEAVE_COLOR};margin:5px;float:left;background:{SPECIAL_BG};}
+.upload-box-list img {
+/*设置图片垂直居中*/
+vertical-align:middle;display:block; border:0;
+}
+.upload-box-list a{ display:block; background:#fff; border:1px solid {HIGHLIGHTLINK_COLOR}; text-align:center; color:#27b; text-decoration:none; padding:5px; margin:10px;}
+.upload-box-list a:hover, .upload-box-list a:active{ background:{HIGHLIGHTLINK_COLOR}; border:1px solid {HEADER_BORDER_COLOR}; border-left:1px solid #fff; border-top:1px solid #fff; color:#fff}
+[/CURSCRIPT]
+
+/**===============================
+              日志评论
+================================*/
+[CURSCRIPT = single,page,guestbook,singletao,page,singleupload]
+/* 评论表单 */
+.change-comment-information{ color:blue; }
+.comment-post .cancel-reply a{float:right;font-size:12px;cursor:pointer; _cursor:hand;color:red;font-weight:bold;padding-right:5px;}
+.comment-post .cancel-reply:hover{text-decoration:underline;}
+.comment-post .comment-name{  margin:3px 0px 5px 0px; width:35%; border:1px solid #cccccc; padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-name.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-post .comment-email{  margin:3px 0px 5px 0px; width:35%; border:1px solid #cccccc;padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-email.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-post .comment-url{  margin:3px 0px 5px 0px; width:35%; color:#0000CC; border:1px solid #cccccc; padding:3px 3px 3px 25px; font-size:12px; font-weight:normal; background-image:url({IMG_DIR}/icons/your-site.gif); background-position:left center; background-repeat:no-repeat; }
+.comment-content{  margin:3px 0px 5px 0px; width:70%; border:1px solid #cccccc; padding:3px; font-size:12px; font-weight:normal; }
+.comment-post .comment-content{  margin:3px 0px 5px 0px; width:80%;height:200px;heightborder:1px solid #cccccc;padding:3px; font-size:12px; font-weight:normal; }
+.seccodeMessage{ color:blue; }
+[/CURSCRIPT]
+
+
+/**===============================
+             个人用户中心
+================================*/
+[CURSCRIPT = singleuser]
+.profile-header ul{margin:5px 30px;line-height:1.6em;overflow:hidden;}
+.profile-header li{margin:5px 0;background-position:0 50%;background-repeat:no-repeat;text-indent:22px;}
+.profile-header li.pm{background-image:url({IMG_DIR}/pmto.gif);}
+.profile-header li.buddy{background-image:url({IMG_DIR}/addbuddy.gif);}
+.profile-header li.space{background-image:url({IMG_DIR}/home.gif);}
+.profile-header li.searchpost{background-image:url({IMG_DIR}/fastreply.gif);}
+[/CURSCRIPT]
+
+/**===============================
+             日志归档
+================================*/
+[CURSCRIPT = record]
+.archive-list {margin:0 0 20px 0;padding:10px 0;clear:both;}
+.archive-list li {color:#666;width:100px;line-height:20px;margin:0 10px;float:left;}
+.archive-list li a {font-weight:700;}
+.archive-group {font-weight:700;font-size:14px;margin:10px 0 5px;}
+[/CURSCRIPT]
+
+
+/**===============================
+             好友css
+================================*/
+[CURSCRIPT = friendlist]
+#buddies ul{width:400px;}
+#buddies li{float:left;width:8em;height:1.6em;overflow:hidden;white-space:nowrap;}
+.friendavatar{float:left;margin:10px 10px 10px 0;}
+.friendinfo{overflow:hidden;margin:10px 10px 10px 0;}
+* html .friendinfo{margin-left:70px;}
+.friendinfo p{color:#999}
+.friendinfo a{text-decoration:none !important;}
+.friendinfo a:hover{text-decoration:underline !important;}
+.friendinfo h5 a{font-size:14px;color:#09C;}
+.friendctrl{margin-top:5px;}
+.friendctrl a{color:;}
+.buddyname{margin-bottom:8px;line-height:16px;}
+.friendlist-even{ background:{INTERLEAVE_COLOR}; }
+[/CURSCRIPT]
+
+
+/**===============================
+             表单
+================================*/
+[CURSCRIPT = register,publish,member]
+#formwrapbox{ overflow:hidden;}
+#formwrapbox input[type=text],#formwrapbox textarea{ border:1px solid #cccccc;padding:3px; }
+#formwrapbox table {border-spacing: 0px;border-collapse: collapse;empty-cells: show;}
+#formwrapbox .label {padding-top: 2px;padding-right: 8px;vertical-align: top;text-align: right;width: 70px;white-space: nowrap;}
+#formwrapbox .field {padding-bottom: 10px;white-space: nowrap;}
+#formwrapbox .textfield {width: 150px;}
+#formwrapbox label.error { background:url("{IMG_DIR}/form/unchecked.gif") no-repeat 0px 0px;margin-top:2px;padding-left: 16px;padding-bottom:2px;font-weight: bold; color: #EA5200;margin:5px;}
+#formwrapbox label.checked { margin:5px;background:url("{IMG_DIR}/form/checked.gif") no-repeat 0px 0px;}
+#formwrapbox .success_msg {font-weight: bold;color: {NOTICE_TEXT};margin-left: 19px;}
+#formwrapbox #dateformatStatus, #formwrapbox #termsStatus {margin-left: 6px;}
+#formwrapbox #dateformat_eu {vertical-align: middle;}
+#formwrapbox #ldateformat_eu { font-weight: normal; vertical-align: middle;}
+#formwrapbox #dateformat_am { vertical-align: middle;}
+#formwrapbox #ldateformat_am {font-weight: normal;vertical-align: middle;}
+#formwrapbox #terms-wrap {}
+#formwrapbox #label-user-terms,#formwrapbox #label-publish-terms { font-weight: normal;vertical-align: middle;width: 350px;white-space: normal;}
+#formwrapbox #label-signup-submit,#formwrapbox #label-publish-submit { visibility: hidden;}
+#errorContainer{ text-align:center;padding:5px;border:1px dashed #FF9A9A;background:#FFF; }
+#errorContainer:hover{background:#F7F7F7;}
+[/CURSCRIPT]

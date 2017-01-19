@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="{:Global_Extend::getOption('html_lang')}">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="{:Global_Extend::getOption( 'html_type' )}; charset=utf-8" />
+
+<title>{$TheController:get_title()}</title>
+
+{$TheController:header()}
+{if PageType_Extend+isHome()}
+{script}
+<!--
+$(function(){
+	$("a[_for]").mouseover(function(){
+			$(this).parents().children("a[_for]").removeClass("thisclass").parents().children("dd").hide();
+			$(this).addClass("thisclass").blur();
+			$("#"+$(this).attr("_for")).show();
+	});
+	$("a[_for=uc_member]").mouseover();
+	$("a[_for=flink_1]").mouseover();
+});
+-->
+{/script}
+{/if}
+</head>
+<body class="{if PageType_Extend+isHome()}index{/if}{if PageType_Extend+isCategory()}channel{/if}">
+
+<div id="DyhbAjaxResult" class="none DyhbAjaxResult">&nbsp;</div>
+<div id="append_parent"> </div>
+<div id="ajaxwaitid"> </div>
+
+<div class="header_top">
+	<div class="w960 center">
+		<span id="time" class="time">{:Global_Extend::getOption( 'blog_description' )}</span>
+		<div class="toplinks"><a href="{:G::U( 'search/index' )}" target="_blank"><lang package='cmsTheme'>高级搜索</lang></a>|<a href="{:G::U( 'tag/index' )}"><lang package='cmsTheme'>TAG标签</lang></a><a href="{:G::U('feed/rss2')}" class="rss"><lang package='cmsTheme'>RSS订阅</lang></a><span>[<a href="javascript:;"  onclick="setHomepage('{:Global_Extend::getOption('blog_url')}');"><lang>设为首页</lang></a>
+    <a href="{:Global_Extend::getOption('blog_url')}"  onclick="addFavorite(this.href, '{:Global_Extend::getOption('blog_name')}');return false;"><lang>收藏本站</lang></a>]</span>
+		</div>
+	</div>
+</div>
+<div class="header">
+	<div class="top w960 center">
+		<div class="title">
+		<h1><a title="{:Global_Extend::getOption( 'blog_name' )}" href="{:Global_Extend::getOption( 'blog_url' )}">{:LOGO_STR}</a> </h1>
+		</div>
+	</div>
+	<div class="module blue mT10 wrapper w963">
+		<div class="top">
+	<div id="navMenu">
+		<ul>
+			<php>$arrBlogMenus=$TheController->menu('current','');</php>
+		<foreach for=arrBlogMenus value=arrBlogMenu>
+		<li class="{$arrBlogMenu['css']} menu_item menu-item-{$key}">
+			<a <if condition="!empty( $arrBlogMenu['style'] )">style="{$arrBlogMenu['style']}"</if> title="{$arrBlogMenu['title']} - {$arrBlogMenu['description']}" href="{$arrBlogMenu['link']}" {if !empty( $arrBlogMenu['target'] )}{$arrBlogMenu['target']}{/if} ><span>{$arrBlogMenu['title']}</span></a>
+		</li>
+		</foreach>
+		</ul>
+	</div>
+	<div class="search">
+		<form type="post" name="formsearch" action="{:G::U( 'search/result' )}">
+		<div class="form">
+			<h4><lang package='cmsTheme'>搜索</lang></h4>
+			<input name="search_key" type="text" class="search-keyword" id="search-keyword" value="<lang package='cmsTheme'>在这里搜索</lang>..." onfocus="if(this.value=='<lang package='cmsTheme'>在这里搜索</lang>...'){this.value='';}"	onblur="if(this.value==''){this.value='<lang package='cmsTheme'>在这里搜索</lang>...';}" />
+			<select name='search_type' class="search-option" id="search-option">
+				<option value="title" selected='1'><lang package='cmsTheme'>检索标题</lang></option>
+				<option value="fulltext"><lang package='cmsTheme'>全文检索</lang></option>
+			</select>
+			<button type="submit" class="search-submit"><lang package='cmsTheme'>搜索</lang></button>
+		</div>
+		</form>
+		<div class="tags">
+			<h4><lang package='cmsTheme'>热门标签</lang>:</h4>
+			<ul>
+			{:Template_Extend::hottagW(array( 'before_widget'=>'','after_widget'=>'','li'=>1,'widget_title'=>0,'style'=>0 ) )}
+			</ul>
+		</div>
+	</div>
+		</div>
+{:Global_Extend::templateHooks('global_header')}
+	</div>
+</div>

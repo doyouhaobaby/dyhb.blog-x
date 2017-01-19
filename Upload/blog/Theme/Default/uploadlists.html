@@ -1,0 +1,22 @@
+<include file="headerajax">
+<h3 class="flb">
+<em><lang>附件列表</lang></em>
+<span><a href="javascript:;" class="flbc" onclick="hideWindow('uploadlist',1,1);" title="<lang>关闭</lang>"><lang>关闭</lang></a></span>
+</h3>
+<div id="ct" class="wp w cl">
+	<div class="mn mw">
+		<div class="blr">
+			<div class="uploadhead">
+			<span><a href="javascript:void(0);" onclick="hideWindow('uploadlist',1,1);showWindow('upload','{:G::U('upload/uploadpage')}');"><lang>上传附件</lang></a></span>
+			<span class="current_upload"><lang>附件列表</lang></span>
+			</div>
+			<div id="uploadResult">&nbsp;</div>
+			<div class="ajax_upload_box" style="width:600px;">
+			<div id="content" style="height:300px;width:98%;overflow:auto;">
+				{$sResultInfo}
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<include file="footerajax">

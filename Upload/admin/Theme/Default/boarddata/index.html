@@ -1,0 +1,48 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='boarddata'>更新论坛统计数据</lang></div>
+
+	
+	<div id="content" class="content">
+	
+		<form action="{:G::U('boarddata/rebuild_count')}" method="post" id="boarddataAdd" name="boarddataAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="pertask1"><lang package='boarddata'>重建论坛帖数</lang>：</label></th>
+			<td><input type="text" name="pertask1" id="pertask1" class="field" size="10" value="15"/>
+			<div class="description"><lang package='boarddata'>这里的循环数量为版块（分类）的数量，系统将会批量进行数据统计。</lang></div></td>
+			</tr>
+			<tr>
+			<th>&nbsp;</th>
+			<td><input name="forumsubmit" type="submit" onclick="this.form.pagesize.value=this.form.pertask1.value" class="button button-blue" value="  <lang>发  布</lang>  " /></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pertask2"><lang package='boarddata'>重建用户发帖数</lang>：</label></th>
+			<td><input type="text" name="pertask2" id="pertask2" class="field" size="40" value="1000"/>
+			<br/><div class="description"><lang package='boarddata'>这里的循环数量为用户的数量，系统将会批量进行数据统计。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th>&nbsp;</th>
+			<td><input name="membersubmit" type="submit" onclick="this.form.pagesize.value=this.form.pertask2.value" class="button button-blue" value="  <lang>发  布</lang>  " /></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pertask3"><lang package='boarddata'>重建主题帖数</lang>：</label></th>
+			<td><input type="text" name="pertask3" id="pertask3" class="field" size="40" value="500"/>
+			<br/><div class="description"><lang package='boarddata'>这里的循环数量为主题（文章）的数量，系统将会批量进行数据统计。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th>&nbsp;</th>
+			<td><input name="threadsubmit" type="submit" onclick="this.form.pagesize.value=this.form.pertask3.value" class="button button-blue" value="  <lang>发  布</lang>  " /></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="pagesize" name="pagesize" value="" type="hidden">
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

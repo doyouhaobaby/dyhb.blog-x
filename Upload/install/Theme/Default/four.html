@@ -1,0 +1,12 @@
+<include file="header">
+
+<div class="title"><lang package='updateTheme'>升级完毕</lang></div>
+<div id="main">
+    <div class="item-title"><lang package='updateTheme'>升级成功数据库相关信息后你还需要做的！</lang></div>
+	{~$sLang=strtolower(G::cookie(APP_NAME.'_language'))}
+	<p><lang package='updateTheme'>升级成功，请进入后台重建数据以及更新缓存并仔细检查系统设置以完成整个升级过程。</lang></p>
+	<div class="item-title"><a href="__ROOT__/index.php?l={$sLang}&refresh=true"><lang package='updateTheme'>升级成功，点击进入</lang></a></div>
+	<p><span style="color:green;font-weight:bold;"><lang package='updateTheme'>恭喜您!已成功升级DYHB.BLOG_X</lang>-{$sVersion}。</span><script>setTimeout(function(){window.location='__ROOT__/index.php?l={$sLang}&refresh=true'},5000);</script><lang package='updateTheme'>浏览器会在5秒后自动跳转页面，无需人工干预。</lang></p>
+</div>
+
+<include file="footer">

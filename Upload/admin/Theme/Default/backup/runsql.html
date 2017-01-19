@@ -1,0 +1,52 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='backup'>运行SQL 语句</lang> ( <a href="{:G::U('backup/index')}"><lang package='backup'>数据库备份</lang></a> | <a href="{:G::U('backup/restore')}"><lang package='backup'>数据库恢复</lang></a> |<a href="{:G::U('backup/optimize')}"><lang package='backup'>数据库优化</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+	<form method="post" action="" onsubmit="return validate()">
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><label for="sql"	class="field"><lang package='backup'>运行 SQL查询</lang></label></td>
+				<td><textarea name="sql" id="sql" rows="6" cols="80" class="field"><if condition="isset( $sSql )">{$sSql}</if></textarea>
+				<div class="warning"><lang package='backup'>执行SQL将直接操作数据库，请谨慎使用</lang></div></td>
+			</tr>
+			<tr>
+				<th valign="top"><label for="button"	class="field"><lang package='backup'>优化操作</lang> </label></td>
+				<td><input type="submit" value="  <lang>运行sql语句</lang>  " class="button button-red" />
+				<div class="description"><lang package='backup'>及时清理数据库碎片，能够加快数据库查询速度</lang></div>
+				</td>
+			</tr>
+
+		</table>
+		</form>
+{script}
+function validate(){
+
+	if( document.getElementById('sql').value=='' ){
+
+		dyhbAlert( D.L( 'SQL语句不能为空！') );
+		return false;
+	}
+
+	return true;
+}
+//-->
+{/script}
+
+		<if condition=" isset( $nType ) && $nType==-1 ">
+		<div id="content_warning"><span style="color: rgb(255, 0, 0);"><strong><lang package='backup'>错误提示</lang>：</strong></span><br />
+		{$sError}</div>
+		<elseif condition=" isset( $nType ) && $nType==1 ">
+		<div id="content_warning">
+		<center><h3><lang package='backup'>执行成功</lang></h3></center>
+		</div>
+		<elseif condition=" isset( $nType ) && $nType==2 " >
+		{$sResult}
+		</if>
+
+	</div>
+	
+
+<include file="public+footer">

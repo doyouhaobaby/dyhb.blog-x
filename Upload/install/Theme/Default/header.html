@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DYHB.BLOG_X-{$sVersion} | {if MODULE_NAME==='index' && ACTION_NAME=='index'}Select Language{elseif MODULE_NAME==='index'}<lang package='defaultTheme'>安装程序</lang>{d*else}<lang package='updateTheme'>升级程序</lang>{/if}</title>
+<meta content="DoYouHaoBaby Inc." name="Copyright" />
+<load file="../PUBLIC__/Css/style.css" />
+{script}
+var __DYHB_JS_LANG_ENTER__='__ENTER__';
+{/script}
+<import file="Js.Vendor.Jquery" />
+<import file="Js.Dyhb#package" />
+{script}
+Dyhb.Lang.SetCurrentLang( '__LANG_NAME__' );
+{/script}
+</head>
+<body>
+<div id="DyhbAjaxResult" class="none DyhbAjaxResult">&nbsp;</div>
+<div class="wrap">
+<div class="top {if MODULE_NAME==='index' && ACTION_NAME==='index'}none{/if}">
+	<div class="top-logo">
+	</div>
+	<div class="top-link">
+		<ul>
+			<li> <a href="http://www.doyouhaobaby.net" target="_blank"><lang package='defaultTheme'>官方网站</lang></a></li>
+			<li><a href="http://bbs.doyouhaobaby.net" target="_blank"><lang package='defaultTheme'>技术论坛</lang></a></li>
+		</ul>
+	</div>
+	<div class="top-version">
+		<span>DYHB.BLOG_X-{$sVersion} - {$sVersionTime}</span>
+	</div>
+</div>

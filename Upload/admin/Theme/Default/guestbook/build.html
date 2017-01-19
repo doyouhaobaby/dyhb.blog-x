@@ -1,0 +1,36 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='comment'>留言整理</lang> ( <a href="{:G::U('guestbook/index')}"><lang package='comment'>返回留言列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+		<form action="{:G::U('guestbook/repaire_comment')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="start"><lang package='comment'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='comment'>待处理的留言开始ID ，如果不指定为所有留言，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='comment'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='comment'>留言结束ID，如果不指定则为所有最后一个留言。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='comment'>留言循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='comment'>使用循环处理，能够防止处理留言的时候卡死。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='comment'>循环处理留言</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,73 @@
+<include file="public+header">
+
+{script}
+function uploadEdit(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改媒体文件中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+	
+	<div class="title"><lang package='upload'>编辑媒体</lang> ( <a href="{:G::U('upload/index')}"><lang package='upload'>返回媒体库</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('upload/update_file?id='.$nId)}"	enctype="multipart/form-data" method="post" id="uploadAdd" onsubmit="return uploadEdit();">
+		<table class="form-table full">
+		<thead class='media-item-info' id='media-head-{$nId}'>
+			<tr valign='top'>
+				<td id='thumbnail-head-{$nId}'>
+					<p><a href='{$TheController:get_upload_target_url($oValue)}' target='_blank'>
+						<img class='thumbnail' src='{$TheController:get_upload_file_type($oValue)}' alt='' style='margin-top: 3px' />
+						</a>
+					</p>
+				</td>
+				<td>
+					<p><strong><lang package='upload'>文件名</lang>：</strong> {$oValue:upload_name}</p>
+					<p><strong><lang package='upload'>文件类型</lang>：</strong> {$oValue:upload_type}</p>
+					<p><strong><lang package='upload'>上传时间</lang>：</strong>{$oValue:create_dateline|date="Y-m-d",**}</p>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<th valign="top"><label for="upload_name"><lang package='upload'>附件名字：</lang></label></th>
+			<td><input type="text" name="upload_name" id="upload_name" class="field" size="40" value="{$oValue:upload_name}"/>
+			<div class="description"><lang package='upload'>附件名字可以用于搜索，并且附件下载后可以清楚地看到它。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadcategory_id"><lang package='upload'>附件归档：</lang></label></th>
+			<td><SELECT class="field"	name="uploadcategory_id">
+					<option value="-1" {if $oValue->uploadcategory_id==-1}selected{/if} ><lang package='upload'>未归档</lang></option>
+					<foreach for=arrUploadCategorys>
+						<option value="{$value['uploadcategory_id']}" {if $oValue->uploadcategory_id==$value['uploadcategory_id']}selected{/if}>{$value['uploadcategory_name']}</option>
+					</foreach>
+				</select>
+			<div class="description"><lang package='upload'>将附件归类可以更好地管理附件。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="upload_description"><lang package='upload'>附件描述：</lang></label></th>
+			<td><textarea name="upload_description" id="upload_description" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:upload_description}</if></textarea>
+			<div class="description"><lang package='upload'>为附件提供一些简单的介绍吧。</lang></div></td>
+			</tr>
+			<th valign="top"><label for="newupdatefile"><lang package='upload'>上传一个新文件：</lang></label></th>
+			<td>
+				<input type="file" name='newupdatefile' class="field" >
+				<div class="description"><lang package='upload'>上传一个新文件来替换。</lang></div>
+				<div class="warning"><lang package='upload'>上传新文件不是必须，请慎重处理。</lang></div>
+			</td>
+			</tr>
+		</tbody>
+
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" name="update" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,55 @@
+/*
+File Name: widget.css
+File Type: 必需
+Description: 常用widget css
+*/
+
+/**==============================
+              widget
+================================*/
+.widget{word-break:break-all;margin-bottom:15px;}
+
+/* 日历 */
+#calendar_header{ font-size:12px; margin-left:30px;height:30px;text-align:center;width:200px; }
+#calendar{margin-bottom:10px;width:100%;}
+#calendar td{font-size:11px; text-align:center; padding:1px 5px; line-height:1.6;}
+#calendar td a:link{text-decoration:none;}
+#calendar td a:hover{text-decoration:underline}
+#calendar .calendar_day{background:url({IMG_DIR}/bg_cal_today.gif)  no-repeat 2px 1px}
+#calendar .calendar_day2{font-weight:bold}
+#calendar .calendar_sun{background:#f5f9fb;border-bottom:1px solid #aaa;text-align:center;padding:2px;text-align:center;color:green;}
+#calendar .calendar_week{ background:#f5f9fb;border-bottom:1px solid #aaa;text-align:center;padding:2px;}
+#calendar .calendar_mon{background:#f5f9fb;border-bottom:1px solid #aaa;text-align:center;padding:2px;text-align:center;color:red;}
+
+/* 评论 */
+.widget_comment,.widget_guestbook{margin:1px;}
+.widget_comment li,.widget_guestbook li{position:relative;overflow:hidden;padding:8px 8px 4px;line-height:21px; border-bottom:1px dashed #dfdede;zoom:1;margin-bottom:5px;display:block;}
+.widget_comment .comment-photo,.widget_guestbook .comment-photo {width:32px;height:32px;padding:2px;background:#fff; border:1px solid #bbb; float:left; margin-right:8px;}
+.widget_comment li a, .widget_comment li a:active, .widget_comment li a:visited, .widget_comment li a:link,
+.widget_guestbook li a, .widget_guestbook li a:active, .widget_guestbook li a:visited, .widget_guestbook li a:link{ margin: 0px; overflow:hidden; display:block; text-decoration:none; padding:1px 1px 1px 2px; border:none; font-size:12px; font-weight:bold; background:none; }
+.widget_comment li a:hover,.widget_guestbook li a:hover{ margin: 0px; overflow:hidden; display:block; text-decoration:underline; padding:1px 1px 1px 2px; border:none; font-weight:bold; background:none;}
+
+/* 心情 */
+.widget_taotao li {list-style:none;padding:25px 0;}
+.widget_taotao li p {font-size: 10px;padding-left: 68px; text-align:right; padding:5px 0px 2px;}
+.widget_taotao p {font-size: 12px;text-align:right;}
+
+/* 语言包 & 主题 */
+.widget_archive select,widget_lang select{ margin-top:10px; }
+
+/* hot tag */
+.widget_hottag h2{ margin-bottom:10px; }
+.widget_hottag{overflow:hidden;}
+.widget_hottag tag{float:left;}
+.widget_hottag a{padding:3px 5px;}
+.widget_hottag a:hover{  }
+
+/* 音乐播放 */
+.the-mp3play-button { margin:15px auto; }
+.the-mp3play-button a:link,.the-mp3play-button a:visited,.the-mp3play-button a:active{ background:#fa9829; padding:5px 20px; border:1px solid #ed7014;color:#fff; }
+.the-mp3play-button a:hover{ background:#48a1ff;border:2px solid #4fadf3;  }
+
+/* 当前衔接 */
+.widget_membermenu li{ color:#ccc; }
+.widget_membermenu .current a, .widget_membermenu .current a:link,.widget_membermenu .current a:active,.widget_membermenu .current a:visited{ background:{SPECIAL_BG};color:#fff; }
+

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><root>
+<title><![CDATA[DYHB.BLOG X Style]]></title>
+<version><![CDATA[1.1]]></version>
+<time><![CDATA[2012-03-25 20:47]]></time>
+<from><![CDATA[DYHB.BLOG X (http://www.doyouhaobaby.net)]]></from>
+<copyright><![CDATA[点牛科技(成都)]]></copyright>
+<data>
+	<name><![CDATA[Greenwall]]></name>
+	<template_nikename><![CDATA[绿色的墙]]></template_nikename>
+	<template_id><![CDATA[greenwall]]></template_id>
+	<doyouhaobaby_template_base><![CDATA[default]]></doyouhaobaby_template_base>
+	<directory><![CDATA[Theme/Greenwall]]></directory>
+	<copyright><![CDATA[]]></copyright>
+	<data>
+		<template_type><![CDATA[blog]]></template_type>
+		<img_dir><![CDATA[]]></img_dir>
+		<style_img_dir><![CDATA[Theme/Greenwall/Public/Images]]></style_img_dir>
+		<interval_line_color><![CDATA[#E6E7E1]]></interval_line_color>
+		<common_background_color><![CDATA[#f1f1f1]]></common_background_color>
+		<normal_font><![CDATA[Verdana,Lucida Grande, Lucida Sans Unicode, Lucida Sans, Helvetica, Arial, sans-serif]]></normal_font>
+		<normal_fontsize><![CDATA[13px/18px]]></normal_fontsize>
+		<small_font><![CDATA[Verdana,Lucida Grande, Lucida Sans Unicode, Lucida Sans, Helvetica, Arial, sans-serif]]></small_font>
+		<small_fontsize><![CDATA[0.83em]]></small_fontsize>
+		<normal_color><![CDATA[#333333]]></normal_color>
+		<medium_textcolor><![CDATA[#2BB3D5]]></medium_textcolor>
+		<light_textcolor><![CDATA[#D5D52B]]></light_textcolor>
+		<link_color><![CDATA[#009999]]></link_color>
+		<highlightlink_color><![CDATA[#72C43C]]></highlightlink_color>
+		<noticetext_color><![CDATA[#FF3300]]></noticetext_color>
+		<noticetext_border_color><![CDATA[]]></noticetext_border_color>
+		<logo><![CDATA[logo.png]]></logo>
+		<header_border_color><![CDATA[#FFFFFF]]></header_border_color>
+		<header_border_width><![CDATA[1px]]></header_border_width>
+		<header_text_color><![CDATA[#DD9222]]></header_text_color>
+		<menu_border_color><![CDATA[#eee]]></menu_border_color>
+		<menu_text_color><![CDATA[#DD2222]]></menu_text_color>
+		<menu_hover_bg_color><![CDATA[#F79709]]></menu_hover_bg_color>
+		<menu_hover_text_color><![CDATA[#FFFFFF]]></menu_hover_text_color>
+		<wrap_table_width><![CDATA[960px]]></wrap_table_width>
+		<wrap_table_bg><![CDATA[#22DD48]]></wrap_table_bg>
+		<wrap_border_color><![CDATA[#1AE66B]]></wrap_border_color>
+		<wrap_border_width><![CDATA[2px]]></wrap_border_width>
+		<footer_text_color><![CDATA[#92DD22]]></footer_text_color>
+		<msg_fontsize><![CDATA[14px]]></msg_fontsize>
+		<msg_big_size><![CDATA[16px]]></msg_big_size>
+		<content_width><![CDATA[600px]]></content_width>
+		<content_separate_color><![CDATA[#DEDEDE]]></content_separate_color>
+		<input_border><![CDATA[#999999]]></input_border>
+		<input_border_dark_color><![CDATA[#666666]]></input_border_dark_color>
+		<input_bg><![CDATA[#CCCCCC]]></input_bg>
+		<drop_menu_border><![CDATA[#D5D52B]]></drop_menu_border>
+		<special_border><![CDATA[#C7F709]]></special_border>
+		<special_bg><![CDATA[#76B34D]]></special_bg>
+		<interleave_color><![CDATA[#DEDEDE]]></interleave_color>
+		<big_font><![CDATA[Verdana,Lucida Grande, Lucida Sans Unicode, Lucida Sans, Helvetica, Arial, sans-serif]]></big_font>
+		<big_fontsize><![CDATA[20px]]></big_fontsize>
+		<menu_bg_color>
+			<color><![CDATA[#C4A93C]]></color>
+			<img><![CDATA[]]></img>
+			<extra><![CDATA[]]></extra>
+		</menu_bg_color>
+		<header_bg_color>
+			<color><![CDATA[#9EB34D]]></color>
+			<img><![CDATA[blognamebg.gif]]></img>
+			<extra><![CDATA[repeat-x]]></extra>
+		</header_bg_color>
+		<side_bg_color>
+			<color><![CDATA[]]></color>
+			<img><![CDATA[]]></img>
+			<extra><![CDATA[]]></extra>
+		</side_bg_color>
+		<bg_color>
+			<color><![CDATA[#B39E4D]]></color>
+			<img><![CDATA[htmlbg.gif]]></img>
+			<extra><![CDATA[]]></extra>
+		</bg_color>
+		<drop_menu_bg_color>
+			<color><![CDATA[#68F709]]></color>
+			<img><![CDATA[]]></img>
+			<extra><![CDATA[]]></extra>
+		</drop_menu_bg_color>
+		<footer_bg_color>
+			<color><![CDATA[]]></color>
+			<img><![CDATA[footer.gif]]></img>
+			<extra><![CDATA[no-repeat bottom center]]></extra>
+		</footer_bg_color>
+		<float_bg_color>
+			<color><![CDATA[]]></color>
+			<img><![CDATA[]]></img>
+			<extra><![CDATA[]]></extra>
+		</float_bg_color>
+		<float_mask_bg_color>
+			<color><![CDATA[]]></color>
+			<img><![CDATA[]]></img>
+			<extra><![CDATA[]]></extra>
+		</float_mask_bg_color>
+	</data>
+	<version><![CDATA[DYHB.BLOG_X-2.0.1]]></version>
+</data>
+</root>

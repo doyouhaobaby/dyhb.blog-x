@@ -1,0 +1,81 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='pm'>短消息列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'pm/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="pm_message" title="<lang package='pm'>短消息名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+ 
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('pm_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('pm_msgfrom','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_msgfrom' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_msgfrom' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照短消息来源排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>短消息来源</lang></a></th>
+			<th><a href="javascript:sortBy('pm_msgtoid','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_msgtoid' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_msgtoid' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照短消息接收者</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>短消息接收者</lang></a></th>
+			<th><a href="javascript:sortBy('pm_message','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_message' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_message' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照短消息内容</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>短消息内容</lang></a></th>
+			<th><a href="javascript:sortBy('pm_fromapp','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_fromapp' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_fromapp' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照来源应用</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>来源应用</lang></a></th>
+			<th><a href="javascript:sortBy('pm_type','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_type' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_type' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照短消息类型</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>短消息类型</lang></a></th>
+			<th><a href="javascript:sortBy('pm_isread','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_isread' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_isread' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照是否已读</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>是否已读</lang></a></th>
+			<th><a href="javascript:sortBy('pm_delstatus','{$sSortByUrl}')" {if G+getGpc('order_','G')=='pm_delstatus' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='pm_delstatus' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='pm'>按照删除状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='pm'>删除状态</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:pm_id}"></td>
+			<td>{$value:pm_id}</td>
+			<td>{$value:pm_msgfrom}
+			<div class="row-actions">
+					<span class='delete'><a href="javascript:foreverdel('{$value:pm_id}');" title="<lang>删除</lang> 《{$value:pm_msgfrom}》"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td>{if empty( $value:pm_msgtoid )}<lang package='pm'>所有用户</lang>{d*else}{:UserModel::getUserNameById( $value->pm_msgtoid )}{/if}</td>
+			<td>{$value:pm_message|stripslashes|String+subString=0,30}</td>
+			<td>{$value:pm_fromapp}</td>
+			<td>{$value:pm_type}</td>
+			<td>{if $value:pm_isread==1}<lang>是</lang>{d*else}<lang>否</lang>{/if}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:pm_delstatus eq 0" >yes<else/>no</if>.gif"/></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

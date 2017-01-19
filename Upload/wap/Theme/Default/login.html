@@ -1,0 +1,14 @@
+<include file="header">
+
+	<div id="m">
+		<form method="post" action="{:G::U('blog/checklogin')}">
+		<lang>用户名</lang><br />
+		<input type="text" name="user_name" /><br />
+		<lang>密码</lang><br />
+		<input type="password" name="user_password" /><br />
+		<br /><input type="submit" name="ok" value="<lang>登录</lang>" /><br />
+		<a href="{:G::U('blog/clear')}"><lang>清除登录痕迹</lang></a>
+	</form>
+	</div>
+
+<include file="footer">

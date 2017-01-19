@@ -1,0 +1,135 @@
+<include file="public+header">
+
+<!-- 上传脚本支持 -->
+<if condition="$uploadFileDefault neq 1">
+<link href="__PUBLIC__/Images/Uploadify/default.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/Images/Uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="__PUBLIC__/Images/Uploadify/swfobject.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Uploadify/jquery.uploadify.v2.1.0.min.js"></script>
+{script}
+$(document).ready(function(){
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadify({
+		'uploader': '__PUBLIC__/Images/Uploadify/uploadify.swf?t=' + new Date().getTime(),
+		'script': '{:G::U( 'upload/upload_file' )}',
+		'cancelImg': '__PUBLIC__/Images/Uploadify/uploadify-cancel.png',
+		'queueID': 'fileQueue',
+		'auto': {if $nIsUploadAuto==1}true{d*else}false{/if},
+		{if $nUploadfileMaxsize>0}'sizeLimit':{$nUploadfileMaxsize},{/if}
+		'simUploadLimit':{$nSimUploadLimit},
+		'buttonText':'browser',
+		'onError' : function (a, b, c, d) {
+			if (d.status == 404){
+				alert('<lang package='upload'>找不到文件</lang>');
+			}else if (d.type === "HTTP"){
+				alert('error '+d.type+": "+d.status);
+			}else if (d.type ==="File Size"){
+				alert(c.name+' '+d.type+' Limit: '+Math.round(d.sizeLimit/1024)+'KB');
+			}else{
+				alert('error '+d.type+": "+d.text);
+			}
+		},
+		'scriptData':{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':'upload','record_id':0,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'},
+		'multi': true<if condition="!empty( $sAllAllowType )">,</if>
+		<if condition="!empty( $sAllAllowType )">'fileExt':'{$sAllAllowType}','fileDesc':'<lang package='upload'>文件支持类型</lang>：{$sAllAllowType}'</if>
+	});
+});
+
+function uploadifyData(){
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadifySettings('scriptData',{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':'upload','record_id':0,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'} );
+}
+{/script}
+</if>
+
+
+	<div class="title"><lang package='upload'>添加附件</lang> ( <a href="{:G::U('upload/index')}"><lang package='upload'>返回附件库</lang></a> )</div>
+
+
+	<div id="content" class="content">
+
+		<if condition="$uploadFileDefault eq 1">
+		<form enctype="multipart/form-data" method="post" name="uploadAdd" action="{:G::U('upload/upload_file')}">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="upload_field"><lang package='upload'>上传表单（传统上传方式）</lang></label></th>
+			<td><for start='1' end='$nFileInputNum'>
+						<input type="file" name="newfile[]">
+				</for>
+			<br/><div class="description"><lang package='upload'>表单的数量可以在后台的多媒体设置中更改。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadcategory_id"><lang package='upload'>附件归档：</lang></label></th>
+			<td><select name="uploadcategory_id" id="uploadcategory_id">
+				<option value="-1"><lang package='upload'>未分类</lang></option>
+				<foreach for=arrUploadCategory value=upload_type>
+				<option value="{$upload_type['uploadcategory_id']}">{$upload_type['uploadcategory_name']}</option>
+				</foreach>
+				</select>
+			<br/><div class="description"><lang package='upload'>将附件归类可以更好地管理附件。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="upload_allowed_types"><lang package='upload'>允许上传的格式：</lang></label></th>
+			<td><if condition="!empty( $sAllAllowType )">
+					<select name="all_allow_type">
+					<foreach for=arrAllAllowType value=all_allowed_type>
+					<option value="{$all_allowed_type}">{$all_allowed_type}</option>
+					</foreach>
+				</select>
+				<else/><lang package='upload'>允许所有上传文件格式。</lang>
+				</if>
+			<br/><div class="description"><lang package='upload'>系统允许上传的文件格式。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input type="hidden" value="0" name="record_id" id="record_id" />
+			<input type="hidden" name="module" id="module" value="upload"/>
+		<input	type="submit" class="button button-blue" value="  <lang>添 加</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+		<else/>
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="upload_field"><lang package='upload'>上传控件（Flash上传方式）：</lang></label></th>
+			<td><div id="fileQueue"></div>
+			<input type="file" name="uploadify" id="uploadify" />
+			<br/><div class="description"><lang package='upload'>Flash 控件区域，请点击选择。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadcategory_id"><lang package='upload'>附件归档：</lang></label></th>
+			<td><select name="uploadcategory_id" id="uploadcategory_id" onchange="uploadifyData();">
+					<option value="-1"><lang package='upload'>未分类</lang></option>
+					<foreach for=arrUploadCategory value=upload_type>
+					<option value="{$upload_type['uploadcategory_id']}">{$upload_type['uploadcategory_name']}</option>
+					</foreach>
+				</select>
+			<br/><div class="description"><lang package='upload'>将附件归类可以更好地管理附件。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="upload_allowed_types"><lang package='upload'>允许上传的格式：</lang></label></th>
+			<td><if condition="!empty( $sAllAllowType )">
+					<select name="all_allow_type">
+					<foreach for=arrAllAllowType value=all_allowed_type>
+					<option value="{$all_allowed_type}">{$all_allowed_type}</option>
+					</foreach>
+				</select>
+				<else/><lang package='upload'>允许所有上传文件格式。</lang>
+				</if>
+			<br/><div class="description"><lang package='upload'>系统允许上传的文件格式。</lang>{if $nUploadfileMaxsize>0}<lang package='upload'>最大的附件尺寸</lang>:{$nUploadfileMaxsize|E+changeFileSize}{/if}</div></td>
+			</tr>
+		</table>
+		<p class="center">
+			{if $nIsUploadAuto==1}<lang package='upload'>上传</lang>&nbsp;{d*else}<a href="javascript:$('#uploadify').uploadifyUpload()" class="a-button"><lang package='upload'>上传</lang></a>{/if}
+			<a href="javascript:$('#uploadify').uploadifyClearQueue()" class="a-button"><lang package='upload'>取消上传</lang></a>
+		</p>
+		</if>
+
+	</div>
+
+
+<include file="public+footer">

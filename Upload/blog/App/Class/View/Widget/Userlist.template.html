@@ -1,0 +1,23 @@
+{$before_widget}
+<table class="{$table_class}" cellspacing="0" cellpadding="0" id="datalist-table">
+	<thead class="{$thead_class}">
+		<tr><th class='table-header' width='20%'><lang>用户名</lang></td>
+			<th class='table-header' width='10%'><lang>Email</lang></td>
+			<th class='table-header' width='10%'><lang>主页</lang></td>
+			<th class='table-header' width='10%'><lang>QQ</lang></td>
+			<th class='table-header' width='50%'><lang>注册时间</lang></td>
+		</tr>
+	</thead>
+	<tbody>
+		<foreach for=data value=arrUserList >
+		{~$sEven=$key%2==0 ? $even:$odd}
+		<tr class="{$sEven}"><td class="table-entry"><a href="{:PageType_Extend::getAuthorUrl($arrUserList)}" title="{if $arrUserList['user_nikename']}{$arrUserList['user_nikename']}{d*else}{$arrUserList['user_name']}{/if} <lang>个人资料</lang>" >{$arrUserList['user_name']}</a></td>
+			<td class="table-entry">{if $arrUserList['user_email']}<a href="mailto:{$arrUserList['user_email']}" title="<lang>邮件地址</lang> {$arrUserList['user_email']}" ><img src="{$img_path}/userlist_email.gif"/></a>{d*else}<img src="{$img_path}/userlist_noemail.gif" title="<lang>该用户不存在邮件地址</lang>"/>{/if}</td>
+			<td class="table-entry">{if $arrUserList['user_homepage']}<a href="{$arrUserList['user_homepage']}" target="_blank" title="<lang>用户主页</lang> {$arrUserList['user_homepage']}"><img src="{$img_path}/userlist_link.gif"/></a>{d*else}<img src="{$img_path}/userlist_nolink.gif" title="<lang>该用户不存在个人主页</lang>"/>{/if}</td>
+			<td class="table-entry">{if $arrUserList['user_qq']}<a href="http://wpa.qq.com/msgrd?V=1amp;Uin={$arrUserList['user_qq']}amp;Site=ioshenmueMenu=yes" title="<lang>QQ</lang>{$arrUserList['user_qq']}"><img src="{$img_path}/userlist_qq.gif"/></a>{d*else}<img src="{$img_path}/userlist_noqq.gif" title="<lang>该用户不存在QQ</lang>"/>{/if}</td>
+			<td class="table-entry">{$arrUserList['create_dateline']|date=$date,**}</td>
+		</tr>
+		</foreach>
+	</tbody>
+</table>
+{$after_widget}

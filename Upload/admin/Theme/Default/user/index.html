@@ -1,0 +1,91 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='user'>用户列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'user/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="user_name" title="<lang package='user'>用户名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+ 
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('user_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>编号</lang></a></th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th><a href="javascript:sortBy('user_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照用户名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>用户名</lang></a></th>
+			<th><a href="javascript:sortBy('user_nikename','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_nikename' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_nikename' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照昵称</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>昵称</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照添加时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>添加时间</lang></a></th>
+			<th><a href="javascript:sortBy('update_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='update_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='update_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照上次登录</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>上次登录</lang></a></th>
+			<th><a href="javascript:sortBy('user_logincount','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_logincount' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_logincount' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照登录次数</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='user'>登录次数</lang></a></th>
+			<th><a href="javascript:sortBy('user_status','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_status' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_status' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='user'>按照状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang>状态</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:user_id}"></td>
+			<td>{$value:user_id}</td>
+			<td class="user-icon"><a href="javascript:edit('{$value:user_id}')" title="<lang>编辑</lang> 《{$value:user_name}》" >
+					<img src="{$TheController:get_avatar_url( 'small',$value->user_id )}"	alt="{$value:user_name}" title="{$value:user_name}" />
+				</a>
+			<td>
+			<td>{$value:user_name}
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:user_id}')" title="<lang>编辑</lang> 《{$value:user_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:user_id}');" title="<lang>删除</lang> 《{$value:user_name}》"><lang>删除</lang></a>|</span>
+					<span class='hide'><if condition="$value:user_status eq 1" ><a title="<lang>禁用</lang> 《{$value:user_name}》" href="javascript:forbid('{$value:user_id}')"><lang>禁用</lang></a><else/><a title="<lang>恢复</lang> 《{$value:user_name}》" href="javascript:resume('{$value:user_id}')"><lang>恢复</lang></a></if></span>
+			</div>
+			</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="user_nikename_{$value:user_id}" onClick="clickToInput('user_nikename','{$value:user_id}')">{$value:user_nikename}</td>
+			<td>{$value:create_dateline|date='Y-m-d H:i:s',**}</td>
+			<td>{$value:user_lastlogintime|date='Y-m-d H:i:s',**}</td>
+			<td>{$value:user_logincount}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:user_status eq 1" >yes<else/>no</if>.gif"/></td>
+			<td><if condition="$value:user_status eq 1" ><a href="javascript:forbid('{$value:user_id}')"><lang>禁用</lang></a><else/><a href="javascript:resume('{$value:user_id}')"><lang>恢复</lang></a></if>&nbsp;<a href="javascript:edit('{$value:user_id}')"><lang>编辑</lang></a>&nbsp;</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

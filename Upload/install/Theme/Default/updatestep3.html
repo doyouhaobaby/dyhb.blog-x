@@ -1,0 +1,28 @@
+<include file="header">
+
+<div class="title"><lang package='updateTheme'>升级数据库确认</lang></div>
+<div id="main">
+    <div class="item-title"><lang package='updateTheme'>你认真看看数据库连接信息是否是你需要的!</lang></div>
+	<p><span style="color:#f00;"><lang package='updateTheme'>这是升级前的最后一次检查，请确保博客的数据库正确，以免覆盖其它程序。</lang></span></p>
+	<p><span style="color:#f00;font-weight:700;"><lang package='updateTheme'>再次提醒，升级前必须备份数据！</lang></span></p>
+	<div class="item-title"><lang package='updateTheme'>当前连接的博客配置信息如下：</lang></div>
+	<p><table width="726" border="0" align="center" cellpadding="0" cellspacing="0" class="twbox">
+			<tr>
+				<th width="300" align="center"><strong><lang package='defaultTheme'>参数</lang></strong></th>
+				<th width="424"><strong><lang package='defaultTheme'>值</lang></strong></th>
+			</tr>
+			<foreach for=arrConfig>
+			<tr>
+					<td><strong>{$key}</strong></td>
+					<td>{$value}</td>
+			</tr>
+			</foreach>
+		</table></p>
+	<p><lang package='updateTheme'>如果你没有了疑问，那么请点击升级数据即可（注意请备份老的数据库）。</lang></p>
+	<div align='center'>
+	<input type="button" class="btn-back" value="<lang package='defaultTheme'>后退</lang>" onclick="window.location.href='{:G::U( 'update/step2' )}';" />
+	<input type='button' value='<lang package='updateTheme'>升级数据</lang>' class='inbut' onclick="window.location.href='{:G::U( 'update/first' )}'"/>
+	</div>
+</div>
+
+<include file="footer">

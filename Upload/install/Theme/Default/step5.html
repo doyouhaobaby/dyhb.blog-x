@@ -1,0 +1,110 @@
+<include file="header">
+
+{script}
+<!--
+function testDb(){
+	var dbhost=document.getElementById('dbhost').value;
+	var dbuser=document.getElementById('dbuser').value;
+	var dbpwd=document.getElementById('dbpwd').value;
+	document.getElementById('dbpwdsta').innerHTML='<img src=\'__TMPLPUB__/Images/ajax-loader.gif\'>';
+	Dyhb.AjaxSend('{:G::U('index/step10')}','ajax=1&dbhost='+dbhost+'&dbuser='+dbuser+'&dbpwd='+dbpwd,'',function(data,status,info){ document.getElementById('dbpwdsta').innerHTML=info; });
+	haveDb();
+}
+function haveDb(){
+	var dbhost=document.getElementById('dbhost').value;
+	var dbname=document.getElementById('dbname').value;
+	var dbuser=document.getElementById('dbuser').value;
+	var dbpwd=document.getElementById('dbpwd').value;
+	document.getElementById('havedbsta').innerHTML='<img src=\'__TMPLPUB__/Images/ajax-loader.gif\'>';
+	Dyhb.AjaxSend('{:G::U('index/step10')}','ajax=1&dbhost='+dbhost+'&dbuser='+dbuser+'&dbpwd='+dbpwd+'&dbname='+dbname,'',function(data,status,info){ document.getElementById('havedbsta').innerHTML=info; });
+}
+function doInstall(){
+	document.form1.submit();
+}
+-->
+{/script}
+<div class="title"><lang package='defaultTheme'>参数配置</lang></div>
+<div id="main">
+	<form action="{:G::U( 'index/step6' )}" method="post" name="form1">
+   <div class="item-title"><lang package='defaultTheme'>数据库设定</lang></div>
+   <p>
+		<table width="726" border="0" align="center" cellpadding="0" cellspacing="0" class="twbox">
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>数据库主机</lang>：</strong></td>
+				<td><input name="dbhost" id="dbhost" type="text" value="localhost" class="input-txt" />
+				<small><lang package='defaultTheme'>一般为localhost</lang></small></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>数据库用户</lang>：</strong></td>
+				<td><input name="dbuser" id="dbuser" type="text" value="root" class="input-txt" /></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>数据库密码</lang>：</strong></td>
+				<td>
+					<div style='float:left;margin-right:3px;'><input name="dbpwd" id="dbpwd" type="text" class="input-txt" onChange="testDb()" onBlur="testDb()"/></div>
+					<div style='float:left' id='dbpwdsta'></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>数据表前缀</lang>：</strong></td>
+				<td><input name="dbprefix" id="dbprefix" type="text" value="dyhbblogx_" class="input-txt" />
+						<small><lang package='defaultTheme'>如无特殊需要,请不要修改</lang></small></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>数据库名称</lang>：</strong></td>
+				<td>
+					<div style='float:left;margin-right:3px;'><input name="dbname" id="dbname" type="text" value="{$sDyhbBlogXDatabase}" class="input-txt" onChange="haveDb()" onBlur="haveDb()"/></div>
+					<div style='float:left' id='havedbsta'></div>
+				</td>
+			</tr>
+		</table>
+		</p>
+		<div class="item-title"><lang package='defaultTheme'>管理员初始密码</lang></div>
+		<p><table width="726" border="0" align="center" cellpadding="0" cellspacing="0" class="twbox">
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>用户名</lang>：</strong></td>
+				<td>
+					<input name="adminuser" type="text" value="admin" class="input-txt" />
+					<p><small><lang package='defaultTheme'>只能用以数字、字母、下划线组成的字符</lang></small></p>
+				</td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>密　码</lang>：</strong></td>
+				<td><input name="adminpwd" type="text" value="123456" class="input-txt" /></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>Cookie前缀</lang>：</strong></td>
+				<td><input name="cookieprefix" type="text" value="x_doyouhaobaby_" class="input-txt" /></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>Rbac前缀</lang>：</strong></td>
+				<td><input name="rbacprefix" type="text" value="rbac_data_prefix_x_doyouhaobaby_" class="input-txt" /></td>
+			</tr>
+		</table>
+		</p>
+		<div class="item-title"><lang package='defaultTheme'>博客设置</lang></div>
+		<p><table width="726" border="0" align="center" cellpadding="0" cellspacing="0" class="twbox">
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>博客名称</lang>：</strong></td>
+				<td>
+					<input name="webname" type="text" value="DYHB.BLOG X" class="input-txt" />
+				</td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>管理员邮箱</lang>：</strong></td>
+				<td><input name="adminmail" type="text" value="admin@doyouhaobaby.net" class="input-txt" /></td>
+			</tr>
+			<tr>
+				<td class="onetd"><strong><lang package='defaultTheme'>网站网址</lang>：</strong></td>
+				<td><input name="baseurl" type="text" value="{$sBaseurl}" class="input-txt" /></td>
+			</tr>
+		</table>
+		</p>
+	<div align='center'>
+	<input type="button" class="btn-back" value="<lang package='defaultTheme'>后退</lang>" onclick="window.location.href='{:G::U( 'index/step4' )}';" />
+	<input type="button" class="btn-next" value="<lang package='defaultTheme'>开始安装</lang>" onclick="doInstall();" />
+	</div>
+	</form>
+</div>
+
+<include file="footer">

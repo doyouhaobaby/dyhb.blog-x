@@ -1,0 +1,216 @@
+<include file="public+header">
+<script src="__PUBLIC__/Images/Jquery/Jquery.interface.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/Jquery/Jquery.cookie.js" type="text/javascript"></script>
+{script}
+<!--
+{tagself}
+$(document).ready(function(){
+	$("#custom_menu_new").css('display', $.cookie('custom_menu_new') ? $.cookie('custom_menu_new') : 'none');
+	var widgets = $(".sortableitem").map(function(){return $(this).attr("id");});
+	$.each(widgets,function(i,widget_id){
+		$("#"+widget_id+" .widget-act-add").hide();
+		$("#"+widget_id+" .widget-act-del").show();
+	});
+	$("#adm_widget_list .widget-title").toggle(
+		function(){$(this).parent().next(".widget-control").show("fast")},
+		function(){$(this).parent().next(".widget-control").hide("fast")}
+	);
+	$("#adm_widget_list .widget-act-add").click(function(){
+		var title = $(this).prevAll(".widget-title").html();
+		var widget_id = $(this).parent().parent().attr("id");
+		var widget_element = "<li class=\"sortableitem\" id=\""+widget_id+"\">"+title+"<input type=\"hidden\" name=\"menus[]\" value=\""+widget_id+"\" /></li>";
+		$("#adm_widget_box ul").append(widget_element);
+		$(this).hide();
+		$(this).next(".widget-act-del").show();
+	});
+	$("#adm_widget_list .widget-act-del").click(function(){
+		var widget_id = $(this).parent().parent().attr("id");
+		$("#adm_widget_box ul #" + widget_id).remove();
+		$(this).hide();
+		$(this).prev(".widget-act-add").show();
+	});
+	$("#adm_widget_box ul").mouseover(function(){
+		$("#adm_widget_box ul").Sortable({
+			accept: 'sortableitem'
+		});
+	});
+});
+{/tagself}
+function menuAdd( ){
+	$("#new_menu_option").attr("disabled", "disabled");
+	$("#new_menu_option").val( D.L('新增菜单保存中') );
+	Dyhb.AjaxSubmit('newMenuAdd','{:G::U('menusort/add_menu')}','',complete);
+}
+function complete(data,status){
+	$("#new_menu_option").attr("disabled", false);
+	$("#new_menu_option").val( D.L('新增菜单') );
+	if(status==1){
+		window.location.href='{:G::U('menusort/index')}';
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='menusort'>导航条排序</lang></div>
+
+	
+	<div id="content" class="content">
+		<div class="widgetpage">
+		<div id="adm_widget_list">
+			<foreach for=arrSystemMenus key=sSystemMenuKey value=sSystemMenu>
+			<form action="{:G::U('menusort/save_menu?menu='.$sSystemMenuKey)}" method="post">
+			<div class="widget-line" id="{$sSystemMenuKey}">
+				<div class="widget-top">
+					<li class="widget-title">{$sSystemMenu}</li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='menusort'>菜单标题</lang></li>
+					<li><input type="text" class="field" name="title" value="{$arrNormalMenuOptions[$sSystemMenuKey]['title']}"	/></li>
+					<li><lang package='menusort'>菜单说明</lang></li>
+					<li><textarea class="field" name="description">{$arrNormalMenuOptions[$sSystemMenuKey]['description']}</textarea></li>
+					<li><lang package='menusort'>菜单衔接</lang></li>
+					<li><input type="text" class="field" name="link" value="{$arrNormalMenuOptions[$sSystemMenuKey]['link']}" disabled /></li>
+					<li><lang package='menusort'>菜单字体样式</lang></li>
+					<li><input class="checkbox" type="checkbox" name="style[1]" value="1" {if !empty($arrNormalMenuOptions[$sSystemMenuKey]['style'][1])}checked{/if}>&nbsp;
+						<span style="text-decoration: underline;"><lang package='menusort'>下划线</lang></span><br/>
+						<input class="checkbox" type="checkbox" name="style[2]" value="1" {if !empty($arrNormalMenuOptions[$sSystemMenuKey]['style'][2])}checked{/if}>&nbsp;<em style="font-style: italic;"><lang package='menusort'>斜体</lang></em><br/>
+						<input class="checkbox" type="checkbox" name="style[3]" value="1" {if !empty($arrNormalMenuOptions[$sSystemMenuKey]['style'][3])}checked{/if}>&nbsp;<strong style="font-weight: bold; color: #000;"><lang package='menusort'>粗体</lang></strong>
+					</li>
+					<li><lang package='menusort'>菜单字体颜色</lang></li>
+					<li><input class="radio" type="radio" name="color" value="0" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==0}checked{/if}>&nbsp;<span style="color: #000;">Default</span><br/>
+						<input class="radio" type="radio" name="color" value="1" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==1}checked{/if}>&nbsp;<span style="color: Red;">Red</span><br/>
+						<input class="radio" type="radio" name="color" value="2" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==2}checked{/if}>&nbsp;<span style="color: Orange;">Orange</span><br/>
+						<input class="radio" type="radio" name="color" value="3" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==3}checked{/if}>&nbsp;<span style="color: Yellow;">Yellow</span><br/>
+						<input class="radio" type="radio" name="color" value="4" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==4}checked{/if}>&nbsp;<span style="color: Green;">Green</span><br/>
+						<input class="radio" type="radio" name="color" value="5" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==5}checked{/if}>&nbsp;<span style="color: Cyan;">Cyan</span><br/>
+						<input class="radio" type="radio" name="color" value="6" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==6}checked{/if}>&nbsp;<span style="color: Blue;">Blue</span><br/>
+						<input class="radio" type="radio" name="color" value="7" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==7}checked{/if}>&nbsp;<span style="color: Purple;">Purple</span><br/>
+						<input class="radio" type="radio" name="color" value="8" {if $arrNormalMenuOptions[$sSystemMenuKey]['color']==8}checked{/if}>&nbsp;<span style="color: Gray;">Gray</span>
+					</li>
+					<li><lang package='menusort'>衔接打开方式</lang></li>
+					<li><input class="radio" type="radio" name="target" value="0" {if $arrNormalMenuOptions[$sSystemMenuKey]['target']==0}checked{/if} >&nbsp;<lang package='menusort'>在本窗口打开</lang><br/>
+						<input class="radio" type="radio" name="target" value="1" {if $arrNormalMenuOptions[$sSystemMenuKey]['target']==1}checked{/if} >&nbsp;<lang package='menusort'>在新窗口打开</lang>
+					</li>
+					<li>
+						<input type="submit" name="" value="<lang package='menusort'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+		</foreach>
+
+		<div class="wg_line"><lang package='menusort'>页面组件</lang></div>
+			<foreach for=arrPages key=sPageKey value=oPage >
+				<div class="widget-line" id="{$sPageKey}">
+					<div class="widget-top">
+						<li class="widget-title">{$oPage->blog_title}</li>
+						<li class="widget-act-add"></li>
+						<li class="widget-act-del"></li>
+				</div>
+			</div>
+			</foreach>
+
+		<div class="wg_line"><lang package='menusort'>自定义组件</lang></div>
+			<foreach for=arrCustomNormalMenuOptions key=sCustomNormalMenuOption value=arrCustomNormalMenuOption >
+			<form action="{:G::U('menusort/update_menu')}" method="post" >
+				<div class="widget-line" id="{$sCustomNormalMenuOption}">
+					<div class="widget-top">
+						<li class="widget-title">{$arrCustomNormalMenuOption['title']}</li>
+						<li class="widget-act-add"></li>
+						<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='menusort'>菜单标题</lang></li>
+					<li><input type="text" class="field" name="title" value="{$arrCustomNormalMenuOption['title']}"	/></li>
+					<li><lang package='menusort'>菜单说明</lang></li>
+					<li><textarea class="field" name="description">{$arrCustomNormalMenuOption['description']}</textarea></li>
+					<li><lang package='menusort'>菜单衔接</lang></li>
+					<li><input type="text" class="field" name="link" value="{$arrCustomNormalMenuOption['link']}" /></li>
+					<li><lang package='menusort'>菜单字体样式</lang></li>
+					<li><input class="checkbox" type="checkbox" name="style[1]" value="1" {if !empty($arrCustomNormalMenuOption['style'][1])}checked{/if}>&nbsp;
+						<span style="text-decoration: underline;"><lang package='menusort'>下划线</lang></span><br/>
+						<input class="checkbox" type="checkbox" name="style[2]" value="1" {if !empty($arrCustomNormalMenuOption['style'][2])}checked{/if}>&nbsp;<em style="font-style: italic;"><lang package='menusort'>斜体</lang></em><br/>
+						<input class="checkbox" type="checkbox" name="style[3]" value="1" {if !empty($arrCustomNormalMenuOption['style'][3])}checked{/if}>&nbsp;<strong style="font-weight: bold; color: #000;"><lang package='menusort'>粗体</lang></strong>
+					</li>
+					<li><lang package='menusort'>菜单字体颜色</lang></li>
+					<li><input class="radio" type="radio" name="color" value="0" {if $arrCustomNormalMenuOption['color']==0}checked{/if}>&nbsp;<span style="color: #000;">Default</span><br/>
+						<input class="radio" type="radio" name="color" value="1" {if $arrCustomNormalMenuOption['color']==1}checked{/if}>&nbsp;<span style="color: Red;">Red</span><br/>
+						<input class="radio" type="radio" name="color" value="2" {if $arrCustomNormalMenuOption['color']==2}checked{/if}>&nbsp;<span style="color: Orange;">Orange</span><br/>
+						<input class="radio" type="radio" name="color" value="3" {if $arrCustomNormalMenuOption['color']==3}checked{/if}>&nbsp;<span style="color: Yellow;">Yellow</span><br/>
+						<input class="radio" type="radio" name="color" value="4" {if $arrCustomNormalMenuOption['color']==4}checked{/if}>&nbsp;<span style="color: Green;">Green</span><br/>
+						<input class="radio" type="radio" name="color" value="5" {if $arrCustomNormalMenuOption['color']==5}checked{/if}>&nbsp;<span style="color: Cyan;">Cyan</span><br/>
+						<input class="radio" type="radio" name="color" value="6" {if $arrCustomNormalMenuOption['color']==6}checked{/if}>&nbsp;<span style="color: Blue;">Blue</span><br/>
+						<input class="radio" type="radio" name="color" value="7" {if $arrCustomNormalMenuOption['color']==7}checked{/if}>&nbsp;<span style="color: Purple;">Purple</span><br/>
+						<input class="radio" type="radio" name="color" value="8" {if $arrCustomNormalMenuOption['color']==8}checked{/if}>&nbsp;<span style="color: Gray;">Gray</span>
+					</li>
+					<li><lang package='menusort'>衔接打开方式</lang></li>
+					<li><input class="radio" type="radio" name="target" value="0" {if $arrCustomNormalMenuOption['target']==0}checked{/if} >&nbsp;<lang package='menusort'>在本窗口打开</lang><br/>
+						<input class="radio" type="radio" name="target" value="1" {if $arrCustomNormalMenuOption['target']==1}checked{/if} >&nbsp;<lang package='menusort'>在新窗口打开</lang>
+					</li>
+					<li><input type="hidden" name="menu_id" value="{$sCustomNormalMenuOption}" />
+					<input type="submit" type="button" name="" value="<lang package='menusort'>更新自定义组件</lang>" class="button" />
+					<span style="margin-left:235px;"><a href="#" onclick="javascript:dyhbConfirm( D.L( '你确定要删除组件吗？' ),function( ){window.location.href='{:G::U('menusort/delete_menu?menu='.$sCustomNormalMenuOption)}';} )" class="a-button"><lang package='menusort'>删除该组件</lang></a></span></li>
+				</div>
+			</div>
+			</form>
+			</foreach>
+
+			<form action="{:G::U('menusort/add_menu')}" method="post" name="newMenuAdd" id="newMenuAdd">
+				<div class="wg_line2"><a href="javascript:showDiv('custom_menu_new');" class="a-button"><lang package='menusort'>自定义一个新的菜单+</lang></a></div>
+					<div class="widget-control" id="custom_menu_new" style="display:none;">
+					<li><lang package='menusort'>菜单标题</lang></li>
+					<li><input type="text" class="field" name="title" value=""	/></li>
+					<li><lang package='menusort'>菜单说明</lang></li>
+					<li><textarea class="field" name="description"></textarea></li>
+					<li><lang package='menusort'>菜单衔接</lang></li>
+					<li><input type="text" class="field" name="link" value=""/></li>
+					<li><lang package='menusort'>菜单字体样式</lang></li>
+					<li><input class="checkbox" type="checkbox" name="style[1]" value="1">&nbsp;
+						<span style="text-decoration: underline;"><lang package='menusort'>下划线</lang></span><br/>
+						<input class="checkbox" type="checkbox" name="style[2]" value="1" >&nbsp;<em style="font-style: italic;"><lang package='menusort'>斜体</lang></em><br/>
+						<input class="checkbox" type="checkbox" name="style[3]" value="1" >&nbsp;<strong style="font-weight: bold; color: #000;"><lang package='menusort'>粗体</lang></strong>
+					</li>
+					<li><lang package='menusort'>菜单字体颜色</lang></li>
+					<li><input class="radio" type="radio" name="color" value="0" checked>&nbsp;<span style="color: #000;">Default</span><br/>
+						<input class="radio" type="radio" name="color" value="1" >&nbsp;<span style="color: Red;">Red</span><br/>
+						<input class="radio" type="radio" name="color" value="2" >&nbsp;<span style="color: Orange;">Orange</span><br/>
+						<input class="radio" type="radio" name="color" value="3" >&nbsp;<span style="color: Yellow;">Yellow</span><br/>
+						<input class="radio" type="radio" name="color" value="4" >&nbsp;<span style="color: Green;">Green</span><br/>
+						<input class="radio" type="radio" name="color" value="5" >&nbsp;<span style="color: Cyan;">Cyan</span><br/>
+						<input class="radio" type="radio" name="color" value="6" >&nbsp;<span style="color: Blue;">Blue</span><br/>
+						<input class="radio" type="radio" name="color" value="7" >&nbsp;<span style="color: Purple;">Purple</span><br/>
+						<input class="radio" type="radio" name="color" value="8" >&nbsp;<span style="color: Gray;">Gray</span>
+					</li>
+					<li>衔接打开方式</li>
+					<li><input class="radio" type="radio" name="target" value="0" checked >&nbsp;<lang package='menusort'>在本窗口打开</lang><br/>
+						<input class="radio" type="radio" name="target" value="1" >&nbsp;<lang package='menusort'>在新窗口打开</lang>
+					</li>
+					<li>
+						<input id="new_menu_option" type="button" onclick="javascript:menuAdd();"	name="" value="<lang package='menusort'>保存自定义菜单</lang>" class="button" />
+					</li>
+				</div>
+			</form>
+		</div>
+
+		<form action="{:G::U('menusort/compages')}" method="post" id="compagesSave" name="compagesSave">
+			<div id="adm_widget_box">
+			<ul>
+				<foreach for=arrNormalMenusTrue value=sNormalMenuTrue>
+				<li class="sortableitem" id="{$sNormalMenuTrue}">
+					<input type="hidden" name="menus[]" value="{$sNormalMenuTrue}" />{$TheController->get_menu_name( $sNormalMenuTrue )}
+				</li>
+				</foreach>
+			</ul>
+			<div style="margin:20px 40px;"><input	type="submit" value="<lang package='menusort'>保存组件排序</lang>" class="button button-blue" /></div>
+			<div style="margin:10px 40px;"><a href="javascript:dyhbConfirm( D.L( '你确定要恢复组件设置到初始安装状态' ),function( ){ window.location.href='{:G::U('menusort/reset')}'; } );" class="a-button"><lang package='menusort'>恢复组件设置到初始安装状态</lang>&raquo;</a></div>
+			</div>
+		</form>
+	</div>
+
+	</div>
+	
+
+<include file="public+footer">

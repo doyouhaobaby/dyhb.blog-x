@@ -1,0 +1,124 @@
+<include file="header">
+{script}
+Dyhb.Ajax.Dyhb.UpdateTips='login...';
+function login_handle( data,status ){
+	if (status==1){
+		window.location = '__APP__';
+	}
+}
+
+function keydown(e){
+	var e = e || event;
+	if (e.keyCode==13){
+		Dyhb.AjaxSubmit('loginform','{:G::U( 'login/check' )}','returnmessage',login_handle);
+	}
+}
+{/script}
+
+<div class="w960 center clear mt1">
+ <div class="pleft">
+	<div class="bignews">
+
+	<div class="onenews"> 
+		{~$arrHeaderarcs=G::W('arclist',array('att'=>'h','limit'=>'0,1','return'=>1),true)} 
+		<foreach for=arrHeaderarcs value=oBlogData>
+		<h2><a title="{$oBlogData:blog_title}" href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}" {if $oBlogData['blog_color']}style="color:{$oBlogData['blog_color']};"{/if}>{$oBlogData['blog_title']|String+subString=0,26}</a></h2>
+		<p>{$oBlogData['blog_title']|strip_tags|String+subString=0,230}...<a href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}">[<lang>查看全文</lang>]</a></p>
+		</foreach>
+		{~unset($arrHeaderarcs)}
+	</div>
+
+	<div class="d1"> 
+		{~$arrHeaderarc2s=G::W('arclist',array('att'=>'h','limit'=>'1,4','return'=>1),true)}
+		<foreach for=arrHeaderarc2s value=oBlogData>
+		<div class='d1arc'><a title="{$oBlogData['blog_title']}" href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}" {if $oBlogData['blog_color']}style="color:{$oBlogData['blog_color']};"{/if} >{$oBlogData['blog_title']|String+subString=0,26}</a></div>
+		</foreach>
+		{~unset($arrHeaderarc2s)}
+	</div>
+	
+	<div class='newarticle'><lang package='cmsTheme'>最新文章</lang></div>
+	<ul class="c2 ico1">
+		{:G::W( 'arclist',array( 'row'=>'18','noatt'=>'h','titlelen'=>32 ) )}
+	</ul>
+
+	</div>
+
+	<div class="flashnews">
+	<embed src="__FRAMEWORK__/Resource/Images/image_view.swf?bcastr_xml_url={:G::U('flashimage/index')}" width="280" height="192" 
+	loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer"
+	type="application/x-shockwave-flash" salign="T"	menu="false" wmode="transparent">
+	</embed>
+	</div>
+ 
+	<div class="latestnews">
+
+	<dl class="tbox light">
+	<dt class="light"><strong><lang package='cmsTheme'>特别推荐</lang></strong></dt>
+	<dd class="light">
+	<ul class="d2 ico2">
+		{:G::W( 'arclist',array( 'row'=>'8','list_type_more'=>'d2','att'=>'a' ) )}
+	</ul>
+	</dd>
+	</dl>
+	</div>
+
+	<div class="picnews">
+	<dl class="tbox light">
+	<dt class='light'><strong><lang package='cmsTheme'>图文资讯</lang></strong></dt>
+	<dd class='light'>
+	<div class="infiniteCarousel">
+		<div class="wrapper">
+		<ul id='imgscroll'>
+			{:G::W( 'arclist',array( 'row'=>'10','list_type'=>'imgarclist','imgwidth'=>'143','imgheight'=>'106' ) )}
+		</ul>
+		</div>
+	</div>
+	</dd>
+	</dl>
+	</div>
+	{if Global_Extend+getOption( 'cms_only_parentcategory' )==1}
+	{~$arrCategoryArticles=Template_Extend::categoryArticle(array('category_children'=>0))}
+	{d*else}
+	{~$arrCategoryArticles=Template_Extend::categoryArticle()}
+	{/if}
+	<div class="listbox">
+	<foreach for=arrCategoryArticles value=arrCategoryData >
+	<dl class="tbox">
+		<dt><strong><a href="{:PageType_Extend::getCategoryUrl($arrCategoryData)}" title="{$arrCategoryData['category_name']}" >{$arrCategoryData['category_name']}</a></strong>
+			<span class="more"><a href="{:PageType_Extend::getCategoryUrl($arrCategoryData)}"><lang>更多</lang>...</a></span>
+		</dt>
+	<dd>
+	 <ul class="d1 ico3">
+		 {:G::W('arclist',array('row'=>8,'category_id'=>$arrCategoryData['category_id']))}
+	 </ul>
+	</dd>
+	</dl>
+	</foreach>
+	{~unset($arrCategoryArticles)}
+</div>
+
+ </div>
+
+<include file="sidebar">
+<div class="flink w960 center clear">
+ <dl class="tbox">
+	<dt> <strong><lang package='cmsTheme'>友情链接</lang></strong>
+
+	<span class="linklabel">	
+			<a href="#" _for="flink_image"><lang package='cmsTheme'>图片链接</lang></a> 	
+			<a href="#" _for="flink_text"><lang package='cmsTheme'>文字链接</lang></a> 	
+	</span>
+
+	<span class="more"> <a href="{:G::U( 'link/index' )}"><lang package='cmsTheme'>所有链接</lang></a></span> </dt>
+
+	<dd id="flink_image">
+		{:Template_Extend::linkW(array( 'type'=>'image','widget_title'=>0,'ul_class'=>'f4' ) )}
+	</dd>
+	
+	<dd id="flink_text">
+		{:Template_Extend::linkW(array( 'type'=>'text','widget_title'=>0,'ul_class'=>'f5' ) )}
+	</dd>
+	
+ </dl>
+</div>
+<include file="footer">

@@ -1,0 +1,15 @@
+<include file="header">
+
+	<div id="m">
+			<lang>欢迎光临</lang> | {$oUser['user_name']}<br>
+		<form method="post" action="{:G::U('blog/changeuser')}">
+			<input type="hidden" name='user_id' value="{$oUser['user_id']}">
+			<lang>昵称</lang>：<br><input type="text" name="user_nikename" value="{$oUser['user_nikename']}"/><br>
+			<lang>主页</lang>：<br><input type="text" name="user_homepage" value="{$oUser['user_homepage']}"/><br>
+			<lang>Email</lang>：<br><input type="text" name="user_email" value="{$oUser['user_email']}"/><br>
+			<lang>个人资料</lang>：<br><input type="text" name="user_remark" value="{$oUser['user_remark']}"/><br>
+		<input type="submit" value="<lang>修改</lang>">
+		</form>
+	</div>
+
+<include file="footer">

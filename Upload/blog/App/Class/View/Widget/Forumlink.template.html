@@ -1,0 +1,25 @@
+{if $link_content || $link_text || $link_logo}
+	<div class="mainbox list">
+		<span class="headactions"><img id="forumlinks_img" src="{:IMG_DIR}/{$collapsed_image}" alt="" onclick="toggle_collapse('forumlinks');" /></span>
+		<h3><lang>友情衔接</lang></h3>
+		<div id="forumlinks" style="">
+		{if $link_content}
+			<div class="forumlinks">
+				<ul class="s_clear">{$link_content}</ul>
+			</div>
+		{/if}
+		{if $link_logo}
+			<div class="forumimglink">
+				{$link_logo}
+			</div>
+		{/if}
+		{if $link_text}
+			<div class="forumtxtlink">
+				<ul class="s_clear">
+				{$link_text}
+				</ul>
+			</div>
+		{/if}
+		</div>
+	</div>
+{/if}

@@ -1,0 +1,51 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加域名解析中') );
+	Dyhb.AjaxSubmit('domainAdd','{:G::U('domain/insert')}','',complete);
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加域名解析') );
+	if(status==1){
+		window.setTimeout(function (){window.location.href=URL,20000});
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='domain'>添加域名解析</lang> ( <a href="{:G::U('domain/index')}"><lang package='domain'>返回域名解析列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+	<form	method="post" id="domainAdd" name="domainAdd">
+	<div id="tab_addbadword">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="domain_name"><lang package='domain'>域名</lang>:</label></th>
+			<td><input type="text" name="domain_name" id="domain_name" class="field" size="40" value=""/>
+			<div class="description"><lang package='domain'>请添加你的域名</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="domain_ip"><lang package='domain'>IP地址</lang>:</label></th>
+			<td><input type="text" name="domain_ip" id="domain_ip" class="field" size="40" value=""/>
+			<div class="description"><lang package='domain'>IP格式不能填错误，如22.222.222.22</lang></div>
+			</td>
+			</tr>
+		</table>
+		<p class="center"><input type="hidden" name="ajax" value="1">
+			<input id="submit_button" type="button" onclick="add()" class="button button-blue" value="  <lang package='domain'>添加域名解析</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+	</div>
+	</form>
+
+	</div>
+	
+
+<include file="public+footer">

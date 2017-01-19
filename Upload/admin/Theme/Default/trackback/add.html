@@ -1,0 +1,60 @@
+<include file="public+header">
+
+{script}
+<!--
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新引用中') );
+	Dyhb.AjaxSubmit('trackbackAdd','{:G::U('trackback/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新引用') ); });
+}
+-->
+{/script}
+
+	
+	<div class="title"><lang package='trackback'>编辑引用</lang> ( <a href="{:G::U('trackback/index')}"><lang package='trackback'>返回引用列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('trackback/update')}" method="post" id="trackbackAdd" name="trackbackAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="trackback_title"><lang package='trackback'>引用标题</lang>：</label></th>
+			<td><input type="text" name="trackback_title" id="trackback_title" class="field" size="40" value="{$oValue:trackback_title}"/>
+			<br/><div class="description"><lang package='trackback'>引用的标题，标题不能为空。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="trackback_url"><lang package='trackback'>引用URL 地址</lang>：</label></th>
+			<td><input type="text" name="trackback_url" id="trackback_url" class="field" size="40" value="{$oValue:trackback_url}"/>
+			<br/><div class="description"><lang package='trackback'>必须符合正确的URL 地址。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="trackback_blogname"><lang package='trackback'>引用博客名字</lang>：</label></th>
+			<td><input type="text" name="trackback_blogname" id="trackback_blogname" class="field" size="40" value="{$oValue:trackback_blogname}"/>
+			<br/><div class="description"><lang package='trackback'>引用的博客名字。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="trackback_ip"><lang package='trackback'>引用IP</lang>：</label></th>
+			<td><input type="text" name="trackback_ip" id="trackback_ip" class="field" size="40" value="{$oValue:trackback_ip}"/></textarea>
+			<br/><div class="description"><lang package='trackback'>引用的IP地址。</lang></div></td>
+			</tr>
+
+			<tr>
+			<th valign="top"><label for="trackback_excerpt"><lang package='trackback'>引用摘要</lang>：</label></th>
+			<td><textarea name="trackback_excerpt" id="trackback_excerpt" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:trackback_excerpt|stripslashes}</if></textarea>
+			<br/><div class="description"><lang package='trackback'>引用摘要，不能为空！</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="{$nId}"/>
+		<input id="submit_button" type="button" onclick="update()" class="button button-blue" value="  <lang>更  新</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

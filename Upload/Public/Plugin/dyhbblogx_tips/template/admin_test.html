@@ -1,0 +1,26 @@
+<include file="public+header" />
+	
+	<div class="title">{$arrPluginModel['plugin_name']}-{$arrPluginModel['plugin_version']} | <foreach for=arrSubMenuitems key=nSubMenuitems value=arrSubMenuitem>{if $arrSubMenuitem[2]}{$arrSubMenuitem[0]}{d*else}<a href="{$arrSubMenuitem[1]}">{$arrSubMenuitem[0]}</a>{/if} | </foreach><a href="{:G::U('plugin/edit?id='.$arrPluginModel['plugin_id'])}"><lang package='plugin'>返回插件</lang></a></div>
+	
+	<div id="content" class="content">
+
+	<form action="" method="post" id="adminSubmit" name="adminSubmit">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="test">Title：</label></th>
+			<td><input type="text" name="test" id="test" class="field" size="40" value="{$nValue}"/>
+			<br/><div class="description">Test Description</div>
+			</td>
+			</tr>
+			</table>
+			<p class="center">
+			<input type="hidden" name="id" value="{$arrPluginModel['plugin_id']}"/>
+			<input id="submit_button" type="submit" name="ok" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	
+	</div>
+	
+
+<include file="public+footer">

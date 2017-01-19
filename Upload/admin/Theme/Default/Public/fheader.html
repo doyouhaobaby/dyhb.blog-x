@@ -1,0 +1,44 @@
+<include file="public+ffheader">
+<style>
+	html{overflow:hidden;}
+	body{overflow-y:hidden;}
+</style>
+ <table id="header" width="100%" height="50px" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+  <tbody>
+  <tr>
+    <td width="125" align="left" valign="top" class="header-title">
+        <a href="#" onClick="currentClass(0);parent.menu.location=D.U( 'public/fmenu?title=<lang package='public'>首页</lang>' );parent.main.location='{:G::U('public/fmain')}';return false;"><img src="__TMPLPUB__/Images/logo-admin.gif" height="50"  border="0" /></a>
+    </td>
+    <td  class="topmenu" valign="top">	
+    <ul>
+        <li><span><a href="#" onClick="currentClass(0);parent.menu.location=D.U( 'public/fmenu?title=<lang package='public'>首页</lang>' );parent.main.location='{:G::U('public/fmain')}';return false;"><lang package='public'>首页</lang></a></span></li>
+
+		<foreach for=arrListMenu>
+		<li><span><a href="#" onClick="currentClass({$i});parent.menu.location=D.U( 'public/fmenu?tag={$value['group_id']}&title={$value['group_title']}' );return false;">{$value['group_title']}</a></span></li>
+		</foreach>
+    </ul>
+	</td>
+    <td id="header-links" valign="top">
+        <a href="{:G::U('avatar/index')}" title="<lang package='public'>修改头像</lang>" ><img class="avatar" SRC="{$TheController:get_avatar_url( 'small' )}" alt="" height="30" width="30"/></a>
+				<lang package='public'>当前登录用户：</lang> <img src="__TMPLPUB__/Images/write.gif" width="16" height="16" border="0" alt="" align="absmiddle"><b><a href="{:G::U('public/information')}" title="修改资料" >{$sUserName}</a></b>
+				| <img src="__TMPLPUB__/Images/checked_out.png" width="16" height="16" border="0" alt="" align="absmiddle"><a href="{:G::U('public/password')}"><lang package='public'>修改密码</lang></a>
+				| <img src="__TMPLPUB__/Images/error.gif" width="16" height="16" border="0" alt="" align="absmiddle"><a href="{:G::U('public/logout')}" target="_top"><lang package='public'>登出</lang></a>
+				| <img src="__TMPLPUB__/Images/home.gif" width="16" height="16" border="0" alt="" align="absmiddle"><a href="__ROOT__/index.php" target="_blank"><lang package='public'>站点首页</lang></a><br />
+				<a href="{:G::U('option/index')}"><img src="__TMPLPUB__/Images/setting.gif"/><lang package='public'>博客设置</lang></a> |
+				<a href="{:G::U('theme/index')}"><img src="__TMPLPUB__/Images/skin.gif"/><lang package='public'>更换模板</lang></a>{if !empty( $nTotal )}&nbsp;<img src="__TMPLPUB__/Images/notice_newpm.gif" title="<lang>私人消息</lang>({$nUser}) <lang>系统消息</lang>({$nSystem})">&nbsp;<small><lang package='public'>你有新的短消息</lang> ( <a href="__ROOT__/index.php?c=pm&a=index" class="high" target="_blank" title="<lang>私人消息</lang>({$nUser}) <lang>系统消息</lang>({$nSystem})"><b>{$nTotal}</b> </a> )</small>{/if}
+</td>
+	</tr>
+	</tbody>
+</table>
+	{script}
+		function currentClass(n) {
+			var lis = document.getElementsByTagName('span');
+			for(var i = 0; i < lis.length; i++) {
+				lis[i].className = '';
+			}
+			lis[n].className = 'current';
+		}
+		currentClass(0);
+	{/script}
+
+<include file="public+fffooter">

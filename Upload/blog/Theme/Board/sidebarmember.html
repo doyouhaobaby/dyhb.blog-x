@@ -1,0 +1,33 @@
+	{~$arrUserinfo = Global_Extend::isLogin( TRUE )}
+	<div class="side">
+		<h2><lang package='boardTheme'>个人中心</lang></h2>
+
+			<div class="sideinner">
+			<ul class="tabs">
+					<li {if MODULE_NAME==='member' && ( ACTION_NAME==='avatar' || ACTION_NAME==='upload' )}class="current"{/if}><a href="{:G::U('member/avatar')}" id="uploadavatar" prompt="uploadavatar"><lang package='boardTheme'>修改头像</lang></a></li>
+					<li {if MODULE_NAME==='member' && ACTION_NAME==='index'}class="current"{/if}><a href="{:G::U('member/index')}"><lang package='boardTheme'>个人中心</lang></a></li>
+					<li {if MODULE_NAME==='user' && ACTION_NAME==='show'}class="current"{/if}><a href="{:PageType_Extend::getAuthorUrl( $arrUserinfo )}"><lang package='boardTheme'>个人资料</lang></a></li>
+					<li {if MODULE_NAME==='pm'}class="current"{/if}><a href="{:G::U('pm/index')}"><lang package='boardTheme'>短消息</lang></a></li>
+			</ul>
+			</div>
+
+			<hr class="shadowline" />
+
+			<div class="sideinner">
+				<ul class="tabs">
+					<li {if MODULE_NAME==='my' && ACTION_NAME==='friend'}class="current"{/if}><a href="{:G::U('my/friend')}"><lang package='boardTheme'>我的好友</lang></a></li>
+					<li><a href="{:PageType_Extend::getUserUrl( $arrUserinfo )}"><lang package='boardTheme'>我的帖子</lang></a></li>
+			</ul>
+			</div>
+
+			<hr class="shadowline" />
+
+			<div class="sideinner">
+				<ul class="tabs">
+				<li {if MODULE_NAME==='member' && ACTION_NAME==='password'}class="current"{/if}><a href="{:G::U('member/password')}"><lang package='boardTheme'>修改密码</lang></a></li>
+			</ul>
+			</div>
+
+		</div>
+
+	</div>

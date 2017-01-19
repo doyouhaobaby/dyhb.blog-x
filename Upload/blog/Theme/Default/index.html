@@ -1,0 +1,25 @@
+<include file="header">
+
+	{# 导航条}
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+				<lang package='defaultTheme'>首页</lang>
+		</div>
+	</div>
+	
+	<!-- start content -->
+	<div id="content">
+	
+		{# 加载Loop列表}
+		<include file="loop">	
+
+	</div>
+
+	<!-- end content -->
+
+	{# 加载边栏模板}
+	<include file="sidebar">	
+		
+{# 加载底部模板}
+<include file="footer">

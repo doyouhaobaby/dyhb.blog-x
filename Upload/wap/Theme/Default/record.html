@@ -1,0 +1,17 @@
+<include file="header">
+
+	<div id="m">
+	<if condition="is_array($arrBlogRecords)">
+		<foreach for=arrBlogRecords key=nBlogRecordYear value=arrBlogRecord >
+			<div class="posttitle">{$nBlogRecordYear}<lang>年</lang></div> 
+			{~ksort($arrBlogRecord)}
+			<foreach for=arrBlogRecord key=nBlogRecordMonth value=nBlogRecordNum >
+			<span><a href="{:Url_Extend::getArchiveUrl($nBlogRecordYear.$nBlogRecordMonth)}">{$nBlogRecordMonth}<lang>月</lang></a>({$nBlogRecordNum})</span>
+			</foreach>
+		</foreach>
+	<else/>
+		<lang>没有任何归档</lang>
+	</if>
+	</div>
+
+<include file="footer">

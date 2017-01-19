@@ -1,0 +1,394 @@
+<include file="public+header">
+
+{script}
+
+var imgdirurl = '__ROOT__/blog/{if !empty( $arrThemeData['data']['style_img_dir'] )}{$arrThemeData['data']['style_img_dir']}{d*else}
+{if !empty($arrThemeData['data']['img_dir'])}{$arrThemeData['data']['img_dir']}{d*else}Theme/Default/Public/Images{/if}{/if}';
+function imgdirurlUpdate() {
+	imgdirurl = '__ROOT__/blog/'+($('#style_img_dir').val() ? $('#style_img_dir').val() : ($('#img_dir').val() ? $('#img_dir').val() : 'Theme/Default/Public/Images'));
+}
+
+var curInput;
+var curPreview;
+var curPreview2;
+var curPreview3;
+var curPreview4;
+var background=1;
+var border=0;
+var border1=0;
+var border2=0;
+colorpicker.previewColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+	if( curPreview ){
+
+		if( border==1 || border1==1 )
+			curPreview.style.borderColor = color;
+		else{
+			if( background==2 )
+				curPreview.style.background = color + ' url(' + imgdirurl +'/'+ curPreview3.value + ') ' + curPreview4.value;
+			else if( background==1 )
+				curPreview.style.background = color;
+			else
+				curPreview.style.color = color;
+		}
+	}
+
+	if( curPreview2 ){
+		if( border2==3 )
+			curPreview2.style.borderBottom = curPreview3.value+' solid '+color;
+		else if( border2==2 )
+			curPreview2.style.borderColor = color;
+		else if( border==1 || border2==1 )
+			curPreview2.style.borderColor = color;
+		else{
+			if( background==1 )
+				curPreview2.style.background = color;
+			else
+				curPreview2.style.color = color;
+		}
+	}
+}
+
+colorpicker.chooseColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+{/script}
+
+
+	<div class="title"><lang package='theme'>DIY 模板(简单模式)</lang> | <a href="{:G::U( 'theme/edit?app='.$sApp.'&theme='.$sTheme )}" title="<lang package='theme'>返回模板文件列表</lang>"><lang package='theme'>返回模板文件列表</lang></a></div>
+
+
+	<div id="content" class="content">
+
+		<div class="note"><p class="i"><lang package='theme'>鼠标轻轻点击，即可更改主题风格，可视化及时查看效果。</lang></p></div>
+
+		<form action="{:G::U('theme/diy_yes')}" method="post" id="themeAdd" name="themeAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='theme'>编辑界面方案</lang> - {$sTheme}</span></label></th>
+			<td></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="namenew"><lang package='theme'>界面方案名称</lang>:</label></th>
+			<td><input type="text" name="namenew" id="namenew" class="field" size="40" value="{$arrThemeData['template_nikename']}"/>
+			<div class="description"><lang package='theme'>识别界面风格的标志，请勿使用空格或特殊符号</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="templateidnew">匹配模板</lang>:</label></th>
+			<td><select name="templateidnew" id="templateidnew" >
+					<foreach for=arrThemeDir value=sThemeDir>
+						<option value="{$sThemeDir|strtolower}" {if $arrThemeData['doyouhaobaby_template_base']==strtolower($sThemeDir)}selected="selected"{/if}>{if strtolower($sThemeDir)=='default'}<lang package='theme'>默认模板套系</lang>{d*else}{$sThemeDir|strtolower}{/if}</option>
+					</foreach>
+				</select>
+			<div class="description"><lang package='theme'>与本套界面风格相匹配的模板名称</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="stylevar[template_type]"><lang package='theme'>模板方案</lang>:</label></th>
+			<td><select name="stylevar[template_type]" id="stylevar[template_type]" >
+					<option value="bbs" {if $arrThemeData['data']['template_type']=='bbs'}selected="selected"{/if}><lang package='theme'>社区模板</lang></option>
+					<option value="blog" {if $arrThemeData['data']['template_type']=='blog'}selected="selected"{/if}><lang package='theme'>博客模板</lang></option>
+					<option value="cms" {if $arrThemeData['data']['template_type']=='cms'}selected="selected"{/if}><lang package='theme'>CMS模板</lang></option>
+				</select>
+			<div class="description"><lang package='theme'>让你的站点与众不同，like blog or bbs and so on</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="img_dir"><lang package='theme'>界面基础图片目录</lang>:</label></th>
+			<td><input type="text" id="img_dir" name="stylevar[img_dir]" class="field" size="40" value="{$arrThemeData['data']['img_dir']}" onblur="document.getElementById('sp_line').style.backgroundColor = this.value;imgdirurlUpdate();"/>
+				<div class="description"><lang package='theme'>风格基础图片存放的目录，留空表示使用“Theme/Default/Public/Images”目录为基础图片目录</lang></div>
+				<div class="warning">{IMG_DIR}</div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="style_img_dir"><lang package='theme'>扩展图片目录</lang>:</label></th>
+			<td><input type="text" id="style_img_dir" name="stylevar[style_img_dir]" class="field" size="40" value="{$arrThemeData['data']['style_img_dir']}" onblur="document.getElementById('sp_line').style.backgroundColor = this.value;imgdirurlUpdate();"/>
+				<div class="description"><lang package='theme'>风格扩展图片存放的目录，留空表示无扩展图片目录</lang></div>
+				<div class="warning">{STYLE_IMG_DIR}</div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><span class="label label-yellow">可视化设置</lang></span></label></th>
+			<td></td>
+			</tr>
+			<tr>
+			<td colspan="2">
+				<table id="previewbody" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr>
+							<td style="border: medium none;" valign="top" width="560">
+								<style type="text/css">
+								#style_preview p, #style_preview ul, #style_preview li { margin: 0; padding: 0; list-style: none; }
+								#sp_menu li { float: left; margin-left: 5px; padding: 0 10px; height: 25px; border-style: solid; border-width: 1px 1px 0; line-height: 25px; }
+								#sp_wrap th, #sp_wrap td { border: 0; }
+								</style>
+								<div id="style_preview" style="width: 550px; border: 1px solid #333; background:#cffcfc url(&quot;__ROOT__/blog/Theme/Default/Public/Images/bg.gif&quot;) repeat-x scroll 0 90px; font-size: 12px; color: #444;">
+									<div id="sp_header" style="position: relative; padding: 20px 10px 20px 10px; border-bottom: 1px solid #00B2E8; background: #00A2D2 url(__ROOT__/blog/Theme/Default/Public/Images/blognamebg.jpg) repeat-x scroll 0 100%;">
+									<img id="sp_logo" src="__ROOT__/blog/Theme/Default/Public/Images/logo.png">
+									<div id="sp_umenu" style="position: absolute; right: 10px; top: 10px; color: #97F2FF;"><lang package='theme'>admin | 退出</lang></div>
+										<ul id="sp_menu" style="position: absolute; right: 10px; bottom: -1px; color: #666;">
+											<li id="sp_menucurrent" style="border-color: #00B2E8; background: #1E4B7E; color: #FFF;"><lang package='theme'>当前</lang></li>
+											<li id="sp_menuitem" style="border-color: #00B2E8; background: #EBF4FD url(__ROOT__/blog/Theme/Default/Public/Images/mtabbg.gif) repeat-x scroll 0 100%;"><lang package='theme'>导航</lang></li>
+										</ul>
+									</div>
+									<div id="sp_wrap" style="margin: 10px 10px 5px; border: 0px solid #000; background: #FFF url(__ROOT__/blog/Theme/Default/Public/Images/sidebg.gif) repeat-y scroll 100% 0;">
+										<div id="sp_content" style="padding: 10px; width: 350px; w\idth: 330px;">
+										<div id="sp_backcolor" style="background: #F7F7F7;">
+											<p id="sp_tabletext" style="margin: 0pt; line-height: 1.6em; color: rgb(68, 68, 68); font-family: Verdana,Helvetica,Arial,sans-serif; font-size: 12px;">
+												<a id="sp_link" href="http://www.doyouhaobaby.net" target="_blank" style="color: rgb(0, 153, 204); text-decoration: none;">DYHB.BLOG X!	Blog</a> <lang package='theme'>博客系统</lang><span id="sp_midtext" style="color: rgb(102, 102, 102);">（<lang package='theme'>简称</lang> <strong id="sp_notice" style="color: rgb(255, 102, 0);">DYHB.BLOG X!</strong> <lang package='theme'>博客</lang>）</span><lang package='theme'>是一个采用 PHP 和 MySQL(Oracle)等其他多种数据库构建的极品博客程序，同时也是DoYouHaoBaby 开发框架的用户工厂。</lang>
+											</p>
+										</div>
+										<div id="sp_line" style="margin: 5px 0 0 0; height: 2px; background: #E6E7E1; line-height: 2px; overflow: hidden;"></div>
+										<p id="sp_smalltext" style="padding: 5px 0 20px 0; text-align: right; color: #999; font-size: 0.83em;">---- Dianniu.Net</p>
+										<table cellpadding="0" cellspacing="0">
+											<tbody>
+												<tr>
+													<td width="100"><lang package='theme'>间隔线颜色</lang></td>
+													<td><input type="text" id='stylevar[]' name="stylevar[interval_line_color]" value="{$arrThemeData['data']['interval_line_color']}" size="10" class="field" onfocus='curInput=E("stylevar[interval_line_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['interval_line_color']}' onblur="document.getElementById('sp_line').style.backgroundColor = this.value;" >
+													<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[interval_line_color]"); colorpicker.choose(event);curPreview=E("sp_line");' />
+													</td>
+												</tr>
+												<tr>
+													<td width="100"><lang package='theme'>常用背景色</lang></td>
+													<td><input type="text" id='stylevar[common_background_color]' name="stylevar[common_background_color]" value="{$arrThemeData['data']['common_background_color']}" size="10" class="field" onfocus='curInput=E("stylevar[common_background_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['common_background_color']}' onblur="document.getElementById('sp_backcolor').style.backgroundColor = this.value;">
+													<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[common_background_color]"); colorpicker.choose(event);curPreview=E("sp_backcolor");' />
+													</td>
+												</tr>
+												<tr>
+													<td width="100"><lang package='theme'>正常字体，字号</lang></td>
+													<td><input type="text" name="stylevar[normal_font]" value="{$arrThemeData['data']['normal_font']}" size="15" onblur="document.getElementById('sp_tabletext').style.fontFamily = this.value" class="field">
+														<input type="text" name="stylevar[normal_fontsize]" value="{$arrThemeData['data']['normal_fontsize']}" size="5" onblur="document.getElementById('sp_tabletext').style.fontSize = this.value" class="field" >
+													</td>
+												</tr>
+												<tr>
+													<td width="100"><lang package='theme'>小号字体，字号</lang></td>
+													<td><input type="text" name="stylevar[small_font]" value="{$arrThemeData['data']['small_font']}" size="15" onblur="document.getElementById('sp_smalltext').style.fontFamily = this.value" class="field">
+														<input type="text" name="stylevar[small_fontsize]" value="{$arrThemeData['data']['small_fontsize']}" size="5" onblur="document.getElementById('sp_smalltext').style.fontSize = this.value" class="field">
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(68, 68, 68);" id="spt_tabletext" width="100"><lang package='theme'>普通文本色</lang></td>
+													<td><input class='field' type="text" id='stylevar[normal_color]' name="stylevar[normal_color]" value="{$arrThemeData['data']['normal_color']}" size="10" class="field" onfocus='curInput=E("stylevar[normal_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['normal_color']}' onblur="document.getElementById('sp_tabletext').style.color = this.value;document.getElementById('spt_tabletext').style.color = this.value;" >
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[normal_color]"); colorpicker.choose(event);curPreview=E("sp_tabletext");curPreview2=E("spt_tabletext");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(102, 102, 102);" id="spt_midtext" width="100"><lang package='theme'>中等文本色</lang></td>
+													<td><input type="text" id='stylevar[medium_textcolor]' name="stylevar[medium_textcolor]" value="{$arrThemeData['data']['medium_textcolor']}" size="10" class="field" onfocus='curInput=E("stylevar[medium_textcolor]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['medium_textcolor']}' onblur="document.getElementById('sp_midtext').style.color = this.value;document.getElementById('sp_midtext').style.color = this.value;" >
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[medium_textcolor]"); colorpicker.choose(event);curPreview=E("sp_midtext");curPreview2=E("spt_midtext");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(153, 153, 153);" id="spt_lighttext" width="100"><lang package='theme'>浅色文字色</lang></td>
+													<td><input type="text" id='stylevar[light_textcolor]' name="stylevar[light_textcolor]" value="{$arrThemeData['data']['light_textcolor']}" size="10" class="field" onfocus='curInput=E("stylevar[light_textcolor]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['light_textcolor']}' onblur="document.getElementById('sp_smalltext').style.color = this.value;document.getElementById('spt_lighttext').style.color = this.value;">
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[light_textcolor]");colorpicker.choose(event);curPreview=E("sp_smalltext");curPreview2=E("spt_lighttext");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(68, 68, 68);" id="spt_link" width="100"><lang package='theme'>链接文字色</lang></td>
+													<td><input class='field' type="text" id='stylevar[link_color]' name="stylevar[link_color]" value="{$arrThemeData['data']['link_color']}" size="10" class="field" onfocus='curInput=E("stylevar[link_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['link_color']}' onblur="document.getElementById('sp_link').style.color = this.value;document.getElementById('spt_link').style.color = this.value;">
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[link_color]"); colorpicker.choose(event);curPreview=E("sp_link");curPreview2=E("spt_link");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(0, 153, 153);" id="spt_highlightlink" width="100"><lang package='theme'>链接高亮色</lang></td>
+													<td><input type="text" id='stylevar[highlightlink_color]' name="stylevar[highlightlink_color]" value="{$arrThemeData['data']['highlightlink_color']}" size="10" class="field" onfocus='curInput=E("stylevar[highlightlink_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['highlightlink_color']}' onblur="document.getElementById('sp_link').style.color = this.value;document.getElementById('spt_highlightlink').style.color = this.value;">
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[highlightlink_color]"); colorpicker.choose(event);curPreview=E("sp_link");curPreview2=E("spt_highlightlink");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(255, 102, 0);" id="spt_noticetext" width="100"><lang package='theme'>提示文字色</lang></td>
+													<td><input type="text" id='stylevar[noticetext_color]' name="stylevar[noticetext_color]" value="{$arrThemeData['data']['noticetext_color']}" size="10" class="field" onfocus='curInput=E("stylevar[noticetext_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['noticetext_color']}' onblur="document.getElementById('sp_notice').style.color = this.value;document.getElementById('spt_noticetext').style.color = this.value;" >
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[noticetext_color]"); colorpicker.choose(event);curPreview=E("sp_notice");curPreview2=E("spt_noticetext");background=0;' />
+													</td>
+												</tr>
+												<tr>
+													<td style="color: rgb(255, 102, 0);" id="spt_noticetext_border" width="100"><lang package='theme'>提示信息边框颜色</lang></td>
+													<td><input type="text" id='stylevar[noticetext_border_color]' name="stylevar[noticetext_border_color]" value="{$arrThemeData['data']['noticetext_border_color']}" size="10" class="field" onfocus='curInput=E("stylevar[noticetext_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['noticetext_border_color']}' onblur="document.getElementById('spt_noticetext_border').style.color = this.value;" >
+														<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[noticetext_border_color]"); colorpicker.choose(event);curPreview=E("spt_noticetext_border");' />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+								</div>
+							</div>
+						<div id="sp_footer" style="margin: 0pt auto 20px; text-align: center;"><lang package='theme'>版权及页脚信息</lang></div>
+					</div>
+				</td>
+				<td style="border: medium none;" valign="top">
+
+
+					<table style="table-layout: fixed;" cellpadding="0" cellspacing="0" width="100%">
+						<tbody>
+							<tr>
+								<td width="100"><lang package='theme'>博客 Logo</lang></td>
+								<td><input type="text" name="stylevar[logo]" value="{$arrThemeData['data']['logo']}" size="10" onblur="document.getElementById('sp_logo').src = this.value ? imgdirurl+'/' + this.value : '__PUBLIC__/Images/Common/none.gif'" class="field"></td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>页头背景</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[header_bg_color]' id='stylevar[header_bg_color]' value='{$arrThemeData['data']['header_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[header_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_bg_color']['color']}' onblur="document.getElementById('sp_header').style.background = this.value + ' url(' + imgdirurl +'/'+ document.getElementById('header_bg_color_img').value + ') ' + document.getElementById('header_bg_color_extra').value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_bg_color]"); colorpicker.choose(event);curPreview=E("sp_header");curPreview3=E("header_bg_color_img");curPreview4=E("header_bg_color_extra");background=2;' />
+									<input type="text" class='field' id="header_bg_color_img" name="stylevarbgimg[header_bg_color_img]" value="{$arrThemeData['data']['header_bg_color']['img']}" size="10" onblur="document.getElementById('sp_header').style.background = $('stylevar[header_bg_color]').value + ' url(' + imgdirurl+'/' + this.value + ') ' + document.getElementById('header_bg_color_extra').value" >
+									<input type="text" class='field' id="header_bg_color_extra" name="stylevarbgextra[header_bg_color_extra]" value="{$arrThemeData['data']['header_bg_color']['extra']}" size="10" onblur="document.getElementById('sp_header').style.background = document.getElementById('stylevar[header_bg_color]').value + ' url(' + imgdirurl+'/' + document.getElementById('header_bg_color_img').value + ') ' + this.value">
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>页头分割线</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[header_border_color]' id='stylevar[header_border_color]' value='{$arrThemeData['data']['header_border_color']}' size='8'	onfocus='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_border_color']}' onblur="document.getElementById('sp_menucurrent').style.borderColor = this.value;document.getElementById('sp_header').style.borderBottom = document.getElementById('header_border_width').value + ' solid ' + this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);curPreview=E("sp_menucurrent");curPreview2=E("sp_header");curPreview3=E("header_border_width");border1=1;border2=3;' />
+									<input type="text" id="header_border_width" name="stylevar[header_border_width]" value="{$arrThemeData['data']['header_border_width']}" size="10" onblur="document.getElementById('sp_header').style.borderBottom = this.value + ' solid ' + document.getElementById('stylevar[header_border_color]').value" class="field" >
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>页头文字色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[header_text_color]' id='stylevar[header_text_color]' value='{$arrThemeData['data']['header_text_color']}' size='8'	onfocus='curInput=E("stylevar[header_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_text_color']}' onblur="document.getElementById('sp_umenu').style.color = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);curPreview=E("sp_umenu");background=0;' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>菜单边框色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[menu_border_color]' id='stylevar[menu_border_color]' value='{$arrThemeData['data']['menu_border_color']}' size='8'	onfocus='curInput=E("stylevar[menu_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_border_color']}' onblur="document.getElementById('sp_menuitem').style.borderColor = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_border_color]"); colorpicker.choose(event);curPreview=E("sp_menuitem");background=1;border1=1' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>菜单背景色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[menu_bg_color]' id='stylevar[menu_bg_color]' value='{$arrThemeData['data']['menu_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[menu_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_bg_color']['color']}' onblur="document.getElementById('sp_menuitem').style.background = this.value + ' url(' + imgdirurl+'/'+ document.getElementById('menu_bg_color_img').value + ') ' + document.getElementById('menu_bg_color_extra').value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_bg_color]"); colorpicker.choose(event);curPreview=E("sp_menuitem");curPreview3=E("menu_bg_color_img");curPreview4=E("menu_bg_color_extra");background=2;' />
+									<input type="text" class='field' id="menu_bg_color_img" name="stylevarbgimg[menu_bg_color_img]" value="{$arrThemeData['data']['menu_bg_color']['img']}" size="10" onblur="document.getElementById('sp_menuitem').style.background = document.getElementById('stylevar[menu_bg_color]').value + ' url(' + imgdirurl+'/' + this.value + ') ' + document.getElementById('menu_bg_color_extra').value;" >
+									<input type="text" class='field' id="menu_bg_color_extra" name="stylevarbgextra[menu_bg_color_extra]" value="{$arrThemeData['data']['menu_bg_color']['extra']}" size="10" onblur="document.getElementById('sp_menuitem').style.background = document.getElementById('stylevar[menu_bg_color]').value + ' url(' + imgdirurl+'/' + document.getElementById('menu_bg_color_img').value + ') ' + this.value;">
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>菜单文字色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[menu_text_color]' id='stylevar[menu_text_color]' value='{$arrThemeData['data']['menu_text_color']}' size='8'	onfocus='curInput=E("stylevar[menu_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_text_color']}' onblur="document.getElementById('sp_menu').style.color = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_text_color]"); colorpicker.choose(event);curPreview=E("sp_menu");background=0;' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>高亮菜单背景色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[menu_hover_bg_color]' id='stylevar[menu_hover_bg_color]' value='{$arrThemeData['data']['menu_hover_bg_color']}' size='8'	onfocus='curInput=E("stylevar[menu_hover_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_hover_bg_color']}' onblur="document.getElementById('sp_menucurrent').style.backgroundColor = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_hover_bg_color]"); colorpicker.choose(event);curPreview=E("sp_menucurrent");' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>高亮菜单文字色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[menu_hover_text_color]' id='stylevar[menu_hover_text_color]' value='{$arrThemeData['data']['menu_hover_text_color']}' size='8'	onfocus='curInput=E("stylevar[menu_hover_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_hover_text_color']}' onblur="document.getElementById('sp_menucurrent').style.color = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_hover_text_color]"); colorpicker.choose(event);curPreview=E("sp_menucurrent");background=0;' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>页面背景</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[bg_color]' id='stylevar[bg_color]' value='{$arrThemeData['data']['bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['bg_color']['color']}' onblur="document.getElementById('style_preview').style.background = this.value + ' url(' + imgdirurl+'/'+ document.getElementById('bg_color_img').value + ') ' + document.getElementById('bg_color_extra').value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[bg_color]"); colorpicker.choose(event);curPreview=E("style_preview");curPreview3=E("bg_color_img");curPreview4=E("bg_color_extra");background=2;' />
+									<input type="text" class='field' id="bg_color_img" name="stylevarbgimg[bg_color_img]" value="{$arrThemeData['data']['bg_color']['img']}" size="10" onblur="document.getElementById('style_preview').style.background = document.getElementById('stylevar[bg_color]').value + ' url(' + imgdirurl+'/' + this.value + ') ' + document.getElementById('bg_color_extra').value;" >
+									<input type="text" class='field' id="bg_color_extra" name="stylevarbgextra[bg_color_extra]" value="{$arrThemeData['data']['bg_color']['extra']}" size="10" onblur="document.getElementById('style_preview').style.background = document.getElementById('stylevar[bg_color]').value + ' url(' + imgdirurl+'/' + document.getElementById('bg_color_img').value + ') ' + this.value;">
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>侧边背景</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[side_bg_color]' id='stylevar[side_bg_color]' value='{$arrThemeData['data']['side_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[side_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['side_bg_color']['color']}' onblur="document.getElementById('sp_wrap').style.background = this.value + ' url(' + imgdirurl+'/'+ document.getElementById('side_bg_color_img').value + ') ' + document.getElementById('side_bg_color_extra').value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[side_bg_color]"); colorpicker.choose(event);curPreview=E("sp_wrap");curPreview3=E("side_bg_color_img");curPreview4=E("side_bg_color_extra");background=2;' />
+									<input type="text" class='field' id="side_bg_color_img" name="stylevarbgimg[side_bg_color_img]" value="{$arrThemeData['data']['side_bg_color']['img']}" size="10" onblur="document.getElementById('sp_wrap').style.background = document.getElementById('stylevar[side_bg_color]').value + ' url(' + imgdirurl+'/' + this.value + ') ' + document.getElementById('side_bg_color_extra').value;" >
+									<input type="text" class='field' id="side_bg_color_extra" name="stylevarbgextra[side_bg_color_extra]" value="{$arrThemeData['data']['side_bg_color']['extra']}" size="10" onblur="document.getElementById('sp_wrap').style.background = document.getElementById('stylevar[side_bg_color]').value + ' url(' + imgdirurl+'/' + document.getElementById('side_bg_color_img').value + ') ' + this.value;">
+								</td>
+							</tr>
+							<tr><td><lang package='theme'>主体表格宽度</lang></td>
+								<td>
+									<input class='field' type="text" name="stylevar[wrap_table_width]" value="{$arrThemeData['data']['wrap_table_width']}" size="10">
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>主体表格背景色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[wrap_table_bg]' id='stylevar[wrap_table_bg]' value='{$arrThemeData['data']['wrap_table_bg']}' size='8'	onfocus='curInput=E("stylevar[wrap_table_bg]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['wrap_table_bg']}' onblur="document.getElementById('sp_wrap').style.backgroundColor = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[wrap_table_bg]"); colorpicker.choose(event);curPreview=E("sp_wrap");' />
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>主体表格边框</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[wrap_border_color]' id='stylevar[wrap_border_color]' value='{$arrThemeData['data']['wrap_border_color']}' size='8'	onfocus='curInput=E("stylevar[wrap_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['wrap_border_color']}' onblur="document.getElementById('sp_wrap').style.border = document.getElementById('wrap_border_width').value + ' solid ' + this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[wrap_border_color]"); colorpicker.choose(event);curPreview=E("sp_wrap");border1=1;' />
+									<input class='field' type="text" id="wrap_border_width" name="stylevar[wrap_border_width]" value="{$arrThemeData['data']['wrap_border_width']}" size="10" onblur="document.getElementById('sp_wrap').style.border = this.value + ' solid ' + document.getElementById('stylevar[wrap_border_color]').value">
+								</td>
+							</tr>
+							<tr>
+								<td><lang package='theme'>页脚文字色</lang></td>
+								<td>
+									<input type='text' class='field' name='stylevar[footer_text_color]' id='stylevar[footer_text_color]' value='{$arrThemeData['data']['footer_text_color']}' size='8'	onfocus='curInput=E("stylevar[footer_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['footer_text_color']}' onblur="document.getElementById('sp_footer').style.color = this.value;"/>
+									<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[footer_text_color]"); colorpicker.choose(event);curPreview=E("sp_footer");background=0;' />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<script type="text/javascritp">
+					var inps = $('previewbody').getElementsByTagName('INPUT');
+					for(i = 0;i < inps.length;i++) {
+						if(inps[i].onchange) {
+							var change = inps[i].onchange.toString();
+							if(change) {
+								var start = change.indexOf('{');
+								var end = change.lastIndexOf('}');
+								s = change.substring(start + 1, end);
+								s = s.replace(/this\.value/ig, "'" + inps[i].value + "'");
+								eval(s)
+							}
+						}
+					}
+					</script>
+				</td>
+			</tr>
+		<table>
+		<p class="center">
+			<input type="hidden" name="theme" value="{$sTheme}">
+			<input type="hidden" name="template_id" value="{$sTheme}">
+			<input type="hidden" name="app" value="{$sApp}">
+			<input type="hidden" name="stylevar[msg_fontsize]" value="{$arrThemeData['data']['msg_fontsize']}"/>
+			<input type="hidden" name="stylevar[msg_big_size]" value="{$arrThemeData['data']['msg_big_size']}"/>
+			<input type="hidden" name="stylevar[content_width]" value="{$arrThemeData['data']['content_width']}"/>
+			<input type='hidden' name='stylevar[content_separate_color]' value='{$arrThemeData['data']['content_separate_color']}'/>
+			<input type='hidden' name='stylevar[input_border]' value='{$arrThemeData['data']['input_border']}'/>
+			<input type='hidden' name='stylevar[input_border_dark_color]' value='{$arrThemeData['data']['input_border_dark_color']}'/>
+			<input type='hidden' name='stylevar[input_bg]' value='{$arrThemeData['data']['input_bg']}'/>
+			<input type='hidden' name='stylevar[drop_menu_border]' value='{$arrThemeData['data']['drop_menu_border']}'/>
+			<input type='hidden' name='stylevar[drop_menu_bg_color]' value='{$arrThemeData['data']['drop_menu_bg_color']['color']}'/>
+			<input type="hidden" name="stylevarbgimg[drop_menu_bg_color_img]" value="{$arrThemeData['data']['drop_menu_bg_color']['img']}"/>
+			<input type="hidden" name="stylevarbgextra[drop_menu_bg_color_extra]" value="{$arrThemeData['data']['drop_menu_bg_color']['extra']}"/>
+			<input type='hidden' name='stylevar[special_border]' value='{$arrThemeData['data']['special_border']}'/>
+			<input type='hidden' name='stylevar[special_bg]' value='{$arrThemeData['data']['special_bg']}'/>
+			<input type='hidden' name='stylevar[interleave_color]' value='{$arrThemeData['data']['interleave_color']}'/>
+			<input type='hidden' name='stylevar[footer_bg_color]'value='{$arrThemeData['data']['footer_bg_color']['color']}'/>
+			<input type="hidden" name="stylevarbgimg[footer_bg_color_img]" value="{$arrThemeData['data']['footer_bg_color']['img']}">
+			<input type="hidden" name="stylevarbgextra[footer_bg_color_extra]" value="{$arrThemeData['data']['footer_bg_color']['extra']}">
+			<input type="hidden" name="stylevar[big_font]" value="{$arrThemeData['data']['big_font']}">
+			<input type="hidden" name="stylevar[big_fontsize]" value="{$arrThemeData['data']['big_fontsize']}">
+			<input type="hidden" name="stylevar[float_bg_color]" value="{$arrThemeData['data']['float_bg_color']['color']}" />
+			<input type="hidden" name="stylevarbgimg[float_bg_color_img]" value="{$arrThemeData['data']['float_bg_color']['img']}" >
+			<input type="hidden" name="stylevarbgextra[float_bg_color_extra]" value="{$arrThemeData['data']['float_bg_color']['extra']}" >
+			<input type="hidden" name="stylevar[float_mask_bg_color]" value="{$arrThemeData['data']['float_mask_bg_color']['color']}"/>
+			<input type="hidden" name="stylevarbgimg[float_mask_bg_color_img]" value="{$arrThemeData['data']['float_mask_bg_color']['img']}">
+			<input type="hidden" name="stylevarbgextra[float_mask_bg_color_extra]" value="{$arrThemeData['data']['float_mask_bg_color']['extra']}">
+			<input id="submit_button" type="submit"class="button button-blue" title="<lang package='theme'>点击提交您的修改</lang>" value="  <lang>提 交</lang>  " />
+			<input type="button" onclick="location.href='{:G::U( 'theme/diy?theme='.$sTheme.'&app='.$sApp.'&adv=1' )}'" class="button button-green" value="  <lang package='theme'>切换到高级模式</lang>  " />
+		</p>
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

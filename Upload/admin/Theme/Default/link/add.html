@@ -1,0 +1,85 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加衔接中') );
+	Dyhb.AjaxSubmit('linkAdd','{:G::U('link/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新衔接中') );
+	Dyhb.AjaxSubmit('linkAdd','{:G::U('link/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新衔接') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加衔接') );
+	if(status==1){
+		$('#id').val(data.link_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='link'>添加衔接</lang><else/><lang package='link'>编辑衔接</lang></if> ( <a href="{:G::U('link/index')}"><lang package='link'>返回衔接列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('link/insert')}<else/>{:G::U('link/update')}</if>" method="post" id="linkAdd" name="linkAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="link_compositor"><lang package='link'>衔接排序</lang>：</label></th>
+			<td><input type="text" name="link_compositor" id="link_compositor" class="field" size="5" value="<if condition="isset( $oValue )">{$oValue:link_compositor}<else/>0</if>"/>
+			<br/><div class="description"><lang package='link'>衔接的排序只能是数字。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_name"><lang package='link'>衔接名字</lang>：</label></th>
+			<td><input type="text" name="link_name" id="link_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:link_name}</if>"/>
+			<br/><div class="description"><lang package='link'>衔接的名字，不能为空！</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_isdisplay"><lang>状态</lang>：</label></th>
+			<td><SELECT class="field"	name="link_isdisplay">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:link_isdisplay==1">selected</if>><lang>启用</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:link_isdisplay==0 ) ">selected</if> ><lang>禁用</lang></option>
+				</SELECT>
+				<br/><div class="description"><lang package='link'>衔接状态，决定衔接是否在前台显示。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_url"><lang package='link'>衔接 URL</lang>：</label></th>
+			<td><input type="text" name="link_url" id="link_url" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:link_url}</if>"/>
+			<br/><div class="description"><lang package='link'>衔接的URL 地址，必须为符合格式的URL 地址。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_logo"><lang package='link'>衔接 Logo</lang>：</label></th>
+			<td><input type="text" name="link_logo" id="link_logo" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:link_logo}</if>"/>
+			<br/><div class="description"><lang package='link'>衔接的Logo 地址。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="link_description"><lang package='link'>衔接描述</lang>：</label></th>
+			<td><textarea name="link_description" id="link_description" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:link_description}</if></textarea>
+			<br/><div class="description"><lang package='link'>对衔接进行描述，以便于了解详情。</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+		<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value=" <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

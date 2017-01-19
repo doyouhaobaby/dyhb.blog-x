@@ -1,0 +1,14 @@
+<include file="header">
+
+	<div id="m">
+	<div class="list_title"><lang>最新相片</lang></div>
+	<foreach for=arrUploadLists>
+		<p><img src="{:G::U('blog/thumb?w=100&h=63&id='.$value['upload_id'])}" border="0"/><br>
+		<a href="{:Url_Extend::getUploadUrl($value)}"><span><lang>查看大图</lang></span></a></p>
+	</foreach>
+	<div id="page">
+	{$sPageNavbar}
+	</div>
+	</div>
+
+<include file="footer">

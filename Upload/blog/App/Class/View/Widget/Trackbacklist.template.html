@@ -1,0 +1,15 @@
+{$before_widget}
+<foreach for=data value=arrTrackbackList >
+{~$sEven=$key%2==0 ? $even:$odd}
+{~$oBlog=TrackbacklistWidget::getTrackbackBlog($arrTrackbackList['blog_id'])}
+<div class="trackback-item {$sEven}" id="trackback-item-{$arrTrackbackList['trackback_id']}">
+	<p class="trackback-title">{if $oBlog===false}<lang>文章不存在</lang>{d*else}<a href="{:PageType_Extend::getBlogUrl($oBlog)}#trackbacks">{$oBlog['blog_title']}</a>{/if}</p>
+	<p class="trackback-content">
+		 <lang>标题</lang>: <a href="{$arrTrackbackList['trackback_url']}" target="_blank">{$arrTrackbackList['trackback_title']}</a><br />
+		 <lang>来自</lang>: <a href="{$arrTrackbackList['trackback_url']}" target="_blank">{$arrTrackbackList['trackback_blogname']}</a><br />
+		 <lang>摘要</lang>: {$arrTrackbackList['trackback_excerpt']}
+	</p>
+	<p class="trackback-date">Tracked on {$arrTrackbackList['create_dateline']|date=$date,**}</p>
+</div>
+</foreach>
+{$after_widget}

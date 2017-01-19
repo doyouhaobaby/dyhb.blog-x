@@ -1,0 +1,34 @@
+/*
+File Name: common_append.css
+File Type: 非必需
+Description: common append
+*/
+
+html { background: #55616A url({STYLE_IMG_DIR}/wrapbg.gif) repeat 0 270px; }
+#header, #header .wrap { padding: 0; height: 99px; }
+	#header h2, #ad_headerbanner { margin-top:24px; }
+#footer, #footer a { color: #D0D5D8; }
+#menu { bottom: 2px; }
+	#menu li { padding-left: 5px; background: #957353 url({STYLE_IMG_DIR}/menu.gif) no-repeat 0 0; }
+		#menu li a { padding-left: 9px; border: none; background: #55616A url({STYLE_IMG_DIR}/menu.gif) no-repeat 100% 0; }
+		#menu li.current { background-position: 0 -25px; }
+			#menu li.current a { background-position: 100% -25px; color: #FFF; }
+		#menu li a.dropmenu { background: #55616A url({STYLE_IMG_DIR}/menu.gif) no-repeat 100% -50px; }
+			#menu li.current a.dropmenu { background: #55616A url({STYLE_IMG_DIR}/menu.gif) no-repeat 100% -100px; }
+		#menu li a:hover { color: #D0D5D8; }
+#nav { background-image: url({STYLE_IMG_DIR}/nav.gif); text-indent: 30px; }
+#wrap { background: #DAD6C5 url({STYLE_IMG_DIR}/content.jpg) repeat-y 0 0; }
+	#wrap.with_side { background-position: 100% 0; }
+.list, .mainbox .adcontent, .mainbox table .threadad td.postauthor, .colplural, .colplural th, .colplural td { background: url({STYLE_IMG_DIR}/title.gif) repeat-x 0 0; }
+.list th { background-image: url({STYLE_IMG_DIR}/forum.gif); }
+	.list th.new { background-image: url({STYLE_IMG_DIR}/forum_new.gif); }
+.shadowline { border-top-color: #C1B79E; border-bottom-color: #DAD6C5; }
+.mainbox table td.postauthor, .forumcontrol table .modaction { background: #DAD6C5 url({STYLE_IMG_DIR}/author.jpg) repeat-y 100% 0; }
+.forumcontrol table { background: transparent !important; }
+	.forumcontrol table.narrow td { padding-top: 10px; }
+.signatures { background-image: url({STYLE_IMG_DIR}/sign.gif) !important; }
+.content { background: none!important; }
+.blockcode { border: none !important; background: transparent url({STYLE_IMG_DIR}/code.jpg) repeat-y 5px 0 !important; }
+	.blockcode ol li:hover { background: transparent !important; }
+.quote { background: #C7C3B1 url({STYLE_IMG_DIR}/quote1.gif) no-repeat 10px 6px !important; }
+	.quote blockquote { background: url({STYLE_IMG_DIR}/quote2.gif) no-repeat 100% 100% !important; }

@@ -1,0 +1,36 @@
+/*
+Theme Name: 时尚社区
+Theme URI: http://doyouhaobaby.net/
+Description: 时尚社区风格
+Author: Dianniu team
+Author URI: http://doyouhaobaby.net
+Version: 1.0
+License: GNU General Public License
+License URI: http://doyouhaobaby.net/license.html
+Tags: fashion, front, simple
+*/
+
+
+/**===============================
+              首页和帖子列表
+================================*/
+[CURSCRIPT = index,newblogs]
+#index .content { background: url({STYLE_IMG_DIR}/mainbanner.jpg) no-repeat 100% 0; }
+	* html #index .content { zoom: 1; margin-top: -31px; } /* IE6 关闭边栏时触发 hasLayout */
+	#index .with_side .content { zoom: 1; margin-top: 0; } /* IE 下开启边栏时触发 hasLayout */
+	* html #index .content { width: 910px; } /* IE6 下关闭边栏时的分类间广告最大宽度 */
+	* html #index .with_side .content { width: 730px; } /* IE6 下开启边栏时的分类间广告最大宽度 */
+#index .pages_btns { padding: 60px 0 0 85px; width: 385px; w\idth: 300px; height: 100px; he\ight: 50px; color: #FF8FCC; line-height: 1.6em; }
+	#index .pages_btns .postbtn { float: left; margin: 0 0 0 -85px; width: 77px; height: 40px; background-image: url({STYLE_IMG_DIR}/post-b.gif); line-height: 40px; }
+	#index .pages_btns a { color: #FFF; }
+#index .foruminfo { margin-top: 0; margin-bottom: 20px; height: 30px; }
+	.forumcount { width: 400px; text-align: right; }
+[/CURSCRIPT]
+
+
+/**===============================
+              发帖按钮
+================================*/
+[CURSCRIPT = archive,user,category,search,tag,single]
+	.postbtn { background-image: url({STYLE_IMG_DIR}/post.gif); }
+[/CURSCRIPT]

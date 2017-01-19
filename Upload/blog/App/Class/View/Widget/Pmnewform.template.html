@@ -1,0 +1,54 @@
+{script}
+//<![CDATA[
+function pmSend(){
+	$("#sendpm_submit").attr("disabled", "disabled");
+	$("#sendpm_submit").val(D.L('发送消息中'));
+	$("#sendpm_submit").attr("disabled", false);
+	Dyhb.AjaxSubmit('sendpmform','{:G::U('pm/send_a_pm')}','',complete);
+}
+function complete(data,status){
+	$("#sendpm_submit").attr("disabled", false);
+	$("#sendpm_submit").val(D.L('发送'));
+}
+//]]>
+{/script}
+
+{$before}
+		<form id="sendpmform" name="sendpmform" method="post" action="" >
+		{$before_table}
+		<table class="formtable" cellpadding="0" cellspacing="0">
+		 <tbody>
+			{if $hide==0}
+			<tr>
+				<td width="60"><lang>收件人</lang>: </td>
+				<td><input type="text" name="messageto" value="{$data}" class="field" tabindex="1"></td>
+			</tr>
+			{d*else}
+			<input name="messageto" value="{$data}" type="hidden" class="field" tabindex="1">
+			{/if}
+			<tr>
+				<td valign="top"><lang>内容</lang>: </td>
+				<td><textarea id="pmsendmessage" name="pm_message" cols="60" rows="10" class="field" tabindex="1" style="{$style}">{$content}</textarea>
+				</td>
+			</tr>
+			{if $seccode===true}
+			<tr>
+			<td valign="top">&nbsp;</td>
+			<td><p>
+				<input onfocus="updateSeccode();this.onfocus=null;" onBlur="checkSeccode();" type="text"	class="seccode" name="seccode" size="6" id="seccode" tabindex="8" />
+				<label for="seccode"><small><lang>验证码</lang></small></label>
+				&nbsp;<div class="seccodeImage" id="seccodeImage"></div>
+				<input type="hidden" id="seccode_type" name="seccode_type" value="pm" />
+			</p></td>
+			 </tr>
+			{/if}
+			<tr>
+				<td></td>
+				<td><input type="button" name="pmsubmit" value="<lang>发送</lang>" class="button" id="sendpm_submit" onclick="pmSend()"></td>
+			</tr>
+		</tbody>
+	 </table>
+	{$after_table}
+	<input type="hidden" name="ajax" id="ajax" maxlength="1" value="1" />
+	</form>
+{$after}

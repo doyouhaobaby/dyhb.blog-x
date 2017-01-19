@@ -1,0 +1,44 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='avatar'>头像上传</lang></div>
+
+	
+	<div id="content" class="content">
+
+	<span class="label label-blue"><lang package='avatar'>当前我的头像</lang></span>
+	<p>{if $bExistAvatar===false}<lang package='avatar'>你还没有上传头像，头像为系统默认头像。</lang><br/>{/if}
+		<lang package='avatar'>点击下面的按钮，你可以查看高清原始头像。</lang>
+		<a href="{$sOriginAvatar}" title="<lang package='avatar'>原始高清头像</lang>" target="_blank" class="a-button"><lang package='avatar'>高清头像</lang></a>
+	</p>
+
+	<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><lang package='avatar'>大头像 200*200</lang></label></th>
+			<td><img src="{$sBigAvatar}" title="<lang package='avatar'>大头像 200*200</lang>" /></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='avatar'>中等头像 120*120</lang></label></th>
+			<td><img src="{$sMiddleAvatar}" title="<lang package='avatar'>中等头像 120*120</lang>" />
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for=""><lang package='avatar'>小头像 48*48</lang></label></th>
+			<td><img src="{$sSmallAvatar}" title="<lang package='avatar'>小头像 48*48</lang>" />
+			</td>
+			</tr>
+		</table>
+
+	<span class="label label-red"><lang package='avatar'>设置我的新头像</lang></span>
+	<p style="margin-bottom:10px;"><lang package='avatar'>请选择一个新照片进行上传编辑。</lang><br/>
+		<lang package='avatar'>头像上传后，你可以裁剪，然后点击保存。</lang></p>
+ 
+	<form name="photo" enctype="multipart/form-data" action="{:G::U('avatar/upload')}" method="post" name="uploadAdd" id="uploadAdd">
+		<input type="file" name="image" size="30" class="field" /> 
+		<input onclick="upload()" type="submit" name="upload" class="button button-blue" value="  <lang package='avatar'>上传头像</lang>  " />
+	</form>
+	
+	</div>
+	
+
+<include file="public+footer">

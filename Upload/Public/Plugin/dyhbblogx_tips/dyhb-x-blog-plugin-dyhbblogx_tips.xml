@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><root>
+<plugin>
+	<create_dateline><![CDATA[1331550568]]></create_dateline>
+	<update_dateline><![CDATA[1331540418]]></update_dateline>
+	<plugin_active><![CDATA[0]]></plugin_active>
+	<plugin_name><![CDATA[提醒消息]]></plugin_name>
+	<plugin_identifier><![CDATA[dyhbblogx_tips]]></plugin_identifier>
+	<plugin_author><![CDATA[小牛哥Dyhb]]></plugin_author>
+	<plugin_authorurl><![CDATA[http://doyouhaobaby.net]]></plugin_authorurl>
+	<plugin_description><![CDATA[DYHB.BLOG_X-2.0开始以来的第一个插件！]]></plugin_description>
+	<plugin_dir><![CDATA[dyhbblogx_tips]]></plugin_dir>
+	<plugin_module><![CDATA[a:3:{i:0;a:6:{s:4:"name";s:5:"front";s:4:"type";s:15:"front_main_menu";s:8:"menuname";s:6:"前台";s:3:"url";s:0:"";s:12:"displayorder";i:0;s:11:"description";s:0:"";}i:1;a:6:{s:4:"name";s:14:"dyhbblogx_tips";s:4:"type";s:17:"front_template_in";s:8:"menuname";s:0:"";s:3:"url";s:0:"";s:12:"displayorder";i:0;s:11:"description";s:0:"";}i:2;a:6:{s:4:"name";s:5:"admin";s:4:"type";s:17:"admin_plugin_menu";s:8:"menuname";s:18:"后台设置演示";s:3:"url";s:0:"";s:12:"displayorder";i:0;s:11:"description";s:0:"";}}]]></plugin_module>
+	<plugin_copyright><![CDATA[DYHB.BLOG_X官方提供技术演示而已，无实际用途。]]></plugin_copyright>
+	<plugin_version><![CDATA[1.0]]></plugin_version>
+</plugin>
+<version><![CDATA[1.0]]></version>
+<var>
+	<var0>
+		<pluginvar_displayorder><![CDATA[0]]></pluginvar_displayorder>
+		<pluginvar_title><![CDATA[测试标题2]]></pluginvar_title>
+		<pluginvar_description><![CDATA[测试标题2]]></pluginvar_description>
+		<pluginvar_variable><![CDATA[testvar2]]></pluginvar_variable>
+		<pluginvar_value><![CDATA[2]]></pluginvar_value>
+		<pluginvar_type><![CDATA[select]]></pluginvar_type>
+		<pluginvar_extra><![CDATA[1 = 光电鼠标
+2 = 光电鼠标2
+3 = 光电鼠标3]]></pluginvar_extra>
+	</var0>
+	<var1>
+		<pluginvar_displayorder><![CDATA[0]]></pluginvar_displayorder>
+		<pluginvar_title><![CDATA[测试标题]]></pluginvar_title>
+		<pluginvar_description><![CDATA[测试描述]]></pluginvar_description>
+		<pluginvar_variable><![CDATA[testvar]]></pluginvar_variable>
+		<pluginvar_value><![CDATA[#1ABDE6]]></pluginvar_value>
+		<pluginvar_type><![CDATA[color]]></pluginvar_type>
+		<pluginvar_extra><![CDATA[1 = 光电鼠标
+2 = 光电鼠标2
+3 = 光电鼠标3
+4 = 光电鼠标4]]></pluginvar_extra>
+	</var1>
+</var>
+<installfile><![CDATA[install.php]]></installfile>
+<uninstallfile><![CDATA[uninstall.php]]></uninstallfile>
+</root>

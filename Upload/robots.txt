@@ -1,0 +1,10 @@
+#
+# DYHB.BLOG X V2.X
+#
+
+User-agent: *
+Disallow: /admin/
+Disallow: /Common/
+Disallow: /DoYouHaoBaby/
+Disallow: /Public/
+Disallow: /admin.php/

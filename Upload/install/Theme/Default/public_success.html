@@ -1,0 +1,26 @@
+<include file="header">
+
+<div class="title">{$__MessageTitle__}</div>
+<div id="main">
+	<div class="item-title"><if condition="isset( $__Message__ ) AND !empty( $__Message__ )" >
+					 <div style="text-align:left;"><img src="{$__InfobigImg__}"/></div>{$__Message__}
+				</if>
+				<if condition="isset( $__ErrorMessage__ ) AND !empty( $__ErrorMessage__ )" >
+					<div style="text-align:left;"><img src="{$__ErrorbigImg__}"/></div>{$__ErrorMessage__}
+				</if>
+				<div id="__Loader__"><img src="{$__LoadingImg__}"/></div>
+			</div>
+			<p id="__JumpUrl__">
+
+				<if condition="isset( $__CloseWindow__ ) AND !empty( $__CloseWindow__ )" >
+					<lang>系统将在</lang> <span class="red" id="__Seconds__">{$__WaitSecond__}</span> <lang>秒后自动关闭，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang>这里</lang></a> <lang>关闭</lang>
+				</if>
+
+				<if condition="!isset( $__CloseWindow__ ) OR empty( $__CloseWindow__ )" >
+					<lang>系统将在</lang> <span class="blue" id="__Seconds__">{$__WaitSecond__}</span> <lang>秒后自动跳转，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang>这里</lang></a> <lang>跳转</lang>
+				</if>
+			</p>
+{$__JavaScript__}
+</div>
+
+<include file="footer">

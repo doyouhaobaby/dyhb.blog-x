@@ -1,0 +1,10 @@
+{$before_widget}
+<foreach for=data value=oUploadcateogoryList >
+	<div class="upload-box-list" >
+		<a href="{:G::U('upload/index?cid='.$oUploadcateogoryList->uploadcategory_id)}" title="{$oUploadcateogoryList:uploadcategory_name}">
+			<img src="{:UploadcategoryController::get_the_uploadphoto_cover($oUploadcateogoryList)}" width="170" height="119" />{$oUploadcateogoryList:uploadcategory_name|String+subString=0,$cut_num}
+		</a>
+	</div>
+</foreach>
+{$clear}
+{$after_widget}

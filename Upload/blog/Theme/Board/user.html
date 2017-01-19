@@ -1,0 +1,16 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>用户列表</lang>( <span id="user-totalnums">{$nTotalUser}</span> )</div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+			<p>{$the_user_description}</p><br/>
+			{:G::W( 'userlist',array( 'data'=>$arrUserLists,'before_widget'=>'<div id="users-box" class="users-box datalist">','thead_class'=>'colplural','table_class'=>'datalist-table full datatable', ) )}
+
+			{$sPageNavbar}
+		</div>
+	</div>
+</div>
+
+<include file="footer">

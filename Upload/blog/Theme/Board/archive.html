@@ -1,0 +1,120 @@
+<include file="header">
+
+		<div id="nav"><a id="fjump" href="{:Global_Extend::getOption( 'blog_url' )}"	title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>" {if PageType_Extend+isCategory()}class="dropmenu"{/if} onmouseover="showMenu({'ctrlid':this.id})">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>主题列表</lang>
+			{if PageType_Extend+isCategory()} | <lang package='boardTheme'>分类目录归档</lang>：{if !G+isImplementedTo($oCategory,'IModel')}<lang package='boardTheme'>未分类</lang>{d*else}{:Blog_Extend::theCategory( $oCategory,array( 'separator'=>' <em>›</em> ' ) )}{/if}{/if}
+			{if PageType_Extend+isTag()} | <lang package='boardTheme'>标签归档</lang>：<a href="{:PageType_Extend::getTagUrl( $oTag )}" title="{$oTag['tag_name']}">{$oTag['tag_name']}</a> {/if}
+			{if PageType_Extend+isUser()} | <lang package='boardTheme'>用户归档</lang>：{if !G+isImplementedTo($oUser,'IModel')}<lang package='boardTheme'>跌名</lang>{d*else}<a href="{:PageType_Extend::getUserUrl( $oUser )}" title="{$oUser['user_name']}">{$oUser['user_name']}</a>{/if}{/if}</div>
+
+	<div id="wrap" class="wrap s_clear">
+		<div class="main">
+		<div class="content">
+			{if PageType_Extend+isCategory()}
+			<div id="forumheader" class="s_clear">
+				<h1 style="">{if !G+isImplementedTo($oCategory,'IModel')}<lang package='boardTheme'>未分类</lang>{d*else}{:Blog_Extend::theCategory( $oCategory,array( 'separator'=>' <em>›</em> ' ) )}{/if}</h1>
+				{if G+isImplementedTo($oCategory,'IModel')}
+				{~$arrCategoryData=array('blogs'=>0,'comments'=>0,'todaycomments'=>0)}
+				{d*else}
+				{~$arrCategoryData =array('blogs'=>$oCategory['category_blogs'],'comments'=>$oCategory['category_comments'],'todaycomments'=>$oCategory['category_todaycomments'])}
+				{/if}
+				<p class="forumstats">[ <strong>{$arrCategoryData['blogs']}</strong> <lang package='boardTheme'>主题</lang> / {$arrCategoryData['comments']} <lang package='boardTheme'>回复</lang> ]</p>
+				<div class="forumaction">
+					<div class="right">
+							<a href="{:G::U( 'feed/rss2?cid='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']))}" target="_blank" class="feed">RSS</a>
+					</div>
+				</div>
+				{if !empty( $oCategory['category_introduce'] )}<p class="channelinfo"><lang package='boardTheme'>版块介绍</lang>: {$oCategory['category_introduce']}</p>{/if}
+			</div>
+
+			{if !empty( $oCategory['category_rule'] )}
+			<div id="modarea" class="s_clear">
+				<div class="list">
+					<span class="headactions">
+						<img onclick="toggle_collapse('modarea_c');" alt="<lang package='boardTheme'>收起/展开</lang>" title="<lang package='boardTheme'>收起/展开</lang>" src="{:IMG_DIR}/collapsed_no.gif" id="modarea_c_img" class="toggle" />
+				</span>
+				<h3><a href="javascript:;" id="tab_2" class="current" ><lang package='boardTheme'>本版规则</lang></a></h3>
+				</div>
+				<div id="modarea_c" style="">
+					<div id="tab_c_2" class="rule">{$oCategory['category_rule']}</div>
+			</div>
+			</div>
+			{/if}
+
+			{if $arrChildrens}
+			<div id="subforum" class="mainbox list">
+				<span class="headactions">
+					<img id="subforum_{$oCategory['category_id']}_img" src="{:IMG_DIR}/collapsed_no.gif" title="<lang package='boardTheme'>收起/展开</lang>" alt="<lang package='boardTheme'>收起/展开</lang>" onclick="toggle_collapse('subforum_{$oCategory['category_id']}');" />
+			</span>
+			<h3><lang package='boardTheme'>子版块</lang></h3>
+			<table id="subforum_{$oCategory['category_id']}" summary="subform" cellspacing="0" cellpadding="0" style="">
+				<foreach for=arrChildrens value=arrChildren>
+					{~$arrCategoryData = CategoryModel::getCategoryData( $arrChildren['category_id'] )}
+					<tbody id="forum{$arrChildren['category_id']}">
+					<tr>
+						<th {if !empty( $arrCategoryData['todaycomments'] )}class="new"{/if}>
+							{if !empty( $arrChildren['category_logo'] )}<a href="{:PageType_Extend::getCategoryUrl( $arrChildren )}"><img style="float: left; margin-right: 10px;" src="{$arrChildren['category_logo']}" alt="" align="left" border="0"></a>{/if}
+							<div class="left">
+								<h2><a href="{:PageType_Extend::getCategoryUrl( $arrChildren )}" {if !empty( $arrChildren['category_color'] )}style="color:{$arrChildren['category_color']};"{/if}>{$arrChildren['category_name']}</a>{if !empty( $arrChildren['todaycomments'] )}<em> (<lang package='boardTheme'>今日</lang>: <strong>{$arrCategoryData['todaycomments']}</strong>)</em>{/if}</h2>
+								{if !empty( $arrChildren['category_introduce'] )}<p>{$arrChildren['category_introduce']}</p>{/if}
+								{if $arrChildren['category_showsub']==1 && $oCategoryTree->hasChild( $arrChildren['category_id'] )}
+								{~$arrChildTwos = $oCategoryTree->getChild( $arrChildren['category_id'] ) }
+								<p><lang package='boardTheme'>子版块</lang>: <foreach for=arrChildTwos value=nChildTwo>
+								{~$oChildCategoryTwo = $arrAllCategory[$nChildTwo];}
+								<a href="{:PageType_Extend::getCategoryUrl( $oChildCategoryTwo )}">{$oChildCategoryTwo['category_name']}</a>&nbsp;&nbsp;
+								</foreach>
+								</p>
+								{/if}
+							</div>
+						</th>
+						<td class="forumnums">
+							{if !empty( $arrChildren['category_gotourl'] )}N/A{d*else}
+							<em>{$arrCategoryData['blogs']}</em> / {$arrCategoryData['blogs']+$arrCategoryData['comments']}{/if}
+							</td>
+							<td class="forumlast"><p>{if !empty( $arrChildren['category_gotourl'] )}<a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}"><lang package='boardTheme'>衔接到外部网址</lang></a>{d*else}
+							{~$arrLastpost =unserialize( $arrChildren['category_lastpost'] )}
+							{if is_array($arrLastpost)}<a href="{:PageType_Extend::getBlogUrl( $arrLastpost )}">{$arrLastpost['blog_title']|String+subString=0,30}</a>
+							<cite>{if $arrLastpost['user_id']==-1}<lang package='boardTheme'>跌名</lang>{d*else}<a href="{:G::U( 'author/'.$arrLastpost['user_name'] )}">{$arrLastpost['user_name']}</a>{/if} - <span title="{$arrLastpost['blog_dateline']|date='Y-m-d H:i:s'}">{$arrLastpost['blog_dateline']|Date+smartDate}</span></cite>{d*else}<lang package='boardTheme'>从未</lang>{/if}
+							{/if}</p></td>
+					</tr>
+				</tbody>
+			</foreach>
+			</table>
+		</div>
+		{/if}
+
+		{/if}
+		<div class="pages_btns s_clear">
+				<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})">
+					<a href="{:G::U( 'publish/index?cid='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']) )}" ><lang package='boardTheme'>发帖</lang></a>
+				</span>
+				<div style="float:right;">{$sPageNavbar}</div>
+		</div>
+
+		<include file="loop">
+
+		<div class="pages_btns s_clear">
+				<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})">
+					<a href="{:G::U( 'publish/index?cid='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']) )}"><lang package='boardTheme'>发帖</lang></a>
+				</span>
+				<div style="float:right;">{$sPageNavbar}</div>
+			</div>
+		</div>
+
+	</div>
+
+	{if PageType_Extend+isCategory()}
+	<div class="popupmenu_popup" id="fjump_menu" style="display: none">
+		{~$arrCategory = $oCategoryTree->getChilds()}
+		<ul>
+		<foreach for=arrCategory value=nCId>
+		{~$oTheCategory = $arrAllCategory[$nCId];}
+		<li {if G+isImplementedTo($oCategory,'IModel') && $nCId==$oCategory['category_id']}class="current"{/if}><a href="{:PageType_Extend::getCategoryUrl( $oTheCategory )}">{$oCategoryTree:getLayer( $nCId, '--' )}{$oCategoryTree:getValue( $nCId )}</a></li>
+		</foreach>
+		</ul>
+		</div>
+		{/if}
+
+	<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+		<li><a href="{:G::U( 'publish/index?cid='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']) )}"><lang package='boardTheme'>发新话题</lang></a></li>
+	</ul>
+
+<include file="footer">

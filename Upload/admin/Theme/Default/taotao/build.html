@@ -1,0 +1,36 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='taotao'>微博整理</lang> ( <a href="{:G::U('taotao/index')}"><lang package='taotao'>返回微博列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+		<form action="{:G::U('taotao/repaire_taotao')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="start"><lang package='taotao'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='taotao'>待处理的心情开始ID ，如果不指定为所有心情，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='taotao'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='taotao'>心情结束ID，如果不指定则为所有最后一个心情。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='taotao'>微博循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='taotao'>使用循环处理，能够防止处理评论的时候卡死。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='taotao'>循环处理心情</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,105 @@
+<include file="public+header">
+
+{script}
+{tagself}
+<!--
+$(document).ready(function() {
+	$("#badwords > ul").tabs();
+});
+//-->
+{/tagself}
+{/script}
+
+{script}
+<!--
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加过滤词语中') );
+	Dyhb.AjaxSubmit('badwordAdd','{:G::U('badword/insert')}','',complete);
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加过滤词语') );
+	$("#submit_button2").attr("disabled", false);
+	$("#submit_button2").val( D.L('批量过滤词语') );
+	if(status==1){
+		window.setTimeout(function (){window.location.href=URL,20000});
+	}
+}
+function many_add(){
+	$("#submit_button2").attr("disabled", "disabled");
+	$("#submit_button2").val( D.L('批量添加过滤词语中') );
+	Dyhb.AjaxSubmit('badwordManyAdd','{:G::U('badword/many_insert')}','',complete);
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='badword'>添加过滤词语</lang><else/><lang package='badword'>编辑过滤词语</lang></if> ( <a href="{:G::U('badword/index')}"><lang package='badword'>返回过滤词语列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<div id="badwords">
+		<ul>
+		<li><a href="#tab_addbadword"><span><lang package='badword'>添加词语过滤</lang></span></a></li>
+		<li><a href="#tab_addmanybadword"><span><lang package='badword'>批量添加</lang></span></a></li>
+		</ul>
+	</div>
+
+	<form	method="post" id="badwordAdd" name="badwordAdd">
+	<div id="tab_addbadword">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="badword_find"><lang package='badword'>不良词语</lang>:</label></th>
+			<td><input type="text" name="badword_find" id="badword_find" class="field" size="40" value=""/>
+			<div class="description"><lang package='badword'>添加不良词语可以避免触及法律</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="badword_replacement"><lang package='badword'>替换为</lang>:</label></th>
+			<td><input type="text" name="badword_replacement" id="badword_replacement" class="field" size="40" value=""/>
+			<div class="description"><lang package='badword'>需要将不良词语替换的词语</lang></div>
+			</td>
+			</tr>
+		</table>
+		<p class="center"><input type="hidden" name="ajax" value="1">
+			<input id="submit_button" type="button" onclick="add()" class="button button-blue" value="  <lang>添加过滤词语</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+	</div>
+	</form>
+
+	<form	method="post" id="badwordManyAdd" name="badwordManyAdd">
+	<div id="tab_addmanybadword">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="badwords"><lang package='badword'>不良词语</lang>:</label></th>
+			<td><textarea name="badwords" id="badwords" rows="6" cols="80" class="field"></textarea>
+				<div class="description"><lang package='badword'>每行一组，不良词语和替换词语之间使用“=”进行分割。</lang>
+					<lang package='badword'>如果想将某个词语直接替换成 **，只输入词语即可。</lang><br/>
+					<strong><lang>例如</lang>：</strong><br/>
+					<lang>toobad</lang><br/>
+					<lang>badword=good</lang><br/>
+			</div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="type"><lang package='badword'>扩展选项</lang>:</label></th>
+			<td><input type="radio" name="type" value="2" id="type" class="field" checked="checked" /><lang package='badword'>当冲突时，跳过原来的词表</lang><br/>
+				<input type="radio" name="type" value="1" id="" class="field" /><lang package='badword'>当冲突时，覆盖原来的词表</lang><br/>
+				<input type="radio" name="type" value="0" id="" class="field" /><lang package='badword'>清空当前词表，后导入新词语</lang>
+				<div class="warning">（<lang package='badword'>清空当前词表不可恢复，建议首先</lang><a href="{:G::U('badword/export')}" target="_blank"><lang>导出词表</lang></a>，<lang>做好备份</lang>）</div>
+</td>
+			</tr>
+		</table>
+		<p class="center"><input type="hidden" name="ajax" value="1">
+			<input id="submit_button2" type="button" onclick="many_add()" class="button button-blue" value="  <lang package='badword'>批量过滤词语</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+	</div>
+	</form>
+
+
+	</div>
+	
+
+<include file="public+footer">

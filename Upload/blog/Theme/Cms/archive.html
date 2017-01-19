@@ -1,0 +1,76 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+ <div class="pleft">
+
+	<div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > {if PageType_Extend+isCategory()} | <lang package='cmsTheme'>分类目录归档</lang>：{if!G+isImplementedTo($oCategory,'IModel')}<lang package='cmsTheme'>未分类</lang>{d*else}{:Blog_Extend::theCategory( $oCategory,array( 'separator'=>' > ' ) )}{/if}{/if}
+			{if PageType_Extend+isTag()} | <lang package='cmsTheme'>标签归档</lang>：<a href="{:PageType_Extend::getTagUrl( $oTag )}" title="{$oTag['tag_name']}">{$oTag['tag_name']}</a> {/if}
+			{if PageType_Extend+isUser()} | <lang package='cmsTheme'>用户归档</lang>：{if !G+isImplementedTo($oUser,'IModel')}<lang package='cmsTheme'>跌名</lang>{d*else}<a href="{:PageType_Extend::getUserUrl( $oUser )}" title="{$oUser['user_name']}">{$oUser['user_name']}</a>{/if}{/if}	</div>
+
+	{if $nPage<2}
+	{if PageType_Extend+isCategory()}
+	<div class="flashnews">
+	<embed src="__FRAMEWORK__/Resource/Images/image_view.swf?bcastr_xml_url={:G::U('flashimage/index?category_id='.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']))}" width="280" height="192" 
+	loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer"
+	type="application/x-shockwave-flash" salign="T"	menu="false" wmode="transparent">
+	</embed>
+	</div>
+	<div class="topcommand">
+	<dl class="tbox">
+	<dt><strong><lang package='cmsTheme'>分类头条</lang></strong></dt>
+	<dd>
+	<div class="onenews">
+		{~$arrHeaderarcs=G::W('arclist',array('att'=>'h','limit'=>'0,1','return'=>1,'category_id'=>(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id'] )),true)}
+		<foreach for=arrHeaderarcs value=oBlogData>
+		<h2><a title="{$oBlogData:blog_title}" href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}" {if $oBlogData['blog_color']}style="color:{$oBlogData['blog_color']};"{/if}>{$oBlogData['blog_title']|String+subString=0,26}</a></h2>
+		<p>{$oBlogData['blog_title']|strip_tags|String+subString=0,230}...<a href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}">[<lang>查看全文</lang>]</a></p>
+		</foreach>
+		{~unset($arrHeaderarcs)}
+	</div>
+	<ul class="c2 ico1">
+		{~$arrHeaderarc2s=G::W('arclist',array('att'=>'h','limit'=>'1,6','return'=>1,'category_id'=>(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id'] )),true)}
+		<foreach for=arrHeaderarc2s value=oBlogData>
+		<div class='d1arc'><a title="{$oBlogData['blog_title']}" href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}" {if $oBlogData['blog_color']}style="color:{$oBlogData['blog_color']};"{/if} >{$oBlogData['blog_title']|String+subString=0,26}</a></div>
+		</foreach>
+		{~unset($arrHeaderarc2s)}
+	</ul>
+	</dd>
+	</dl>
+	</div>
+
+	<div class="picnews mt1">
+	<dl class="tbox">
+	<dt><strong><lang package='cmsTheme'>图文资讯</lang></strong></dt>
+	<dd>
+	<ul class="e1">
+		{:G::W( 'arclist',array( 'row'=>'10','list_type'=>'imgarclist','imgwidth'=>'143','imgheight'=>'106','category_id'=>(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id'] ) ) )}
+	</ul>
+	</dd>
+	</dl>
+	</div>
+	{if !G+isImplementedTo($oCategory,'IModel')}
+	{~$arrCategoryArticles=Template_Extend::categoryArticle(array( 'category_children'=>$oCategory['category_id'] ))}
+	<div class="listbox">
+	<foreach for=arrCategoryArticles value=arrCategoryData >
+	<dl class="tbox">
+		<dt><strong><a href="{:PageType_Extend::getCategoryUrl($arrCategoryData)}" title="{$arrCategoryData['category_name']}" >{$arrCategoryData['category_name']}</a></strong>
+			<span class="more"><a href="{:PageType_Extend::getCategoryUrl($arrCategoryData)}"><lang>更多</lang>...</a></span>
+		</dt>
+	<dd>
+	 <ul class="d1 ico3">
+		 {:G::W('arclist',array('row'=>8,'category_id'=>$arrCategoryData['category_id']))}
+	 </ul>
+	</dd>
+	</dl>
+	</foreach>
+	{~unset($arrCategoryArticles)}
+	{/if}
+	{/if}
+	{/if}
+
+<include file="loop">
+
+ </div>
+
+<include file="sidebarthree">
+<include file="footer">

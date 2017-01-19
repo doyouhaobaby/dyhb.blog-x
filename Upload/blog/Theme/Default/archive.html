@@ -1,0 +1,20 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em>
+			<lang package='defaultTheme'>文章列表</lang>
+			{if PageType_Extend+isCategory()} | <lang package='defaultTheme'>分类目录归档</lang>：{if !G+isImplementedTo($oCategory,'IModel')}<lang package='defaultTheme'>未分类</lang>{d*else}{:Blog_Extend::theCategory( $oCategory,array( 'separator'=>' <em>›</em> ' ) )}{/if}{/if}
+			{if PageType_Extend+isTag()} | <lang package='defaultTheme'>标签归档</lang>：<a class="lightlink" href="{:PageType_Extend::getTagUrl( $oTag )}" title="{$oTag['tag_name']}">{$oTag['tag_name']}</a> {/if}
+			{if PageType_Extend+isUser()} | <lang package='defaultTheme'>用户归档</lang>：{if !G+isImplementedTo($oUser,'IModel')}<lang package='defaultTheme'>跌名</lang>{d*else}<a class="lightlink" href="{:PageType_Extend::getUserUrl( $oUser )}" title="{$oUser['user_name']}">{$oUser['user_name']}</a>{/if}{/if}
+		</div>
+	</div>
+
+	<div id="content">
+		<include file="loop">
+
+	</div>
+
+	<include file="sidebar">
+
+<include file="footer">

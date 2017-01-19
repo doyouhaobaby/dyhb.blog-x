@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><lang package='defaultTheme'>DYHB.BLOG X 消息页面</lang></title>
+<style type="text/css">
+body {
+	background-color:#F7F7F7;
+	font-family: Arial;
+	font-size: 12px;
+	line-height:150%;
+}
+.title{
+	font-size:20px;
+	color:blue;
+	margin:50px auto 10px auto;
+	text-align:center;
+}
+.infobox{ 
+	margin:0 auto;
+	text-align:center; 
+}
+.infomessage {
+	background-color:#FFFFFF;
+	font-size: 12px;
+	color: #666666;
+	width:620px;
+	margin:0 auto;
+	padding:10px;
+	list-style:none;
+	border:#DFDFDF 1px solid;
+	text-align:center;
+}
+.infomessage p {
+	line-height: 18px;
+	margin: 5px 20px;
+}
+.marginbot{ 
+	text-align:center; 
+}
+</style>
+</head>
+<body>
+	<!-- 标题	-->
+	<div class="title">{$__MessageTitle__}</div>
+
+		<div class="infobox">
+
+			<h4 class="infomessage">
+
+				<if condition="isset( $__Message__ ) AND !empty( $__Message__ )" >
+					<div style="margin:auto;text-align:center;"><img src="{$__InfobigImg__}"/></div>{$__Message__}
+				</if>
+				<if condition="isset( $__ErrorMessage__ ) AND !empty( $__ErrorMessage__ )" >
+					<div style="margin:auto;text-align:center;"><img src="{$__ErrorbigImg__}"/></div>{$__ErrorMessage__}
+				</if>
+				<div id="__Loader__"><img src="{$__LoadingImg__}"/></div>
+			</h4>
+			<p class="marginbot" id="__JumpUrl__">
+
+				<if condition="isset( $__CloseWindow__ ) AND !empty( $__CloseWindow__ )" >
+					<lang package='message'>系统将在</lang> <span class="red" id="__Seconds__">{$__WaitSecond__}</span> <lang package='message'>秒后自动关闭，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang package='message'>这里</lang></a> <lang package='message'>关闭</lang>
+				</if>
+
+				<if condition="!isset( $__CloseWindow__ ) OR empty( $__CloseWindow__ )" >
+					<lang package='message'>系统将在</lang> <span class="blue" id="__Seconds__">{$__WaitSecond__}</span> <lang package='message'>秒后自动跳转，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang package='message'>这里</lang></a> <lang package='message'>跳转</lang>
+				</if>
+			</p>
+		</div>
+	</div>
+{$__JavaScript__}
+</body>
+</html>

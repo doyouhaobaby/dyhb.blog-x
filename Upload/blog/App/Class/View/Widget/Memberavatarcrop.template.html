@@ -1,0 +1,95 @@
+<script src="__PUBLIC__/Images/Avatar/jquery.Jcrop.js"></script>
+{script}
+//<![CDATA[
+$(function(){
+	var jcrop_api, boundx, boundy;
+	$('#cropbox').Jcrop({
+		aspectRatio: 1,
+		onSelect: updateCoords,
+		onChange:	showCoords
+	},function(){
+		var bounds=this.getBounds();
+		boundx=bounds[0];
+		boundy=bounds[1];
+		jcrop_api=this;
+		});
+
+	function updatePreview(c){
+
+		if(parseInt(c.w)> 0){
+
+			var rx=100 / c.w;
+			var ry=100 / c.h;
+	
+			$('#preview').css({
+				width: Math.round(rx * boundx)+ 'px',
+				height: Math.round(ry * boundy)+ 'px',
+				marginLeft: '-' + Math.round(rx * c.x)+ 'px',
+				marginTop: '-' + Math.round(ry * c.y)+ 'px'
+			});
+		}
+	};
+
+	function updateCoords(c){
+
+		updatePreview(c);
+		$('#x').val(c.x);
+		$('#y').val(c.y);
+		$('#w').val(c.w);
+		$('#h').val(c.h);
+	};
+
+	function showCoords(c){
+
+		updatePreview(c);
+		$('#x1').val(c.x);
+		$('#y1').val(c.y);
+		$('#x2').val(c.x2);
+		$('#y2').val(c.y2);
+		$('#w').val(c.w);
+		$('#h').val(c.h);
+	};
+
+	function checkCoords(){
+
+		if(parseInt($('#w').val()))return true;
+		alert(D.L('请先裁剪，然后点击提交！'));
+		return false;
+	};
+});
+//]]>
+{/script}
+
+{$before_widget}
+{$before_title}<lang>对头像进行裁剪</lang>{$after_title}
+<p><lang>用鼠标选中你需要裁剪的块，然后点击提交。</lang><br/>
+	<lang>裁剪后的图像将会被压缩为尺寸为(200*200)像素的头像，然后会以它创建两个(120*120)和(48*48)的头像。</lang><br/>
+	<lang>同时，被裁剪的原图也会被上传，系统处理完毕将会为每个用户生产四张头像。</lang>
+</p>
+
+<div class="image-select-box">
+	<div class="cropbox">
+		<img src="__PUBLIC__/Avatar/{$data['savename']}" id="cropbox" />
+	</div>
+	<br/>
+	<div class="preview" style="width:100px;height:100px;overflow:hidden;">
+		<img src="__PUBLIC__/Avatar/{$data['savename']}" id="preview" alt="Preview" />
+	</div>
+</div>
+
+{$before_title}<lang>提交头像</lang>{$after_title}
+<form action="{:G::U('member/save_crop')}" method="post" onsubmit="return checkCoords();" id="coords" class="coords">
+	<input type="hidden" id="x" name="x" />
+	<input type="hidden" id="y" name="y" />
+	<div class="avatar-select">
+		<label>X1 <input type="text" size="4" class="field" id="x1" name="x1" /></label>
+		<label>Y1 <input type="text" size="4" class="field" id="y1" name="y1" /></label>
+		<label>X2 <input type="text" size="4" class="field" id="x2" name="x2" /></label>
+		<label>Y2 <input type="text" size="4" class="field" id="y2" name="y2" /></label>
+		<label>W <input type="text" size="4" class="field" id="w" name="w" /></label>
+		<label>H <input type="text" size="4" class="field" id="h" name="h" /></label>
+	</div>
+	<input type="hidden"	name="temp_image" value="{$data['savename']}" />
+	<input type="submit" value="<lang>裁剪图像</lang>" class="{$class}"/>
+</form>
+{$after_widget}

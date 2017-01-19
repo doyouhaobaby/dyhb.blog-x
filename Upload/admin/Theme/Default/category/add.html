@@ -1,0 +1,158 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加分类中') );
+	Dyhb.AjaxSubmit('categoryAdd','{:G::U('category/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新分类中') );
+	Dyhb.AjaxSubmit('categoryAdd','{:G::U('category/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新分类') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加分类') );
+	if(status==1){
+		$('#id').val(data.category_id);
+	}
+}
+
+var curInput;
+colorpicker.previewColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+
+colorpicker.chooseColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='category'>添加分类</lang><else/><lang package='category'>编辑分类</lang></if> ( <a href="{:G::U('category/index')}"><lang package='category'>返回分类列表列表</lang></a> | <a href="{:G::U('category/tree')}"><lang package='category'>返回树状分类列表列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('category/insert')}<else/>{:G::U('category/update')}</if>" method="post" id="categoryAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="category_compositor"><lang package='category'>分类排序：</lang></label></th>
+			<td><input type="text" name="category_compositor" id="category_compositor" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_compositor">{$oValue:category_compositor}<else/>0</if>" />
+			<div class="description"><lang package='category'>分类排序ID，只能是数字。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="category_parentid"><lang package='category'>父级分类：</lang></label></th>
+			<td><select name="category_parentid" id="category_parentid" >
+				<option value="0">- <lang package='category'>顶级分类</lang> -</option>
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<foreach for=arrCategory value=nCId>
+				<option value="{$nCId}" <if condition="isset( $oValue ) && $nCId == $oValue:category_parentid">selected</if> >|{$oCategoryTree:getLayer( $nCId, '--' )}{$oCategoryTree:getValue( $nCId )}</option>
+				</foreach>
+				</select>
+				<div class="description"><lang package='category'>分类的父级分类，不能为自己。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="category_name"><lang package='category'>分类名称：</lang></label></th>
+			<td><input type="text" name="category_name" id="category_name" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_name">{$oValue:category_name}</if>" mixlength="50"/>
+			<div class="description"><lang package='category'>分类的名字，最多50个字符。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="category_color"><lang package='category'>版块颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='category_color' id='category_color' value='<if condition="isset( $oValue ) && $oValue:category_name">{$oValue:category_color}</if>' size='8'	onfocus='curInput=E("category_color"); colorpicker.choose(event);' style='color:<if condition="isset( $oValue ) && $oValue:category_name">{$oValue:category_color}</if>'/>
+			<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("category_color"); colorpicker.choose(event);' />
+			<div class="description"><lang package='category'>给版块着色，突出重点版块</lang></div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="category_introduce"><lang package='category'>分类介绍：</lang></label></th>
+				<td><textarea id="category_introduce" name="category_introduce" style="width:750px;height:80px;"><if condition="isset( $oValue ) && $oValue:category_introduce">{$oValue:category_introduce}</if></textarea>
+			<div class="description"><lang package='category'>分类的一些介绍文字。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="category_columns"><lang package='category'>下级子版块横排：</lang></label></th>
+				<td><input type="text" name="category_columns" id="category_columns" class="field" size="10" value="<if condition="isset( $oValue ) && $oValue:category_name">{$oValue:category_columns}</if>" mixlength="2"/>
+			<div class="description"><lang package='category'>本设置仅针对区块设置有效，及父级ID为0的分类。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="category_urlname"><lang package='category'>分类别名：</lang></label></th>
+			<td><input type="text" name="category_urlname" id="category_urlname" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_urlname">{$oValue:category_urlname}</if>" mixlength="50"/>
+			<div class="description"><lang package='category'>分类别名利于URL 优化，并且提供美观的地址。</lang></div>
+			</td>
+		</tr>
+				<tr>
+			<th valign="top"><label for="category_template"><lang package='category'>分类主题：</lang></label></th>
+			<td><input type="text" name="category_template" id="category_template" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_template">{$oValue:category_template}</if>" mixlength="20"/>
+			<div class="description"><lang package='category'>分类主题用于对不同的分类提供不同的主题文件，这样有助于图片分类，文字列表分类等等，这里不为空的话，那么主题将会是archive{模板名字}。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="category_logo"><lang package='category'>分类Logo：</lang></label></th>
+			<td><input type="text" name="category_logo" id="category_logo" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_logo">{$oValue:category_logo}</if>" mixlength="300"/>
+			<div class="description"><lang package='category'>分类Logo 图标，让分类看起来很个性。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="category_showsub"><lang package='category'>是否显示下级版块</lang>：</label></th>
+			<td><SELECT class="field"	name="category_showsub">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:category_showsub==1">selected</if>><lang>是</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:category_showsub==0 ) ">selected</if>><lang>否</lang></option>
+				</SELECT>
+				<div class="description"><lang package='category'>显示下级版块，那么在论坛的分类下面将会看到</lang></div>
+			</td>
+			</tr>
+		<tr>
+			<th valign="top"><label for="category_rule"><lang package='category'>版块规则：</lang></label></th>
+			<td><textarea id="category_rule" name="category_rule" style="width:750px;height:80px;"><if condition="isset( $oValue ) && $oValue:category_rule">{$oValue:category_rule}</if></textarea>
+			<div class="description"><lang package='category'>版块的规则，给会员一个提醒。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="category_keyword"><lang package='category'>分类seo 关键字：</lang></label></th>
+			<td><textarea id="category_keyword" name="category_keyword" style="width:750px;height:80px;"><if condition="isset( $oValue ) && $oValue:category_keyword">{$oValue:category_keyword}</if></textarea>
+			<div class="description"><lang package='category'>分类搜索引擎的关键字。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="category_description"><lang package='category'>分类seo 描述：</lang></label></th>
+			<td><textarea id="category_description" name="category_description" style="width:750px;height:80px;"><if condition="isset( $oValue ) && $oValue:category_description">{$oValue:category_description}</if></textarea>
+			<div class="description"><lang package='category'>分类搜索引擎的描述。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="category_gotourl"><lang package='category'>版块外部衔接地址：</lang></label></th>
+			<td><input type="text" name="category_gotourl" id="category_gotourl" class="field" size="80" value="<if condition="isset( $oValue ) && $oValue:category_gotourl">{$oValue:category_gotourl}</if>" mixlength="50"/>
+			<div class="description"><lang package='category'>如果给定了外部衔接，那么将直接掉转到该网站。</lang></div>
+			</td>
+		</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

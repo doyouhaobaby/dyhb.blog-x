@@ -1,0 +1,33 @@
+<th valign="top">
+<select name="group" id="group" size="15" style="width:150px;height:200px;" class="field">
+<option value="0"><lang package='role'>无上级组</lang></option>
+<foreach for=arrList>
+<option value="{$value['role_id']}">{$value['role_name']}</option>
+</foreach>
+</select>
+</th>
+<td>
+<input type="button" value="<lang>确 定</lang>" onclick="ok()" class="button button-blue" /><br>
+<input type="button" value="<lang>取 消</lang>" onclick="ok(false)" class="button button-red" />
+</td>
+{script}
+<!--
+function ok(val){
+	if(val!=false){
+		var obj = document.getElementById('group');
+		optionObj = obj.getElementsByTagName('option');
+		var j=0;
+		for(var i=0;i<optionObj.length;i++){
+			if (optionObj[i].selected==true){
+
+				$('#parentRoleName').val(optionObj[i].text);
+				$('#role_parentid').val(optionObj[i].value);
+				j++;
+			}
+		}
+	}
+	$("#ajaxSelect").css('display','none');
+}
+
+//-->
+{/script}

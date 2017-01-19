@@ -1,0 +1,17 @@
+<include file="header">
+
+	<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>个人中心</lang></div>
+
+	<div id="wrap" class="wrap with_side s_clear">
+		<div class="main">
+			<div class="content">
+				{:Global_Extend::templateHooks('index_top')}
+				{:G::W( 'memberform',array( 'data'=>$arrUser ) )}
+				{:Global_Extend::templateHooks('index_bottom')}
+			</div>
+		</div>
+
+		<include file="sidebarmember">
+		</div>
+
+<include file="footer">

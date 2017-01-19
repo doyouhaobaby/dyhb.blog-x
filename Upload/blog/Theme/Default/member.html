@@ -1,0 +1,27 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<a href="{:G::U( 'member/index' )}"><lang package='defaultTheme'>个人中心</lang></a>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+	
+			<!-- start entry post -->
+			<div class="entry" id="post-0">
+				
+				{:Global_Extend::templateHooks('index_top')}
+				{:G::W( 'memberform',array( 'data'=>$arrUser ) )}
+				{:Global_Extend::templateHooks('index_bottom')}
+					
+			</div>
+			<!-- end entry post -->	
+		</div>
+	</div>
+
+	<include file="sidebarmember">	
+
+<include file="footer">

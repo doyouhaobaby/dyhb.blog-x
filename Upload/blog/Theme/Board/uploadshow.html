@@ -1,0 +1,39 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+		<div id="nav">
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" id="fjump" onmouseover="showMenu({'ctrlid':this.id})" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>附件显示</lang>
+			&raquo;<lang package='boardTheme'>下载次数</lang>( <span id="uploaddownload-totalnums">{$oUpload:upload_download}</span> )( <a href="{:G::U( 'upload/index' )}" class="lightlink"><lang package='boardTheme'>附件列表</lang></a> | <a href="{:G::U( 'uploadcategory/index' )}" class="lightlink"><lang package='boardTheme'>附件归档</lang></a> )</div>
+
+		<div id="ad_text"></div>
+		<div id="wrap" class="wrap s_clear threadfix">
+
+		<div class="main">
+		<div class="content">
+		{:Global_Extend::templateHooks('show_top')}
+			<div class="upload-info-box" >
+					<lang package='boardTheme'>文件名</lang>： {$oUpload:upload_name}<br/>
+					<lang package='boardTheme'>文件类型</lang>： {$oUpload:upload_type}<br/>
+					<lang package='boardTheme'>上传时间</lang>：{$oUpload:create_dateline|date='Y-m-d H:i:s',**}<br/>
+					<lang package='boardTheme'>上传者</lang>：{$TheController:get_the_upload_username( $oUpload )}
+				</div>
+
+				{$TheController:show_the_upload( $oUpload,$sUploadType )}
+		</div>
+	</div>
+
+		<div id="postlist" class="mainbox viewthread">
+		{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("upload_status")==1 && $oUpload['upload_islock']==0}
+		<include file="commentform">
+		{/if}
+
+		<include file="boardcomments">
+	</div>
+	{:Global_Extend::templateHooks('show_bottom')}
+
+		</div>
+
+<include file="footer">

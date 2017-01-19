@@ -1,0 +1,130 @@
+<include file="public+header" />
+
+
+	<div class="title"><lang package='blog'>日志列表</lang> ( <a href="{:G::U('blog/index')}"><lang package='blog'>全部</lang></a> | <a href="{:G::U('blog/index?type=blog')}"><lang package='blog'>日志</lang></a> | <a href="{:G::U('blog/index?type=ishide')}"><lang package='blog'>草稿</lang></a> | <a class="a-button" href="{:G::U('blog/excerpt')}"><lang package='blog'>批量自动摘要</lang></a> | <a href="{:G::U('blog/build')}"><lang package='blog'>日志整理</lang></a> )</div>
+
+
+	<div class="toolbar">
+
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="button add">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'blog/index' )}">
+			<div class="left">
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<select name="category_id"id="category_id">
+				<option value="0"selected="selected"><lang package='blog'>所有分类</lang>...</option>
+				<option value="-1"><lang package='blog'>未分类</lang></option>
+				<foreach for=arrCategory value=nId>
+				<option value="{$nId}">|{$oCategoryTree:getLayer( $nId, '--' )}{$oCategoryTree:getValue( $nId )}</option>
+				</foreach>
+				</select>
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="blog_title" title="<lang package='blog'>日志标题</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+
+	<span class="clear"></span>
+
+
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('blog_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='blog_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='blog_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='blog'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='blog'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('blog_title','{$sSortByUrl}')" {if G+getGpc('order_','G')=='blog_title' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='blog_title' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='blog'>按照标题</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='blog'>标题</lang></a></th>
+			<th><lang package='blog'>查看</lang></th>
+			<th><lang package='blog'>分类</lang></th>
+			<th><lang package='blog'>作者</lang></th>
+			<th><lang package='blog'>标签</lang></th>
+			<th><a href="javascript:sortBy('blog_commentnum','{$sSortByUrl}')" {if G+getGpc('order_','G')=='blog_commentnum' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='blog_commentnum' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='blog'>按照评论</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='blog'>评论</lang></a></th>
+			<th><a href="javascript:sortBy('blog_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='blog_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='blog_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='blog'>按照时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='blog'>时间</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:blog_id}"></td>
+			<td>{$value:blog_id}</td>
+			<td>
+			<img src="__TMPLPUB__/Images/<if condition="$value:blog_isshow eq 0" >c_blog.gif<elseif condition="$value:blog_islock eq 1">l_blog.gif<else/>o_blog.gif</if>" title="<if condition="$value:blog_isshow eq 0" ><lang package='blog'>隐藏的日志</lang><elseif condition="$value:blog_islock eq 1"><lang package='blog'>锁定的日志</lang><else/><lang package='blog'>公开的日志</lang></if>" />
+			<a href="{:G::U('blog/edit?id='.$value->blog_id)}" title="<lang package='blog'>编辑日志</lang>">{$value:blog_title}</a>
+			<if condition="$value:blog_istop eq 1"><img src="__TMPLPUB__/Images/import.gif" title="<lang package='blog'>置顶日志</lang>"/></if>
+			<if condition="$value:blog_ismobile eq 1"><img src="__TMPLPUB__/Images/mobile.gif" title="<lang package='blog'>手机日志</lang>"/></if>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:blog_id}')" title="<lang>编辑</lang> 《{$value:blog_title}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:blog_id}');" title="<lang>删除</lang> 《{$value:blog_title}》"><lang>删除</lang></a>|</span>
+					<span class='hide'><a href="javascript:{if $value->blog_islock==0}lock('{$value:blog_id}'){d*else}unLock('{$value:blog_id}'){/if};" >{if $value->blog_islock==0}<lang package='blog'>锁定</lang>{d*else}<lang package='blog'>解锁</lang>{/if}</a></span>
+				</div>
+			</td>
+			<td><a href="__ROOT__/index.php?c=blog&a={$value:blog_id}" title="{$value:blog_title}" target="_blank" ><img src="__TMPLPUB__/Images/view.gif" /></a></td>
+			<td><if condition="!empty( $value:category:category_name )"><a href="{:G::U('blog/index?cid='.$value->category_id)}">{$value:category:category_name}</a><else/><a href="{:G::U('blog/index?cid=-1')}"><span class="rowgraw"><lang package='blog'>未分类</lang></span></a></if></td>
+			<td><if condition="!empty( $value:user:user_name )"><a href="{:G::U('blog/index?uid='.$value->user_id)}"><if condition="!empty( $value:user:user_nikename )">{$value:user:user_nikename}<else/>{$value:user:user_name}</if></a><else><a href="{:G::U('blog/index?uid=-1')}"><span class="rowgraw"><lang package='blog'>跌名</lang></span></a></if></td>
+			<td>
+				<div class="taglist">
+				{~$oTags =$TheController->getTagsByBlogId( $value->blog_id ) }
+				<if condition="is_array( $oTags )">
+				<foreach for=oTags value=tagValue>
+					<a href="{:G::U('blog/index?tid='.$tagValue->tag_id)}">{$tagValue->tag_name}</a>
+				</foreach>
+				<else>
+				<span class="rowpurple"><lang package='blog'>没有标签</lang></span>
+				</if>
+				</div>
+			</td>
+			<td><span class="rownum">{$value:blog_commentnum}</span></td>
+			<td>{$value:blog_dateline|date='Y-m-d',**}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+
+		<div class="toolbar">
+
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+				<input type="button" name="draft" value="<lang package='blog'>转入草稿箱</lang>" onclick="draft();" class="draft button">
+				<input type="button" name="unDraft" value="<lang package='blog'>发布草稿</lang>" onclick="unDraft();" class="unDraft button">
+				<input type="button" name="top" value="<lang package='blog'>置顶</lang>" onclick="top();" class="top button">
+				<input type="button" name="unTop" value="<lang package='blog'>取消置顶</lang>" onclick="unTop();" class="unTop button">
+				<input type="button" name="lock" value="<lang package='blog'>锁定</lang>" onclick="lock();" class="lock button">
+				<input type="button" name="unLock" value="<lang package='blog'>解锁</lang>" onclick="unLock();" class="unLock button">
+				<input type="button" name="page" value="<lang package='blog'>转为页面</lang>" onclick="page();" class="page button">
+				{~$arrCategory = $oCategoryTree->getChilds()}
+				<select name="category"id="category"onChange="changeCategory(this);">
+				<option value="-1"selected="selected"><lang package='blog'>移动到分类</lang>...</option>
+				<foreach for=arrCategory value=nId>
+				<option value="{$nId}">|{$oCategoryTree:getLayer( $nId, '--' )}{$oCategoryTree:getValue( $nId )}</option>
+				</foreach>
+				</select>
+			</div>
+		</div>
+
+
+		{$sPageNavbar}
+
+		<br>
+		<div align="center" width="70%" >
+			<lang package='blog'>图例：</lang><img src='__TMPLPUB__/Images/o_blog.gif'><lang package='blog'>公开的日志</lang>
+			<img src='__TMPLPUB__/Images/l_blog.gif'><lang package='blog'>锁定的日志</lang>
+			<img src='__TMPLPUB__/Images/c_blog.gif'><lang package='blog'>隐藏的日志</lang>
+		</div>
+
+	</div>
+
+
+<include file="public+footer">

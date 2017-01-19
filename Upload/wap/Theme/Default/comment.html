@@ -1,0 +1,64 @@
+<include file="header">
+
+	<div class="c">
+
+		{if defined('IS_BLOG')}
+		<div class="list_title"><a href="{:G::U('blog/show?id='.$nBlogId)}" title="<lang>返回日志</lang>" ><lang>返回日志</lang></a></div>
+		{/if}
+		{if defined('IS_TAOTAO')}
+		<div class="list_title"><a href="{:G::U('blog/singletaotao?id='.$nTaotaoId)}" title="<lang>返回心情</lang>" ><lang>返回心情</lang></a></div>
+		{/if}
+		{if defined('IS_UPLOAD')}
+		<div class="list_title"><a href="{:G::U('blog/singleupload?id='.$nUploadId)}" title="<lang>返回附件</lang>" ><lang>返回附件</lang></a></div>
+		{/if}
+
+		<foreach for=arrCommentLists>
+		<div class="l">
+			{:$TheController->the_comment_mobile($value)} <b>{$value['comment_name']}</b>
+			<div class="info">{$value['create_dateline']|date='Y-m-d H:i:s',**}</div>
+			<div class="comcont">{$value['comment_content']|strip_tags}
+			{if $value['comment_ismobile']==1}<br/><span class="mobile"><lang>此信息来自博客手机版！</lang><lang>手机访问,随时随地自由交流！</lang><br/>
+			{:Global_Extend::getOption('blog_url') }/wap.php{/if}
+			{if $value['comment_relationtype']=='blog'}<br/><a href='{:G::U('blog/show?id='.$value['comment_relationvalue'])}'><span class="purple"><lang>日志评论</lang></span></a>{/if}
+			{if $value['comment_relationtype']=='taotao'}<br/><a href='{:G::U('blog/singletaotao?id='.$value['comment_relationvalue'])}'><span class="gray"><lang>心情评论</lang></span></a>{/if}
+			{if $value['comment_relationtype']=='upload'}<br/><a href='{:G::U('blog/singleupload?id='.$value['comment_relationvalue'])}'><span class="blue"><lang>附件评论</lang></span></a>{/if}
+			</span>
+			</div>
+		</div>
+		</foreach>
+		<div id="page">
+		{$sPageNavbar}
+		</div>
+		<div class="t"><lang>发表评论</lang>：</div>
+		<div class="c">
+		<form method="post" action="{:G::U('blog/add_comment')}">
+			<input type="hidden" name="comment_parentid" id="comment-parentid" value="0" maxlength="8" tabindex="1"/>
+			{if defined('IS_BLOG')}
+			<input type="hidden" name="comment_relationtype" id="comment-relationtype" maxlength="10" value="blog" />
+			<input type="hidden" name="comment_relationvalue" id="comment-relationvalue" maxlength="8" value="{$nBlogId}" />
+			{/if}
+			{if defined('IS_UPLOAD')}
+			<input type="hidden" name="comment_relationtype" id="comment-relationtype" maxlength="10" value="upload" />
+			<input type="hidden" name="comment_relationvalue" id="comment-relationvalue" maxlength="8" value="{$nUploadId}" />
+			{/if}
+			{if defined('IS_TAOTAO')}
+			<input type="hidden" name="comment_relationtype" id="comment-relationtype" maxlength="10" value="taotao" />
+			<input type="hidden" name="comment_relationvalue" id="comment-relationvalue" maxlength="8" value="{$nTaotaoId}" />
+			{/if}
+			{if $GLOBALS['___login___']===false}
+			<lang>昵称</lang><br /><input type="text" name="comment_name" value=""/><br />
+			Email<br /><input type="text" name="comment_email" value=""/><br />
+			Url<br /><input type="text" name="comment_url" value=""/><br />
+			{d*else}
+			<lang>欢迎你</lang> | {$GLOBALS['___login___']['user_name']}
+			<input type="hidden" name="comment_name" value="{$GLOBALS['___login___']['user_name']}"/>
+			<input type="hidden" name="comment_email" value="{$GLOBALS['___login___']['user_email']}"/>
+			<input type="hidden" name="comment_url" value="{$GLOBALS['___login___']['user_homepage']}"/><br />
+			{/if}
+			<lang>内容</lang><br /><input type="text" name="comment_content" value=""/><br />
+			<input type="submit" value="<lang>发表</lang>" />
+		</form>
+		</div>
+	</div>
+
+<include file="footer">

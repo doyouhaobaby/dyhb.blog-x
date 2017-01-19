@@ -1,0 +1,73 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加表情中') );
+	Dyhb.AjaxSubmit('emotAdd','{:G::U('emot/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新表情中') );
+	Dyhb.AjaxSubmit('emotAdd','{:G::U('emot/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新表情') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加表情') );
+	if(status==1){
+		$('#id').val(data.emot_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='emot'>添加表情</lang><else/><lang package='emot'>编辑表情</lang></if> ( <a href="{:G::U('emot/index')}"><lang package='emot'>返回表情列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		
+		<div class="note"><p class="i"><lang package='emot'>系统表情不能编辑也不能删除</lang></p></div>
+		
+		<form action="<if condition="empty( $nId )" >{:G::U('emot/insert')}<else/>{:G::U('emot/update')}</if>" method="post" id="emotAdd" name="emotAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="empt_compositor"><lang package='emot'>序号</lang>：</label></th>
+			<td><input type="text" name="empt_compositor" id="empt_compositor" class="field" size="10" value="<if condition="isset( $oValue ) && !empty( $oValue:empt_compositor )">{$oValue:empt_compositor}<else/>0</if>"/>
+			<div class="description"><lang package='emot'>表情序号，用于表情排序</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="emot_name"><lang package='emot'>表情代号</lang>：</label></th>
+			<td><input type="text" name="emot_name" id="emot_name" class="field" size="40" value="<if condition="isset( $oValue ) && !empty( $oValue:emot_name )">{$oValue:emot_name}</if>"/>
+			<br/><div class="description"><lang package='emot'>表情代号必须唯一，且只能为英文字母、数字和下划线组成。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="emot_image"><lang package='emot'>表情路径</lang>：</label></th>
+			<td><input type="text" name="emot_image" id="emot_image" class="field" size="40" value="<if condition="isset( $oValue ) && !empty( $oValue:emot_image )">{$oValue:emot_image}</if>"/>
+			<br/><div class="description"><lang package='emot'>表情路径为想对于__PUBLIC__/Public/Images/Emot的路径。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="emot_thumb"><lang package='emot'>表情缩略图路径</lang>：</label></th>
+			<td><input type="text" name="emot_thumb" id="emot_thumb" class="field" size="40" value="<if condition="isset( $oValue ) && !empty( $oValue:emot_thumb )">{$oValue:emot_thumb}</if>"/>
+			<br/><div class="description"><lang package='emot'>表情缩略图路径为想对于__PUBLIC__/Public/Images/Emot的路径。</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

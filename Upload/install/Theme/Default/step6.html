@@ -1,0 +1,15 @@
+<include file="header">
+
+<div class="title"><lang package='defaultTheme'>正在安装</lang></div>
+<div id="main">
+	<div class="item-title"><lang package='defaultTheme'>请仔细查看安装过程消息！</lang></div>
+	<p><div style="margin-bottom:15px; padding:8px; height:280px; border:1px solid #EEE; background:#FFF; overflow:scroll; overflow-x:hidden;">
+				{$sMessage}
+		</div></p>
+<script>setTimeout(function(){window.location='{:G::U( 'index/step7' )}'}, 3000);</script>
+	<div align='center'>
+	<input type="button" disabled class="btn-next" value="<lang package='defaultTheme'>安装中...</lang>" onclick="window.location.href='{:G::U( 'index/step7' )}';" />
+	</div>
+</div>
+
+<include file="footer">

@@ -1,0 +1,926 @@
+<include file="public+header">
+<script src="__PUBLIC__/Images/Jquery/Jquery.interface.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/Jquery/Jquery.cookie.js" type="text/javascript"></script>
+{script}
+<!--
+{tagself}
+$(document).ready(function(){
+	$("#custom_widget_new").css('display', $.cookie('custom_widget_new') ? $.cookie('custom_widget_new') : 'none');
+	var widgets = $(".sortableitem").map(function(){return $(this).attr("id");});
+	$.each(widgets,function(i,widget_id){
+		$("#"+widget_id+" .widget-act-add").hide();
+		$("#"+widget_id+" .widget-act-del").show();
+	});
+	$("#adm_widget_list .widget-title").toggle(
+		function(){$(this).parent().next(".widget-control").show("fast")},
+		function(){$(this).parent().next(".widget-control").hide("fast")}
+	);
+	$("#adm_widget_list .widget-act-add").click(function(){
+		var title = $(this).prevAll(".widget-title").html();
+		var widget_id = $(this).parent().parent().attr("id");
+		var widget_element = "<li class=\"sortableitem\" id=\""+widget_id+"\">"+title+"<input type=\"hidden\" name=\"widgets[]\" value=\""+widget_id+"\" /></li>";
+		$("#adm_widget_box ul").append(widget_element);
+		$(this).hide();
+		$(this).next(".widget-act-del").show();
+	});
+	$("#adm_widget_list .widget-act-del").click(function(){
+		var widget_id = $(this).parent().parent().attr("id");
+		$("#adm_widget_box ul #" + widget_id).remove();
+		$(this).hide();
+		$(this).prev(".widget-act-add").show();
+	});
+	$("#adm_widget_box ul").mouseover(function(){
+		$("#adm_widget_box ul").Sortable({
+			accept: 'sortableitem'
+		});
+	});
+	$("#wg_select_main,#wg_select_footer,#wg_select_store").change(function(){
+		if( $(this).val()==-1 ){
+			dyhbAlert( D.L( '你还没有选择待操作的侧边栏！' ) );
+			return false;
+		}
+		window.location.href = Dyhb.U( 'widget/index?widget='+$(this).val() );
+	});
+});
+{/tagself}
+function widgetAdd( ){
+	$("#new_widget_option").attr("disabled", "disabled");
+	$("#new_widget_option").val( D.L('新增widget保存中') );
+	Dyhb.AjaxSubmit('newWidgetAdd','{:G::U('widget/add_widget')}','',complete);
+}
+function complete(data,status){
+	$("#new_widget_option").attr("disabled", false);
+	$("#new_widget_option").val( D.L('新增widget') );
+	if(status==1){
+		window.location.href='{:G::U('widget/index')}';
+	}
+}
+-->
+{/script}
+<script type="text/javascript" src="__PUBLIC__/Images/Farbtastic/farbtastic.js"></script>
+<link href="__PUBLIC__/Images/Farbtastic/farbtastic.css" rel="stylesheet" type="text/css" />
+{script}
+	$(document).ready(function() {
+		var picker = $.farbtastic("#picker");
+		$('.change_color').focus( function() {picker.linkTo(this);} );
+	});
+ {/script}
+
+	
+	<div class="title"><lang package='widget'>Widget 排序</lang></div>
+
+	
+	<div id="content" class="content">
+		<div class="widgetpage">
+		<div id="adm_widget_list">
+			<form action="{:G::U('widget/save_widget?widget=admin')}" method="post">
+			<div class="widget-line" id="admin">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>管理操作</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_admin_name]" value="{$arrOptions['widget_admin_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_admin_titleshow]" value="1" {if $arrOptions['widget_admin_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_admin_titleshow]" value="0" {if empty( $arrOptions['widget_admin_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>程序名字</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[blog_program_name]" value="{$arrOptions['blog_program_name']}"	/></li>
+					<li><lang package='widget'>程序官网 URL</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[blog_program_url]" value="{$arrOptions['blog_program_url']}"	/></li>
+					<li><lang package='widget'>博客固定地址</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[blog_url]" value="{$arrOptions['blog_url']}" /></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=archive')}" method="post">
+			<div class="widget-line" id="archive">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>日志归档</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_archive_name]" value="{$arrOptions['widget_archive_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_archive_titleshow]" value="1" {if $arrOptions['widget_archive_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_archive_titleshow]" value="0" {if empty( $arrOptions['widget_archive_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>归档显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_archive_display_num]" value="{$arrOptions['widget_archive_display_num']}"	/></li>
+					<li><lang package='widget'>归档是否显示日志数量</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_archive_show_blog_num]" value="1" {if $arrOptions['widget_archive_show_blog_num']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_archive_show_blog_num]" value="0" {if empty( $arrOptions['widget_archive_show_blog_num'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>归档是否下拉显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_archive_link_select]" value="1" {if $arrOptions['widget_archive_link_select']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_archive_link_select]" value="0" {if empty( $arrOptions['widget_archive_link_select'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=blog')}" method="post">
+			<div class="widget-line" id="blog">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>博客形象</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_blog_name]" value="{$arrOptions['widget_blog_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_blog_titleshow]" value="1" {if $arrOptions['widget_blog_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_blog_titleshow]" value="0" {if empty( $arrOptions['widget_blog_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>管理员联系名字</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[widget_blog_admin_title]" value="{$arrOptions['widget_blog_admin_title']}"	/></li>
+					<li><lang package='widget'>是否显示联系管理员</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_blog_show_admin]" value="1" {if $arrOptions['widget_blog_show_admin']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_blog_show_admin]" value="0" {if empty( $arrOptions['widget_blog_show_admin'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>管理员 Email</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[admin_email]" value="{$arrOptions['admin_email']}"	/></li>
+					<li><lang package='widget'>博客名字</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[blog_name]" value="{$arrOptions['blog_name']}"	/></li>
+					<li><lang package='widget'>博客 Logo</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[blog_logo]" value="{$arrOptions['blog_logo']}"	/></li>
+					<li><lang package='widget'>博客描述</lang></li>
+					<li><textarea name="configs[blog_description]" class="field" >{$arrOptions['blog_description']}</textarea></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=calendar')}" method="post">
+			<div class="widget-line" id="calendar">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>日历</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_calendar_name]" value="{$arrOptions['widget_calendar_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_calendar_titleshow]" value="1" {if $arrOptions['widget_calendar_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_calendar_titleshow]" value="0" {if empty( $arrOptions['widget_calendar_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=mp3player')}" method="post">
+			<div class="widget-line" id="mp3player">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>畅爽音乐</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_mp3player_name]" value="{$arrOptions['widget_mp3player_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_mp3player_titleshow]" value="1" {if $arrOptions['widget_mp3player_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_mp3player_titleshow]" value="0" {if empty( $arrOptions['widget_mp3player_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>播放器宽度</lang></li>
+					<li><input type="text" class="field" name="configs[widget_mp3player_width]" value="{$arrOptions['widget_mp3player_width']}"	/></li>
+					<li><lang package='widget'>播放器高度</lang></li>
+					<li><input type="text" class="field" name="configs[widget_mp3player_height]" value="{$arrOptions['widget_mp3player_height']}"	/></li>
+					<li><lang package='widget'>播放器背景颜色</lang></li>
+					<li><input type="text" class="field change_color" name="configs[widget_mp3player_bgcolor]" value="{$arrOptions['widget_mp3player_bgcolor']}" style="background-color:{$arrOptions['widget_mp3player_bgcolor']};" /></li>
+					<li><div id="picker"></div></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=category')}" method="post">
+			<div class="widget-line" id="category">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>分类目录</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_category_name]" value="{$arrOptions['widget_category_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_category_titleshow]" value="1" {if $arrOptions['widget_category_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_category_titleshow]" value="0" {if empty( $arrOptions['widget_category_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>分类是否树状显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_category_tree]" value="1" {if $arrOptions['widget_category_tree']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_category_tree]" value="0" {if empty( $arrOptions['widget_category_tree'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=commentpost')}" method="post">
+			<div class="widget-line" id="commentpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>最受欢迎日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_commentpost_name]" value="{$arrOptions['widget_commentpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_commentpost_titleshow]" value="1" {if $arrOptions['widget_commentpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_commentpost_titleshow]" value="0" {if empty( $arrOptions['widget_commentpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_commentpost_display_num]" value="{$arrOptions['widget_commentpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_commentpost_title_cutnum]" value="{$arrOptions['widget_commentpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=comment')}" method="post">
+			<div class="widget-line" id="comment">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>最新评论</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_comment_name]" value="{$arrOptions['widget_comment_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_comment_titleshow]" value="1" {if $arrOptions['widget_comment_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_comment_titleshow]" value="0" {if empty( $arrOptions['widget_comment_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>评论显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_comment_display_num]" value="{$arrOptions['widget_comment_display_num']}"	/></li>
+					<li><lang package='widget'>评论截取字符数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_comment_cutnum]" value="{$arrOptions['widget_comment_cutnum']}"	/></li>
+					<li><lang package='widget'>评论 Photo 样式</lang></li>
+					<li><input type="text"	class="field" name="configs[widget_comment_photo]" value="{$arrOptions['widget_comment_photo']}"	/></li>
+					<li><lang package='widget'>评论 Avatar 样式</lang></li>
+					<li><input type="text"	class="field" name="configs[widget_comment_avatar]" value="{$arrOptions['widget_comment_avatar']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=daycommentpost')}" method="post">
+			<div class="widget-line" id="daycommentpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>今日最受欢迎日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_daycommentpost_name]" value="{$arrOptions['widget_daycommentpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_daycommentpost_titleshow]" value="1" {if $arrOptions['widget_daycommentpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_daycommentpost_titleshow]" value="0" {if empty( $arrOptions['widget_daycommentpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_daycomment_display_num]" value="{$arrOptions['widget_daycomment_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_daycommentpost_cutnum]" value="{$arrOptions['widget_daycommentpost_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=dayhotpost')}" method="post">
+			<div class="widget-line" id="dayhotpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>今日排行日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_dayhotpost_name]" value="{$arrOptions['widget_dayhotpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_dayhotpost_titleshow]" value="1" {if $arrOptions['widget_dayhotpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_dayhotpost_titleshow]" value="0" {if empty( $arrOptions['widget_dayhotpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_dayhotpost_display_num]" value="{$arrOptions['widget_dayhotpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_dayhotpost_title_cutnum]" value="{$arrOptions['widget_dayhotpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=guestbook')}" method="post">
+			<div class="widget-line" id="guestbook">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>最新留言</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_guestbook_name]" value="{$arrOptions['widget_guestbook_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_guestbook_titleshow]" value="1" {if $arrOptions['widget_guestbook_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_guestbook_titleshow]" value="0" {if empty( $arrOptions['widget_guestbook_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>留言显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_guestbook_display_num]" value="{$arrOptions['widget_guestbook_display_num']}"	/></li>
+					<li><lang package='widget'>留言截取字符数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_guestbook_comment_cutnum]" value="{$arrOptions['widget_guestbook_comment_cutnum']}"	/></li>
+					<li><lang package='widget'>留言 Photo 样式</lang></li>
+					<li><input type="text" class="field" name="configs[widget_guestbook_comment_photo]" value="{$arrOptions['widget_guestbook_comment_photo']}"	/></li>
+					<li><lang package='widget'>留言 Avatar 样式</lang></li>
+					<li><input type="text"	class="field" name="configs[widget_guestbook_comment_avatar]" value="{$arrOptions['widget_guestbook_comment_avatar']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=hotpost')}" method="post">
+			<div class="widget-line" id="hotpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>热门日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_hotpost_name]" value="{$arrOptions['widget_hotpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_hotpost_titleshow]" value="1" {if $arrOptions['widget_hotpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_hotpost_titleshow]" value="0" {if empty( $arrOptions['widget_hotpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_hotpost_display_num]" value="{$arrOptions['widget_hotpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_hotpost_title_cutnum]" value="{$arrOptions['widget_hotpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=hottag')}" method="post">
+			<div class="widget-line" id="hottag">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>热门标签</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_hottag_name]" value="{$arrOptions['widget_hottag_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_hottag_titleshow]" value="1" {if $arrOptions['widget_hottag_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_hottag_titleshow]" value="0" {if empty( $arrOptions['widget_hottag_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>标签显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_hottag_display_num]" value="{$arrOptions['widget_hottag_display_num']}"	/></li>
+					<li><lang package='widget'>标签颜色</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[widget_hottag_color]" value="{$sTagColorLists}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=lang')}" method="post">
+			<div class="widget-line" id="lang">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>国际化</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_lang_name]" value="{$arrOptions['widget_lang_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_lang_titleshow]" value="1" {if $arrOptions['widget_lang_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_lang_titleshow]" value="0" {if empty( $arrOptions['widget_lang_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>语言包是否下拉菜单显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_lang_select]" value="1" {if $arrOptions['widget_lang_select']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_lang_select]" value="0" {if empty( $arrOptions['widget_lang_select'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=link')}" method="post">
+			<div class="widget-line" id="link">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>友情衔接</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_link_name]" value="{$arrOptions['widget_link_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_link_titleshow]" value="1" {if $arrOptions['widget_link_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_link_titleshow]" value="0" {if empty( $arrOptions['widget_link_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>衔接显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_link_display_num]" value="{$arrOptions['widget_link_display_num']}"	/></li>
+					<li><lang package='widget'>衔接是否随机显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_link_display_rand]" value="1" {if $arrOptions['widget_link_display_rand']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_link_display_rand]" value="0" {if empty( $arrOptions['widget_link_display_rand'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>衔接是否显示描述</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_link_description]" value="1" {if $arrOptions['widget_link_description']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_link_description]" value="0" {if empty( $arrOptions['widget_link_description'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>衔接是否以图片显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_link_images]" value="1" {if $arrOptions['widget_link_images']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_link_images]" value="0" {if empty( $arrOptions['widget_link_images'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>是否显示衔接 alt</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_link_name]" value="1" {if $arrOptions['widget_link_name']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_link_name]" value="0" {if empty( $arrOptions['widget_link_name'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=menu')}" method="post">
+			<div class="widget-line" id="menu">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>菜单</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_menu_name]" value="{$arrOptions['widget_menu_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_menu_titleshow]" value="1" {if $arrOptions['widget_menu_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_menu_titleshow]" value="0" {if empty( $arrOptions['widget_menu_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>菜单 Css 样式</lang></li>
+					<li><input type="text" size="40" class="field" name="configs[widget_menu_widget_class]" value="{$sMenuWidgetClass}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=monthcommentpost')}" method="post">
+			<div class="widget-line" id="monthcommentpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>当月最受欢迎日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_monthcommentpost_name]" value="{$arrOptions['widget_monthcommentpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_monthcommentpost_tshow]" value="1" {if $arrOptions['widget_monthcommentpost_tshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_monthcommentpost_tshow]" value="0" {if empty( $arrOptions['widget_monthcommentpost_tshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_monthcommentp_display_num]" value="{$arrOptions['widget_monthcommentp_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_monthcommentpost_tcutnum]" value="{$arrOptions['widget_monthcommentpost_tcutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=monthhotpost')}" method="post">
+			<div class="widget-line" id="monthhotpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>当月排行日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_monthhotpost_name]" value="{$arrOptions['widget_monthhotpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_monthhotpost_titleshow]" value="1" {if $arrOptions['widget_monthhotpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_monthhotpost_titleshow]" value="0" {if empty( $arrOptions['widget_monthhotpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_monthhotpost_display_num]" value="{$arrOptions['widget_monthhotpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_monthhotpost_title_cutnum]" value="{$arrOptions['widget_monthhotpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=pagepost')}" method="post">
+			<div class="widget-line" id="pagepost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>页面</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_pagepost_name]" value="{$arrOptions['widget_pagepost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_pagepost_titleshow]" value="1" {if $arrOptions['widget_pagepost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_pagepost_titleshow]" value="0" {if empty( $arrOptions['widget_pagepost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>页面显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_pagepost_display_num]" value="{$arrOptions['widget_pagepost_display_num']}"	/></li>
+					<li><lang package='widget'>页面标题截取字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_pagepost_title_cutnum]" value="{$arrOptions['widget_pagepost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=randpost')}" method="post">
+			<div class="widget-line" id="randpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>随机日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_randpost_name]" value="{$arrOptions['widget_randpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_randpost_titleshow]" value="1" {if $arrOptions['widget_randpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_randpost_titleshow]" value="0" {if empty( $arrOptions['widget_randpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_randpost_display_num]" value="{$arrOptions['widget_randpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_randpost_title_cutnum]" value="{$arrOptions['widget_randpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=recentimage')}" method="post">
+			<div class="widget-line" id="recentimage">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>最新图片</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_recentimage_name]" value="{$arrOptions['widget_recentimage_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_recentimage_titleshow]" value="1" {if $arrOptions['widget_recentimage_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_recentimage_titleshow]" value="0" {if empty( $arrOptions['widget_recentimage_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>图片显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_recentimage_display_num]" value="{$arrOptions['widget_recentimage_display_num']}"	/></li>
+					<li><lang package='widget'>图片自动自动播放时间</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_recentimage_autoplaytime]" value="{$arrOptions['widget_recentimage_autoplaytime']}"	/></li>
+					<li><lang package='widget'>Flath 幻灯片大小</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_recentimage_image_size]" value="{$sRecentimageImageSize}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=recentpost')}" method="post">
+			<div class="widget-line" id="recentpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>最新日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_recentpost_name]" value="{$arrOptions['widget_recentpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_recentpost_titleshow]" value="1" {if $arrOptions['widget_recentpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_recentpost_titleshow]" value="0" {if empty( $arrOptions['widget_recentpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_recentpost_display_num]" value="{$arrOptions['widget_recentpost_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_recentpost_title_cutnum]" value="{$arrOptions['widget_recentpost_title_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=rss')}" method="post">
+			<div class="widget-line" id="rss">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>Rss 订阅</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_rss_name]" value="{$arrOptions['widget_rss_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_rss_titleshow]" value="1" {if $arrOptions['widget_rss_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_rss_titleshow]" value="0" {if empty( $arrOptions['widget_rss_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=search')}" method="post">
+			<div class="widget-line" id="search">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>搜索</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_search_name]" value="{$arrOptions['widget_search_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_search_titleshow]" value="1" {if $arrOptions['widget_search_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_search_titleshow]" value="0" {if empty( $arrOptions['widget_search_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>搜索按钮名字</lang></li>
+					<li><input type="text" class="field" name="configs[search_widget_button_text]" value="{$arrOptions['search_widget_button_text']}"	/></li>
+					<li><lang package='widget'>是否显示辅助文本</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_search_showassistivetext]" value="1" {if $arrOptions['widget_search_showassistivetext']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_search_showassistivetext]" value="0" {if empty( $arrOptions['widget_search_showassistivetext'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>辅助文本样式名字</lang></li>
+					<li><input type="text" class="field" name="configs[widget_search_assistive_text]" value="{$arrOptions['widget_search_assistive_text']}"	/></li>
+					<li><lang package='widget'>搜索表单样式名字</lang></li>
+					<li><input type="text" class="field" name="configs[widget_search_input_class]" value="{$arrOptions['widget_search_input_class']}"	/></li>
+					<li><lang package='widget'>提交按钮样式名字</lang></li>
+					<li><input type="text" class="field" name="configs[widget_search_submit_class]" value="{$arrOptions['widget_search_submit_class']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=static')}" method="post">
+			<div class="widget-line" id="static">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>博客统计</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_static_name]" value="{$arrOptions['widget_static_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_static_titleshow]" value="1" {if $arrOptions['widget_static_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_static_titleshow]" value="0" {if empty( $arrOptions['widget_static_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>今日访问量</lang></li>
+					<li><input type="text" class="field" name="configs[today_visited_num]" value="{$arrOptions['today_visited_num']}"	/></li>
+					<li><lang package='widget'>总访问量</lang></li>
+					<li><input type="text" class="field" name="configs[all_visited_num]" value="{$arrOptions['all_visited_num']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=taotao')}" method="post">
+			<div class="widget-line" id="taotao">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>滔滔心情</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_taotao_name]" value="{$arrOptions['widget_taotao_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_taotao_titleshow]" value="1" {if $arrOptions['widget_taotao_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_taotao_titleshow]" value="0" {if empty( $arrOptions['widget_taotao_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>心情显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_taotao_display_num]" value="{$arrOptions['widget_taotao_display_num']}"	/></li>
+					<li><lang package='widget'>心情内容截取字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_taotao_cutnum]" value="{$arrOptions['widget_taotao_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=theme')}" method="post">
+			<div class="widget-line" id="theme">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>主题切换</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_theme_name]" value="{$arrOptions['widget_theme_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_theme_titleshow]" value="1" {if $arrOptions['widget_theme_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_theme_titleshow]" value="0" {if empty( $arrOptions['widget_theme_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>主题切换是否下拉显示</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_theme_select]" value="1" {if $arrOptions['widget_theme_select']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_theme_select]" value="0" {if empty( $arrOptions['widget_theme_select'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=uploadcategory')}" method="post">
+			<div class="widget-line" id="uploadcategory">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>附件分类目录</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_uploadcategory_name]" value="{$arrOptions['widget_uploadcategory_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_uploadcategory_titleshow]" value="1" {if $arrOptions['widget_uploadcategory_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_uploadcategory_titleshow]" value="0" {if empty( $arrOptions['widget_uploadcategory_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>分类目录显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_ucategory_display_num]" value="{$arrOptions['widget_ucategory_display_num']}"	/></li>
+					<li><lang package='widget'>是否使用分类封面</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_uploadcategory_cover]" value="1" {if $arrOptions['widget_uploadcategory_cover']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_uploadcategory_cover]" value="0" {if empty( $arrOptions['widget_uploadcategory_cover'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>是否使用分类封面固定大小</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_uploadcategory_fixed]" value="1" {if $arrOptions['widget_uploadcategory_fixed']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_uploadcategory_fixed]" value="0" {if empty( $arrOptions['widget_uploadcategory_fixed'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>分类目录封面大小</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_uploadcategory_fixed_size]" value="{$sUploadcategoryFixedsize}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=yearcommentpost')}" method="post">
+			<div class="widget-line" id="yearcommentpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>年度最受欢迎日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_yearcommentpost_name]" value="{$arrOptions['widget_yearcommentpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_yearcommentpost_titleshow]" value="1" {if $arrOptions['widget_yearcommentpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_yearcommentpost_titleshow]" value="0" {if empty( $arrOptions['widget_yearcommentpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_yearcommentp_display_num]" value="{$arrOptions['widget_yearcommentp_display_num']}"	/></li>
+					<li><lang package='widget'>日志标题截取字符串数量</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_yearcommentpost_cutnum]" value="{$arrOptions['widget_yearcommentpost_cutnum']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<form action="{:G::U('widget/save_widget?widget=yearhotpost')}" method="post">
+			<div class="widget-line" id="yearhotpost">
+				<div class="widget-top">
+					<li class="widget-title"><lang package='widget'>年度排行日志</lang></li>
+					<li class="widget-act-add"></li>
+					<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>Widget 标题</lang></li>
+					<li><input type="text" class="field" name="configs[widget_yearhotpost_name]" value="{$arrOptions['widget_yearhotpost_name']}"	/></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="configs[widget_yearhotpost_titleshow]" value="1" {if $arrOptions['widget_yearhotpost_titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="configs[widget_yearhotpost_titleshow]" value="0" {if empty( $arrOptions['widget_yearhotpost_titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><lang package='widget'>日志标题截取字数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_yearhotpost_title_cutnum]" value="{$arrOptions['widget_yearhotpost_title_cutnum']}"	/></li>
+					<li><lang package='widget'>日志显示条数</lang></li>
+					<li><input type="text" size="10" class="field" name="configs[widget_yearhotpost_display_num]" value="{$arrOptions['widget_yearhotpost_display_num']}"	/></li>
+					<li>
+						<input type="submit" name="" value="<lang package='widget'>更改</lang>" class="button" />
+					</li>
+				</div>
+			</div>
+		</form>
+
+		<div class="wg_line"><lang package='widget'>自定义组件</lang></div>
+			<foreach for=arrCustomWidgetOptions key=sCustomWidgetOptionsKey value=arrCustomWidgetOption >
+			<form action="{:G::U('widget/update_widget')}" method="post" >
+				<div class="widget-line" id="{$sCustomWidgetOptionsKey}">
+					<div class="widget-top">
+						<li class="widget-title">{$arrCustomWidgetOption['title']}</li>
+						<li class="widget-act-add"></li>
+						<li class="widget-act-del"></li>
+				</div>
+				<div class="widget-control">
+					<li><lang package='widget'>组件标题</lang></li>
+					<li><input type="text" class="field" name="title" value="{$arrCustomWidgetOption['title']}"	/></li>
+					<li><lang package='widget'>组件内容</lang></li>
+					<li><textarea rows='8' cols='15' class="field" name="content">{$arrCustomWidgetOption['content']}</textarea></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="titleshow" value="1" {if $arrCustomWidgetOption['titleshow']==1}checked{/if} >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="titleshow" value="0" {if empty( $arrCustomWidgetOption['titleshow'] )}checked{/if} >&nbsp;<lang>否</lang></li>
+					<li><input type="hidden" name="widget_id" value="{$sCustomWidgetOptionsKey}" />
+					<input type="submit" type="button" name="" value="<lang package='widget'>更新自定义组件</lang>" class="button" />
+					<span style="margin-left:235px;"><a href="#" onclick="javascript:dyhbConfirm( D.L( '你确定要删除组件吗？' ),function( ){window.location.href='{:G::U('widget/delete_widget?name='.$sCustomWidgetOptionsKey)}';} )" class="a-button"><lang package='widget'>删除该组件</lang></a></span></li>
+				</div>
+			</div>
+			</form>
+			</foreach>
+
+			<form action="{:G::U('widget/add_widget')}" method="post" name="newWidgetAdd" id="newWidgetAdd">
+				<div class="wg_line2"><a href="javascript:showDiv('custom_widget_new');" class="a-button"><lang package='widget'>自定义一个新的widget+</lang></a></div>
+					<div class="widget-control" id="custom_widget_new" style="display:none;">
+					<li><lang package='widget'>组件标题</lang></li>
+					<li><input type="text" class="field" name="title" value=""	/></li>
+					<li><lang package='widget'>组件内容</lang></li>
+					<li><textarea rows='8' cols='15' class="field" name="content"></textarea></li>
+					<li><lang package='widget'>是否显示 Widget 标题</lang></li>
+					<li><input class="radio" type="radio" name="titleshow" value="1" checked >&nbsp;<lang>是</lang>
+						<input class="radio" type="radio" name="titleshow" value="0" >&nbsp;<lang>否</lang></li>
+					<li>
+						<input id="new_widget_option" type="button" onclick="javascript:widgetAdd();"	name="" value="<lang package='widget'>保存自定义Widget</lang>" class="button" />
+					</li>
+				</div>
+			</form>
+		</div>
+
+		<form action="{:G::U('widget/compages')}" method="post" id="compagesSave" name="compagesSave">
+			<div class="wg_select">
+				<h3><lang package='widget'>系统内置 Widgets</lang></a></h3>
+				<ul>
+					<li><lang package='widget'>主边栏</lang></li>
+					<li><select id="wg_select_main">
+						<option value="-1" selected>-<lang package='widget'>请选择</lang>-</option>
+						<loop start='1' end='10' var='main_value'>
+						{~$new_main_value='widgets_main'.$main_value}
+						<option value="{$new_main_value}" {if $sCurrentWidget==$new_main_value}selected{/if}><lang package='widget'>主边栏</lang>{$main_value}</option>
+						</loop>
+						</select>
+					</li>
+					<li><lang package='widget'>页脚栏</lang></li>
+					<li><select id="wg_select_footer">
+						<option value="-1" selected>-<lang package='widget'>请选择</lang>-</option>
+						<loop start='1' end='10' var='footer_value'>
+						{~$new_footer_value='widgets_footer'.$footer_value}
+						<option value="{$new_footer_value}" {if $sCurrentWidget==$new_footer_value}selected{/if}><lang package='widget'>页脚栏</lang>{$footer_value}</option>
+						</loop>
+						</select>
+					</li>
+					<li><lang package='widget'>陈列柜</lang></li>
+					<li><select id="wg_select_store">
+						<option value="-1" selected>-<lang package='widget'>请选择</lang>-</option>
+						<option value="widgets_store" {if $sCurrentWidget=='widgets_store'}selected{/if}><lang package='widget'>成列柜</lang></option>
+						</select>
+					</li>
+					</ul>
+				<p><lang package='widget'>系统内置了3个系列的组件：主边栏widget(widgets_main*)、页脚栏widget(widgets_footer*)、陈列柜widgets_store</lang></p>
+			</div>
+
+			<div id="adm_widget_box">
+			<ul>
+				<foreach for=arrWidgetsTrue value=sWidgetsTrue>
+				<li class="sortableitem" id="{$sWidgetsTrue}">
+					<input type="hidden" name="widgets[]" value="{$sWidgetsTrue}" />{$TheController->get_widget_name( $sWidgetsTrue )}
+				</li>
+				</foreach>
+			</ul>
+			<input type="hidden" name="widget" value="{$sCurrentWidget}"/>
+			<div style="margin:20px 40px;"><input	type="submit" value="<lang package='widget'>保存组件排序</lang>" class="button button-blue" /></div>
+			<div style="margin:10px 40px;"><a href="javascript:dyhbConfirm( D.L( '你确定要恢复组件设置到初始安装状态' ),function( ){ window.location.href='{:G::U('widget/reset')}'; } );" class="a-button"><lang package='widget'>恢复组件设置到初始安装状态</lang>&raquo;</a></div>
+			</div>
+		</form>
+	</div>
+
+	</div>
+	
+
+<include file="public+footer">

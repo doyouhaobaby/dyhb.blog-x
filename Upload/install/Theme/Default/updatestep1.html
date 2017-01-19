@@ -1,0 +1,15 @@
+<include file="header">
+
+<div class="title"><lang package='updateTheme'>升级确认页</lang></div>
+<div id="main">
+    <div class="item-title"><lang package='updateTheme'>你认真阅读下面的提示!</lang></div>
+	<p><span style="color:#f00;"><lang package='updateTheme'>本程序仅适用于1.2升级到2.0，不适合任何2.0测试版本升级到2.0正式版。</lang></span></p>
+	<p><span style="color:#f00;font-weight:700;"><lang package='updateTheme'>再次提醒，升级前必须备份数据！</lang></span></p>
+	<p><lang package='updateTheme'>升级过程完全不用人工干预,请耐心等待升级，整个过程将会很快。</lang></p>
+	<div align='center'>
+	<input type="button" class="btn-back" value="<lang package='defaultTheme'>后退</lang>" onclick="window.location.href='{:G::U( 'index/step2' )}';" />
+	<input type='button' value='<lang package='updateTheme'>检查环境</lang>' class='inbut' onclick="window.location.href='{:G::U( 'update/step2' )}'"/>
+	</div>
+</div>
+
+<include file="footer">

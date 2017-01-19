@@ -1,0 +1,36 @@
+<include file="public+header" />
+
+	
+	<div class="title"><a href="{:G::U('plugin/index')}"><lang package='plugin'>插件列表</lang></a> | <lang package='plugin'>安装新插件</lang> | <a href="{:G::U('plugin/make')}"><lang package='plugin'>设计新插件</lang></a></div>
+
+	<div id="content" class="content">
+	<div class="note"><p class="i"><lang package='plugin'>插件资源目录</lang>：Public/Plugin/</p></div>
+	<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='plugin'>插件名字</lang></th>
+			<th><lang package='plugin'>插件版权信息</lang></th>
+			<th><lang package='plugin'>插件安装</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrNewPlugins key=nNewPlugin value=arrNewPlugin>
+			<tr>
+			<td width="40%">
+			<php>$bExistImageLogo=file_exists(DYHB_PATH.'/../Public/Plugin/'.$arrNewPlugin['dir'].'/logo.png')?true:false;</php>
+			<php>$bNew=$arrNewPlugin['filetime']>CURRENT_TIMESTAMP-86400?true:false;</php>
+			<img height="40" align="left" width="40" style="margin: 0pt 5px 0pt 30px;" src="{if 
+$bExistImageLogo}__PUBLIC__/Plugin/{$arrNewPlugin['dir']}/logo.png{d*else}__PUBLIC__/Plugin/logo.png{/if}"/>{$arrNewPlugin['title']}-{$arrNewPlugin['version']}{if $bNew}<font color="red">New!</font>{/if}
+			<br/><span>{$arrNewPlugin['dir']}</span>
+			</td>
+			<td>{$arrNewPlugin['copyright']}</td>
+			<td align="right"><a class="a-button" href="{:G::U('plugin/import_a_plugin?dir='.$arrNewPlugin['dir'])}"><lang package='plugin'>安装</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+	
+	</div>
+	
+
+<include file="public+footer">

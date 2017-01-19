@@ -1,0 +1,19 @@
+<include file="header">
+
+	<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>短消息</lang></div>
+
+	<div id="wrap" class="wrap with_side s_clear">
+		<div class="main">
+			<div class="content">
+			{if $oOnePm['pm_type']=='system'}
+			{:G::W( 'pmlist',array( 'type'=>$sPmType,'onepm'=>$oOnePm,'systemonepm'=>true,'readpms'=>$arrReadPms ) )}
+			{d*else}
+			{:G::W( 'pmlist',array( 'data'=>$arrPms,'type'=>$sPmType,'user'=>$nUserId,'pagenavbar'=>$sPageNavbar,'totalpm'=>$nTotalPm,'date'=>$sDate,'onepm'=>$oOnePm,'touser'=>$oToUser ) )}
+			{/if}
+			</div>
+		</div>
+ 
+		<include file="sidebarmember"> 
+		</div>	
+
+<include file="footer">

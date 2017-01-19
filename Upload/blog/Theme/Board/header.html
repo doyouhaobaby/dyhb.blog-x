@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="{:Global_Extend::getOption('html_lang')}">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="{:Global_Extend::getOption( 'html_type' )}; charset=utf-8" />
+
+<title>{$TheController:get_title()}</title>
+{$TheController:header()}
+</head>
+
+<body id="{:CURSCRIPT}" onkeydown="if(event.keyCode==27) return false;">
+
+	<div id="DyhbAjaxResult" class="none DyhbAjaxResult">&nbsp;</div>
+	<div id="append_parent"> </div>
+	<div id="ajaxwaitid"> </div>
+
+	<div id="header">
+		<div class="wrap s_clear">
+			<h2><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )}">{:LOGO_STR}</a></h2>
+			
+			<div id="umenu" class="umenu" >
+			{if Global_Extend+isLogin()}
+			{~$arrLoginPms=$TheController->usermenu()}
+			{if $arrLoginPms['total']>0}
+			<script type="text/javascript">
+//<![CDATA[
+var titleState=0;
+var promptState=0;
+var oldTitle=document.title;
+function flashTitle(){
+	document.title=(titleState ? '\u3010\u3000\u3000\u3000\u3011' : '\u3010\u65b0\u77ed\u4fe1\u3011')+ oldTitle;
+	titleState=!titleState;
+}
+window.setInterval('flashTitle();', 500);
+//]]>
+</script>
+			{if Global_Extend+getOption('message_sound_on')==1}
+				{~$sSoundOuturl=Global_Extend::getOption('message_sound_out_url')?Global_Extend::getOption('message_sound_out_url'):__PUBLIC__."/Images/Sound/pm_".Global_Extend::getOption('message_sound_type').".mp3"}
+				<div id="pmsound" style="position:absolute;top:-100000px"></div>
+<script type="text/javascript" reload="1">
+//<![CDATA[
+document.getElementById('pmsound').innerHTML=AC_FL_RunContent('id', 'pmsoundplayer', 'name', 'pmsoundplayer', 'width', '0', 'height', '0', 'src', '__PUBLIC__/Images/Sound/player.swf', 'FlashVars','sFile={$sSoundOuturl}', 'menu', 'false','allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true');
+//]]>
+</script>
+			{/if}
+{/if}
+			<cite><a href="{:PageType_Extend::getAuthorUrl($GLOBALS['___login___']['user_id'])}" class="noborder">{if !empty($GLOBALS['___login___']['user_nikename'])}{$GLOBALS['___login___']['user_nikename']}{d*else}{$GLOBALS['___login___']['user_name']}{/if}</a></cite><span class="pipe">|</span>
+			{if $arrLoginPms['total']>0}<img src="{:IMG_DIR}/notice_newpm.gif" title="<lang>私人消息</lang>({$arrLoginPms['user']}) <lang>系统消息</lang>({$arrLoginPms['system']})" />{/if}
+			<a href="{:G::U('pm/index')}" {if $arrLoginPms['total']>0}class="new" title="<lang>私人消息</lang>({$arrLoginPms['user']}) <lang>系统消息</lang>({$arrLoginPms['system']})"{/if} id="pm_ntc"><lang>短消息</lang></a>
+			<span class="pipe">|</span><a href="{:G::U('member/index')}"><lang>个人中心</lang></a>
+			<a href="__ROOT__/admin.php" target="_blank"><lang>管理中心</lang></a>
+			<a href="{:G::U('login/logout')}"><lang>退出</lang></a>
+			{d*else}
+			<a href="{:G::U( 'register/index' )}" class="noborder"><lang package='boardTheme'>注册</lang></a>
+			<a href="{:G::U( 'login/index' )}" ><lang package='boardTheme'>登录</lang></a>
+			{/if}
+			</div>
+
+			<div id="menu">
+				<ul>
+					<php>$arrBlogMenus=$TheController->menu('current','');</php>
+					<foreach for=arrBlogMenus value=arrBlogMenu>
+					<li class="{$arrBlogMenu['css']} menu_item menu-item-{$key}">
+					<a <if condition="!empty( $arrBlogMenu['style'] )">style="{$arrBlogMenu['style']}"</if> title="{$arrBlogMenu['title']} - {$arrBlogMenu['description']}" href="{$arrBlogMenu['link']}" {if !empty( $arrBlogMenu['target'] )}{$arrBlogMenu['target']}{/if} >{$arrBlogMenu['title']}</a>
+					</li>
+					</foreach>
+				</ul>
+			</div>
+
+				{if Global_Extend+getOption('blog_style_show')}
+	<script type="text/javascript">
+//<![CDATA[
+function setStyle(sStyleId){
+location.href='?t='+sStyleId;
+}
+//]]>
+</script>
+<div id="style_switch_box">
+<ul id="style_switch" class="">
+<foreach for=__style_icons__>
+<li><a href="###" onclick="setStyle('{$key}')" title="{$key}" style="background: {$value};">{$key}</a></li>
+</foreach>
+</ul>
+</div>
+{/if}
+
+		</div>
+		{:Global_Extend::templateHooks('global_header')}
+	</div>

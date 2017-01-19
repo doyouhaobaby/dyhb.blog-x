@@ -1,0 +1,75 @@
+<include file="public+header">
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	$("#controllers > ul").tabs();
+});
+</script>
+<!-- BEGIN COL3 -->
+
+<div id="col3_full">
+  <div id="col3_content" class="clearfix">
+	<!-- add your content here -->
+	<div id="controllers">
+	  <ul>
+		<li><a href="#tab_list"><span><lang>现有的控制器</lang></span></a></li>
+		<li><a href="#tab_new"><span><lang>创建新控制器</lang></span></a></li>
+	  </ul>
+	</div>
+	<div id="tab_list">
+	  <table class="data full">
+		<thead>
+		  <tr>
+			<th nowrap><lang>控制器名称</lang></th>
+			<th nowrap><lang>模块</lang></th>
+			<th nowrap><lang>类名称</lang></th>
+			<th nowrap><lang>文件</lang></th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {list $arrControllers $controller}
+		  <tr>
+			<th>{$controller['control']}</th>
+			<td>{$controller['module']}</td>
+			<td>{$controller['class']}</td>
+			<td>{$controller['path']}</td>
+		  </tr>
+		  {/list}
+		</tbody>
+	  </table>
+	</div>
+	<div id="tab_new">
+	  <form name="create_controller" action="{:G::U('create/newcontroller')}" method="post">
+		<table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="name"><lang>控制器名称：</lang></label></th>
+			<td><input type="text" name="name" id="name" class="field" size="40" maxlength="30" />
+			<br />
+								 <lang>控制器名称只能使用数字、26个英文字母或者下划线组成的字符串。还可以用 / 来确定控制器所属的分组。</lang><br />
+								<lang> 例如 Admin/posts 表示 Admin 分组里面的 posts 控制器。</lang><font color="red">[<lang>说明：系统会自动验证控制器名字格式</lang>]</font></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="attribute"><lang>控制器属性：</lang></label></th>
+			<td><textarea name="attribute" id="attribute" class="field" cols="70" rows="10"></textarea>
+			<br />
+								 <lang>控制器属性只能使用数字、26个英文字母或者下划线组成的字符串。每行一条属性，属性的设置的格式为（声明|名字|默认值|描述）。</lang><br />
+								 <lang>例如 public|$test|array()|我是一个演示属性。</lang><font color="red">[<lang>说明：系统不会自动验证控制器属性名字格式</lang>]</font></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="action"><lang>控制器方法：</lang></label></th>
+			<td><textarea name="action" id="action" class="field" cols="70" rows="10"></textarea>
+			<br />
+								 <lang>控制器方法只能使用 数字、26个英文字母或者下划线组成的字符串。方法的设置格式为 （声明|名字|参数(*表示为空参数)|描述），如果不填则默认写入一个index方法。</lang>
+			<lang>public|test|*|我是一个测试方法,后面还可以加上方法体，方法体中如果有系统指定的模块，那么会自动载入模块。</lang>
+								 <lang>例如public|test|*|我是一个测试方法|demo，如果存在分组，则public|test|*|我是一个测试方法|curd:create。</lang><font color="red">[<lang>说明：系统不会自动验证控制器方法名字格式</lang>]</font></td>
+		  </tr>
+		</table>
+		<p>
+		  <input type="submit" class="button" name="Submit" value="<lang>创建控制器</lang>" />
+		</p>
+	  </form>
+	</div>
+  </div>
+</div>
+
+<include file="public+footer">

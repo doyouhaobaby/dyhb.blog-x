@@ -1,0 +1,48 @@
+<foreach for=arrBlogLists value=oBlogList>
+		<div class="entry" id="post-{$oBlogList:blog_id}">
+			<a href="{$TheController:the_title_url( $oBlogList )}" class="avatar">
+				<img src="{:Blog_Extend::getGravatar($oBlogList->user_id,'small')}" alt="" />
+			</a>
+			<i class="line_h"></i>
+			{$TheController:the_title( $oBlogList,array( 'before'=>'<h2>','after'=>'</h2>','cut'=>35 ) )}
+			<div class="entryinfo">
+			<lang package='defaultTheme'>来源</lang>：{$TheController:the_from( $oBlogList )} | <lang package='defaultTheme'>作者</lang>：{$TheController:the_author( $oBlogList->user )} | <lang package='defaultTheme'>发布时间</lang>：{$oBlogList:blog_dateline|date='F j, Y',**} | <lang package='defaultTheme'>分类</lang>： {$TheController:the_category( $oBlogList->category )}
+			{$TheController:the_mobile( $oBlogList )}
+			{$TheController:the_upload( $oBlogList )}
+			{$TheController:the_top( $oBlogList )}
+			</div>
+			<div class="post">
+				{if empty(	$oBlogList['blog_password'])}
+				<div class="epic">
+				<a href="{$TheController:the_title_url( $oBlogList )}" rel="bookmark" title="<lang package='defaultTheme'>继续阅读</lang> {$oBlogList:blog_title}">
+					<img src="{$TheController:get_thumb_image( $oBlogList )}" alt="<lang package='defaultTheme'>继续阅读</lang> {$oBlogList:blog_title}" /></a>
+				</div>
+				<div class="etext">
+					{$oBlogList:blog_excerpt}
+					<a href="{$TheController:the_title_url( $oBlogList )}" rel="bookmark" title="<lang package='defaultTheme'>衔接至</lang> {$oBlogList:blog_title}" class="readmore"><lang package='defaultTheme'>阅读全文</lang>>></a>
+				</div>
+				<div class="clearer"></div>
+				<div class="under">
+					{~$sTagText = $TheController->the_tag( $oBlogList,array( 'display'=>0 ) )}
+					{if $sTagText!==false}
+					<div class="tag"><lang package='defaultTheme'>标签</lang>:
+						{$sTagText}
+					</div>
+					{/if}
+					<div class="count">
+						{$TheController:the_comment( $oBlogList )}
+						{$TheController:the_trackback( $oBlogList )}
+						{$TheController:the_view( $oBlogList )}
+					</div>
+				</div>
+				{d*else}
+				[<lang package='app'>该日志已设置加密，请点击标题输入密码访问</lang>]
+				{/if}
+				<div class="clearer"></div>
+			</div>
+		</div>
+</foreach>
+
+<div class="clearer"></div>
+
+{$sPageNavbar}

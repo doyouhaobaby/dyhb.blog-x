@@ -1,0 +1,40 @@
+<include file="public+header" />
+
+{script}
+function deleteTheme( sUrl ){
+
+	dyhbConfirm( D.L( '你确定要删除选中的模板缓存文件吗？' ),function( ){
+		window.location.href=sUrl;
+	});
+}
+{/script}
+
+	
+	<div class="title"><lang package='theme'>主题缓存文件列表</lang> | <a href="{:G::U('theme/index')}"><lang package='theme'>前台主题</lang></a> | <a href="{:G::U('theme/admin')}"><lang package='theme'>后台主题</lang></a></div>
+
+	<span class="clear"></span>
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><lang package='theme'>模板名</lang></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrCurrentData>
+			<tr>
+			<td>{$value}</td>
+			<td><a href="###" onclick="deleteTheme( '{:G::U( 'theme/delete_cache_file?path='.$value)}' );return false;" title="<lang package='theme'>删除模板缓存文件</lang>"><lang>删除</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

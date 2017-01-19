@@ -1,0 +1,24 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+		<div id="nav">
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" id="fjump" onmouseover="showMenu({'ctrlid':this.id})" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>留言板</lang>( <span id="comment-totalnums">{$nTotalGuestbook}</span> )</div>
+
+		<div id="wrap" class="wrap s_clear threadfix">
+
+		<div id="postlist" class="mainbox viewthread">
+{:Global_Extend::templateHooks('index_top')}
+		{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("guestbook_status")==1}
+		<include file="commentform">
+		{/if}
+
+		<include file="boardcomments">
+		{:Global_Extend::templateHooks('index_bottom')}
+	</div>
+
+		</div>
+
+<include file="footer">

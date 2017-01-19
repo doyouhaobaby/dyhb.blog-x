@@ -1,0 +1,65 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加附件归档中') );
+	Dyhb.AjaxSubmit('uploadcategoryAdd','{:G::U('uploadcategory/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新附件归档中') );
+	Dyhb.AjaxSubmit('uploadcategoryAdd','{:G::U('uploadcategory/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新附件归档') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加附件归档') );
+	if(status==1){
+		$('#id').val(data.uploadcategory_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='uploadcategory'>添加附件归档</lang><else/><lang package='uploadcategory'>编辑附件归档</lang></if> ( <a href="{:G::U('uploadcategory/index')}"><lang package='uploadcategory'>返回附件归档列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('uploadcategory/insert')}<else/>{:G::U('uploadcategory/update')}</if>" method="post" id="uploadcategoryAdd" name="uploadcategoryAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="uploadcategory_compositor"><lang package='uploadcategory'>附件归档排序</lang>：</label></th>
+			<td><input type="text" name="uploadcategory_compositor" id="uploadcategory_compositor" class="field" size="5" value="<if condition="isset( $oValue )">{$oValue:uploadcategory_compositor}<else/>0</if>"/>
+			<br/><div class="description"><lang package='uploadcategory'>附件归档的排序只能是数字。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadcategory_name"><lang package='uploadcategory'>附件归档名字</lang>：</label></th>
+			<td><input type="text" name="uploadcategory_name" id="uploadcategory_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:uploadcategory_name}</if>"/>
+			<br/><div class="description"><lang package='uploadcategory'>附件归档的名字，不能为空！</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="uploadcategory_cover"><lang package='uploadcategory'>分类归档封面</lang>：</label></th>
+			<td><input type="text" name="uploadcategory_cover" id="uploadcategory_cover" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:uploadcategory_cover}</if>"/>
+			<br/><div class="description"><lang package='uploadcategory'>分类归档的封面，可以是一个附件的ID或者完整的图片URL 地址。</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,25 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; 404 NOT FOUND</div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+
+<div class="fcontent" id="main_messaqge">
+	<div id="layer_404">
+		<h3 class="float_ctrl">
+			<em id="returnmessage"><lang package='boardTheme'>未找到</lang></em>
+		</h3>
+		<div class="postbox">
+			{$the_404_description}<br/>
+			<include file="searchform">
+		</div>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+<include file="footer">

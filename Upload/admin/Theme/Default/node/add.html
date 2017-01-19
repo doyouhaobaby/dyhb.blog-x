@@ -1,0 +1,117 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#node_access").change(function() {
+		if (this.value != 0){
+			$("#ajaxSelect").css('display','block');
+			$("#ajaxSelect").load("{:G::U('node/get_access')}", {
+				access: this.value
+			});
+		}
+		else{
+			$("#ajaxSelect").css('display','none');
+		}
+	});
+});
+{/script}
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加节点中') );
+	Dyhb.AjaxSubmit('nodeAdd','{:G::U('node/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新节点中') );
+	Dyhb.AjaxSubmit('nodeAdd','{:G::U('node/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新节点') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加节点') );
+	if(status==1){
+		$('#id').val(data.node_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='node'>添加节点</lang><else/><lang package='node'>编辑节点</lang></if> ( <a href="{:G::U('node/index')}"><lang package='node'>返回节点列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('node/insert')}<else/>{:G::U('node/update')}</if>" method="post" id="nodeAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="node_access"><lang package='node'>授权</lang>：</label></th>
+			<td><SELECT class="field"	name="node_access" id="node_access">
+				<option value="0" <if condition="isset( $oValue ) && $oValue:node_level==1">selected</if>>-- <lang package='node'>请选择</lang> --</option>
+				<option value="app" <if condition="isset( $oValue ) && $oValue:node_level==2">selected</if>><lang package='node'>应用</lang></option>
+				<option value="module" <if condition="isset( $oValue ) && $oValue:node_level==3">selected</if>><lang package='node'>模块</lang></option>
+				</SELECT>
+				<div class="description"><lang package='node'>请选择授权应用和模块</lang></div>
+			</td>
+			</tr>
+			<tr class="none" id="ajaxSelect"><td><img
+			src="__TMPLPUB__/Images/ajaxloading.gif"></img><lang package='node'>数据加载中...</lang>
+			<if condition="empty( $nId )"><input type="hidden" name="node_level" value="1"></if>
+			<input type="hidden" name="node_parentid" value="<if condition="isset( $oValue ) && $oValue:node_parentid">{$oValue:node_parentid}<else/>0</if>"></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="node_sort"><lang package='node'>序号</lang>：</label></th>
+			<td><input type="text" name="node_sort" id="node_sort" class="field" size="40" value="<if condition="isset( $oValue ) && $oValue:node_sort">{$oValue:node_sort}<else/>0</if>"/>
+			<div class="description"><lang package='node'>节点序号，用于排列节点顺序</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="node_name"><lang package='node'>应用名</lang>：</label></th>
+			<td><input type="text" name="node_name" id="node_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:node_name}</if>"/>
+			<div class="description"><lang package='node'>节点的名字</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="node_title"><lang package='node'>显示名</lang>：</label></th>
+			<td><input type="text" name="node_title" id="node_title" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:node_title}</if>"/>
+			<div class="description"><lang package='node'>节点的别名</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="group_id"><lang package='node'>分组</lang>：</label></th>
+			<td><SELECT class="field"	name="group_id" id="group_id">
+				<foreach for=arrGroup>
+				<option value="{$value['group_id']}" {if isset( $oValue ) && $value['group_id']==$oValue->group_id}selected{/if}>{$value['group_title']}</option>
+				</foreach>
+				</SELECT>
+				<div class="description"><lang package='node'>节点的分组</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="node_status"><lang package='node'>状态</lang>：</label></th>
+			<td><SELECT class="field"	name="node_status">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:node_status==1">selected</if>><lang>启用</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:node_status eq 0 ) ">selected</if>><lang>禁用</lang></option>
+				</SELECT>
+				<div class="description"><lang package='node'>是否启用节点，启用节点才能够使用</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="node_remark"><lang package='node'>备注</lang>：</label></th>
+			<td><textarea name="node_remark" id="node_remark" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:node_remark}</if></textarea>
+			<div class="description"><lang package='node'>节点其它相关信息</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="isset( $nId )">{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

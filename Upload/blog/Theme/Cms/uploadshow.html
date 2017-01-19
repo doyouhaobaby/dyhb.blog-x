@@ -1,0 +1,68 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>附件显示</lang>
+			&raquo;<lang package='cmsTheme'>下载次数</lang>( <span id="uploaddownload-totalnums">{$oUpload:upload_download}</span> )( <a href="{:G::U( 'upload/index' )}" class="lightlink"><lang package='cmsTheme'>附件列表</lang></a> | <a href="{:G::U( 'uploadcategory/index' )}" class="lightlink"><lang package='cmsTheme'>附件归档</lang></a> )	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	{:Global_Extend::templateHooks('show_top')}
+	<table width='100%'>
+	<tr>
+	<td>
+	<div class="upload-info-box" >
+					<lang package='cmsTheme'>文件名</lang>： {$oUpload:upload_name}<br/>
+					<lang package='cmsTheme'>文件类型</lang>： {$oUpload:upload_type}<br/>
+					<lang package='cmsTheme'>上传时间</lang>：{$oUpload:create_dateline|date='Y-m-d H:i:s',**}<br/>
+					<lang package='cmsTheme'>上传者</lang>：{$TheController:get_the_upload_username( $oUpload )}
+				</div>
+
+		{$TheController:show_the_upload( $oUpload,$sUploadType )}
+	</td>
+	</tr>
+	</table>
+	</div>
+ </div>
+
+	<a name='commettop'></a>
+	<div class="mt1">
+			<dl class="tbox">
+
+				<dt>
+					<strong><lang package='cmsTheme'>评论列表</lang>(<span id="comment-totalnums">{$oUpload:upload_commentnum}</span>)</strong>
+					<span class="more"><a href="{:G::U( 'comment/index' )}"><lang package='cmsTheme'>所有评论</lang>&gt;&gt;</a></span>
+				</dt>
+				<dd>
+				<include file="comments">
+				</dd>
+			</dl>
+
+	</div>
+
+{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("upload_status")==1 && $oUpload['upload_islock']==0}
+<a name='postform'></a>
+<div class="mt1">
+		<dl class="tbox">
+			<dt>
+				<strong><lang package='cmsTheme'>发表评论</lang></strong>
+				<span class="more"></span>
+			</dt>
+			<dd>
+				<div class="dyhb_comment_post">
+					<include file="commentform">
+				</div>
+			</dd>
+		</dl>
+	</div>
+{/if}
+{:Global_Extend::templateHooks('show_bottom')}
+</div>
+
+<include file="sidebarfour">
+<include file="footer">

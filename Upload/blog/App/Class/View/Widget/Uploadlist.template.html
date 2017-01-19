@@ -1,0 +1,42 @@
+{script}
+//<![CDATA[
+function init(){
+	$("#upload-box img").each(function(){
+		size($(this));
+	});
+}
+function size(imgObj){
+	var theimage=new Image();
+	theimage.src=imgObj.attr("src");
+	w=parseInt(theimage.width);
+	h=parseInt(theimage.height);
+	s=w/h;
+	if(w>170){
+		w=170;
+		h=170/s;
+		imgObj.css("width",w);
+		imgObj.css("height",h);
+	}
+	if(h>170){
+		h=170;
+		w=170*s;
+		imgObj.css("width",w);
+		imgObj.css("height",h);
+	}
+}
+//]]>
+//<![CDATA[
+jQuery(function($){ init(); });
+//]]>
+{/script}
+
+{$before_widget}
+<foreach for=data value=oUploadList >
+<div class="upload-box-list" >
+	<a href="{:PageType_Extend::getUploadUrl($oUploadList)}" title="{$oUploadList:upload_name}">
+		<img src="{:UploadController::get_the_upload_url($oUploadList)}" width="168px" height="175px" />{$oUploadList:upload_name|String+subString=0,$cut_num}
+	</a>
+</div>
+</foreach>
+{$clear}
+{$after_widget}

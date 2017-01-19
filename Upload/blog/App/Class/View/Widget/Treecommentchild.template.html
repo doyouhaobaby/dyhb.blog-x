@@ -1,0 +1,47 @@
+{~$floor++}
+<if condition="$floor elt $thread_comments_depth">
+<div class="comment-children" id="comment-children-{$parent}">
+	<ol class="comment-list" id="comment-list-{$parent}" >
+		<foreach for=all key=nCommentListKey value=oCommentList>
+		<if condition="$oCommentList:comment_parentid eq $parent">
+		<php>$sCommentLevelEven=$floor%2==0?"comment-level-odd":'comment-level-even';
+			 $sCommentEven=$nCommentListKey%2==0?"comment-odd":'comment-even';</php>
+		<li id="li-comment-{$oCommentList:comment_id}" class="comment comment-alt comment-body comment-child {if $oCommentList['user_id']>0}comment-by-author{/if} {$sCommentLevelEven} {$sCommentEven} comment-depth-{$floor}">
+			<div id="comment-{$oCommentList:comment_id}">
+			<div class="comment-author">
+				<img class="avatar" src="{if $oCommentList->user_id>0}{:Blog_Extend::getGravatar($oCommentList->user_id,'small')}{d*else}{:Blog_Extend::getGravatar('','email',array('email'=>$oCommentList->comment_email))}{/if}" alt="admin" width="{$avatar_size}" height="{$avatar_size}" />
+				<cite class="fn">{if !empty($oCommentList->comment_url)}<a href="{$oCommentList:comment_url}" rel="{if $nofollow==0}external nofollow{/if}">{$oCommentList:comment_name}</a>{d*else}{$oCommentList:comment_name}{/if}</cite>
+			</div>
+			<div class="comment-meta">
+				<a href="#comment-{$oCommentList:comment_id}">{$oCommentList:create_dateline|date=$dateformat,**}</a>
+			</div>
+			<div class="comment-rss">
+			 <a href="{:G::U('feed/comments?comment_id='.$oCommentList->comment_id)}"><img src="{$rss_img}" title="<lang>评论Rss 订阅</lang>" /></a>
+			</div>
+			{if $oCommentList->comment_isreplymail==1}
+			<div class="comment-replyemail">
+			 <img src="{$replyemail_img}" title="<lang>评论回复邮件通知</lang>" />
+			</div>
+			{/if}
+			<p class="comment-body">{$oCommentList:comment_content|Ubb_Extend+convertUbb=1|Global_Extend+replaceEmot}{if $oCommentList->comment_ismobile==1}<br/>
+			<span class="comment-mobile"><img src="{$mobile_img}" title="<lang package='app'>手机评论</lang>" /><lang package='app'>此信息来自博客手机版！</lang><lang package='app'>手机访问,随时随地自由交流！</lang><br/>
+			{:Global_Extend::getOption('blog_url')}/wap.php{/if}</p>
+			<div class="comment-block">
+				<a rel="external nofollow" class="fastreply" href="javascript:void(0);" onclick="AddText('{:Blog_Extend::getCommentReply($oCommentList)}');return false;"><lang>回复</lang></a>
+				<a rel="external nofollow" class="repquote" href="javascript:void(0);" onclick="AddText('{:Blog_Extend::getCommentQuote($oCommentList)}');return false;"><lang>引用</lang></a>
+			</div>
+			<php>$nChildCommentsNum=CommentModel::F('comment_parentid=? AND comment_isshow=1',$oCommentList->comment_id)->all()->getCounts();</php>
+			{if $nChildCommentsNum}
+			{:G::W('treecommentchild',array('all'=>$all,'parent'=>$oCommentList->comment_id,'floor'=>$floor,'replay'=>$replay))}
+			{/if}
+			{if $replay===true && $floor!=$thread_comments_depth}
+			<div class="comment-reply">
+				<a href="#comment-{$oCommentList:comment_id}" rel="nofollow" onclick="commentReply({$oCommentList:comment_id},this)"><lang>回复</lang></a>
+			</div>{/if}
+			</div>
+		</li>
+		</if>
+		</foreach>
+	</ol>
+</div>
+</if>

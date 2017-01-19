@@ -1,0 +1,100 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='upload'>附件列表</lang> ( <a href="{:G::U('upload/build')}"><lang package='upload'>附件整理</lang></a> | <a href="{:G::U('upload/comment_build')}"><lang package='upload'>附件评论整理</lang></a> )</div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'upload/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="upload_name" title="<lang package='upload'>附件名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('upload_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='upload_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='upload_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='upload'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='upload'>编号</lang></a></th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th><a href="javascript:sortBy('upload_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='upload_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='upload_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='upload'>按照附件名字</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='upload'>附件名字</lang></a></th>
+			<th><a href="javascript:sortBy('uploadcategory_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='uploadcategory_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='uploadcategory_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='upload'>按照附件归档</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='upload'>附件归档</lang></a></th>
+			<th><a href="javascript:sortBy('upload_download','{$sSortByUrl}')" {if G+getGpc('order_','G')=='upload_download' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='upload_download' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='upload'>按照下载次数</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='upload'>下载次数</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='upload'>按照创建时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='upload'>创建时间</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:upload_id}"></td>
+			<td>{$value:upload_id}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:upload_islock eq 0" >o_blog.gif<else/>l_blog.gif</if>" title="<if condition="$value:upload_islock eq 0" ><lang package='upload'>未锁定的附件</lang><else/><lang package='upload'>锁定的附件</lang></if>" /></td>
+			<td class="media-icon"><a href="javascript:edit('{$value:upload_id}')" title="<lang>编辑</lang> 《{$value:upload_name}》" >
+					<img src="{$TheController:get_upload_file_type( $value )}"	alt="{$value:upload_name}" title="{$value:upload_name}" />
+				</a>
+			<td>
+			<td>
+				<strong>
+					<a href="javascript:edit('{$value:upload_id}')" title="<lang>编辑</lang> 《{$value:upload_name}》">{$value:upload_name}</a>
+				</strong>
+				<p><a href="{:G::U('upload/index?type='.$value->upload_extension)}" title="<lang package='upload'>按格式浏览附件</lang> {$value:upload_extension}">{$value:upload_extension}</a></p>
+				<div class="row-actions">
+					<span class='edit'>{if $value['upload_islock']==0}<a href="{:G::U('upload/lock?id='.$value->upload_id)}" title="<lang>锁定</lang>"><lang>锁定</lang></a>{d*else}<a href="{:G::U('upload/un_lock?id='.$value->upload_id)}" title="<lang>解锁</lang>"><lang>解锁</lang></a>{/if}|</span>
+					<span class='edit'><a href="javascript:edit('{$value:upload_id}')" title="<lang>编辑</lang> 《{$value:upload_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:upload_id}');" title="<lang>删除</lang> 《{$value:upload_name}》"><lang>删除</lang></a>|</span>
+					<span class='view'><a href="{$TheController:get_upload_target_url( $value )}"target="_blank"><lang>查看</lang></a></span>
+				</div>
+			</td>
+			<td><a href="{:G::U('upload/index?cid='.$value->uploadcategory_id)}">{if $value->uploadcategory_id!=-1}{$value:uploadcategory:uploadcategory_name}{d*else}<lang package='upload'>未分类</lang>{/if}</a></td>
+			<td><span class="rownum">{$value:upload_download}</span></td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			<td><a href="javascript:edit('{$value:upload_id}')"><lang>编辑</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+		<br>
+		<div align="center" width="70%" >
+			<lang package='upload'>图例：</lang><img src='__TMPLPUB__/Images/o_blog.gif'><lang package='upload'>未锁定的附件</lang>
+			<img src='__TMPLPUB__/Images/l_blog.gif'><lang package='upload'>锁定的附件</lang> 
+		</div>
+
+	</div>
+	
+
+<include file="public+footer">

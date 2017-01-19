@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><lang>DYHB.BLOG X! 管理平台</lang></title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<load file="../PUBLIC__/Css/style.css" />
+{script}
+var __DYHB_JS_LANG_ENTER__='__ENTER__';
+{/script}
+<import file="Js.Vendor.Jquery" />
+<import file="Js.Dyhb#package" />
+<script src="__PUBLIC__/Images/ArtDialog/jquery.artDialog.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/ArtDialog/artDialog.iframeTools.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/ArtDialog/artDialog.framework.full.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Images/ArtDialog/skin/{$sBlogArtdialogSkin}.css" />
+<script src="__PUBLIC__/Images/Jquery/Jquery.tab.js" type="text/javascript"></script>
+
+{script}
+<!--
+Dyhb.Lang.SetCurrentLang('__LANG_NAME__');
+Dyhb.Ajax.Dyhb.Image=['__TMPLPUB__/Images/ajax/loading.gif', '__TMPLPUB__/Images/ajax/ok.gif','__TMPLPUB__/Images/ajax/update.gif' ];
+var URL = '__URL__';
+{:App::U()}
+{if !empty($sEditor)}
+var Editor='{$sEditor}';
+{/if}
+<if condition="isset($sSortUrl)">
+var SORTURL ={$sSortUrl};
+</if>
+{tagself}
+$(document).ready(function(){
+	$(".data tr:odd").addClass("data_odd");
+	$(".data tr:even").addClass("data_even");
+	$(".data tr").hover(function(){
+	$(this).addClass("data_tr")
+	},function(){
+	$(this).removeClass("data_tr")
+	});
+	$(".data tbody tr")
+	.mouseover(function(){$(this).addClass("row-actions-display")})
+	.mouseout(function(){$(this).removeClass("row-actions-display")});
+});
+{/tagself}
+//-->
+{/script}
+<script src="__PUBLIC__/Images/Js/global.js" type="text/javascript"></script>
+{style}
+overflow-x: hidden;
+{/style}
+</head>
+<body>
+<script src="__PUBLIC__/Images/Admin/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/Admin/ui.js" type="text/javascript"></script>
+<div id="screen-meta">
+	{if $TheController->get_display_sceen_options()===true}
+	<div id="screen-options-wrap" class="none">
+		<form id="adv-settings" action="" method="post">
+			{if $TheController:get_metabox_prefs_value()}
+			<h5>{$TheController:get_metabox_prefs_title()}</h5>
+			<div class="metabox-prefs">
+				{$TheController:get_metabox_prefs_value()}
+				<br class="clear" />
+			</div>
+			{/if}
+			{if $TheController:get_sceen_options_value()}
+			<h5>{$TheController:get_sceen_options_title()}</h5>
+			<div class="screen-options">
+				{$TheController:get_sceen_options_value()}
+			</div>
+			{/if}
+		</form>
+	</div>
+	{/if}
+	<div id="contextual-help-wrap" class="none">
+		<div class="metabox-prefs">{$TheController:get_admin_help_description()}</div>
+	</div>
+	<div id="screen-meta-links">
+		<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
+			<a href="#contextual-help" id="contextual-help-link" class="show-settings"><lang>帮助</lang></a>
+		</div>
+		{if $TheController->get_display_sceen_options()===true}
+		<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+			<a href="#screen-options" id="show-settings-link" class="show-settings"><lang>显示选项</lang></a>
+		</div>
+		{/if}
+	</div>
+</div>
+
+<!-- 主内容	-->
+<div id="main">
+<div id="DyhbAjaxResult" class="none DyhbAjaxResult">&nbsp;</div>

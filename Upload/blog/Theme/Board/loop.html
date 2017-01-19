@@ -1,0 +1,58 @@
+		<div id="threadlist" class="threadlist datalist" style="position: relative;">
+
+			<table summary="forum_0" id="forum_0" cellspacing="0" cellpadding="0" class="datatable">
+				<thead class="colplural">
+					<tr>
+						<td colspan="2">&nbsp;<lang package='boardTheme'>类型</lang></td>
+						<th>
+							<ul class="itemfilter s_clear">
+							<li><lang package='boardTheme'>主题</lang>:</li>
+							<li {if $sFilter2=='all'}class="current"{/if}><a href="{if !isset($oCategory)}__APP__?op=newblogs{d*else}{:PageType_Extend::getCategoryUrl( $oCategory )}{/if}"><span><lang package='boardTheme'>全部</lang></span></a></li>
+							<li {if $sFilter2=='top'}class="current"{/if}><a class="filter" href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=top{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=top' )}{/if}"><span><lang package='boardTheme'>精华</lang></span></a></li>
+							<li class="pipe">|</li>
+							<li><lang package='boardTheme'>时间</lang>:</li>
+							<li {if $sFilter2=='86400'}class="current"{/if}><a href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=86400{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=86400' )}{/if}"><span><lang package='boardTheme'>一天</lang></span></a></li>
+							<li {if $sFilter2=='172800'}class="current"{/if}><a href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=172800{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=172800' )}{/if}"><span><lang package='boardTheme'>两天</lang></span></a></li>
+							<li {if $sFilter2=='604800'}class="current"{/if}><a href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=604800{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=604800' )}{/if}"><span><lang package='boardTheme'>周</lang></span></a></li>
+							<li {if $sFilter2=='2592000'}class="current"{/if}><a	href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=2592000{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=2592000' )}{/if}"><span><lang package='boardTheme'>月</lang></span></a></li>
+							<li {if $sFilter2=='7948800'}class="current"{/if}><a	href="{if !isset($oCategory)}__APP__?op=newblogs&filter2=7948800{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?filter2=7948800' )}{/if}"><span><lang package='boardTheme'>季</lang></span></a></li>
+							</ul>
+						</th>
+						<td class="author">
+							<a href="{if!isset($oCategory)}__APP__?op=newblogs&orderby=blog_dateline{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?orderby=blog_dateline' )}{/if}" class="order {if $sTheOrderby=='blog_dateline'}order_active{/if}"><lang package='boardTheme'>作者/时间</lang></a>
+						</td>
+						<td class="nums">
+							<a href="{if !isset($oCategory)}__APP__?op=newblogs&orderby=blog_commentnum{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?orderby=blog_commentnum' )}{/if}" class="order {if $sTheOrderby=='blog_commentnum'}order_active{/if}"><lang package='boardTheme'>回复</lang></a>&nbsp;
+							<a href="{if !isset($oCategory)}__APP__?op=newblogs&orderby=blog_viewnum{d*else}{:G::U( 'category/'.(!G::isImplementedTo($oCategory,'IModel')?-1:$oCategory['category_id']).'?orderby=blog_viewnum' )}{/if}" class="order {if $sTheOrderby=='blog_viewnum'}order_active{/if}"><lang package='boardTheme'>查看</lang></a>
+						</td>
+						<td class="lastpost"><cite><lang package='boardTheme'>最后发表</lang></cite></td>
+					</tr>
+				</thead>
+				<foreach for=arrBlogLists value=oBlogList>
+				<tbody id="normalthread_{$oBlogList['blog_id']}">
+					<tr>
+						<td class="folder">
+							<a href="{$TheController:the_title_url( $oBlogList )}" title="<lang package='boardTheme'>新窗口打开</lang>" target="_blank">
+							{if $oBlogList['blog_istop']=='1'}{$TheController:the_top( $oBlogList )}{d*else}<img src="{:IMG_DIR}/folder_common.gif" />{/if}
+							</a>
+						</td>
+						<td>&nbsp;</td>
+						<th class="subject common">
+							<label>&nbsp;</label>
+							<span id="thread_{$oBlogList['blog_id']}">{$TheController:the_title( $oBlogList,array( 'before'=>'','after'=>'','cut'=>35 ) )}</span>
+						</th>
+						<td class="author">
+							<cite>{$TheController:the_author_space( $oBlogList->user )}</cite>
+							<em>{$oBlogList:blog_dateline|date='Y-m-d',**}</em>
+						</td>
+						<td class="nums"><strong>{$oBlogList['blog_commentnum']}</strong>/<em>{$oBlogList['blog_viewnum']}</em></td>
+						<td class="lastpost">
+							{~$arrLastpost =unserialize( $oBlogList['blog_lastpost'] )}
+							<cite>{if $arrLastpost['user_id']==-1}{$arrLastpost['user_name']}{d*else}<a href="{:G::U( 'author/'.$arrLastpost['user_name'] )}">{$arrLastpost['user_name']}</a>{/if}</cite>
+							<em><span title="{$arrLastpost['create_dateline']|date='Y-m-d H:i:s',**}">{$arrLastpost['create_dateline']|Date+smartDate}</span></em>
+						</td>
+					</tr>
+				</tbody>
+				</foreach>
+			</table>
+		</div>

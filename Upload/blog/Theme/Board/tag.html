@@ -1,0 +1,18 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>标签列表</lang>( <span id="tag-totalnums">{$nTotalTag}</span> )</div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+			<p>{$the_tag_description}</p><br/>
+			{:Global_Extend::templateHooks('index_top')}
+			{:G::W( 'taglist',array( 'data'=>$arrTagLists ) )}
+
+			{$sPageNavbar}
+			{:Global_Extend::templateHooks('index_bottom')}
+		</div>
+	</div>
+</div>
+
+<include file="footer">

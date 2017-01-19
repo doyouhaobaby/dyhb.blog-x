@@ -1,0 +1,61 @@
+<include file="public+header">
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/lang/zh_CN.js"></script>
+{script}
+<!--
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加微博中') );
+	$('#taotao_content').val( editor.html());
+	Dyhb.AjaxSubmit('taotaoAdd','{:G::U('taotao/insert')}','',complete);
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('发布微博') );
+	if(status==1){
+		window.location.href='{:G::U('taotao/index')}';
+	}
+}
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="taotao_content"]', {
+		allowPreviewEmoticons : false,
+		allowImageUpload : false,
+		allowFlashUpload :false,
+		allowMediaUpload:false,
+		allowFileManager : false,
+		resizeMode : 1,
+		items : ['source','fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
+			'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+			'insertunorderedlist', '|', 'image', 'link'],
+		afterChange : function(id) {
+			K('#word_count').html(this.count());
+		}
+	});
+});
+-->
+{/script}
+
+	
+	<div class="title"><lang package='taotao'>添加微博</lang> ( <a href="{:G::U('taotao/index')}"><lang package='taotao'>返回微博列表</lang></a> | <a href="{:G::U('taotao/taotao')}"><lang package='taotao'>微博样式</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('taotao/insert')}<else/>{:G::U('taotao/update')}</if>" method="post" id="taotaoAdd" name="taotaoAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="taotao_content"><lang package='taotao'>微博内容</lang>：</label></th>
+			<td><textarea name="taotao_content" id="taotao_content" class="field" cols="70" rows="5"></textarea>
+			<br/><div class="description"><lang package='taotao'>微博内容，最多400个字符。</lang><lang package='taotao'>你已经输入了</lang> <span id="word_count" style="color:red;">0</span> <lang package='taotao'>个字符。</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+		<input id="submit_button" type="button" onclick="add()" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

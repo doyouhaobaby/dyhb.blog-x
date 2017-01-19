@@ -1,0 +1,97 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+function addFriend( userid ){
+	Dyhb.AjaxSend('{:G::U('friend/add')}','ajax=1&uid='+userid,'',complete);
+}
+function complete(data,status){
+	if(status==1){
+
+	}
+}
+{/script}
+
+		<div id="nav">
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" id="fjump" onmouseover="showMenu({'ctrlid':this.id})" class="dropmenu" title="{:Global_Extend::getOption('blog_name')} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> {$oBlog:blog_title}</div>
+
+		<div id="wrap" class="wrap s_clear threadfix">
+			<div class="forumcontrol">
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="modaction"></td>
+						<td>
+							<span class="replybtn" id="post_reply" prompt="post_reply"><a href="#respond"><lang package='boardTheme'>回复</lang></a></span>
+							<span class="postbtn" id="newspecial" prompt="post_newthread" onmouseover="document.getElementById('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"><a href="{:G::U( 'publish/index?cid='.$oBlog['category_id'] )}" ><lang package='boardTheme'>发帖</lang></a></span>
+							<div style="float:right;">{$sPageNavbar}</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+					<li><a href="{:G::U( 'publish/index?cid='.$oBlog['category_id'] )}" ><lang package='boardTheme'>发新话题</lang></a></li>
+			</ul>
+
+			<div id="postlist" class="mainbox viewthread"><div id="post_{$oBlog:blog_id}">
+				<table id="pid{$oBlog:blog_id}" summary="pid{$oBlog:blog_id}" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="postauthor" rowspan="2">
+						<a name="lastpost"></a>
+						<div class="avatar">Web Page</div>
+					</div>
+					</td>
+					<td class="postcontent">
+						<div id="threadstamp"></div>
+						<div class="defaultpost">
+							<div class="postmessage firstpost">
+							<div id="threadtitle">
+								<h1>{$oBlog:blog_title}</h1>
+								{~$sTagText = $TheController->the_tag( $oBlog,array( 'display'=>0 ) )}
+								{if $sTagText!==false}
+									<div class="threadtags">
+										{$sTagText}
+									</div>
+								{/if}
+								<div class="t_msgfontfix">
+									<table cellspacing="0" cellpadding="0">
+										<tr>
+											<td class="t_msgfont" id="postmessage_{$oBlog:blog_id}">
+											<div id="content-zoom-text">{$oBlog:blog_content}</div>
+											{$sNewpageNavbar}
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="postauthor"></td>
+					<td class="postcontent">
+						<div class="postactions">
+						<div class="postact s_clear">
+							<em></em>
+							<p></p>
+						</div>
+					</div>
+
+				</td>
+				</tr>
+				<tr class="threadad">
+				<td class="postauthor"></td>
+				<td class="adcontent"></td>
+		</tr>
+			</table>
+		</div>
+
+		<include file="boardcomments">
+	</div>
+
+			{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("blog_comment_status")==1 && $oBlog['blog_islock']==0}
+			<include file="commentform">
+			{/if}
+		</div>
+
+<include file="footer">

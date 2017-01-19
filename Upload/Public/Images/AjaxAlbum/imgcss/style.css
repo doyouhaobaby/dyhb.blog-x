@@ -1,0 +1,48 @@
+@charset "utf-8";
+body{ margin:0 auto; font:12px  Tahoma, Geneva, sans-serif "宋体"; color:#666;}
+body,a{ color:#666; text-decoration:none;}
+.block,p,li,ul,form,h1,h2,h3,h4,h5,h6,dl,dt,dd{ margin:0; padding:0; display:block;}
+li{ list-style:none;}
+.ellip li,.ellip2 span,.ellip3 dt,.ellip3 dd,.ellip4 p,.ellip5{ overflow:hidden; text-overflow:ellipsis; white-space: nowrap; word-break:keep-all;}
+#albumlist-container-box a img{ border:0;}
+#albumlist-container-box a{ text-decoration:none;}
+#albumlist-container-box a:hover{ text-decoration:none; color:#000;}
+.albumlist_container{width:100%; padding:0 1px; overflow:hidden; margin:0 auto;}
+.loading{ display:none; width:180px; background:url(indicator_remembermilk_orange.gif) 5px center no-repeat #fff ; padding-left:45px; height:25px; border:1px solid #c00; position:fixed;top:40%;left:40%;line-height:25px;}
+.albumlist_container .albumlist_ct{ float:left; width:100%; overflow:hidden;}
+.albumlist_container .albumlist_tt{ overflow:hidden;padding:0;}
+.albumlist_container .albumlist_tt .items_list_container{}
+.albumlist_container .albumlist_tt .prev_next,.albumlist_container .albumlist_tt .items_list_container{ float:left;overflow:hidden;}
+.albumlist_container .albumlist_tt  .prev_next,.albumlist_container .albumlist_tt  .prev_next a{ float:left; width:18px;}
+.albumlist_container .albumlist_tt  .prev_next{padding:0 3px;margin-top:6px;}
+.albumlist_container .albumlist_tt  .prev_next a{ line-height:38px; height:38px; width:18px;}
+.albumlist_container .albumlist_tt  .prev_next a:hover{filter:alpha(opacity=60);opacity:0.6;}
+.albumlist_container .albumlist_tt  .prev{ }
+.albumlist_container .albumlist_tt  .prev a{ background:url(pre_next1438.png) left -38px no-repeat;}
+.albumlist_container .albumlist_tt  .next{}
+.albumlist_container .albumlist_tt  .next a{ background:url(pre_next1438.png) left 0px no-repeat;}
+.albumlist_container .albumlist_tt .items_list_container{ width:560px;}
+.albumlist_container .albumlist_tt .items_list_container,.albumlist_container .albumlist_tt .items_list{ height:52px;}
+.albumlist_container .albumlist_tt .items_list{ text-align: center; float:left; padding:0 3px 0 0px; width:567px;}
+.albumlist_container .albumlist_tt li a *{ cursor:pointer;padding:0 2.5px;margin:0;}
+.albumlist_container .albumlist_tt li,.albumlist_container .albumlist_tt li a{ float:left;}
+.albumlist_container .albumlist_tt li img{ width:60px; height:40px; }
+.albumlist_container .albumlist_tt li{ width:81px;}
+.albumlist_container .albumlist_tt li a {width:30px; height:20px;border:1px solid #666;padding:0;}
+.albumlist_container .albumlist_tt .focus a,.albumlist_container .albumlist_tt li a:active{  border:1px solid  #F00 ;}
+.albumlist_container .albumlist_ct{text-align:center;}
+.albumlist_container .albumlist_ct,.albumlist_container .albumlist_ct .items_list{ }
+.albumlist_container .albumlist_ct .items_list{ width:100%; overflow:hidden;}
+.albumlist_container .albumlist_ct .items_list li span{ top:0; position:absolute; display:block; float:left; }
+.albumlist_container .albumlist_ct .items_list li span a{ outline:none; display:block; height:100%; line-height:100%;}
+.albumlist_container .albumlist_ct .items_list li .view_prev{ left:0;}
+.albumlist_container .albumlist_ct .items_list li .view_prev a:hover{background:url(lightbox-btn-prev.gif) left center no-repeat; }
+.albumlist_container .albumlist_ct .items_list li .view_next{ right:0;}
+.albumlist_container .albumlist_ct .items_list li .view_next a:hover{background:url(lightbox-btn-next.gif) right center no-repeat;}
+.albumlist_container .albumlist_ct .items_list li img{}	
+.albumlist_container .albumlist_ct .img_intro{font-size:14px; font-weight:bold; line-height:25px;text-align:center;margin:0 auto;}
+.albumlist_container .albumlist_ct .img_source_link{text-align:center;margin:0 auto; }
+.albumlist_container .albumlist_ct .img_source_link a{ text-decoration:underline;}
+.albumlist_container .albumlist_tt .items_list .thumbLoader{ background:url(indicator_remembermilk_orange.gif) center center no-repeat;}
+.albumlist_container .albumlist_ct .items_list .thumbLoader{ background:url(indicator_verybig.gif) center 50px no-repeat;}
+.albumlist_container .albumlist_ct .items_list li{ text-align:center; margin:10px auto; position: relative;width:600px; height:300px; overflow:hidden; }

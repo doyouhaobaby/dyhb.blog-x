@@ -1,0 +1,10 @@
+<include file="header">
+
+<div class="title"><lang package='defaultTheme'>安装成功</lang></div>
+{~$sLang=strtolower(G::cookie(APP_NAME.'_language'))}
+<div id="main">
+	<div class="item-title"><a href="__ROOT__/index.php?l={$sLang}&refresh=true"><lang package='defaultTheme'>安装成功，点击进入</lang></a></div>
+	<p><lang package='defaultTheme'>恭喜您!已成功安装DYHB.BLOG_X</lang>-{$sVersion}。<script>setTimeout(function(){window.location='__ROOT__/index.php?l={$sLang}&refresh=true'}, 3000);</script><lang package='defaultTheme'>浏览器会在3秒后自动跳转页面，无需人工干预。</lang></p>
+</div>
+
+<include file="footer">

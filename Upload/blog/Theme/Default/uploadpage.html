@@ -1,0 +1,85 @@
+<include file="headerajax">
+{script}
+$(document).ready(function(){
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadify({
+		'uploader': '__PUBLIC__/Images/Uploadify/uploadify.swf?t=' + new Date().getTime(),
+		'script': '{:G::U('upload/upload_file')}',
+		'cancelImg': '__PUBLIC__/Images/Uploadify/uploadify-cancel.png',
+		'queueID': 'fileQueue',
+		'auto': false,
+		{if $nUploadfileMaxsize>0}'sizeLimit':{$nUploadfileMaxsize},{/if}
+		'simUploadLimit':{$nSimUploadLimit},
+		'buttonText':'browser',
+		'onError' : function (a, b, c, d) {
+			if (d.status == 404){
+				alert('<lang>找不到文件</lang>');
+			}else if (d.type === "HTTP"){
+				alert('error '+d.type+": "+d.status);
+			}else if (d.type ==="File Size"){
+				alert(c.name+' '+d.type+' Limit: '+Math.round(d.sizeLimit/1024)+'KB');
+			}else{
+				alert('error '+d.type+": "+d.text);
+			}
+		},
+		'scriptData':{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':'publish','record_id':0,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'},
+		'multi': true<if condition="!empty( $sAllAllowType )">,</if>
+		<if condition="!empty( $sAllAllowType )">'fileExt':'{$sAllAllowType}','fileDesc':'<lang>文件支持类型</lang>：{$sAllAllowType}'</if>
+	});
+});
+function uploadifyData(){
+	var record_id = document.getElementById('id').value;
+	var module = 'publish';
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadifySettings('scriptData',{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':module,'record_id':record_id,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'} );
+}
+{/script}
+<h3 class="flb">
+<em><lang>上传附件</lang></em>
+<span><a href="javascript:;" class="flbc" onclick="hideWindow('upload',1,0);" title="<lang>关闭</lang>"><lang>关闭</lang></a></span>
+</h3>
+<div id="ct" class="wp w cl">
+	<div class="mn mw">
+		<div class="blr">
+			<div class="uploadhead">
+			<span class="current_upload"><lang>上传附件</lang></span>
+			<span><a href="javascript:void(0);" onclick="hideWindow('upload',1,0);showWindow('uploadlist',D.U('upload/lists?module=publish&id='+document.getElementById('id').value));"><lang>附件列表</lang></a></span>
+			</div>
+			
+			<div id="uploadResult">&nbsp;</div>
+			<div class="ajax_upload_box" style="width:600px;">
+			<div id="content">
+			{if $GLOBALS['___login___']}
+				<div id="fileQueue"></div>
+				<input type="file" name="uploadify" id="uploadify" /><br/>
+				<p><lang>附件归类</lang>：<select name="uploadcategory_id" id="uploadcategory_id" onchange="uploadifyData();">
+					<option value="-1"><lang>未分类</lang></option>
+					<foreach for=arrUploadCategory value=upload_type>
+					<option value="{$upload_type['uploadcategory_id']}">{$upload_type['uploadcategory_name']}</option>
+					</foreach>
+				</select>
+				</p>
+				<p><lang>允许上传的格式</lang>：<if condition="!empty( $sAllAllowType )">
+				<select name="all_allow_type">
+					<foreach for=arrAllAllowType value=all_allowed_type>
+					<option value="{$all_allowed_type}">{$all_allowed_type}</option>
+					</foreach>
+				</select>
+				<else/><lang>允许所有上传文件格式。</lang>
+				</if>
+				</p>
+				{if $nUploadfileMaxsize>0}<p><lang>最大的附件尺寸</lang>:{$nUploadfileMaxsize|E+changeFileSize}</p>{/if}
+				<p>
+					<a href="javascript:uploadifyData();$('#uploadify').uploadifyUpload()"><lang>上传</lang></a>|
+					<a href="javascript:$('#uploadify').uploadifyClearQueue()"><lang>取消上传</lang></a>
+				</p>
+				{d*else}
+				<lang>你没有登录，你不能使用文件管理器！</lang>
+				{/if}
+			</div>
+		</div>
+		
+		</div>
+	</div>
+</div>
+<include file="footerajax">

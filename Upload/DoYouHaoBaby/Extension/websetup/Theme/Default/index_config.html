@@ -1,0 +1,357 @@
+<include file="public+header">
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	$("#configs > ul").tabs();
+});
+</script>
+<!-- BEGIN COL3 -->
+<div id="col3">
+  <div id="col3_content" class="clearfix">
+	<!-- add your content here -->
+	<div id="configs">
+	  <ul>
+		<li><a href="#tab_database"><span><lang>数据库</lang></span></a></li>
+		<li><a href="#tab_urlmodel"><span><lang>URL模式</lang></span></a></li>
+		<li><a href="#tab_base"><span><lang>基本</lang></span></a></li>
+		<li><a href="#tab_run"><span><lang>运行</lang></span></a></li>
+		<li><a href="#tab_template"><span><lang>模版</lang></span></a></li>
+		<li><a href="#tab_other"><span><lang>其它</lang></span></a></li>
+	  </ul>
+	</div>
+	<form name="create_controller" action="{:G::U('index/changeconfig')}" method="post">
+	<div id="tab_database">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="db_host"><lang>数据库地址：</lang></label></th>
+			<td><input type="text" name="configs[db_host]" id="db_host" class="field" size="40" maxlength="30" value="{$arrConfigs['db_host']}"/>
+			<br />
+								 <lang>数据库地址通常是localhost，不填则默认为localhost。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_user"><lang>数据库用户名：</lang></label></th>
+			<td><input type="text" name="configs[db_user]" id="db_user" class="field" size="40" maxlength="30" value="{$arrConfigs['db_user']}"/>
+			<br />
+								 <lang>数据库连接用户名，数据库用户名不能为空。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_password"><lang>数据库用户密码：</lang></label></th>
+			<td><input type="text" name="configs[db_password]" id="db_password" class="field" size="40" maxlength="30" value="{$arrConfigs['db_password']}"/>
+			<br />
+								 <lang>数据库连接密码，可为空。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_prefix"><lang>数据库表前缀：</lang></label></th>
+			<td><input type="text" name="configs[db_prefix]" id="db_prefix" class="field" size="40" maxlength="30" value="{$arrConfigs['db_prefix']}"/>
+			<br />
+								 <lang>数据库表前缀，不能为空。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_name"><lang>数据库名字：</lang></label></th>
+			<td><input type="text" name="configs[db_name]" id="db_name" class="field" size="40" maxlength="30" value="{$arrConfigs['db_name']}"/>
+			<br />
+								 <lang>请填写你要连接的数据库名字，数据库名不能为空。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_type"><lang>数据库类型：</lang></label></th>
+			<td><select  id="db_type" name="configs[db_type]" >
+			   <option value="mysql">- <lang>选择要使用的数据库</lang> -</option>
+			   {list $arrDbs $db}
+			   <option value="{$db}" {if strtolower( $db )==strtolower($arrConfigs['db_type'])}selected{/if}>{$db}</option>
+			   {/list}
+			 </select> 
+			<br />
+								 <lang>数据库类型，目前系统内置多种数据库驱动，不选默认mysql。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_char"><lang>数据库编码：</lang></label></th>
+			<td><input type="text" name="configs[db_char]" id="db_char" class="field" size="40" maxlength="30" value="{$arrConfigs['db_char']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="db_cache"><lang>是否缓存数据库查询：</lang></label></th>
+			<td><input type="radio" name="configs[db_cache]" id="db_cache" class="field" value="false" {if !$arrConfigs['db_cache']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[db_cache]" id="db_cache" class="field" value="true" {if $arrConfigs['db_cache']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		</table>
+	</div>
+	<div id="tab_urlmodel">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="url_model"><lang>URL模式设置：</lang></label></th>
+			<td><select  id="url_model" name="configs[url_model]" >
+			   <option value="1">- <lang>选择要使用的URL模式</lang> -</option>
+			   {list $arrUrlModels $url_model}
+			   <option value="{$url_model['value']}" {if $url_model['value']==$arrConfigs['url_model']}selected{/if}>{$url_model['name']}</option>
+			   {/list}
+			 </select> 
+			<br />
+			<lang>URL模式共有4种，不填默认兼容模式，每一种模式都有不同的效果。</lang><br>
+							   <lang>普通模式 （URL_MODEL：0）、PATHINFO模式（URL_MODEL：1）、REWRITE模式（URL_MODEL：2）、兼容模式（URL_MODEL：3）。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="url_pathinfo_model"><lang>PATHINFO模式：</lang></label></th>
+			<td><input type="radio" name="configs[url_pathinfo_model]" id="url_pathinfo_model" class="field" value="1" {if $arrConfigs['url_pathinfo_model']==1}checked{/if}><lang>普通模式</lang>	 
+				<input type="radio" name="configs[url_pathinfo_model]" id="url_pathinfo_model" class="field" value="2" {if $arrConfigs['url_pathinfo_model']==2}checked{/if}><lang>智能模式</lang>
+			<br />
+			<lang>PATHINFO模式共有2种，不填默认智能模式。</lang><br>
+							   <lang>普通模式 （URL_PATHINFO_MODEL：1）、智能模式（URL_PATHINFO_MODEL：2）。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="url_html_suffix"><lang>伪静态后缀：</lang></label></th>
+			<td><input type="text" name="configs[url_html_suffix]" id="url_html_suffix" class="field" size="40" maxlength="30" value="{$arrConfigs['url_html_suffix']}"/>
+			<br />
+								 <lang>伪静态后缀默认为空，添加了伪静态后缀，那么URL会自动加上后缀，后缀任意。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="url_pathinfo_depr"><lang>URL分割符：</lang></label></th>
+			<td><input type="text" name="configs[url_pathinfo_depr]" id="url_pathinfo_depr" class="field" size="40" maxlength="30" value="{$arrConfigs['url_pathinfo_depr']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="html_cache_on"><lang>静态缓存：</lang></label></th>
+			<td><input type="radio" name="configs[html_cache_on]" id="html_cache_on" class="field" value="false" {if !$arrConfigs['html_cache_on']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[html_cache_on]" id="html_cache_on" class="field" value="true" {if $arrConfigs['html_cache_on']}checked{/if}><lang>开启</lang>
+			<br />
+								 <lang>可以为不常更新的地方使用静态缓存提高运行速度。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="html_cache_time"><lang>静态缓存有效期：</lang></label></th>
+			<td><input type="text" name="configs[html_cache_time]" id="html_cache_time" class="field" size="40" maxlength="30" value="{$arrConfigs['html_cache_time']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="html_read_type"><lang>静态缓存读取方式：</lang></label></th>
+			<td><input type="radio" name="configs[html_read_type]" id="html_read_type" class="field" value="0" {if $arrConfigs['html_read_type']==0}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[html_read_type]" id="html_read_type" class="field" value="1" {if $arrConfigs['html_read_type']==1}checked{/if}><lang>开启</lang>
+			<br />
+								 <lang>两种方式：0（直接读取）、1（跳转）。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="html_file_suffix"><lang>静态文件后缀：</lang></label></th>
+			<td><input type="text" name="configs[html_file_suffix]" id="html_file_suffix" class="field" size="40" maxlength="30" value="{$arrConfigs['html_file_suffix']}"/>
+			</td>
+		  </tr>
+		</table>
+	</div>
+	<div id="tab_base">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="default_app"><lang>默认APP：</lang></label></th>
+			<td><input type="text" name="configs[default_app]" id="default_app" class="field" size="40" maxlength="30" value="{$arrConfigs['default_app']}"/><br/>
+					 <lang>默认APP的好处，可以通过import('@.model.demo')可以加载demo模型。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="app_debug"><lang>项目DEBUG调式：</lang></label></th>
+			<td><input type="radio" name="configs[app_debug]" id="app_debug" class="field" value="false" {if !$arrConfigs['app_debug']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[app_debug]" id="app_debug" class="field" value="true" {if $arrConfigs['app_debug']}checked{/if}><lang>开启</lang>
+			<br />
+								 <lang>开发程序的时候开启，发布应用的时候建议关闭。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="app_lang"><lang>项目语言包</lang>：</label></th>
+			<td><select  id="app_lang" name="configs[app_lang]" >
+			   <option value="zh-cn">- <lang>选择要使用的项目语言包</lang> -</option>
+			   {list $arrAppLangs $app_lang}
+			   <option value="{$app_lang}" {if strtolower($app_lang)==strtolower($arrConfigs['app_lang'])}selected{/if}>{$app_lang}</option>
+			   {/list}
+			 </select> 
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="auto_accept_language"><lang>自动侦测语言：</lang></label></th>
+			<td><input type="radio" name="configs[auto_accept_language]" id="auto_accept_language" class="field" value="false" {if !$arrConfigs['auto_accept_language']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[auto_accept_language]" id="auto_accept_language" class="field" value="true" {if $arrConfigs['auto_accept_language']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="upload_file_rule"><lang>文件上传处理函数：</lang></label></th>
+			<td><input type="text" name="configs[upload_file_rule]" id="upload_file_rule" class="field" size="40" maxlength="30" value="{$arrConfigs['upload_file_rule']}"/>
+			<br/><lang>文件上传保存文件名函数，对上传名字进行处理。</lang></td>
+		  </tr>
+	  </table>
+	</div>
+	 <div id="tab_run">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="default_control"><lang>默认控制器：</lang></label></th>
+			<td><input type="text" name="configs[default_control]" id="default_control" class="field" size="40" maxlength="30" value="{$arrConfigs['default_control']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="default_action"><lang>默认方法：</lang></label></th>
+			<td><input type="text" name="configs[default_action]" id="default_action" class="field" size="40" maxlength="30" value="{$arrConfigs['default_action']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_record"><lang>记录日志：</lang></label></th>
+			<td><input type="radio" name="configs[log_record]" id="log_record" class="field" value="false" {if !$arrConfigs['log_record']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[log_record]" id="log_record" class="field" value="true" {if $arrConfigs['log_record']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_file_size"><lang>日志文件大小限制：</lang></label></th>
+			<td><input type="text" name="configs[log_file_size]" id="log_file_size" class="field" size="40" maxlength="30" value="{$arrConfigs['log_file_size']}"/><br/>
+						  <lang>日志大小单位为kb。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_record_level"><lang>日志记录级别：</lang></label></th>
+			<td><input type="text" name="configs[log_record_level]" id="log_record_level" class="field" size="40" maxlength="30" value="{$arrConfigs['log_record_level']}"/>
+			<br/><lang>请使用\"|\"分割，比如EMERG|ALERT|CRIT|ERR。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_must_record_error"><lang>强制记录错误：</lang></label></th>
+			<td><input type="radio" name="configs[log_must_record_error]" id="log_must_record_error" class="field" value="false" {if !$arrConfigs['log_must_record_error']}checked{/if}><lang>关闭</lang>   
+				<input type="radio" name="configs[log_must_record_error]" id="log_must_record_error" class="field" value="true" {if $arrConfigs['log_must_record_error']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_must_record_exception"><lang>强制记录异常：</lang></label></th>
+			<td><input type="radio" name="configs[log_must_record_exception]" id="log_must_record_exception" class="field" value="false" {if !$arrConfigs['log_must_record_exception']}checked{/if}><lang>关闭</lang>	
+				<input type="radio" name="configs[log_must_record_exception]" id="log_must_record_exception" class="field" value="true" {if $arrConfigs['log_must_record_exception']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="log_sql_enabled"><lang>强制记录SQL日志：</lang></label></th>
+			<td><input type="radio" name="configs[log_sql_enabled]" id="log_sql_enabled" class="field" value="false" {if !$arrConfigs['log_sql_enabled']}checked{/if}><lang>关闭</lang>
+				<input type="radio" name="configs[log_sql_enabled]" id="log_sql_enabled" class="field" value="true" {if $arrConfigs['log_sql_enabled']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_detail_time"><lang>显示运行时间：</lang></label></th>
+			<td><input type="radio" name="configs[show_detail_time]" id="show_detail_time" class="field" value="false" {if !$arrConfigs['show_detail_time']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[show_detail_time]" id="show_detail_time" class="field" value="true" {if $arrConfigs['show_detail_time']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_use_mem"><lang>是否显示内存：</lang></label></th>
+			<td><input type="radio" name="configs[show_use_mem]" id="show_use_mem" class="field" value="false" {if !$arrConfigs['show_use_mem']}checked{/if}><lang>关闭</lang>	
+				<input type="radio" name="configs[show_use_mem]" id="show_use_mem" class="field" value="true" {if $arrConfigs['show_use_mem']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_db_times"><lang>数据库查询次数：</lang></label></th>
+			<td><input type="radio" name="configs[show_db_times]" id="show_db_times" class="field" value="false" {if !$arrConfigs['show_db_times']}checked{/if}><lang>关闭</lang>	 
+				<input type="radio" name="configs[show_db_times]" id="show_db_times" class="field" value="true" {if $arrConfigs['show_db_times']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_run_time"><lang>模版运行时间：</lang></label></th>
+			<td><input type="radio" name="configs[show_run_time]" id="show_run_time" class="field" value="false" {if !$arrConfigs['show_run_time']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[show_run_time]" id="show_run_time" class="field" value="true" {if $arrConfigs['show_run_time']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_gzip_status"><lang>显示gzip状态：</lang></label></th>
+			<td><input type="radio" name="configs[show_gzip_status]" id="show_gzip_status" class="field" value="false" {if !$arrConfigs['show_gzip_status']}checked{/if}><lang>关闭</lang>	 
+				<input type="radio" name="configs[show_gzip_status]" id="show_gzip_status" class="field" value="true" {if $arrConfigs['show_gzip_status']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  </table>
+	 </div>
+	 <div id="tab_template">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="template_not_allows_func"><lang>不允许解析函数：</lang></label></th>
+			<td><input type="text" name="configs[template_not_allows_func]" id="template_not_allows_func" class="field" size="40" maxlength="30" value="{$arrConfigs['template_not_allows_func']}"/>
+			<br/><lang>系统不允许解析的函数-英文半角","隔开</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="cache_life_time"><lang>模板缓存时间：</lang></label></th>
+			<td><input type="text" name="configs[cache_life_time]" id="cache_life_time" class="field" size="40" maxlength="30" value="{$arrConfigs['cache_life_time']}"/>
+			<br/><lang>模板编译缓存时间，默认60秒，单位为秒。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="tpl_dir"><lang>模板风格：</lang></label></th>
+			<td><select  id="tpl_dir" name="configs[tpl_dir]" >
+			   <option value="default">- <lang>选择要使用的模板风格</lang> -</option>
+			   {list $arrAppTemplates $app_template}
+			   <option value="{$app_template|strtolower}" {if $app_template==ucwords($arrConfigs['tpl_dir'])}selected{/if}>{$app_template|strtolower}</option>
+			   {/list}
+			 </select> 
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="php_off"><lang>PHP代码：</lang></label></th>
+			<td><input type="radio" name="configs[php_off]" id="php_off" class="field" value="false" {if !$arrConfigs['php_off']}checked{/if}><lang>关闭</lang>	 
+				<input type="radio" name="configs[php_off]" id="php_off" class="field" value="true" {if $arrConfigs['php_off']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="template_debug"><lang>模板Debug：</lang></label></th>
+			<td><input type="radio" name="configs[template_debug]" id="debug" class="field" value="false" {if !$arrConfigs['template_debug']}checked{/if}><lang>关闭</lang>	 
+				<input type="radio" name="configs[template_debug]" id="debug" class="field" value="true" {if $arrConfigs['template_debug']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="template_suffix"><lang>模板后缀：</lang></label></th>
+			<td><input type="text" name="configs[template_suffix]" id="template_suffix" class="field" size="40" maxlength="30" value="{$arrConfigs['template_suffix']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="tmpl_engine_type"><lang>Widget模板方式：</lang></label></th>
+			<td><input type="text" name="configs[tmpl_engine_type]" id="tmpl_engine_type" class="field" size="40" maxlength="30" value="{$arrConfigs['tmpl_engine_type']}"/>
+			</br><lang>Widget模板方式 ：php（模版）,dyhb（模版引擎）。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="error_page"><lang>错误页面：</lang></label></th>
+			<td><input type="text" name="configs[error_page]" id="error_page" class="field" size="40" maxlength="30" value="{$arrConfigs['error_page']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="show_error_msg"><lang>是否显示错误：</lang></label></th>
+			<td><input type="radio" name="configs[show_error_msg]" id="show_error_msg" class="field" value="false" {if !$arrConfigs['show_error_msg']}checked{/if}><lang>关闭</lang>	  
+				<input type="radio" name="configs[show_error_msg]" id="show_error_msg" class="field" value="true" {if $arrConfigs['show_error_msg']}checked{/if}><lang>开启</lang>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="tmpl_action_error"><lang>错误跳转模板：</lang></label></th>
+			<td><input type="text" name="configs[tmpl_action_error]" id="tmpl_action_error" class="field" size="40" maxlength="30" value="{$arrConfigs['tmpl_action_error']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="tmpl_action_success"><lang>成功跳转模板：</lang></label></th>
+			<td><input type="text" name="configs[tmpl_action_success]" id="tmpl_action_success" class="field" size="40" maxlength="30" value="{$arrConfigs['tmpl_action_success']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="tmpl_module_action_depr"><lang>分割符：</lang></label></th>
+			<td><input type="text" name="configs[tmpl_module_action_depr]" id="tmpl_module_action_depr" class="field" size="40" maxlength="30" value="{$arrConfigs['tmpl_module_action_depr']}"/>
+			</br><lang>空操作模块和方法分割符。</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="default_ajax_return"><lang>AJAX 数据返回格式：</lang></label></th>
+			<td><input type="text" name="configs[default_ajax_return]" id="default_ajax_return" class="field" size="40" maxlength="30" value="{$arrConfigs['default_ajax_return']}"/>
+			</td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="form_option_depr"><lang>Form配置分隔符：</lang></label></th>
+			<td><input type="text" name="configs[form_option_depr]" id="form_option_depr" class="field" size="40" maxlength="30" value="{$arrConfigs['form_option_depr']}"/>
+			</br><lang>Form表单配置模块和方法分隔符。</lang></td>
+		  </tr>
+	   </table>
+	 </div>
+	 <div id="tab_other">
+	  <table class="form-table full">
+		  <tr>
+			<th valign="top"><label for="session_prefix"><lang>Session前缀</lang>：</label></th>
+			<td><input type="text" name="configs[session_prefix]" id="session_prefix" class="field" size="40" maxlength="30" value="{$arrConfigs['session_prefix']}"/>
+			<br/><lang>Session前缀</lang></td>
+		  </tr>
+		  <tr>
+			<th valign="top"><label for="cookie_prefix"><lang>Cookie前缀</lang>：</label></th>
+			<td><input type="text" name="configs[cookie_prefix]" id="cookie_prefix" class="field" size="40" maxlength="30" value="{$arrConfigs['cookie_prefix']}"/>
+			<br/><lang>Cookie前缀</lang></td>
+		  </tr>
+	   </table>
+	 </div>
+	 <p>
+		 <input type="submit" class="button" name="Submit" value="<lang>修改配置文件</lang>" />
+	 </p>
+	</form>
+  </div>
+</div>
+<!-- END COL3 -->
+
+<include file="public+footer">

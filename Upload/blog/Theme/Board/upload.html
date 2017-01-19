@@ -1,0 +1,20 @@
+<include file="header">
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>附件列表</lang>( <span id="upload-totalnums">{$nUpload}</span> )
+( <a href="{:G::U( 'uploadcategory/index' )}" class="lightlink"><lang package='boardTheme'>附件归档</lang></a> )</div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+			<p>{$the_upload_description}</p>
+
+			{:Global_Extend::templateHooks('index_top')}
+			{:G::W( 'uploadlist',array( 'data'=>$arrUploadLists ) )}
+				
+			{$sPageNavbar}
+			{:Global_Extend::templateHooks('index_bottom')}
+		</div>
+	</div>
+</div>
+
+<include file="footer">

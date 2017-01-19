@@ -1,0 +1,37 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='upload'>附件评论整理</lang> ( <a href="{:G::U('upload/index')}"><lang package='upload'>返回媒体列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+	
+		<form action="{:G::U('upload/repaire_comment')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="start"><lang package='upload'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='upload'>待处理的附件开始ID ，如果不指定为所有附件，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='upload'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='upload'>附件结束ID，如果不指定则为所有最后一个附件。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='upload'>附件循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='upload'>使用循环处理，能够防止处理附件的时候卡死。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input	type="hidden" value="1" name="build" />
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='upload'>循环处理附件</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

@@ -1,0 +1,21 @@
+
+</div>
+{:Global_Extend::templateHooks('global_footer')}
+<div id="footer">
+	<div class="wrap s_clear">
+		<div id="footlink">
+			<p>
+				<strong><a href="{:Global_Extend::getOption( 'blog_url' )}" target="_blank">{:Global_Extend::getOption( 'blog_name' )}</a></strong>
+				{if Global_Extend+getOption( 'admin_email')}<span class="pipe">|</span><a href="mailto:{:Global_Extend::getOption( 'admin_email')}"><lang package='boardTheme'>联系我们</lang></a>{/if}
+				<span class="pipe">|</span><a href="__ROOT__/wap.php" target="_blank">WAP</a>
+				<span class="pipe">| Theme By</span><strong><a href="http://discuz.net" target="_blank">Discuz!</a>{:Global_Extend::templateHooks('global_footerlink')}
+				</p>
+			</p>
+		</div>
+		<div id="rightinfo">
+			<p>Powered by <a target="_blank" title="Blog {:BLOG_SERVER_VERSION} Release {:BLOG_SERVER_RELEASE}" href="{:Global_Extend::getOption('blog_program_url')}">{:Global_Extend::getOption('blog_program_name')}</a><sup>&copy;2009-2012</sup>{:Global_Extend::getOption('footer_extend_message')}</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

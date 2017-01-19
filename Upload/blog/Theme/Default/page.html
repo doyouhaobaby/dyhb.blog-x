@@ -1,0 +1,32 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+	<div id="content">
+		<div id="content2">
+
+			<!-- start entry post -->
+			<div class="entry" id="post-{$oBlog:blog_id}">
+				<h2>{$oBlog['blog_title']}</h2>
+				<p>
+					<div id="content-zoom-text">{$oBlog:blog_content}</div>
+					{$sNewpageNavbar}
+				</p>
+
+				<h2 id="comments"><lang package='defaultTheme'>总评论数</lang>( <span id="comment-totalnums">{$oBlog:blog_commentnum}</span> )</h2>
+				<include file="comments">
+
+				{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("blog_comment_status")==1 && $oBlog['blog_islock']==0}
+				<include file="commentform">
+				{/if}
+			</div>
+			<!-- end entry post -->	
+				
+		</div>
+	</div>
+
+	<include file="sidebartwo">	
+
+<include file="footer">

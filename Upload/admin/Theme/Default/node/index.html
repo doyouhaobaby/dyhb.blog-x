@@ -1,0 +1,95 @@
+<include file="public+header" />
+
+	
+	<div class="title">
+		<if condition="isset( $sNodeName )">{$sNodeName}</if>{if $nNodeLevel==1}<lang package='node'>应用</lang>{elseif $nNodeLevel==2}<lang package='node'>模块</lang>{d*else}<lang package='node'>操作</lang>{/if}<lang package='node'>列表</lang>
+		<p>
+		<volist name="arrGroup" id="value" mod="6">
+			<eq name="mod" value="1">
+			</p><p>
+			</eq>
+			<a href="{:G::U('node/index?group_id='.$value['group_id'] )}">{$value['group_title']}</a>&nbsp;
+		</volist>
+		&nbsp;<a class="a-button" href="{:G::U('node/index')}"><lang package='node'>所有</lang></a></p>
+	</div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			<input type="button" name="sort" value="<lang>排序</lang>" onclick="sort()" class="sort button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'node/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="node_name" title="<lang package='node'>节点名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('node_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='node_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='node_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('node_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='node_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='node_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照节点名字</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>名称</lang></a></th>
+			<th><a href="javascript:sortBy('node_title','{$sSortByUrl}')" {if G+getGpc('order_','G')=='node_title' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='node_title' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照显示名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>显示名</lang></a></th>
+			<th><a href="javascript:sortBy('group_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='group_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='group_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照分组</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>分组</lang></a></th>
+			<th><a href="javascript:sortBy('node_sort','{$sSortByUrl}')" {if G+getGpc('order_','G')=='node_sort' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='node_sort' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照序号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>序号</lang></a></th>
+			<th><a href="javascript:sortBy('node_status','{$sSortByUrl}')" {if G+getGpc('order_','G')=='node_status' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='node_status' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='node'>按照状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='node'>状态</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:node_id}"></td>
+			<td>{$value:node_id}</td>
+			<td><a href="javascript:child('{$value:node_id}')">{$value:node_name}</a>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:node_id}')" title="<lang>编辑</lang> 《{$value:node_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:node_id}');" title="<lang>删除</lang> 《{$value:node_name}》"><lang>删除</lang></a>|</span>
+					<span class='hide'><if condition="$value:node_status eq 1" ><a title="<lang>禁用</lang> 《{$value:node_name}》" href="javascript:forbid('{$value:node_id}')"><lang>禁用</lang></a><else/><a title="<lang>恢复</lang> 《{$value:node_name}》" href="javascript:resume('{$value:node_id}')"><lang>恢复</lang></a></if></span>
+			</div>
+			</td>
+			<td><a href="javascript:edit('{$value:node_id}')">{$value:node_title}</a></td>
+			<td><if condition="!empty( $value:group:group_name )"><a href="javascript:group('{$value:group_id}')">{$value:group:group_name}</a><else/><lang package='node'>未分组</lang></if></td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="node_sort_{$value:node_id}" onClick="clickToInput('node_sort','{$value:node_id}')">{$value:node_sort}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:node_status eq 1" >yes<else/>no</if>.gif"/></td>
+			<td>{if $value:node_status==1}<a href="javascript:forbid('{$value:node_id}')"><lang>禁用</lang></a>{d*else}<a href="javascript:resume('{$value:node_id}')"><lang>恢复</lang></a>{/if}&nbsp;<a href="javascript:edit('{$value:node_id}')"><lang>编辑</lang></a>&nbsp;</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+				<input type="button" name="sort" value="<lang>排序</lang>" onclick="sort()" class="sort button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

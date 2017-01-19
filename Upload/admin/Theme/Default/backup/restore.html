@@ -1,0 +1,125 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='backup'>数据库备份文件列表</lang> ( <a href="{:G::U('backup/index')}"><lang package='backup'>数据库备份</lang></a> | <a href="{:G::U('backup/runsql')}"><lang package='backup'>运行SQL语句</lang></a> | <a href="{:G::U('backup/optimize')}"><lang package='backup'>数据库优化</lang></a> )</div>
+
+	<if condition="!empty( $sWarning )"><div id="content_warning">{$sWarning}</div></if>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('backup/upload_sql')}" method="post" id="upload_sql" enctype="multipart/form-data" name="upload_sql" >
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><label for="node_title"	class="field"><lang package='backup'>本地上传恢复备份</lang></label></td>
+				<td><input type="file" name="sqlfile" size="50" class="field" >
+				<div class="description"><lang package='backup'>你可以直接导入本地sql文件进行数据恢复</lang></div></td>
+			</tr>
+
+		</table>
+		<p class="center">
+			<input type="button" class="button button-red" value="  <lang package='backup'>上传并执行sql语句</lang>  " onclick="importFileConfrim()" />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+		<br/>
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><label for="node_title"	class="field"><lang package='backup'>服务器备份文件管理</lang> </label></td>
+				<td><div class="description"><lang package='backup'>你可以使用服务器中的备份文件进行数据恢复</lang></div></td>
+			</tr>
+
+		</table>
+		<form action="{:G::U('backup/remove')}" method="post" id="sqlList" name="sqlList" >
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input onclick="CheckAll('checkList')" type="checkbox"></th>
+			<th><lang package='backup'>文件名</lang></th>
+			<th><lang package='backup'>时间</lang></th>
+			<th><lang package='backup'>大小</lang></th>
+			<th><lang package='backup'>卷</lang></th>
+			<th><lang package='backup'>操作</lang></th>
+		</tr>
+		</thead>
+		<tbody>
+		<foreach for=arrList>
+		<tr {if $value['mark'] == 2}style="display:none;"{/if}>
+			<td><input type="checkbox" name="file[]" value="{$value['name']}" /></td>
+			<td>{if $value['mark'] == 1}<img onClick="rowClick(this)" src="__TMPLPUB__/Images/menu_plus.gif" >
+			{elseif $value['mark'] == 2}<img src="__TMPLPUB__/Images/menu_arrow.gif">{/if}<a href="__APPPUB__/Backup/{$value['name']}">{$value['name']}</a></td>
+			<td>{$value['add_time']}
+			<div class="row-actions">
+				<span class='hide'><a href="__APPPUB__/Backup/{$value['name']}"><lang>查看</lang></a></span>
+			</div>
+			</td>
+			<td>{$value['file_size']}</td>
+			<td>vol:{$value['vol']}</td>
+			<td align="center">{if $value['mark'] == 1 || $value['mark']=='0'}<a href="{:G::U('backup/import?file_name='.$value['name'])}">[<lang package='backup'>导入</lang>]</a>{d*else}&nbsp;{/if}</td>
+			</tr>
+		</foreach>
+		</tbody>
+		</table>
+		<table class="form-table full">
+			<tr>
+				<th valign="top"><label for="node_title"	class="field"><lang package='backup'>备份操作</lang> </label></td>
+				<td><input type="button" value="  <lang>删除备份文件</lang>  " class="button button-red" onclick="deleteFileConfrim()"/>
+				<div class="description"><lang package='backup'>你可以对备份文件进行操作，备份文件一旦被删除，不能够被恢复</lang></div></td>
+			</tr>
+
+		</table>
+		</form>
+
+{script}
+function importFileConfrim(){
+	dyhbConfirm( D.L( '你确定要导入选中数据吗？' ),function( ){
+		document.getElementById( 'upload_sql').submit();
+	} );
+}
+
+function deleteFileConfrim(){
+	dyhbConfirm( D.L( '你确定要删除选中数据吗？' ),function( ){
+		document.getElementById( 'sqlList').submit();
+	} );
+}
+
+function rowClick(obj){
+	var row = obj.parentNode.parentNode;
+	var tbl = row.parentNode.parentNode;
+	var test = false;
+	var img = '';
+
+	if (obj.src.substr(obj.src.lastIndexOf('/') + 1) == "menu_minus.gif")
+	obj.src = "__TMPLPUB__/Images/menu_plus.gif";
+	else
+	obj.src = "__TMPLPUB__/Images/menu_minus.gif";
+	for (i = 0; i < tbl.rows.length; i++){
+	var cell = tbl.rows[i].cells[1];
+	if (cell && cell.childNodes[0].src){
+
+		img = cell.childNodes[0].src.substr(cell.childNodes[0].src.lastIndexOf('/') + 1);
+	}
+	else{
+		img = '';
+	}
+	if (test && img){
+		if (img == "menu_arrow.gif"){
+		tbl.rows[i].style.display = tbl.rows[i].style.display != 'none' ? 'none' :(Dyhb.Browser.Ie) ? 'block' : 'table-row';
+		}
+		else{
+		test=false;
+		}
+	}
+
+	if (tbl.rows[i] == row){
+		test = true;
+	}
+	}
+
+}
+
+//-->
+{/script}
+	</div>
+	
+
+<include file="public+footer">

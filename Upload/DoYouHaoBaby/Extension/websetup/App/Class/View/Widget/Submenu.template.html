@@ -1,0 +1,8 @@
+<ul id="submenu">
+  <li id="title">{$main['title']}</li>
+  {list $main['item'] $item}
+  <li{if $menu->compare($item, $current)===true} id="active"{/if}>
+    <a href="{:G::U($item['c'].'/'.$item['a'])}">{$item['title']}</a>
+  </li>
+  {/list}
+</ul>

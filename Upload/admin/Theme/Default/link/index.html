@@ -1,0 +1,81 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='link'>衔接列表</lang></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'link/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="link_name" title="<lang package='link'>衔接名</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+ 
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('link_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='link_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='link_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='link'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='link'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('link_compositor','{$sSortByUrl}')" {if G+getGpc('order_','G')=='link_compositor' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='link_compositor' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='link'>按照衔接排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='link'>衔接排序</lang></a></th>
+			<th><a href="javascript:sortBy('link_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='link_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='link_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='link'>按照衔接名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='link'>衔接名</lang></a></th>
+			<th><a href="javascript:sortBy('link_description','{$sSortByUrl}')" {if G+getGpc('order_','G')=='link_description' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='link_description' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='link'>按照衔接描述</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='link'>衔接描述</lang></a></th>
+			<th><a href="javascript:sortBy('link_isdisplay','{$sSortByUrl}')" {if G+getGpc('order_','G')=='link_isdisplay' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='link_isdisplay' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='link'>按照衔接状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='link'>衔接状态</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:link_id}"></td>
+			<td>{$value:link_id}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="link_compositor_{$value:link_id}" onClick="clickToInput('link_compositor','{$value:link_id}')">{$value:link_compositor}</td>
+			<td><a href="{$value:link_url}" target="_blank" >{$value:link_name}
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:link_id}')" title="<lang>编辑</lang> 《{$value:link_name}》"><lang>编辑</lang></a></span>
+					<span class='delete'>|<a href="javascript:foreverdel('{$value:link_id}');" title="<lang>删除</lang> 《{$value:link_name}》"><lang>删除</lang></a>|</span>
+					<span class='hide'><if condition="$value:link_isdisplay eq 1" ><a title="<lang>禁用</lang> 《{$value:link_name}》" href="javascript:forbid('{$value:link_id}')"><lang>禁用</lang></a><else/><a title="<lang>恢复</lang> 《{$value:link_name}》" href="javascript:resume('{$value:link_id}')"><lang>恢复</lang></a></if></span>
+				</div>
+			</td>
+			<td>{$value:link_description|stripslashes}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:link_isdisplay eq 1" >yes<else/>no</if>.gif"/></td>
+			<td><a href="javascript:edit('{$value:link_id}')"><lang>编辑</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

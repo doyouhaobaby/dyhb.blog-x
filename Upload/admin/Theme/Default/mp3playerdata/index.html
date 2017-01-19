@@ -1,0 +1,81 @@
+<include file="public+header">
+
+{script}
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新音乐数据中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+	
+	<div class="title"><lang package='mp3playerdata'>音乐播放器数据更新</lang></div>
+
+	
+	<div id="content" class="content">
+
+		<div class="note"><p class="i"><lang package='mp3playerdata'>一键更新音乐播放器数据，让你博客飞扬新声。</lang></p></div>
+
+	<form action="{:G::U('mp3playerdata/update_config')}" method="post" onsubmit="return option();">
+
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="mp3player_data_num"><lang package='mp3playerdata'>音乐播放器调用数据条数</lang>:</label></th>
+			<td><input type="text" name="configs[mp3player_data_num]" id="mp3player_data_num" class="field" size="20" style="background-color:{$arrOptions['mp3player_data_num']};" value="{$arrOptions['mp3player_data_num']}"/>
+			<div class="description"><lang package='mp3playerdata'>音乐播放器条数，0表示调用所有音乐。</lang></div></td>
+			</tr>
+			<tr>
+		<tr>
+			<th valign="top"><label for="mp3player_data_max_size"><lang package='mp3playerdata'>音乐播放器调用数据文件最大（KB）</lang>:</label></th>
+			<td><input type="text" name="configs[mp3player_data_max_size]" id="mp3player_data_max_size" class="field" size="20" style="background-color:{$arrOptions['mp3player_data_max_size']};" value="{$arrOptions['mp3player_data_max_size']}"/>
+			<div class="description"><lang package='mp3playerdata'>音乐播放器数据最大，0表示不限制。</lang></div></td>
+			</tr>
+			<tr>
+			<tr>
+			<th valign="top"><label for="mp3player_data_min_size"><lang package='mp3playerdata'>音乐播放器调用数据文件最小（KB）</lang>:</label></th>
+			<td><input type="text" name="configs[mp3player_data_min_size]" id="mp3player_data_min_size" class="field" size="20" style="background-color:{$arrOptions['mp3player_data_min_size']};" value="{$arrOptions['mp3player_data_min_size']}"/>
+			<div class="description"><lang package='mp3playerdata'>音乐播放器数据最小，0表示不限制。</lang></div></td>
+			</tr>
+			<tr>
+			<tr>
+			<th valign="top"><label for="mp3player_data_category"><lang package='mp3playerdata'>音乐附件分类</lang>:</label></th>
+			<td><select name="configs[mp3player_data_category]" id="mp3player_data_category" >
+				<option value="0" {if $arrOptions['mp3player_data_category']==0}selected{/if} ><lang>所有分类</lang></option>
+				<option value="-1" {if $arrOptions['mp3player_data_category']==-1}selected{/if}><lang>未分类</lang></option>
+				<foreach for=arrUploadcategorys value=oUploadcategory >
+				<option value="{$oUploadcategory->uploadcategory_id}" {if $arrOptions['mp3player_data_category']==$oUploadcategory->uploadcategory_id}selected{/if}>{$oUploadcategory->uploadcategory_name}</option>
+				</foreach>
+				</select>
+			<div class="description"><lang package='mp3playerdata'>音乐数据分类，便于筛选特殊的分类数据。</lang></div></td>
+			</tr>
+			<tr>
+			<tr>
+			<th valign="top"><label for="mp3player_data_id_ascdesc"><lang package='mp3playerdata'>音乐数据ID 排序</lang>:</label></th>
+			<td><select name="configs[mp3player_data_id_ascdesc]" id="mp3player_data_id_ascdesc" >
+				<option value="asc" {if $arrOptions['mp3player_data_id_ascdesc']=='asc'}selected{/if} ><lang>升序</lang></option>
+				<option value="desc" {if $arrOptions['mp3player_data_id_ascdesc']=='desc'}selected{/if}><lang>降序</lang></option>
+				</select>
+			<div class="description"><lang package='mp3playerdata'>音乐数据ID 排序。</lang></div></td>
+			</tr>
+			<tr>
+			<tr>
+			<th valign="top"><label for="mp3player_data_comment_ascdesc"><lang package='mp3playerdata'>音乐数据评论数量排序</lang>:</label></th>
+			<td><select name="configs[mp3player_data_comment_ascdesc]" id="mp3player_data_comment_ascdesc" >
+				<option value="asc" {if $arrOptions['mp3player_data_comment_ascdesc']=='asc'}selected{/if} ><lang>升序</lang></option>
+				<option value="desc" {if $arrOptions['mp3player_data_comment_ascdesc']=='desc'}selected{/if}><lang>降序</lang></option>
+				</select>
+			<div class="description"><lang package='mp3playerdata'>音乐数据评论排序。</lang></div></td>
+			</tr>
+			<tr>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

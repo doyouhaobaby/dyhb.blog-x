@@ -1,0 +1,18 @@
+<include file="header">
+
+	<div id="m">
+		<form method="post" action="{:G::U('blog/change_option')}">
+		<lang>名字</lang>：<br><input type="text" name="configs[blog_name]" value="{:Global_Extend::getOption('blog_name')}"/><br>
+		<lang>描述</lang>：<br><input type="text" name="configs[blog_description]" value="{:Global_Extend::getOption('blog_description')}" /><br>
+		<lang>手机日志</lang>：<br><input type="text" name="configs[wap_display_blog_list_num]" value="{:Global_Extend::getOption('wap_display_blog_list_num')}" /><br>
+		<lang>日志标题截取</lang>：<br><input type="text" name="configs[wap_blog_cutnum]" value="{:Global_Extend::getOption('wap_blog_cutnum')}" /><br>
+		<lang>手机评论</lang>：<br><input type="text" name="configs[wap_display_comment_list_num]" value="{:Global_Extend::getOption('wap_display_comment_list_num')}" /><br>
+		<lang>手机分类</lang>：<br><input type="text" name="configs[wap_display_category_list_num]" value="{:Global_Extend::getOption('wap_display_category_list_num')}" /><br>
+		<lang>手机标签</lang>：<br><input type="text" name="configs[wap_display_tag_list_num]" value="{:Global_Extend::getOption('wap_display_tag_list_num')}" /><br>
+		<lang>手机心情</lang>：<br><input type="text" name="configs[wap_display_taotao_list_num]" value="{:Global_Extend::getOption('wap_display_taotao_list_num')}" /><br>
+		<lang>手机附件</lang>：<br><input type="text" name="configs[wap_display_upload_list_num]" value="{:Global_Extend::getOption('wap_display_upload_list_num')}" /><br>
+		<input type="submit" value="<lang>修改</lang>">
+		</form>
+	</div>
+
+<include file="footer">

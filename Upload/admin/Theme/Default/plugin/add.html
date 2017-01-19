@@ -1,0 +1,205 @@
+<include file="public+header" />
+{script}
+$(document).ready(function() {
+	$("#editplugins > ul").tabs();
+});
+{/script}
+
+	<div class="title">{$oValue:plugin_name}<lang package='plugin'>插件</lang> ({if $oValue['plugin_active']}<lang package='plugin'>插件已启用</lang>{d*else}<lang package='plugin'>插件未启用</lang>{/if}) | <a href="{:G::U('plugin/index')}"><lang package='plugin'>插件列表</lang></a> | <a href="{:G::U('plugin/export?id='.$nId)}"><lang package='plugin'>导出插件</lang></a></div>
+
+	
+	<div id="content" class="content">
+
+	<div id="editplugins">
+		<ul>
+		<li><a href="#tab_general"><span><lang package='plugin'>设置</lang></span></a></li>
+		<li><a href="#tab_module"><span><lang package='plugin'>模块</lang></span></a></li>
+		<li><a href="#tab_var"><span><lang package='plugin'>变量</lang></span></a></li>
+		</ul>
+	</div>
+
+	<div id="tab_general">
+		<form action="{:G::U('plugin/update')}" method="post" id="pluginAdd" name="pluginAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="plugin_name"><lang package='plugin'>插件名称</lang>(name)：</label></th>
+			<td><input type="text" name="plugin_name" id="plugin_name" class="field" size="40" value="{$oValue:plugin_name}" maxlength="50"/>
+			<br/><div class="description"><lang package='plugin'>此插件的名称，中英文均可，最多 50 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_dir"><lang package='plugin'>插件目录</lang>(dir)：</label></th>
+			<td><input type="text" name="plugin_dir" id="plugin_dir" class="field" size="40" value="{$oValue:plugin_dir}" maxlength="50"/>
+			<br/><div class="description"><lang package='plugin'>此插件的目录，英文，最多 50 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_version"><lang package='plugin'>插件版本号</lang>(version)：</label></th>
+			<td><input type="text" name="plugin_version" id="plugin_version" class="field" size="40" value="{$oValue:plugin_version}" maxlength="20"/>
+			<br/><div class="description"><lang package='plugin'>此插件的版本，中英文均可，最多 20 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_copyright"><lang>版权信息</lang>(copyright)：</label></th>
+			<td><input type="text" name="plugin_copyright" id="plugin_copyright" class="field" size="40" value="{$oValue:plugin_copyright}" maxlength="100"/>
+				<div class="description"><lang package='plugin'>设置插件的版权信息，最多 100 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_author"><lang>插件作者</lang>(author)：</label></th>
+			<td><input type="text" name="plugin_author" id="plugin_author" class="field" size="40" value="{$oValue:plugin_author}" maxlength="100"/>
+				<div class="description"><lang package='plugin'>设置插件的作者，中英文均可，最多 30 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_authorurl"><lang>插件作者URL地址</lang>(authorurl)：</label></th>
+			<td><input type="text" name="plugin_authorurl" id="plugin_authorurl" class="field" size="40" value="{$oValue:plugin_authorurl}" maxlength="100"/>
+				<div class="description"><lang package='plugin'>此插件的作者URL地址，最多 300 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_identifier"><lang package='plugin'>唯一标识符</lang>(identifier)：</label></th>
+			<td><input type="text" name="plugin_identifier" id="plugin_identifier" class="field" size="40" value="{$oValue:plugin_identifier}" maxlength="40"/>
+			<br/><div class="description"><lang package='plugin'>插件的唯一英文标识，不能够与现有插件标识重复。可使用字母、数字、下划线命名，不能包含其他符号或特殊字符，最大 40 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="plugin_description"><lang package='link'>衔接描述</lang>：</label></th>
+			<td><textarea name="plugin_description" id="plugin_description" class="field" cols="70" rows="5">{$oValue:plugin_description}</textarea>
+			<br/><div class="description"><lang package='plugin'>插件的描述信息，最多 300 个字节。</lang></div></td>
+			</tr>
+
+			</table>
+			<p class="center">
+			<input type="hidden" name="id" id="id" value="{$nId}"/>
+		<input id="submit_button" type="submit" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	<div id="tab_module">
+	<span class="label label-blue"><lang package='plugin'>添加模块说明</lang></span>
+	<p><lang package='plugin'>不同类型的模块配置不尽相同，有些配置对一些模块来说无用。</lang><br/>
+	<lang package='plugin'>页面嵌入的脚本为“程序模块.class.php”，其它两个为“程序模块.inc.php”。</lang><br/>
+	<lang package='plugin'>“前台主菜单”有效的配置如下：你看得到的配置都有效。</lang><br/>
+	<lang package='plugin'>“管理中心”有效的配置如下：模块类型，程序模块，导航名称，显示顺序。</lang><br/>
+	<lang package='plugin'>“页面嵌入”有效的配置如下：模块类型，程序模块。</lang></p>
+		<br/>
+	<form action="{:G::U('plugin/update_module')}" method="post" id="pluginAdd" name="pluginAdd">
+	<table class="data full">
+		<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th><lang package='plugin'>模块类型</lang></th>
+			<th><lang package='plugin'>程序模块(必填)</lang></th>
+			<th><lang package='plugin'>导航名称</lang></th>
+			<th><lang package='plugin'>直接链接 URL</lang></th>
+			<th><lang package='plugin'>显示顺序</lang></th>
+			<th><lang package='plugin'>导航说明</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrModules key=nModuleKey value=arrModule>
+			<tr>
+			<td><input type="checkbox" name="delete[{$nModuleKey}]" class="checkbox" value="{$nModuleKey}"/></td>
+			<td><select name="type[{$nModuleKey}]">
+				<optgroup label="<lang package='plugin'>前台链接</lang>">
+					<option value="front_main_menu" {if $arrModule['type']=='front_main_menu'}selected="selected"{/if}><lang package='plugin'>前台主菜单</lang></option>
+				</optgroup>
+				<optgroup label="<lang package='plugin'>扩展项目</lang>">
+					<option value="admin_plugin_menu" {if $arrModule['type']=='admin_plugin_menu'}selected="selected"{/if}><lang package='plugin'>管理中心</lang></option>
+				</optgroup>
+				<optgroup label="<lang package='plugin'>程序脚本</lang>">
+					<option value="front_template_in" {if $arrModule['type']=='front_template_in'}selected="selected"{/if}><lang package='plugin'>页面嵌入</lang></option>
+				</optgroup>
+				</select>
+			</td>
+			<td><input type="text" name="name[{$nModuleKey}]" class="field" value="{$arrModule['name']}"/></td>
+			<td><input type="text" name="menuname[{$nModuleKey}]" class="field" value="{$arrModule['menuname']}"/></td>
+			<td><input type="text" name="url[{$nModuleKey}]" class="field" value="{$arrModule['url']}"/></td>
+			<td><input type="text" name="displayorder[{$nModuleKey}]" class="field" value="{$arrModule['displayorder']}"/></td>
+			<td><input type="text" name="description[{$nModuleKey}]" class="field" value="{$arrModule['description']}"/></td>
+			</tr>
+			</foreach>
+			<tr>
+			<td>&nbsp;</td>
+			<td><select name="newtype">
+				<optgroup label="<lang package='plugin'>前台链接</lang>">
+					<option value="front_main_menu" selected="selected"><lang package='plugin'>前台主菜单</lang></option>
+				</optgroup>
+				<optgroup label="<lang package='plugin'>扩展项目</lang>">
+					<option value="admin_plugin_menu"><lang package='plugin'>管理中心</lang></option>
+				</optgroup>
+				<optgroup label="<lang package='plugin'>程序脚本</lang>">
+					<option value="front_template_in"><lang package='plugin'>页面嵌入</lang></option>
+				</optgroup>
+				</select>
+			</td>
+			<td><input type="text" name="newname" class="field" value=""/></td>
+			<td><input type="text" name="newmenuname" class="field" value=""/></td>
+			<td><input type="text" name="newurl" class="field" value=""/></td>
+			<td><input type="text" name="newdisplayorder" class="field" value="0"/></td>
+			<td><input type="text" name="newdescription" class="field" value=""/></td>
+			</tr>
+		</tbody>
+		</table>
+		<p class="center">
+			<input type="hidden" name="id" id="id" value="{$nId}"/>
+			<input type="checkbox" class="field" name="deleteOrNot" value="1"/><label><lang>删除</lang></label>？
+			<input id="submit_button" type="submit" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	<div id="tab_var">
+	<form action="{:G::U('blogoption/update_config')}" method="post">
+	<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><lang package='plugin'>显示顺序</lang></th>
+			<th><lang package='plugin'>配置名称</lang></th>
+			<th><lang package='plugin'>配置变量名</lang></th>
+			<th><lang package='plugin'>配置类型</lang></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<php>$arrVars=$oValue->pluginvar;</php>
+			<foreach for=arrVars key=nVarKey value=arrVar>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$arrVar:pluginvar_id}"></td>
+			<td>{$arrVar:pluginvar_displayorder}</td>
+			<td>{$arrVar:pluginvar_title}
+			<div class="row-actions">
+					<span class='edit'><a href="{:G::U('plugin/edit_var?id='.$nId.'&var_id='.$arrVar['pluginvar_id'])}"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="{:G::U('plugin/delete_var?id='.$nId.'&var_id='.$arrVar['pluginvar_id'])}"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td>{$arrVar:pluginvar_variable}</td>
+			<td><select name="type">
+				<option value="number" {if $arrVar['pluginvar_type']=='number'}selected{/if}><lang package='plugin'>数字</lang>(number)</option>
+				<option value="text" {if $arrVar['pluginvar_type']=='text'}selected{/if}><lang package='plugin'>字串</lang>(text)</option>
+				<option value="textarea" {if $arrVar['pluginvar_type']=='textarea'}selected{/if}><lang package='plugin'>文本</lang>(textarea)</option>
+				<option value="radio" {if $arrVar['pluginvar_type']=='radio'}selected{/if}><lang package='plugin'>开关</lang>(radio)</option>
+				<option value="select" {if $arrVar['pluginvar_type']=='select'}selected{/if}><lang package='plugin'>单选选择</lang>(select)</option>
+				<option value="selects" {if $arrVar['pluginvar_type']=='selects'}selected{/if}><lang package='plugin'>多项选择</lang>(selects)</option>
+				<option value="color" {if $arrVar['pluginvar_type']=='color'}selected{/if}><lang package='plugin'>颜色</lang>(color)</option>
+				</select>
+			</td>
+			<td><a href="{:G::U('plugin/edit_var?id='.$nId.'&var_id='.$arrVar['pluginvar_id'])}"><lang>编辑</lang></a> | <a href="{:G::U('plugin/delete_var?id='.$nId.'&var_id='.$arrVar['pluginvar_id'])}"><lang>删除</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+		</form>
+		<div class="toolbar">
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="javascript:window.location.href='{:G::U('plugin/add_var?id='.$nId)}';" class="add button">
+		</div>
+		</div>
+	</div>
+
+</div>
+
+<include file="public+footer">

@@ -1,0 +1,311 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#configs > ul").tabs();
+});
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+function mailCheck(){
+	var test_mail_from = $("#test_mail_from").val(	);
+	if( test_mail_from =='' )
+		test_mail_from = 'no';
+	var test_mail_to = $("#test_mail_to").val(	);
+	if( test_mail_to=='' )
+		dyhbAlert( D.L( '接收邮件地址不能为空' ) );
+	Dyhb.AjaxSend('{:G::U('option/mail_check')}','ajax=1&from='+test_mail_from+'&to='+test_mail_to,'',function(data,status){ if( status==1 ){ dyhbAlert( D.L( '邮件测试成功' ) ); } });
+}
+{/script}
+
+
+	<div class="title"><lang package='option'>系统配置设置</lang></div>
+
+
+	<div id="content" class="content">
+
+		<div class="note"><p class="i"><lang package='option'>允许/禁止的 Email 地址只需填写 Email 的域名部分，每行一个域名，例如 @hotmail.com</lang></p></div>
+
+		<div id="configs">
+		<ul>
+		<li><a href="#tab_base"><span><lang package='option'>基本设置</lang></span></a></li>
+		<li><a href="#tab_register"><span><lang package='option'>注册设置</lang></span></a></li>
+		<li><a href="#tab_email"><span><lang package='option'>邮件设置</lang></span></a></li>
+		<li><a href="#tab_comment"><span><lang package='option'>评论设置</lang></span></a></li>
+		<li><a href="#tab_emailsendcheck"><span><lang package='option'>邮件检测</lang></span></a></li>
+		</ul>
+	</div>
+
+	<form action="{:G::U('option/update_config')}" method="post" onsubmit="return option();">
+	<div id="tab_base">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="timeoffset"><lang package='option'>时区</lang>:</label></th>
+			<td><select name="configs[timeoffset]">
+								<foreach for=arrTimezones value=sTimezones>
+								<option value="{$sTimezones}" <if condition="$sTimezones==$arrOptions['timeoffset']">selected="selected"</if>>{$sTimezones}</option>
+								</foreach>
+							</select>
+			<div class="description"><lang package='option'>使用 yyyy(yy) 表示年，mm 表示月，dd 表示天。如 yyyy-mm-dd默认为: GMT +08:00</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pmsendregdays"><lang package='option'>发短消息最少注册天数</lang>:</label></th>
+			<td><input type="text" name="configs[pmsendregdays]" id="pmsendregdays" class="field" size="40" value="{$arrOptions['pmsendregdays']}"/>
+			<div class="description"><lang package='option'>注册天数少于此设置的，不允许发送短消息，0为不限制，此举为了限制机器人发广告</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pmlimit1day"><lang package='option'>同一用户在 24 小时允许发送短消息的最大数目</lang>:</label></th>
+			<td><input type="text" name="configs[pmlimit1day]" id="pmlimit1day" class="field" size="40" value="{$arrOptions['pmlimit1day']}"/>
+			<div class="description"><lang package='option'>同一用户在 24 小时内可以发送的短消息的极限，建议在 30 - 100 范围内取值，0 为不限制，此举为了限制通过机器批量发广告</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pmfloodctrl"><lang package='option'>发短消息灌水预防</lang>:</label></th>
+			<td><input type="text" name="configs[pmfloodctrl]" id="pmfloodctrl" class="field" size="40" value="{$arrOptions['pmfloodctrl']}"/>
+			<div class="description"><lang package='option'>两次发短消息间隔小于此时间，单位秒，0 为不限制，此举为了限制通过机器批量发广告</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pmcenter"><lang package='option'>启用短消息中心</lang>:</label></th>
+			<td><input type="radio" id="pmcenteryes" class="field"	name="configs[pmcenter]" value="1" {if $arrOptions['pmcenter']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="pmcenterno" class="field" name="configs[pmcenter]" value="0" {if $arrOptions['pmcenter']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>是否启用短消息中心功能，不影响使用短消息接口应用程序的使用</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="seccode"><lang package='option'>是否开启全局验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[seccode]" value="1" {if $arrOptions['seccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[seccode]" value="0" {if $arrOptions['seccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>只有开启全局验证码，其它验证码设置才能够有效，否则所有验证码都处于关闭状态。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="sendpmseccode"><lang package='option'>开启发送短消息验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[sendpmseccode]" value="1" {if $arrOptions['sendpmseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[sendpmseccode]" value="0" {if $arrOptions['sendpmseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>是否启用短消息是否开启短消息中心发送短消息验证码，可以防止使用机器狂发短消息</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="changepasswordseccode"><lang package='option'>修改密码是否启用验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[changepasswordseccode]" value="1" {if $arrOptions['changepasswordseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[changepasswordseccode]" value="0" {if $arrOptions['changepasswordseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启验证码，可以防止机器人破解密码</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="changeinfoseccode"><lang package='option'>修改资料是否启用验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[changeinfoseccode]" value="1" {if $arrOptions['changeinfoseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[changeinfoseccode]" value="0" {if $arrOptions['changeinfoseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启验证码，可以防止机器人破解密码</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="loginseccode"><lang package='option'>登录是否启用验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[loginseccode]" value="1" {if $arrOptions['loginseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[loginseccode]" value="0" {if $arrOptions['loginseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启验证码，可以防止机器人破解密码</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="publishseccode"><lang package='option'>发布日志是否启用验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[publishseccode]" value="1" {if $arrOptions['publishseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[publishseccode]" value="0" {if $arrOptions['publishseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启验证码，可以防止机器人破解密码</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="registerseccode"><lang package='option'>注册是否启用验证码</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[registerseccode]" value="1" {if $arrOptions['registerseccode']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[registerseccode]" value="0" {if $arrOptions['registerseccode']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启验证码，可以防止机器人破解密码</lang></div>
+			{if $arrOptions['seccode']==0}<div class="warning"><lang>对不起，系统全局验证码已经关闭，这里设置无效。</lang></div>{/if}
+			</td>
+			</tr>
+	</table>
+	</div>
+
+		<div id="tab_register">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="accessemail"><lang package='option'>允许的 Email 地址</lang>:</label></th>
+			<td><textarea class="field" name="configs[accessemail]" cols="70" rows="5">{$arrOptions['accessemail']}</textarea>
+			<div class="description"><lang package='option'>只允许使用这些域名结尾的 Email 地址注册。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="censoremail"><lang package='option'>禁止的 Email 地址</lang>:</label></th>
+			<td><textarea class="field" name="configs[censoremail]" cols="70" rows="5">{$arrOptions['censoremail']}</textarea>
+			<div class="description"><lang package='option'>禁止使用这些域名结尾的 Email 地址注册。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="censorusername"><lang>禁止的用户名</lang>:</label></th>
+			<td><textarea class="field" name="configs[censorusername]" cols="70" rows="5">{$arrOptions['censorusername']}</textarea>
+			<div class="description"><lang package='option'>可以设置通配符，每个关键字一行，可使用通配符 “*” 如 “*版主*”(不含引号)。</lang></div></td>
+			</tr>
+		</table>
+		</div>
+
+		<div id="tab_comment">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="comment_min_len"><lang package='option'>评论内容的最少字节数</lang>:</label></th>
+			<td><input name="configs[comment_min_len]" value="{$arrOptions['comment_min_len']}" class="field" type="text">
+			<div class="description"><lang package='option'>两个字节是一个汉字，这里主要是限制垃圾评论。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_max_len"><lang package='option'>评论内容允许最大字数</lang>:</label></th>
+			<td><input name="configs[comment_max_len]" value="{$arrOptions['comment_max_len']}" class="field" type="text">
+			<div class="description"><lang package='option'>可以有效控制游客输入内容的数据量。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_post_space"><lang package='option'>提交评论时间间隔</lang>:</label></th>
+			<td><input name="configs[comment_post_space]" value="{$arrOptions['comment_post_space']}" class="field" type="text">
+			<div class="description"><lang package='option'>可以防止他人灌水，设为0则不限制</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_banip_enable"><lang package='option'>开启IP禁止功能</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[comment_banip_enable]" value="1" {if $arrOptions['comment_banip_enable']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[comment_banip_enable]" value="0" {if $arrOptions['comment_banip_enable']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>选择是将杜绝下面设置的IP提交评论</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_ban_ip"><lang package='option'>禁止IP</lang>:</label></th>
+			<td><textarea class="field" name="comment_ban_ip" id="comment_ban_ip" cols="70" rows="5">{$arrOptions['comment_ban_ip']}</textarea>
+			<div class="description"><lang package='option'>输入禁止发表评论的IP地址,可以使用“*”作为通配符禁止某段地址,用“,”格开</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_spam_enable"><lang package='option'>开启Spam机制</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[comment_spam_enable]" value="1" {if $arrOptions['comment_spam_enable']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[comment_spam_enable]" value="0" {if $arrOptions['comment_spam_enable']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>Spam是指利用程序进行广播式的广告宣传的行为.这种行为给很多人的信箱、留言、评论里塞入大量无关或无用的信息.开启后以下设置才生效</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_spam_words"><lang package='option'>垃圾词语特征</lang>:</label></th>
+			<td><textarea class="field" name="configs[comment_spam_words]" id="comment_spam_words" cols="70" rows="5">{$arrOptions['comment_spam_words']}</textarea>
+			<div class="description"><lang package='option'>开启Spam机制后,系统将用这里设置的词语匹配,不管程序还是人工发表,如果包含了则表示有可能是垃圾信息,需要人工审核.用“,”格开.设置的垃圾词语在开启Spam机制后,应用在评论、Trackback的内容中</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_spam_url_num"><lang package='option'>评论中允许出现的链接次数</lang>:</label></th>
+			<td><input name="configs[comment_spam_url_num]" value="{$arrOptions['comment_spam_url_num']}" class="field" type="text">
+			<div class="description"><lang package='option'>如果出现的链接数大于所设置的数量,则怀疑是垃圾信息,需要人工审核.如果设置为0则不限制</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="comment_spam_content_size"><lang package='option'>评论内容字节数</lang>:</label></th>
+			<td><input name="configs[comment_spam_content_size]" value="{$arrOptions['comment_spam_content_size']}" class="field" type="text">
+			<div class="description"><lang package='option'>和上面的评论内容允许最大字数不同,超过这里设置的字节数则怀疑是垃圾信息,需要人工审核,如果设置为0或大于上面的最大字数则不启用此设置</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="disallowed_all_english_word"><lang package='option'>狙击纯英文评论</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[disallowed_all_english_word]" value="1" {if $arrOptions['disallowed_all_english_word']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[disallowed_all_english_word]" value="0" {if $arrOptions['disallowed_all_english_word']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>开启此项后，所有纯英文评论将会被阻止</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="disallowed_spam_word_to_database"><lang package='option'>是否拒绝垃圾数据入库</lang>:</label></th>
+			<td><input type="radio" class="field" name="configs[disallowed_spam_word_to_database]" value="1" {if $arrOptions['disallowed_spam_word_to_database']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" class="field" name="configs[disallowed_spam_word_to_database]" value="0" {if $arrOptions['disallowed_spam_word_to_database']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>如果不开启此项，那么垃圾数据会被变成待审核状态，但是还是会写入数据库。</lang><lang package='option'>如果，你启用了此项，所有被系统鉴别为垃圾的数据都会被枪毙。</lang></div>
+			</td>
+			</tr>
+		</table>
+		</div>
+
+		<div id="tab_email">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="maildefault"><lang package='option'>邮件来源地址</lang>:</label></th>
+			<td><input name="configs[maildefault]" value="{$arrOptions['maildefault']}" class="field" type="text">
+			<div class="description"><lang package='option'>当发送邮件不指定邮件来源时，默认使用此地址作为邮件来源</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mailsend"><lang package='option'>邮件发送方式</lang>:</label></th>
+			<td><input name="configs[mailsend]" value="1"{if $arrOptions['mailsend']==1} checked="checked" {/if} onclick="document.getElementById('hidden1').style.display = 'none';document.getElementById('hidden2').style.display = 'none';" type="radio" class="field"> <lang package='option'>通过 PHP 函数的 sendmail 发送(推荐此方式)</lang><br />
+			<input name="configs[mailsend]" value="2"{if $arrOptions['mailsend']==2} checked="checked" {/if} onclick="document.getElementById('hidden1').style.display = '';document.getElementById('hidden2').style.display = '';" type="radio" class="field"> <lang package='option'>通过 SOCKET 连接 SMTP 服务器发送(支持 ESMTP 验证)</lang><br />
+			<input name="configs[mailsend]" value="3"{if $arrOptions['mailsend']==3} checked="checked" {/if} onclick="document.getElementById('hidden1').style.display = '';document.getElementById('hidden2').style.display = 'none';" type="radio" class="field"> <lang package='option'>通过 PHP 函数 SMTP 发送 Email(仅 Windows 主机下有效, 不支持 ESMTP 验证)</lang>
+			</td>
+			</tr>
+			<tbody id="hidden1"{if $arrOptions['mailsend'] == 1} style="display:none"{/if}>
+			<tr>
+			<th valign="top"><label for="mailserver"><lang package='option'>SMTP 服务器</lang>:</label></th>
+			<td><input name="configs[mailserver]" value="{$arrOptions['mailserver']}" class="field" type="text">
+			<div class="description"><lang package='option'>设置 SMTP 服务器的地址</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mailport"><lang package='option'>SMTP 端口</lang>:</label></th>
+			<td><input name="configs[mailport]" value="{$arrOptions['mailport']}" class="field" type="text">
+			<div class="description"><lang package='option'>设置 SMTP 服务器的端口，默认为 25</lang></div></td>
+			</tr>
+			</tbody>
+			<tbody id="hidden2"{if $arrOptions['mailsend'] == 1 || $arrOptions['mailsend']} style="display:none"{/if}>
+			<tr>
+			<th valign="top"><label for="mailauth"><lang package='option'>SMTP 服务器要求身份验证</lang>:</label></th>
+			<td><input type="radio" id="mailauth" class="field" name="configs[mailauth]" value="1" {if $arrOptions['mailauth']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[mailauth]" value="0" {if $arrOptions['mailauth']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='option'>如果 SMTP 服务器要求身份验证才可以发信，请选择“是”</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mailfrom"><lang package='option'>发信人邮件地址</lang>:</label></th>
+			<td><input name="configs[mailfrom]" value="{$arrOptions['mailfrom']}" class="field" type="text">
+			<div class="description"><lang package='option'>如果需要验证, 必须为本服务器的邮件地址。邮件地址中如果要包含用户名，格式为username <user@domain.com></lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mailauth_username"><lang package='option'>SMTP 身份验证用户名</lang>:</label></th>
+			<td><input name="configs[mailauth_username]" value="{$arrOptions['mailauth_username']}" class="field" type="text">
+			<div class="description"><lang package='option'>邮件服务器认证用户名</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mailauth_password"><lang package='option'>SMTP 身份验证密码</lang>:</label></th>
+			<td><input name="configs[mailauth_password]" value="{$arrOptions['mailauth_password']}" class="field" type="text">
+			<div class="description"><lang package='option'>如果需要验证, 必须为本服务器的邮件地址。邮件地址中如果要包含用户名，格式为username <user@domain.com></lang></div></td>
+			</tr>
+			</tbody>
+			<tr>
+			<th valign="top"><label for="maildelimiter"><lang package='option'>邮件头的分隔符</lang>:</label></th>
+			<td><input name="configs[maildelimiter]"{if $arrOptions['maildelimiter'] == 1} checked="checked"{/if} value="1" type="radio" class="field"> <lang>使用 CRLF 作为分隔符</lang>(<lang>通常为 Windows 主机</lang>)<br />
+			<input class="field" name="configs[maildelimiter]"{if $arrOptions['maildelimiter'] == 0} checked="checked"{/if} value="0" type="radio"> <lang>使用 LF 作为分隔符</lang>(<lang>通常为 Unix/Linux 主机</lang>)<br />
+			<input class="field" name="configs[maildelimiter]"{if $arrOptions['maildelimiter'] == 2} checked="checked"{/if} value="2" type="radio"> <lang>使用 CR 作为分隔符</lang>(<lang>通常为 Mac 主机</lang>)
+			<div class="description"><lang package='option'>请根据您邮件服务器的设置调整此参数</lang></div></td>
+			</tr>
+		</table>
+		</div>
+
+		<div id="tab_emailsendcheck">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><lang package='option'>测试邮件是否设置正确</lang>:</label></th>
+			<td><div class="warning"><lang package='option'>本程序用于检测邮件发送是否设置正确。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="test_mail_from"><lang package='option'>测试发件人:</lang></label></th>
+			<td><input name="test_mail_from" id="test_mail_from" value="" class="field" type="text">
+			<div class="description"><lang package='option'>只允许使用这些域名结尾的 Email 地址注册。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="test_mail_to"><lang package='option'>测试收件人:</lang></label></th>
+			<td><textarea class="field" name="test_mail_to" id="test_mail_to" cols="70" rows="5"></textarea>
+			<div class="description"><lang package='option'>如果要测试包含用户名的邮件地址，格式为“username <user@domain.com>” 。多个邮件地址用逗号分隔</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="test_mail_check"><lang>开始发送测试邮件</lang>:</label></th>
+			<td><input type="button" class="button button-blue" onclick="mailCheck()" name="test_mail_check" value="<lang>检测邮件发送设置</lang>" /></td>
+			</tr>
+		</table>
+		</div>
+
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

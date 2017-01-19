@@ -1,0 +1,93 @@
+<script src="__PUBLIC__/Images/Jquery/Jquery.validate.min.js?v=1.5.5" type="text/javascript"></script>
+
+{script}
+//<![CDATA[
+var __register_insert__="{:G::U('register/insert')}";
+var __admin_login__="{:G::U('login/index')}";
+var __check_user__="{:G::U('register/check_user')}";
+var __check_email__="{:G::U('register/check_email')}";
+//]]>
+{/script}
+<script src="{$register}" type="text/javascript"></script>
+
+{$before}
+	<form id="signupform" name="signupform" autocomplete="off" method="post" action="">
+	{$before_table}
+			<table>
+			<tbody>
+					 <tr>
+							 <td class="label"><label id="label-user-name" for="user-name">*<lang>用户名</lang></label></td>
+							 <td class="field"><input id="user-name" name="user_name" type="text" value="" maxlength="50" /></td>
+							 <td class="status"></td>
+					 </tr>
+				 <tr>
+							 <td class="label"><label id="label-user-nikename" for="user-nikename"><lang>昵称</lang></label></td>
+							 <td class="field"><input id="user-nikename" name="user_nikename" type="text" value="" maxlength="50" /></td>
+							 <td class="status"></td>
+					 </tr>
+					 <tr>
+							<td class="label"><label id="label-user-password" for="user-password">*<lang>密码</lang></label></td>
+							<td class="field"><input id="user-password" name="user_password" type="password" maxlength="32" value="" /></td>
+							<td class="status"></td>
+					 </tr>
+					 <tr>
+							<td class="label"><label id="label-user-password-confirm" for="user-password-confirm">*<lang>确认密码</lang></label></td>
+							<td class="field"><input id="user-password-confirm" name="user_password_confirm" type="password" maxlength="32" value="" /></td>
+							<td class="status"></td>
+						</tr>
+						<tr>
+							<td class="label"><label id="label-user-email" for="user-email">*<lang>Email 地址</lang></label></td>
+							<td class="field"><input id="user-email" name="user_email" type="text" value="" maxlength="150" /></td>
+							<td class="status"></td>
+						</tr>
+						<tr>
+							<td class="label">&nbsp;</td>
+							<td class="field" colspan="2">
+								<div id="terms-wrap">
+									<input id="user-terms" type="checkbox" name="user_terms" />
+								<label id="label-user-terms" for="user_terms" style="cursor: pointer;" onclick="showBoardPublish();" ><lang>同意我们的服务的条款</lang></label>
+							</div>
+							</td>
+						</tr>
+					{if $seccode===true}
+					<tr>
+					<td valign="top">&nbsp;</td>
+					<td><p>
+						<input onfocus="updateSeccode();this.onfocus=null;" onBlur="checkSeccode();" type="text"	class="seccode" name="seccode" size="6" id="seccode" tabindex="8" />
+						<label for="seccode"><small><lang>验证码</lang></small></label>
+						&nbsp;<div class="seccodeImage" id="seccodeImage"></div>
+					 <input type="hidden" id="seccode_type" name="seccode_type" value="register" />
+					</p></td>
+					</tr>
+					{/if}
+						<tr>
+							<td class="label"><label id="label-signup-submit" for="signup-submit"><lang>提交注册信息</lang></label></td>
+							<td class="field" colspan="2">
+							<input id="signup-submit" name="signup_submit" type="submit" value="<lang>注册</lang>" />
+							</td>
+						</tr>
+			 </tbody>
+			 </table>
+		{$after_table}
+	</form>
+	{script}
+	//<![CDATA[
+	function showBoardPublish(){
+		showDialog(document.getElementById('layer_publish').innerHTML, 'info', '{:Global_Extend::getOption('blog_name')} <lang>网站服务条款</lang>');
+		document.getElementById('fwin_dialog_close').style.display='none';
+	}
+	//]]>
+	{/script}
+
+	<div id="layer_publish" style="display: none">
+		<div class="c" style="width:700px;height:350px;overflow:auto"><br />
+		{$licencetxt}
+		<br />
+		<br />
+	</div>
+	<p class="button-toolbar">
+		<button class="button" onclick="hideMenu('fwin_dialog', 'dialog');"><span><lang>同意</lang></span></button>
+		<button class="button" onclick="location.href='__APP__'"><span><lang>不同意</lang></span></button>
+	</p>
+</div>
+{$after}

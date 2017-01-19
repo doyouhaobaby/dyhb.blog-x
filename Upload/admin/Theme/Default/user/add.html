@@ -1,0 +1,103 @@
+<include file="public+header">
+<script src="__PUBLIC__/Images/Jquery/Nakedpassword/naked_password.js" type="text/javascript"></script>
+{script}
+<!--
+$(document).ready(function() {
+	$("#user_password,#resetPassword").nakedPassword({path: "__PUBLIC__/Images/Jquery/Nakedpassword/images/"});
+});
+<if condition="empty( $nId )" >
+function checkUsername(){
+	$("#check_button").attr("disabled", "disabled");
+	$("#check_button").val( D.L('帐号检查中') );
+	Dyhb.AjaxSend('{:G::U('user/checkusername')}','ajax=1&user_name='+$('#user_name').val(),'',function(data,status){ $("#check_button").attr("disabled", false);$("#check_button").val(D.L("检测账户")); });
+}
+function add(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加用户中') );
+	$("#submit_button").attr("disabled", false);
+}
+<else/>
+function resetPassword(){
+	$("#reset_button").attr("disabled", "disabled");
+	$("#reset_button").val( D.L('密码重置中') );
+	Dyhb.AjaxSend('{:G::U('user/resetpassword')}','ajax=1&id={$oValue['user_id']}&password='+$('#resetPassword').val(),'',function(data,status){ $("#reset_button").attr("disabled", false);$("#reset_button").val(D.L("重置密码")); });
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新用户中') );
+	Dyhb.AjaxSubmit('userAdd','{:G::U('user/update')}','',function(data,status){ $("#submit_button").attr("disabled", false);$("#submit_button").val(D.L("更新用户")); });
+}
+</if>
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='user'>添加用户</lang><else/><lang package='user'>编辑用户</lang></if> ( <a href="{:G::U('user/index')}"><lang package='user'>返回用户列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+	<if condition="isset( $nId ) && !empty( $nId )" >
+	<table class="form-table full">
+	<tr>
+		<th valign="top"><label for="resetPassword"><lang package='user'>重置密码</lang>：</label></th>
+		<td><input type="text" name="resetPassword" type="password" id="resetPassword" class="field" size="40"	>
+			<input id="reset_button" type="button" value="<lang package='user'>重置密码</lang>" onclick="resetPassword()" class="button button-red">
+			<br/><div class="description"><lang package='user'>修改用户登录密码，请慎重</lang></div>
+		</td>
+	</tr>
+	</table>
+	</if>
+
+	<form action="<if condition="empty( $nId )" >{:G::U('user/insert')}<else/>{:G::U('user/update')}</if>" method="post" id="userAdd" name="userAdd" <if condition="empty( $nId )" >onsubmit="return add();"</if> >
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="user_name"><lang package='user'>用户名</lang>：</label></th>
+			<td><input type="text" name="user_name" id="user_name" class="field" size="40" <if condition="isset( $oValue )">disabled="true"</if> value="<if condition="isset( $oValue )">{$oValue:user_name}</if>"/>
+			<if condition="empty( $nId )" ><input id="check_button" type="button" value="<lang package='user'>检测帐号</lang>" onclick="checkUsername()" class="button button-green"></if>
+			<br /><div class="description"><lang package='user'>用户名是用于登录网站的唯一帐号，建议没有特别的事请不要修改</lang></div>
+			<div class="warning"><lang package='user'>户名只能由数字，下划线，字母组成</lang></div>
+			</td>
+			</tr>
+			<if condition="!isset( $nId )" >
+			<tr>
+			<th valign="top"><label for="user_password"><lang package='user'>密码</lang>：</label></th>
+			<td><input type="password" name="user_password" id="user_password" class="field" size="40" />
+			<br/><div class="description"><lang package='user'>密码是用于用户登录系统的必需，进行安全认证</lang></div>
+			</td>
+			</tr>
+			</if>
+			<tr>
+			<th valign="top"><label for="user_nikename"><lang package='user'>昵称</lang>：</label></th>
+			<td><input type="text" name="user_nikename" id="user_nikename" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:user_nikename}</if>"/>
+			<br/><div class="description"><lang package='user'>昵称是相对于用户的一种身份名字，如admin可以给一个管理员</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="user_status"><lang>状态</lang>：</label></th>
+			<td><SELECT class="field"	name="user_status">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:user_status==1">selected</if>><lang>启用</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:user_status==0 ) ">selected</if> ><lang>禁用</lang></option>
+				</SELECT>
+				<br/><div class="description"><lang package='user'>用户帐号状态，开启后才能够使用</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="user_remark"><lang package='user'>备注</lang>：</label></th>
+			<td><textarea name="user_remark" id="user_remark" class="field" cols="70" rows="5"><if condition="isset( $oValue )">{$oValue:user_remark}</if></textarea>
+			<br/><div class="description"><lang package='user'>用户的一些其它信息可以填在这里</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><if condition="!empty( $nId )" ><input type="hidden" name="ajax" value="1"></if>
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="<if condition="!empty( $nId )" >button<else/>submit</if>" <if condition="!empty( $nId )" >onclick="update()"</if> class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

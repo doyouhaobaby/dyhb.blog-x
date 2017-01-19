@@ -1,0 +1,35 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='tag'>标签深度整理</lang> ( <a href="{:G::U('tag/index')}"><lang package='tag'>返回标签列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="{:G::U('tag/deep')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="start"><lang package='tag'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='tag'>待处理的标签开始ID ，如果不指定为所有标签，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='tag'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='tag'>标签结束ID，如果不指定则为所有最后一个标签。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='tag'>日志循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='tag'>为了使Tags数据最准确，本次操作逐个读取标签的日志，并且判断其是否存在，从而达到精确统计标签数据。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='tag'>循环处理标签</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

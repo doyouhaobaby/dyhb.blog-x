@@ -1,0 +1,85 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='category'>分类列表</lang>&nbsp;&nbsp;<a href="{:G::U('category/index')}"><lang package='category'>分类显示</lang></a></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+		<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+		<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+		<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='post' action="{:G::U( 'category/tree' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="category_name" title="<lang package='category'>分类名字</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><lang package='category'>编号</lang></th>
+			<th><lang package='category'>分类排序</lang></th>
+			<th><lang package='category'>分类名字</lang></th>
+			<th><lang package='category'>分类别名</lang></th>
+			<th><lang package='category'>父级分类</lang></th>
+			<th><lang package='category'>文章</lang></th>
+			<th><lang package='category'>评论</lang></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			{~$arrCategory = $oCategoryTree->getChilds()}
+			<foreach for=arrCategory value=category_id>
+			{~$oOneCategory=$TheController->get_category( $category_id )}
+			<tr>
+			<td><input type="checkbox" name="key" value="{$category_id}"></td>
+			<td>{$category_id}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="category_compositor_{$category_id}" onClick="clickToInput('category_compositor','{$category_id}')">{$oOneCategory:category_compositor}</td>
+			<td><a href="{:G::U('category/edit?id='.$category_id)}" title="<lang package='category'>编辑分类</lang>" {if $oOneCategory['category_color']}style="color:{$oOneCategory:category_color};"{/if}>|{$oCategoryTree:getLayer( $category_id, '--' )}{$oCategoryTree:getValue( $category_id )}</a>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$category_id}')" title="<lang>编辑</lang> 《{$oCategoryTree:getValue( $category_id )}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$category_id}');" title="<lang>删除</lang> 《{$oCategoryTree:getValue( $category_id )}》">删除</a>|</span>
+					<span class='view'><a href="{:G::U('blog/index?cid='.$category_id)}" ><lang>查看</lang></span>
+			</div>
+			</td>
+			<td>{$oOneCategory:category_urlname}</td>
+			<td>{$TheController:get_parent_category( $oOneCategory:category_parentid )}</td>
+			<td><span class="rownum">{$oOneCategory:category_blogs}</span></td>
+			<td><span class="rownum">{$oOneCategory:category_comments}</span></td>
+			<td><a href="javascript:edit('{$category_id}')"><lang>编辑</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+	</div>
+	
+
+<include file="public+footer">

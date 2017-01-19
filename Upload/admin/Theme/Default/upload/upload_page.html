@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><lang package='upload'>文件管理器</lang></title>
+<load file="../PUBLIC__/Css/upload.css" />
+<import file="Js.Vendor.Jquery" />
+<import file="Js.Dyhb#package" />
+<script src="__PUBLIC__/Images/ArtDialog/jquery.artDialog.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/ArtDialog/artDialog.iframeTools.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/ArtDialog/artDialog.framework.full.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Images/ArtDialog/skin/{$sBlogArtdialogSkin}.css" />
+<script src="__PUBLIC__/Images/Js/global.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Images/Admin/common.js" type="text/javascript"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/ImagePreview/jquery.imagePreview.js"></script>
+{script}
+Dyhb.Lang.SetCurrentLang( '__LANG_NAME__' );
+{:App::U()}
+$(function(){
+	$("a.preview").preview();
+});
+{/script}
+{style}
+html{overflow-y:scroll;}
+a.preview,a.preview:hover{text-decoration:none;}
+a.preview img{margin:10px 5px;}
+{/style}
+<if condition="$uploadFileDefault neq 1">
+<link href="__PUBLIC__/Images/Uploadify/default.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/Images/Uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="__PUBLIC__/Images/Uploadify/swfobject.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Uploadify/jquery.uploadify.v2.1.0.min.js"></script>
+<if condition="ACTION_NAME === 'upload_page'">
+{script}
+$(document).ready(function(){
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadify({
+		'uploader': '__PUBLIC__/Images/Uploadify/uploadify.swf?t=' + new Date().getTime(),
+		'script': '{:G::U('upload/upload_file')}',
+		'cancelImg': '__PUBLIC__/Images/Uploadify/uploadify-cancel.png',
+		'queueID': 'fileQueue',
+		'auto': {if $nIsUploadAuto==1}true{d*else}false{/if},
+		{if $nUploadfileMaxsize>0}'sizeLimit':{$nUploadfileMaxsize},{/if}
+		'simUploadLimit':{$nSimUploadLimit},
+		'buttonText':'browser',
+		'onError' : function (a, b, c, d) {
+			if (d.status == 404){
+				alert('<lang package='upload'>找不到文件</lang>');
+			}else if (d.type === "HTTP"){
+				alert('error '+d.type+": "+d.status);
+			}else if (d.type ==="File Size"){
+				alert(c.name+' '+d.type+' Limit: '+Math.round(d.sizeLimit/1024)+'KB');
+			}else{
+				alert('error '+d.type+": "+d.text);
+			}
+		},
+		'scriptData':{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':'upload','record_id':0,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'},
+		'multi': true<if condition="!empty( $sAllAllowType )">,</if>
+		<if condition="!empty( $sAllAllowType )">'fileExt':'{$sAllAllowType}','fileDesc':'<lang package='upload'>文件支持类型</lang>：{$sAllAllowType}'</if>
+	});
+});
+
+function uploadifyData(){
+	var record_id = parent.document.getElementById('id').value;
+	var module = parent.document.getElementById('module').value;
+	var uploadcategory_id = document.getElementById('uploadcategory_id').value;
+	$("#uploadify").uploadifySettings('scriptData',{'PHPSESSID':'{:session_id()}','uploadcategory_id':uploadcategory_id,'module':module,'record_id':record_id,'c':'upload','a':'upload_file','user_id':'{$GLOBALS['___login___']['user_id']}'} );
+}
+{/script}
+</if>
+</if>
+<if condition="$uploadFileDefault eq 1">
+{script}
+{tagself}
+$(document).ready(function(){
+	var module = parent.document.getElementById('module').value;
+	$("#module").val( module );
+	var record_id = parent.document.getElementById('id').value;
+	$("#record_id").val( record_id );
+});
+{/tagself}
+{/script}
+</if>
+</head>
+{script}
+//指定当前组模块URL地址
+var URL = '__URL__';
+function showCurrentUpload( ){
+	var record_id = parent.document.getElementById('id').value;
+	var module = parent.document.getElementById('module').value;
+	window.location.href=D.U('upload/lists?type=current&id='+record_id+'&module='+module);
+}
+
+function uploadAction(action,id){
+	var keyValue;
+	if (id){
+		keyValue = id;
+	}
+	else {
+		keyValue = getSelectValues();
+	}
+	if (!keyValue){
+		dyhbAlert( D.L( '请选择操作的附件项！' ) );
+		return false;
+	}
+	if( action=='del' ){
+		dyhbConfirm( D.L( '确实要删除所选中的附件吗？' ),function(){
+			window.location.href=D.U('upload/foreverdelete?id='+keyValue);
+		} );
+	}
+	else{
+		window.location.href=D.U('upload/inserts?id='+keyValue);
+	}
+}
+
+function changeUploadCategory( oObj,id ) {
+	var keyValue;
+	var category_id = oObj.value;
+	if (id){
+		keyValue = id;
+	}
+	else {
+		keyValue = getSelectValues();
+	}
+	if (!keyValue){
+		dyhbAlert( D.L( '请选择移动附件分类项！' ) );
+		return false;
+	}
+
+	dyhbConfirm( D.L( '确实要将移动附件分类项移动吗？' ),function(){
+		window.location.href=D.U('upload/move_category?id='+keyValue+'&cid='+category_id);
+	} );
+}
+
+{/script}
+<body>
+	<div class="uploadhead">
+		<span <if condition="ACTION_NAME === 'upload_page'">class="current"</if> ><a href="{:G::U('upload/upload_page')}"><lang package='upload'>上传附件</lang></a></span>
+		<span <if condition="ACTION_NAME === 'lists' && empty($sFileType )"> class="current"</if> ><a href="{:G::U('upload/lists')}"><lang package='upload'>所有附件</lang></a></span>
+		<span <if condition="ACTION_NAME === 'lists' && $sFileType == 'current'"> class="current"</if> ><a href="javascript:showCurrentUpload();"><lang package='upload'>当前附件</lang></a></span>
+		<span <if condition="ACTION_NAME === 'lists' && $sFileType == 'not_photo'"> class="current"</if> ><a href="{:G::U('upload/lists?type=not_photo')}"><lang package='upload'>非图片库</lang></a></span>
+		<span <if condition="ACTION_NAME === 'lists' && $sFileType == 'photo'"> class="current"</if> ><a href="{:G::U('upload/lists?type=photo')}"><lang package='upload'>图片库</lang></a></span>
+		<span <if condition="ACTION_NAME === 'category'"> class="current"</if> ><a href="{:G::U('upload/category')}"><lang package='upload'>我的相册</lang></a></span>
+		<span <if condition="ACTION_NAME === 'operate'"> class="current"</if> ><a href="{:G::U('upload/operate')}"><lang package='upload'>附件整理</lang></a></span>
+	</div>
+	<if condition="ACTION_NAME === 'upload_page'">
+		<if condition="$uploadFileDefault eq 1">
+			<form enctype="multipart/form-data" method="post" name="upload" action="{:G::U('upload/upload_file')}">
+			<div id="uploadbody">
+				<p>
+				<div class="list_input">
+					<for start='1' end='$nFileInputNum'>
+						<input type="file" name="newfile[]">
+					</for>
+					</div>
+					<br>
+					<div class="list_input">
+					<p><lang package='upload'>附件归档：</lang><select name="uploadcategory_id" id="uploadcategory_id">
+						<option value="-1"><lang package='upload'>未分类</lang></option>
+						<foreach for=arrUploadCategory value=upload_type>
+						<option value="{$upload_type['uploadcategory_id']}">{$upload_type['uploadcategory_name']}</option>
+						</foreach>
+						</select></p>
+						<p><lang package='upload'>允许上传的格式：</lang><if condition="!empty( $sAllAllowType )">
+					<select name="all_allow_type">
+					<foreach for=arrAllAllowType value=all_allowed_type>
+					<option value="{$all_allowed_type}">{$all_allowed_type}</option>
+					</foreach>
+				</select>
+				<else/><lang package='upload'>允许所有上传文件格式。</lang>
+				</if>
+				</p>
+				{if $nUploadfileMaxsize>0}<p><lang package='upload'>最大的附件尺寸</lang>:{$nUploadfileMaxsize|E+changeFileSize}</p>{/if}
+					</div>
+					<br>
+					<input type="hidden" value="-1" name="record_id" id="record_id" />
+					<input type="hidden" name="module" id="module" value=""/>
+					<div style="text-align:center;">
+						<input type="submit" value="<lang package='upload'>上传</lang>"/>
+						<input type="reset" value="<lang package='upload'>重置</lang>" />
+					</div>
+				</p>
+			</div>
+			</form>
+		<else/>
+			<div id="content">
+				<div id="fileQueue"></div>
+				<input type="file" name="uploadify" id="uploadify" /><br/>
+				<p><lang package='upload'>附件归类：</lang><select name="uploadcategory_id" id="uploadcategory_id" onchange="uploadifyData();">
+					<option value="-1"><lang package='upload'>未分类</lang></option>
+					<foreach for=arrUploadCategory value=upload_type>
+					<option value="{$upload_type['uploadcategory_id']}">{$upload_type['uploadcategory_name']}</option>
+					</foreach>
+				</select>
+				</p>
+				<p><lang package='upload'>允许上传的格式：</lang><if condition="!empty( $sAllAllowType )">
+				<select name="all_allow_type">
+					<foreach for=arrAllAllowType value=all_allowed_type>
+					<option value="{$all_allowed_type}">{$all_allowed_type}</option>
+					</foreach>
+				</select>
+				<else/><lang package='upload'>允许所有上传文件格式。</lang>
+				</if>
+				</p>
+				<p>
+					{if $nIsUploadAuto==1}<lang package='upload'>上传</lang>{d*else}<a href="javascript:$('#uploadify').uploadifyUpload()"><lang package='upload'>上传</lang></a>{/if}|
+					<a href="javascript:$('#uploadify').uploadifyClearQueue()"><lang package='upload'>取消上传</lang></a>
+				</p>
+			</div>
+		</if>
+		<else/>
+			{$sResultInfo}
+		</if>
+</body>
+</html>

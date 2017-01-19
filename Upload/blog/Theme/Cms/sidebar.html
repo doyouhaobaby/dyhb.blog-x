@@ -1,0 +1,112 @@
+<div class="pright">
+	<div class="usercenter">
+	<dl class="tbox light">
+	<dt class='light'>
+	<strong><lang package='cmsTheme'>互动中心</lang></strong>
+	<span class="label"> <a href="#" _for="uc_digg"><lang package='cmsTheme'>踩踩</lang></a>
+		<a href="#" _for="uc_comment"><lang package='cmsTheme'>评论</lang></a>
+		<a href="#" _for="uc_member"><lang package='cmsTheme'>会员</lang></a> </span> </dt>
+		<dd id="uc_digg">
+		<ul class="f1">
+		{~$arrDiggs=G::W( 'arclist',array( 'row'=>'6','subday'=>'30', 'titlelen'=>'42','orderby'=>'blog_good','return'=>1 ),true )}
+		<foreach for=arrDiggs value=oBlogData>
+		<li><a {if $oBlogData['blog_color']}style="color:{$oBlogData['blog_color']};"{/if} title="{$oBlogData['blog_title']}" href="{if $oBlogData['blog_gotourl']}{$oBlogData['blog_gotourl']}{d*else}{:PageType_Extend::getBlogUrl($oBlogData)}{/if}">{$oBlogData['blog_title']|String+subString=0,42}</a> <span><small><lang>点击</lang>:</small>{$oBlogData['blog_viewnum']}</span> <span><small><lang>评价</lang>:</small>{$oBlogData['blog_good']}</span></li>
+		</foreach>
+		{~unset($arrDiggs)}
+		</ul>
+	</dd>
+	<dd id="uc_comment">
+	<ul class="f2">
+		{:Template_Extend::commentW(array( 'row'=>'5','display_num'=>'80','image'=>'0','before_widget'=>'','after_widget'=>'','widget_title'=>'0','comment_cutnum'=>20 ) )}
+	</ul>
+	</dd>
+	<dd id="uc_member" >
+	<div id="_userlogin">
+		{if $GLOBALS['___login___']}
+		<div class="userinfo">
+	<div class="welcome"><lang package='cmsTheme'>你好</lang>：<strong>{$GLOBALS['___login___']['user_name']}</strong>，<lang package='cmsTheme'>欢迎登录</lang> </div>
+
+	<div class="userface">
+		<a href="{:G::U( 'author/'.$GLOBALS['___login___']['user_id'] )}"><img src="{:Blog_Extend::getGravatar($GLOBALS['___login___']['user_id'],'small')}" width="52" height="52"></a>
+	</div>
+	<div class="mylink">
+		<ul>
+			<li><a href="{:G::U( 'user/'.$GLOBALS['___login___']['user_id'] )}"><lang package='cmsTheme'>我的文章</lang></a></li>
+			<li><a href="{:G::U( 'taotao/index' )}"><lang package='cmsTheme'>滔滔心情</lang></a></li>
+			<li><a href="{:G::U( 'comment/index' )}"><lang package='cmsTheme'>评论留言</lang></a></li>
+			<li><a href="{:G::U( 'my/friend' )}"><lang package='cmsTheme'>好友管理</lang></a></li>
+			<li><a href="{:G::U( 'member/avatar' )}"><lang package='cmsTheme'>修改头像</lang></a></li>
+			<li><a href="{:G::U( 'member/password' )}"><lang package='cmsTheme'>修改密码</lang></a></li>
+		</ul>
+	</div>
+	<div class="uclink">
+		<a href="{:G::U( 'member/index' )}"><lang package='cmsTheme'>会员中心</lang></a> |
+		<a href="{:G::U( 'author/'.$GLOBALS['___login___']['user_id'] )}"><lang package='cmsTheme'>资料</lang></a> |
+		<a href="{:G::U( 'publish/index' )}"><lang package='cmsTheme'>发布文章</lang></a> |
+		<a href="{:G::U( 'login/logout' )}"><lang package='cmsTheme'>退出</lang></a>
+	</div>
+		</div>
+		{d*else}
+		<div class="userlogin">
+		<form	id="loginform" name="userlogin" action="{:G::U( 'login/check' )}" method="post">
+		<input type="hidden" value="1" name="ajax" />
+		<em id="returnmessage" style="text-align:center;" >&nbsp;</em>
+		<div class="fb"><span><lang package='cmsTheme'>用户名</lang>:</span>
+		<input type="text" name="user_name" id="user_name" size="20" class="ipt-txt" />
+		</div>
+		<div class="fb"><span><lang package='cmsTheme'>密码</lang>:</span>
+		<input type="password" name="user_password" id="user_password" size="20" class="ipt-txt" />
+		</div>
+		<div class="submit">
+		<button type="button" class="btn-1" onClick="Dyhb.AjaxSubmit('loginform','{:G::U( 'login/check' )}','returnmessage',login_handle);"><lang package='cmsTheme'>登录</lang></button>
+		<a href="{:G::U( 'register/index' )}" ><lang package='cmsTheme'>注册帐号</lang></a></div>
+		</form>
+		</div>
+		{/if}
+	<div class="latestlogin"> <strong><lang package='cmsTheme'>最近登陆的会员</lang></strong>
+		<ul class="e7">
+		{~$arrLoginlogDatas=Template_Extend::loginlog(6)}
+		<foreach for=arrLoginlogDatas value=arrLoginlogData >
+		<li><a href="{:G::U('author@?id='.$arrLoginlogData['loginlog_user'])}" target="_blank"><img src="{:Blog_Extend::getGravatar($arrLoginlogData['user_id'],'small')}" alt='{$arrLoginlogData['loginlog_user']}' width="{$image_size}" height="{$image_size}" />{$arrLoginlogData['loginlog_user']}</a></li>
+		</foreach>
+		</ul>
+		{~unset($arrLoginlogDatas)}
+	</div>
+	</dd>
+
+	</dl>
+	</div>
+
+	<div class="commend mt1">
+	<dl class="tbox light">
+	<dt class='light'><strong><lang package='cmsTheme'>推荐内容</lang></strong></dt>
+	<dd class='light'>
+
+	<ul class="c1 ico2">
+			<div id='dedecms'>
+			{:G::W( 'arclist',array( 'row'=>'16','att'=>'c','titlelen'=>42,'li_class'=>'dotline' ) )}
+	</div>
+
+	</ul>
+	</dd>
+	</dl>
+	</div>
+
+	<div class="hot mt1">
+	<dl class="tbox light">
+	<dt class='light'><strong><lang package='cmsTheme'>本月热点</lang></strong></dt>
+	<dd class='light'>
+	<ul class="c1 ico2">
+		{:G::W( 'arclist',array( 'orderby'=>'hot','subday'=>'30','titlelen'=>42,'row'=>6,'li_class'=>'dotline' ) )}
+	</ul>
+
+	</dd>
+	</dl>
+	</div>
+
+	{:Template_Extend::show(array( 'widget' =>'widgets_main1','before_widget'=>'<div id="#-@%s@-#" class="widget widget_#-@%s@-# #-@%s@-# mt1"><dl class="tbox light">','after_widget'=>'</dd></dl></div>','title_cutnum'=>20,'before_title'=>'<dt class="light"><strong>','after_title'=>'</strong></dt>
+	<dd class="light">','ul_class'=>'c1 ico2','tree'=>0 ) )}
+
+	<div style="margin:10 auto"></div>
+ </div>
+</div>

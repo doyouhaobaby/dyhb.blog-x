@@ -1,0 +1,91 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加邮件中') );
+	Dyhb.AjaxSubmit('mailAdd','{:G::U('mail/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新邮件中') );
+	Dyhb.AjaxSubmit('mailAdd','{:G::U('mail/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新邮件') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加邮件') );
+	if(status==1){
+		$('#id').val(data.mail_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='mail'>添加邮件</lang><else/><lang package='mail'>编辑邮件</lang></if> ( <a href="{:G::U('mail/index')}"><lang package='mail'>返回邮件列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		
+		<div class="note"><p class="i"><lang package='mail'>要发送邮件 ，请事先配置好系统邮件设置，否则将无法发送。</lang></p></div>
+		
+		<form action="<if condition="empty( $nId )" >{:G::U('mail/insert')}<else/>{:G::U('mail/update')}</if>" method="post" id="mailAdd" name="mailAdd">
+		<table class="form-table full">
+			
+			<tr>
+			<th valign="top"><label for="mail_tomail"><lang package='mail'>收件人</lang>：</label></th>
+			<td><input type="text" name="mail_tomail" id="mail_tomail" class="field" size="60" value="<if condition="isset( $oValue ) && !empty( $oValue:mail_tomail )">{$oValue:mail_tomail}</if>"/>
+			<div class="description"><lang package='mail'>邮件接收者地址，邮件地址中如果要包含用户名，格式为username <user@domain.com></lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_subject"><lang package='mail'>邮件主题</lang>：</label></th>
+			<td><input type="text" name="mail_subject" id="mail_subject" class="field" size="60" value="<if condition="isset( $oValue ) && !empty( $oValue:mail_subject )">{$oValue:mail_subject}</if>"/>
+			<div class="description"><lang package='mail'>邮件主题，可以不填，当然最好填上。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_message"><lang package='mail'>邮件内容</lang>：</label></th>
+			<td><textarea id="mail_message" name="mail_message" style="width:650px;height:200px;"><if condition="isset( $oValue )">{$oValue:mail_message|stripslashes}</if></textarea>
+			<br/><div class="description"><lang package='mail'>邮件内容，邮件内容不能为空。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_frommail"><lang package='mail'>邮件发送者邮箱</lang>：</label></th>
+			<td><input type="text" name="mail_frommail" id="mail_frommail" class="field" size="60" value="<if condition="isset( $oValue ) && !empty( $oValue:mail_frommail )">{$oValue:mail_frommail}</if>"/>
+			<br/><div class="description"><lang package='mail'>邮件发送者可以不填，系统将会使用管理员邮件代替。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_charset"><lang package='mail'>邮件编码</lang>：</label></th>
+			<td><select name="mail_charset" id="mail_charset">
+					<option value="utf-8" selected>Utf8</option>
+				</select>
+			<br/><div class="description"><lang package='mail'>目前就UTF-8，其它编码有可能造成邮件乱码。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_level"><lang package='mail'>是否紧急</lang>：</label></th>
+			<td><input id="mail_level" name="mail_level" title="<lang package='mail'>是否紧急</lang>" value="2" style="margin-top: 1px; vertical-align: middle;" type="checkbox" <if condition="isset( $oValue )&& $oValue:mail_level==2">checked</if>><div class="description"><lang package='mail'>指定邮件的紧急状态。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="mail_htmlon"><lang package='mail'>是否为纯文本</lang>：</label></th>
+			<td><input id="mail_htmlon" name="mail_htmlon" title="<lang package='mail'>是否为纯文本</lang>" value="0" style="margin-top: 1px; vertical-align: middle;" type="checkbox" <if condition="isset( $oValue )&& $oValue:mail_htmlon==0">checked</if>><div class="description"><lang package='mail'>把邮件内容切换成纯文本它将无法插入图片、表情，以及将丢失正文颜色等。</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	</div>
+	
+
+<include file="public+footer">

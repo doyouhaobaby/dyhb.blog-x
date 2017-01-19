@@ -1,0 +1,7 @@
+<ul>
+{list $all_menu $menu}
+  <li {if ($current['c'] == $menu['c'])}id="current"{/if}>
+    <a href="{:G::U($menu['c'].'/'.$menu['a'])}">{$menu['title']}</a>
+  </li>
+{/list}
+</ul>

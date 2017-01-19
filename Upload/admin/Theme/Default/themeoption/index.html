@@ -1,0 +1,56 @@
+<include file="public+header">
+
+{script}
+function option(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('修改系统配置中') );
+	$("#submit_button").attr("disabled", false);
+}
+{/script}
+
+
+	<div class="title"><lang package='themeoption'>站点界面设置</lang></div>
+
+
+	<div id="content" class="content">
+
+	<form action="{:G::U('themeoption/update_config')}" method="post" onsubmit="return option();">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="blog_style_show"><lang package='themeoption'>显示风格切换按钮</lang>:</label></th>
+			<td><input type="radio" id="blog_style_show" class="field" name="configs[blog_style_show]" value="1" {if $arrOptions['blog_style_show']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[blog_style_show]" value="0" {if $arrOptions['blog_style_show']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='themeoption'>设置是否显示可用的论坛风格切换按钮，用户可以此按钮切换不同的论坛风格。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="cms_only_parentcategory"><lang package='themeoption'>Cms模板是否只显示顶级分类数据</lang>:</label></th>
+			<td><input type="radio" id="cms_only_parentcategory" class="field" name="configs[cms_only_parentcategory]" value="1" {if $arrOptions['cms_only_parentcategory']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[cms_only_parentcategory]" value="0" {if $arrOptions['cms_only_parentcategory']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='themeoption'>设置顶级分类，可减少开销。</lang></div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="image_max_width"><lang package='themeoption'>主题附件最大宽度</lang>:</label></th>
+			<td><input type="text" name="configs[image_max_width]" id="image_max_width" class="field" size="10" value="{$arrOptions['image_max_width']}"/>
+			<div class="description"><lang package='themeoption'>可以为数字（像素）或者百分比</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="allowed_default_edit"><lang package='themeoption'>是否开启默认主题风格编辑</lang>:</label></th>
+			<td><input type="radio" id="allowed_default_edit" class="field" name="configs[allowed_default_edit]" value="1" {if $arrOptions['allowed_default_edit']==1}checked="checked"{/if}/><lang>是</lang>
+			<input type="radio" id="" class="field" name="configs[allowed_default_edit]" value="0" {if $arrOptions['allowed_default_edit']==0}checked="checked"{/if} /><lang>否</lang>
+			<div class="description"><lang package='themeoption'>为了安全性请尽量不要开启本功能。</lang></div>
+			</td>
+		</tr>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+		</form>
+
+	</div>
+
+
+<include file="public+footer">

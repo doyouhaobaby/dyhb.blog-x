@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<load file="../PUBLIC__/Css/style.css" />
+</head>
+<body>
+
+<!-- 主内容	-->
+<div id="main">
+
+
+	<div id="content" class="content">
+
+
+		<div class="title">{$__MessageTitle__}</div>
+
+		<div class="infobox">
+
+			<h4 class="infomessage">
+
+				<if condition="isset( $__Message__ ) AND !empty( $__Message__ )" >
+					<div style="margin:auto;text-align:center;"><img src="{$__InfobigImg__}"/></div>{$__Message__}
+				</if>
+				<if condition="isset( $__ErrorMessage__ ) AND !empty( $__ErrorMessage__ )" >
+					<div style="margin:auto;text-align:center;"><img src="{$__ErrorbigImg__}"/></div>{$__ErrorMessage__}
+				</if>
+				<div id="__Loader__"><img src="{$__LoadingImg__}"/></div>
+			</h4>
+			<p class="marginbot" id="__JumpUrl__">
+
+				<if condition="isset( $__CloseWindow__ ) AND !empty( $__CloseWindow__ )" >
+					<lang package='message'>系统将在</lang> <span class="red" id="__Seconds__">{$__WaitSecond__}</span> <lang package='message'>秒后自动关闭，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang package='message'>这里</lang></a> <lang package='message'>关闭</lang>
+				</if>
+
+				<if condition="!isset( $__CloseWindow__ ) OR empty( $__CloseWindow__ )" >
+					<lang package='message'>系统将在</lang> <span class="blue" id="__Seconds__">{$__WaitSecond__}</span> <lang package='message'>秒后自动跳转，如果不想等待,直接点击</lang> <a href="{$__JumpUrl__}" class="lightlink"><lang package='message'>这里</lang></a> <lang package='message'>跳转</lang>
+				</if>
+			</p>
+		</div>
+	</div>
+{$__JavaScript__}
+
+</div>
+</body>
+</html>

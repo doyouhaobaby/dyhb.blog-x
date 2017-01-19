@@ -1,0 +1,83 @@
+<include file="public+header" />
+
+
+	<div class="title"><lang package='taotao'>微博列表</lang> | <a href="{:G::U('taotao/taotao')}"><lang package='taotao'>微博样式</lang></a> | <a href="{:G::U('taotao/build')}"><lang package='taotao'>微博整理</lang></a></div>
+
+
+	<div class="toolbar">
+
+		<div class="operate left" >
+			<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'taotao/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="taobao_content" title="<lang package='taotao'>微博内容</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+
+	<span class="clear"></span>
+
+
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('taotao_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='taotao_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='taotao_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='taotao'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='taotao'>编号</lang></a></th>
+			<th>&nbsp;</th>
+			<th><a href="javascript:sortBy('user_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='taotao'>按照用户</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='taotao'>用户</lang></a></th>
+			<th><a href="javascript:sortBy('taotao_content','{$sSortByUrl}')" {if G+getGpc('order_','G')=='taotao_content' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='taotao_content' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='taotao'>按照微博内容</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='taotao'>微博内容</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='taotao'>按照发表时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='taotao'>发表时间</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:taotao_id}"></td>
+			<td>{$value:taotao_id}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:taotao_islock eq 0" >o_blog.gif<else/>l_blog.gif</if>" title="<if condition="$value:taotao_islock eq 0" ><lang package='taotao'>未锁定的心情</lang><else/><lang package='taotao'>锁定的心情</lang></if>" /></td>
+			<td><if condition="$value:taotao_ismobile eq 1"><img src="__TMPLPUB__/Images/mobile.gif" title="<lang package='taotao'>手机心情</lang>"/></if>
+			<a href="{:G::U('taotao/index?uid='.$value->user_id)}" >{if !empty($value:user:user_name)}{if !empty($value:user:user_nikename)}{$value:user:user_nikename}{d*else}{$value:user:user_name}{/if}{d*else}<lang package='taotao'>跌名</lang>{/if}</a>
+			<div class="row-actions">
+				<span class='edit'>{if $value['taotao_islock']==0}<a href="{:G::U('taotao/lock?id='.$value->taotao_id)}" title="<lang>锁定</lang>"><lang>锁定</lang></a>{d*else}<a href="{:G::U('taotao/un_lock?id='.$value->taotao_id)}" title="<lang>解锁</lang>"><lang>解锁</lang></a>{/if}|</span>
+				<span class='delete'><a href="javascript:foreverdel('{$value:taotao_id}');" title="<lang>删除</lang>"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td>{$value:taotao_content|strip_tags|String+subString=0,100}</td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+
+		<div class="toolbar">
+
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+
+		{$sPageNavbar}
+
+		<br>
+		<div align="center" width="70%" >
+			<lang package='taotao'>图例：</lang><img src='__TMPLPUB__/Images/o_blog.gif'><lang package='taotao'>未锁定的心情</lang>
+			<img src='__TMPLPUB__/Images/l_blog.gif'><lang package='taotao'>锁定的心情</lang>
+		</div>
+
+	</div>
+
+
+<include file="public+footer">

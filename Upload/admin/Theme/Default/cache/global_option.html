@@ -1,0 +1,32 @@
+<include file="public+header">
+
+
+	<div class="title"><lang package='cache'>全局缓存</lang> ( <a href="{:G::U('cache/index')}"><lang package='cache'>前台缓存</lang></a> | <a href="{:G::U('cache/admin')}"><lang package='cache'>后台缓存</lang></a> | <a href="{:G::U('cache/wap')}"><lang package='cache'>Wap缓存</lang></a> )</div>
+
+
+	<div id="content" class="content">
+
+		<span class="label label-blue"><lang package='cache'>全局配置缓存</lang></span>
+		<p><lang package='cache'>全局缓存是系统所有配置的缓存，用于保存站点的一些配置数据。</lang></p>
+		<br/>
+		<table class="data full">
+		<thead>
+		<tr>
+			<th><lang package='cache'>配置名</lang></th>
+			<th><lang package='cache'>配置值</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=arrGlobalOption>
+			<tr>
+			<td>{$key}</td>
+			<td>{$value}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+	</div>
+
+
+<include file="public+footer">

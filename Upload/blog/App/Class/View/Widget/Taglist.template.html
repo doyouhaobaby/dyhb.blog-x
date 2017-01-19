@@ -1,0 +1,7 @@
+{$before_widget}
+	<foreach for=data value=arrTagList >
+		<span style="font-size:{$arrTagList['fontsize']}pt;line-height:{$arrTagList['fontsize']}pt" >
+			 <a {if $show_color==1}style="color:{$arrTagList['color']};"{/if} href="{:PageType_Extend::getTagUrl($arrTagList)}" title="<lang>使用次数:</lang> {$arrTagList['tag_usenum']}">{$arrTagList['tag_name']}{if $show_fontsize==1}({$arrTagList['tag_usenum']}){/if}</a>
+		</span>
+	 </foreach>
+{$after_widget}

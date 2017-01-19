@@ -1,0 +1,12 @@
+<include file="header">
+
+	<div id="m">
+		<foreach for=arrTagLists>
+		<a href='{:Url_Extend::getTagUrl($value)}'>{$value['tag_name']}</a><span>({$value['tag_usenum']})</span><br/>
+		</foreach>
+		<div id="page">
+		{$sPageNavbar}
+		</div>
+	</div>
+
+<include file="footer">

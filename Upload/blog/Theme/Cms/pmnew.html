@@ -1,0 +1,21 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>发送短消息</lang>	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	<table width='100%'>
+	<tr>
+	<td>
+	{:G::W( 'pmnewform',array( 'data'=>$sUser,'content'=>$sContent ) )}
+	</td>
+	</tr>
+	</table>
+	</div>
+ </div>
+</div>
+
+<include file="sidebarmember">
+<include file="footer">

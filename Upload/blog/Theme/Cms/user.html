@@ -1,0 +1,22 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>用户列表</lang>( <span id="user-totalnums">{$nTotalUser}</span> )	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	<table width='100%'>
+	<tr>
+	<td>
+	{:G::W( 'userlist',array( 'data'=>$arrUserLists,'before_widget'=>'<div id="users-box" class="users-box datalist">','thead_class'=>'colplural','table_class'=>'datalist-table full datatable', ) )}
+	</td>
+	</tr>
+	</table>
+	</div>
+	{$sPageNavbar}
+ </div>
+</div>
+
+<include file="sidebarfour">
+<include file="footer">

@@ -1,0 +1,71 @@
+	<foreach for=arrCategoryLists value=arrCategoryList>
+	<div class="mainbox list">
+			<span class="headactions">
+				<img id="category_{$arrCategoryList['category_id']}_img" src="{:IMG_DIR}/collapsed_no.gif" title="<lang package='boardTheme'>收起/展开</lang>" alt="<lang package='boardTheme'>收起/展开</lang>" onclick="toggle_collapse('category_{$arrCategoryList['category_id']}');" />
+			</span>
+			<h3><a href="{:PageType_Extend::getCategoryUrl( $arrCategoryList )}" style="">{$arrCategoryList['category_name']}</a>[{if !empty( $arrCategoryData['category_gotourl'] )}N/A{d*else}
+							<em>{$arrCategoryList['category_blogs']}</em>/{$arrCategoryList['category_blogs']+$arrCategoryList['category_comments']}{if !empty( $arrCategoryList['category_todaycomments'] )}<em>/<strong>{$arrCategoryList['category_todaycomments']}</strong></em>{/if}{/if}]</h3>
+			<table id="category_{$arrCategoryList['category_id']}" summary="category{$arrCategoryList['category_id']}" cellspacing="0" cellpadding="0" style="{$arrCollapse['category_'.$arrCategoryList['category_id']]}">
+			{~$arrChilds = $oCategoryTree->getChild( $arrCategoryList['category_id'] ) }
+			{if !empty( $arrChilds )}
+			{if $arrCategoryList['category_columns']==0}
+			<tr class="narrowlist">
+				<foreach for=arrChilds value=nChild>
+					{~$oChildCategory=$arrAllCategory[$nChild];}
+					{~$arrCategoryData=CategoryModel::getCategoryData( $nChild )}
+					<tbody id="forum{$nChild}">
+					<tr>
+						<th {if !empty( $arrCategoryData['todaycomments'] )}class="new"{/if}>
+							{if !empty( $oChildCategory['category_logo'] )}<a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}"><img style="float: left; margin-right: 10px;" src="{$oChildCategory['category_logo']}" alt="" align="left" border="0"></a>{/if}
+							<div class="left">
+								<h2><a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}" {if !empty( $oChildCategory['category_color'] )}style="color:{$oChildCategory['category_color']};"{/if}>{$oChildCategory['category_name']}</a>{if !empty( $arrCategoryData['todaycomments'] )}<em> (<lang package='boardTheme'>今日</lang>: <strong>{$arrCategoryData['todaycomments']}</strong>)</em>{/if}</h2>
+								{if !empty( $oChildCategory['category_introduce'] )}<p>{$oChildCategory['category_introduce']}</p>{/if}
+								{if $oChildCategory['category_showsub']==1 && $oCategoryTree->hasChild( $oChildCategory['category_id'] )}
+								{~$arrChildTwos = $oCategoryTree->getChild( $oChildCategory['category_id'] ) }
+								<p><lang package='boardTheme'>子版块</lang>: <foreach for=arrChildTwos value=nChildTwo>
+								{~$oChildCategoryTwo = $arrAllCategory[$nChildTwo];}
+								<a href="{:PageType_Extend::getCategoryUrl( $oChildCategoryTwo )}">{$oChildCategoryTwo['category_name']}</a>&nbsp;&nbsp;
+								</foreach>
+								</p>
+								{/if}
+							</div>
+						</th>
+						<td class="forumnums">
+							{if !empty( $oChildCategory['category_gotourl'] )}N/A{d*else}
+							<em>{$arrCategoryData['blogs']}</em> / {$arrCategoryData['blogs']+$arrCategoryData['comments']}{/if}
+							</td>
+							<td class="forumlast"><p>{if !empty( $oChildCategory['category_gotourl'] )}<a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}"><lang package='boardTheme'>衔接到外部网址</lang></a>{d*else}
+							{~$arrLastpost =unserialize( $oChildCategory['category_lastpost'] )}
+							{if is_array($arrLastpost)}<a href="{:PageType_Extend::getBlogUrl( $arrLastpost )}">{$arrLastpost['blog_title']|String+subString=0,30}</a>
+							<cite>{if $arrLastpost['user_id']==-1}{$arrLastpost['user_name']}{d*else}<a href="{:G::U( 'author/'.$arrLastpost['user_name'] )}">{$arrLastpost['user_name']}</a>{/if} - <span title="{$arrLastpost['blog_dateline']|date='Y-m-d H:i:s'}">{$arrLastpost['blog_dateline']|Date+smartDate}</span></cite>{d*else}<lang package='boardTheme'>从未</lang>{/if}
+							{/if}</p></td>
+					</tr>
+					</tbody>
+			</foreach>
+			{d*else}
+			<tbody><tr class="narrowlist">
+			<volist name="arrChilds" id="nChild" mod="arrCategoryList['category_columns']">
+				{~$oChildCategory = $arrAllCategory[$nChild];}
+				{~$arrCategoryData = CategoryModel::getCategoryData( $nChild )}
+				<eq name="mod" value="1">
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+				</eq>
+				<th {if !empty( $arrCategoryData['todaycomments'] )}class="new"{/if} width="{:round( 100/$arrCategoryList['category_columns'] )}%">
+					<h2><a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}" {if !empty( $oChildCategory['category_color'] )}style="color:{$oChildCategory['category_color']};"{/if}>{$oChildCategory['category_name']}</a>{if !empty( $arrCategoryData['todaycomments'] )}<em> (<lang package='boardTheme'>今日</lang>: <strong>{$arrCategoryData['todaycomments']}</strong>)</em>{/if}</h2>
+						{if empty( $oChildCategory['category_gotourl'] )}<p><lang package='boardTheme'>主题</lang>: {$arrCategoryData['blogs']}, <lang package='boardTheme'>帖数</lang>: {$arrCategoryData['comments']}</p>{/if}
+						<p>{if !empty( $oChildCategory['category_gotourl'] )}<a href="{:PageType_Extend::getCategoryUrl( $oChildCategory )}"><lang package='boardTheme'>衔接到外部网址</lang></a>{d*else}
+							{~$arrLastpost =unserialize( $oChildCategory['category_lastpost'] )}
+							{if is_array($arrLastpost)}<lang package='boardTheme'>最后发表</lang>: <span title="{$arrLastpost['blog_dateline']|date='Y-m-d H:i:s'}">{$arrLastpost['blog_dateline']|Date+smartDate}</span></cite>{d*else}<lang package='boardTheme'>从未</lang>{/if}
+							{/if}</p>
+				</th>
+			</volist>
+				</tr>
+			</tbody>
+			{/if}
+			{/if}
+			</table>
+	</div>
+	</foreach>

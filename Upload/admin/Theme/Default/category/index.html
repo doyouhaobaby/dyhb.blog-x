@@ -1,0 +1,86 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='category'>分类列表</lang>&nbsp;&nbsp;<a href="{:G::U('category/tree')}"><lang package='category'>树状分类显示</lang></a></div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+		<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+		<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+		<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'category/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="category_name" title="<lang package='category'>分类名字</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th width="5px"><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('category_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('category_compositor','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_compositor' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_compositor' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照分类排序</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>分类排序</lang></a></th>
+			<th><a href="javascript:sortBy('category_name','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_name' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_name' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照分类名字</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>分类名字</lang></a></th>
+			<th><a href="javascript:sortBy('category_urlname','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_urlname' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_urlname' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照分类别名</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>分类别名</lang></a></th>
+			<th><a href="javascript:sortBy('category_parentid','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_parentid' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_parentid' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照父级分类</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>父级分类</lang></a></th>
+			<th><a href="javascript:sortBy('category_blogs','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_blogs' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_blogs' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照文章</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>文章</lang></a></th>
+			<th><a href="javascript:sortBy('category_comments','{$sSortByUrl}')" {if G+getGpc('order_','G')=='category_comments' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='category_comments' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='category'>按照评论</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='category'>评论</lang></a></th>
+			<th><lang>操作</lang></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:category_id}"></td>
+			<td>{$value:category_id}</td>
+			<td class="pointer" title="<lang>点击修改数据</lang>" id="category_compositor_{$value:category_id}" onClick="clickToInput('category_compositor','{$value:category_id}')">{$value:category_compositor}</td>
+			<td><a href="{:G::U('category/edit?id='.$value->category_id)}" title="<lang package='category'>编辑分类</lang>" {if $value['category_color']}style="color:{$value:category_color};"{/if}>{$value:category_name}</a>
+			<div class="row-actions">
+					<span class='edit'><a href="javascript:edit('{$value:category_id}')" title="<lang>编辑</lang> 《{$value:category_name}》"><lang>编辑</lang></a>|</span>
+					<span class='delete'><a href="javascript:foreverdel('{$value:category_id}');" title="<lang>删除</lang> 《{$value:category_name}》"><lang>删除</lang></a>|</span>
+					<span class='view'><a href="{:G::U('blog/index?cid='.$value->category_id)}" ><lang>查看</lang></span>
+			</div>
+			</td>
+			<td>{$value:category_urlname}</td>
+			<td>{$TheController:get_parent_category( $value:category_parentid )}</td>
+			<td><span class="rownum">{$value:category_blogs}</span></td>
+			<td><span class="rownum">{$value:category_comments}</span></td>
+			<td><a href="javascript:edit('{$value:category_id}')"><lang>编辑</lang></a></td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="add" value="<lang>新增</lang>" onclick="add()" class="add button">
+				<input type="button" name="edit" value="<lang>编辑</lang>" onclick="edit()" class="edit button">
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">

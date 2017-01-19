@@ -1,0 +1,25 @@
+<include file="header">
+
+	<div id="navigation-toolbar" class="navigation-toolbar" >
+		<div class="navigation-box" >
+			<a href="{:Global_Extend::getOption( 'blog_url' )}" class="navigation-home" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='defaultTheme'>首页</lang>"><lang package='defaultTheme'>首页</lang></a> <em>›</em> 
+			<lang package='defaultTheme'>短消息</lang>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="content2">
+			<div class="entry" id="post-0">
+			{if $oOnePm['pm_type']=='system'}
+			{:G::W( 'pmlist',array( 'type'=>$sPmType,'onepm'=>$oOnePm,'systemonepm'=>true,'readpms'=>$arrReadPms ) )}
+			{d*else}<U></U>
+			{:G::W( 'pmlist',array( 'data'=>$arrPms,'type'=>$sPmType,'user'=>$nUserId,'pagenavbar'=>$sPageNavbar,'totalpm'=>$nTotalPm,'date'=>$sDate,'onepm'=>$oOnePm,'touser'=>$oToUser ) )}
+			{/if}
+					
+			</div>
+		</div>
+	</div>
+
+	<include file="sidebarmember">	
+
+<include file="footer">

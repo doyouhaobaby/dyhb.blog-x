@@ -1,0 +1,66 @@
+<include file="public+header">
+
+{script}
+<!--
+function saveSort(){
+	move.ok();
+	Dyhb.AjaxSubmit('form1','{:G::U('group/save_sort')}');
+}
+//-->
+{/script}
+
+<script src="__PUBLIC__/Images/Admin/SortSelect.js" type="text/javascript"></script>
+
+	
+	<div class="title"><lang package='group'>角色分组排序</lang> ( <a href="{:G::U('group/index')}"><lang package='group'>返回角色分组列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form method="post" id="form1" name="form1">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="search"><lang>搜索</lang>：</label></th>
+			<td><input name="search" type="text" class="field">
+				<input type="button" value="<lang>查 询</lang>" onclick="move.search()" class="button button-green" />
+				<div class="description"><lang package='group'>请输入要排序的节点分组数字</lang></div>
+				<div class="warning"><lang package='group'>只能是数字</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<td style="text-align:right;">
+			<input type="button" value="<lang>第 一</lang>" onclick="move.moveFirst()" class="button" /><br>
+			<input type="button" value="<lang>上 移</lang>" onclick="move.moveUp()" class="button" /><br>
+			<input type="button" value="<lang>下 移</lang>" onclick="move.moveDown()" class="button" /><br>
+			<input type="button" value="<lang>最 后</lang>" onclick="move.moveEnd()" class="button" /><br>
+			<input type="text" name="jumpNum" size="4" class="field"><br>
+			<input type="button" value="<lang>跳 转</lang>" onclick="move.jump()" class="button" />
+			</td>
+			<td><select name="sort" size="15" class="field" size="15" style="width: 200px; height: 200px">
+				<foreach for=arrSortList>
+				<option value="{$value:group_id}">{$key+1}.{$value:group_title}</option>
+				</foreach>
+				</select>
+				<div class="description"><lang package='group'>排序主操作窗口</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="field"><lang>操作</lang>：</label></th>
+			<td><input type="hidden" name="moveResult" />
+			<input type="hidden" name="ajax" VALUE="1" />
+			<input type="button" value="<lang>确 定</lang>" onclick="saveSort()" class="button button-blue" />
+			<input type="reset" value="<lang>取 消</lang>" onclick="history.back()" class="button button-red" />
+			</td>
+			</tr>
+
+			</table>
+
+		</form>
+		{script}
+		<!--
+		var move= new sortSelect('form1','sort','search','jumpNum');
+		//-->
+		{/script}
+	</div>
+	
+
+<include file="public+footer">

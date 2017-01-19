@@ -1,0 +1,28 @@
+<include file="header">
+
+<div class="w960 center clear mt1">
+<div class="pleft">
+ <div class="place"> <strong><lang package='cmsTheme'>当前位置</lang>:</strong> <a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='cmsTheme'>首页</lang>"><lang package='cmsTheme'>主页</lang></a> > <lang package='cmsTheme'>日志归档</lang>	</div>
+
+ <div class="viewbox">
+	<div class="content">
+	<table width='100%'>
+	<tr>
+	<td>
+	{:Global_Extend::templateHooks('index_top')}
+	<php>$arrStatic = Blog_Extend::getWidgetCache( 'static' );</php>
+	<if condition="!empty( $arrStatic['blog'] )">
+		{:G::W( 'archivelist',array( 'data'=>$arrBlogRecords ) )}
+	<else/>
+		<p><strong><lang package='cmsTheme'>没有任何归档</lang></strong></p>
+	</if>
+	{:Global_Extend::templateHooks('index_bottom')}
+	</td>
+	</tr>
+	</table>
+	</div>
+ </div>
+</div>
+
+<include file="sidebarfour">
+<include file="footer">

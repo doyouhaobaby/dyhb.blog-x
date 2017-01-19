@@ -1,0 +1,537 @@
+<include file="public+header">
+
+{script}
+var curInput;
+colorpicker.previewColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+
+colorpicker.chooseColor = function(color){
+	color=color==""?"#000000":color;
+	if(curInput){
+		curInput.style.color = color;
+		curInput.value = color;
+	}
+}
+{/script}
+
+	
+	<div class="title"><lang package='theme'>DIY 模板(高级模式)</lang> | <a href="{:G::U( 'theme/edit?app='.$sApp.'&theme='.$sTheme )}" title="<lang package='theme'>返回模板文件列表</lang>"><lang package='theme'>返回模板文件列表</lang></a></div>
+
+	
+	<div id="content" class="content">
+
+		<div class="note"><p class="i"><lang package='theme'>鼠标轻轻点击，即可更改主题风格，红色字表示css代码中的关键字。</lang></p></div>
+
+		<form action="{:G::U('theme/diy_yes')}" method="post" id="themeAdd" name="themeAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><span class="label label-blue"><lang package='theme'>编辑界面方案</lang> - {$sTheme}</span></label></th>
+			<td></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="namenew"><lang package='theme'>界面方案名称</lang>:</label></th>
+			<td><input type="text" name="namenew" id="namenew" class="field" size="40" value="{$arrThemeData['template_nikename']}"/>
+			<div class="description"><lang package='theme'>识别界面风格的标志，请勿使用空格或特殊符号</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="templateidnew"><lang package='theme'>匹配模板</lang>:</label></th>
+			<td><select name="templateidnew" id="templateidnew" >
+					<foreach for=arrThemeDir value=sThemeDir>
+						<option value="{$sThemeDir|strtolower}" {if $arrThemeData['doyouhaobaby_template_base']==strtolower($sThemeDir)}selected="selected"{/if}>{if strtolower($sThemeDir)=='default'}<lang package='theme'>默认模板套系</lang>{d*else}{$sThemeDir|strtolower}{/if}</option>
+					</foreach>
+				</select>
+			<div class="description"><lang package='theme'>与本套界面风格相匹配的模板名称</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="stylevar[template_type]"><lang package='theme'>模板方案</lang>:</label></th>
+			<td><select name="stylevar[template_type]" id="stylevar[template_type]" >
+					<option value="bbs" {if $arrThemeData['data']['template_type']=='bbs'}selected="selected"{/if}><lang package='theme'>社区模板</lang></option>
+					<option value="blog" {if $arrThemeData['data']['template_type']=='blog'}selected="selected"{/if}><lang package='theme'>博客模板</lang></option>
+					<option value="cms" {if $arrThemeData['data']['template_type']=='cms'}selected="selected"{/if}><lang package='theme'>CMS模板</lang></option>
+				</select>
+			<div class="description"><lang package='theme'>让你的站点与众不同，like blog or bbs and so on</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="img_dir"><lang package='theme'>界面基础图片目录</lang>:</label></th>
+			<td><input type="text" id="img_dir" name="stylevar[img_dir]" class="field" size="40" value="{$arrThemeData['data']['img_dir']}" onblur="imgdirurlUpdate();"/>
+				<div class="description"><lang package='theme'>风格基础图片存放的目录，留空表示使用“Theme/Default/Public/Images”目录为基础图片目录</lang></div>
+				<div class="warning">{IMG_DIR}</div>
+				</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="style_img_dir"><lang package='theme'>扩展图片目录</lang>:</label></th>
+			<td><input type="text" id="style_img_dir" name="stylevar[style_img_dir]" class="field" size="40" value="{$arrThemeData['data']['style_img_dir']}" onblur="imgdirurlUpdate();"/>
+				<div class="description"><lang package='theme'>风格扩展图片存放的目录，留空表示无扩展图片目录</lang></div>
+				<div class="warning">{STYLE_IMG_DIR}</div>
+				</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="logo"><lang package='theme'>博客 Logo</lang>:</label></th>
+			<td><input id="logo" type="text" name="stylevar[logo]" value="{$arrThemeData['data']['logo']}" size="40" class="field">
+			<div class="description"><lang package='theme'>如使用 Flash 动画，请用逗号隔开 URL、宽度和高度，如“logo.swf,80,40”</lang></div>
+			<div class="warning">{LOGO},{LOGO_STR}</div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-green"><lang package='theme'>背景</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="header_bg_color"><lang package='theme'>页头背景</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[header_bg_color]' id='stylevar[header_bg_color]' value='{$arrThemeData['data']['header_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[header_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="header_bg_color_img" name="stylevarbgimg[header_bg_color_img]" value="{$arrThemeData['data']['header_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="header_bg_color_extra" name="stylevarbgextra[header_bg_color_extra]" value="{$arrThemeData['data']['header_bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{HEADER_BG_COLOR},{HEADER_BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="bg_color"><lang package='theme'>页面背景</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[bg_color]' id='stylevar[bg_color]' value='{$arrThemeData['data']['bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['bg_color']['color']}'/>
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="bg_color_img" name="stylevarbgimg[bg_color_img]" value="{$arrThemeData['data']['bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="bg_color_extra" name="stylevarbgextra[bg_color_extra]" value="{$arrThemeData['data']['bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{BG_COLOR},{BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="side_bg_color"><lang package='theme'>侧边背景图</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[side_bg_color]' id='stylevar[side_bg_color]' value='{$arrThemeData['data']['side_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[side_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['side_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[side_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="side_bg_color_img" name="stylevarbgimg[side_bg_color_img]" value="{$arrThemeData['data']['side_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="side_bg_color_extra" name="stylevarbgextra[side_bg_color_extra]" value="{$arrThemeData['data']['side_bg_color']['extra']}" size="40" >
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{SIDE_BG_COLOR},{SIDE_BGCODE}</div>
+				</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="footer_bg_color"><lang package='theme'>底部背景图</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[footer_bg_color]' id='stylevar[footer_bg_color]' value='{$arrThemeData['data']['footer_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[footer_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['footer_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[footer_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="footer_bg_color_img" name="stylevarbgimg[footer_bg_color_img]" value="{$arrThemeData['data']['footer_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="footer_bg_color_extra" name="stylevarbgextra[footer_bg_color_extra]" value="{$arrThemeData['data']['footer_bg_color']['extra']}" size="40" >
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{FOOTER_BG_COLOR},{FOOTER_BGCODE}</div>
+				</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-black"><lang package='theme'>页头/页脚</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="header_border_width"><lang package='theme'>页头分割线高度</lang>:</label></th>
+			<td><input type="text" id="header_border_width" name="stylevar[header_border_width]" value="{$arrThemeData['data']['header_border_width']}" size="40" class='field'>
+			<div class="warning">{HEADER_BORDER}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="header_border_color"><lang package='theme'>页头分割线颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[header_border_color]' id='stylevar[header_border_color]' value='{$arrThemeData['data']['header_border_color']}' size='8'	onfocus='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_border_color']}'/>
+			<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{HEADER_BORDER_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="header_text_color"><lang package='theme'>页头文字颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[header_text_color]' id='stylevar[header_text_color]' value='{$arrThemeData['data']['header_text_color']}' size='8'	onfocus='curInput=E("stylevar[header_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['header_text_color']}' />
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[header_border_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{HEADER_TEXT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="footer_text_color"><lang package='theme'>页脚文字颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[footer_text_color]' id='stylevar[footer_text_color]' value='{$arrThemeData['data']['footer_text_color']}' size='8'	onfocus='curInput=E("stylevar[footer_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['footer_text_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[footer_text_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{FOOTER_TEXT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-purple"><lang package='theme'>文字</lang></span></label></th>
+		</tr>
+		<tr>
+			<th valign="top"><label for="normal_font"><lang package='theme'>正常字体</lang>:</label></th>
+			<td><input type="text" name="stylevar[normal_font]" value="{$arrThemeData['data']['normal_font']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入字体，例如Verdana, Helvetica, Arial, sans-serif</lang></div>
+			<div class="warning">{NORMAL_FONT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="normal_fontsize"><lang package='theme'>正常字体大小</lang>:</label></th>
+			<td><input type="text" name="stylevar[normal_fontsize]" value="{$arrThemeData['data']['normal_fontsize']}" size="40" class="field" >
+			<div class="description"><lang package='theme'>输入字体大小，例如12px</lang></div>
+			<div class="warning">{NORMAL_FONTSIZE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="small_font"><lang package='theme'>小号字体</lang>:</label></th>
+			<td><input type="text" name="stylevar[small_font]" value="{$arrThemeData['data']['small_font']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入字体，例如Verdana, Helvetica, Arial, sans-serif</lang></div>
+			<div class="warning">{SMALL_FONT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="small_fontsize"><lang package='theme'>小号字体大小</lang>:</label></th>
+			<td><input type="text" name="stylevar[small_fontsize]" value="{$arrThemeData['data']['small_fontsize']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入字体大小，例如12px</lang></div>
+			<div class="warning">{SMALL_FONTSIZE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="big_font"><lang package='theme'>标题字体</lang>:</label></th>
+			<td><input type="text" name="stylevar[big_font]" value="{$arrThemeData['data']['big_font']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入字体，例如Verdana, Helvetica, Arial, sans-serif</lang></div>
+			<div class="warning">{BIG_FONT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="big_fontsize"><lang package='theme'>标题字体大小</lang>:</label></th>
+			<td><input type="text" name="stylevar[big_fontsize]" value="{$arrThemeData['data']['big_fontsize']}" size="40" class="field" >
+			<div class="description"><lang package='theme'>输入字体大小，例如12px</lang></div>
+			<div class="warning">{BIG_FONTSIZE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="normal_color"><lang package='theme'>普通文本颜色</lang>:</label></th>
+			<td><input class='field' type="text" id='stylevar[normal_color]' name="stylevar[normal_color]" value="{$arrThemeData['data']['normal_color']}" size="10" class="field" onfocus='curInput=E("stylevar[normal_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['normal_color']}' >
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[normal_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{NORMAL_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="medium_textcolor"><lang package='theme'>中等文本颜色</lang>:</label></th>
+			<td><input type="text" id='stylevar[medium_textcolor]' name="stylevar[medium_textcolor]" value="{$arrThemeData['data']['medium_textcolor']}" size="10" class="field" onfocus='curInput=E("stylevar[medium_textcolor]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['medium_textcolor']}'>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[medium_textcolor]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{MEDIUM_TEXTCOLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="light_textcolor"><lang package='theme'>浅色文字</lang>:</label></th>
+			<td><input type="text" id='stylevar[light_textcolor]' name="stylevar[light_textcolor]" value="{$arrThemeData['data']['light_textcolor']}" size="10" class="field" onfocus='curInput=E("stylevar[light_textcolor]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['light_textcolor']}'>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[light_textcolor]");colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{LIGHT_TEXTCOLOR}</div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-gold"><lang package='theme'>链接</lang></span></label></th>
+			</tr>
+		<tr>
+			<th valign="top"><label for="link_color"><lang package='theme'>链接文字颜色</lang>:</label></th>
+			<td><input class='field' type="text" id='stylevar[link_color]' name="stylevar[link_color]" value="{$arrThemeData['data']['link_color']}" size="10" class="field" onfocus='curInput=E("stylevar[link_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['link_color']}'>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[link_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{LINK_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="highlightlink_color"><lang package='theme'>链接高亮链接颜色</lang>:</label></th>
+			<td><input type="text" id='stylevar[highlightlink_color]' name="stylevar[highlightlink_color]" value="{$arrThemeData['data']['highlightlink_color']}" size="10" class="field" onfocus='curInput=E("stylevar[highlightlink_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['highlightlink_color']}' >
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[highlightlink_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{HIGHLIGHTLINK_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-silver"><lang package='theme'>主体表格</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="wrap_table_width"><lang package='theme'>主体表格宽度</lang>:</label></th>
+			<td><input class='field' type="text" name="stylevar[wrap_table_width]" value="{$arrThemeData['data']['wrap_table_width']}" size="40">
+			<div class="description"><lang package='theme'>输入主题表格宽度，例如5px</lang></div>
+			<div class="warning">{WRAP_TABLE_WIDTH}</div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top"><label for="wrap_table_bg"><lang package='theme'>主体表格背景色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[wrap_table_bg]' id='stylevar[wrap_table_bg]' value='{$arrThemeData['data']['wrap_table_bg']}' size='8'	onfocus='curInput=E("stylevar[wrap_table_bg]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['wrap_table_bg']}' />
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[wrap_table_bg]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{WRAP_TABLE_BG}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="wrap_border_width"><lang package='theme'>主体表格边框宽度</lang>:</label></th>
+			<td><input type="text" name="stylevar[wrap_border_width]" value="{$arrThemeData['data']['wrap_border_width']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入主题表格边框宽度，例如3px</lang></div>
+			<div class="warning">{WRAP_BORDER_WIDTH}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="wrap_border_color"><lang package='theme'>主体表格边框色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[wrap_border_color]' id='stylevar[wrap_border_color]' value='{$arrThemeData['data']['wrap_border_color']}' size='8'	onfocus='curInput=E("stylevar[wrap_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['wrap_border_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[wrap_border_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{WRAP_BORDER_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-purple"><lang package='theme'>日志内容</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="msg_fontsize"><lang package='theme'>博客内容字号</lang>:</label></th>
+			<td><input type="text" name="stylevar[msg_fontsize]" value="{$arrThemeData['data']['msg_fontsize']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入博客内容字号，例如14px</lang></div>
+			<div class="warning">{MSG_FONTSIZE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="msg_big_size"><lang package='theme'>博客内容大字号</lang>:</label></th>
+			<td><input type="text" name="stylevar[msg_big_size]" value="{$arrThemeData['data']['msg_big_size']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入博客内容大字号，例如16px</lang></div>
+			<div class="warning">{MSG_BIG_SIZE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="content_width"><lang package='theme'>内容区域宽度</lang>:</label></th>
+			<td><input type="text" name="stylevar[content_width]" value="{$arrThemeData['data']['content_width']}" size="40" class="field">
+			<div class="description"><lang package='theme'>输入内容区域宽度，例如600px</lang></div>
+			<div class="warning">{CONTENT_WIDTH}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="content_separate_color"><lang package='theme'>内容间隔颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[content_separate_color]' id='stylevar[content_separate_color]' value='{$arrThemeData['data']['content_separate_color']}' size='8'	onfocus='curInput=E("stylevar[content_separate_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['content_separate_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[content_separate_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{CONTENT_SEPARATE_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-gray"><lang package='theme'>菜单</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="menu_border_color"><lang package='theme'>菜单边框色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[menu_border_color]' id='stylevar[menu_border_color]' value='{$arrThemeData['data']['menu_border_color']}' size='8'	onfocus='curInput=E("stylevar[menu_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_border_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_border_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{MENU_BORDER_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="menu_bg_color"><lang package='theme'>菜单背景颜色</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[menu_bg_color]' id='stylevar[menu_bg_color]' value='{$arrThemeData['data']['menu_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[menu_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="menu_bg_color_img" name="stylevarbgimg[menu_bg_color_img]" value="{$arrThemeData['data']['menu_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="menu_bg_color_extra" name="stylevarbgextra[menu_bg_color_extra]" value="{$arrThemeData['data']['menu_bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{MENU_BG_COLOR},{MENU_BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="menu_text_color"><lang package='theme'>菜单文字颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[menu_text_color]' id='stylevar[menu_text_color]' value='{$arrThemeData['data']['menu_text_color']}' size='8'	onfocus='curInput=E("stylevar[menu_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_text_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_text_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{MENU_TEXT_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="menu_hover_bg_color"><lang package='theme'>菜单高亮背景</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[menu_hover_bg_color]' id='stylevar[menu_hover_bg_color]' value='{$arrThemeData['data']['menu_hover_bg_color']}' size='8'	onfocus='curInput=E("stylevar[menu_hover_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_hover_bg_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_hover_bg_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{MENU_HOVER_BG_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="menu_hover_text_color"><lang package='theme'>菜单高亮文字颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[menu_hover_text_color]' id='stylevar[menu_hover_text_color]' value='{$arrThemeData['data']['menu_hover_text_color']}' size='8'	onfocus='curInput=E("stylevar[menu_hover_text_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['menu_hover_text_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[menu_hover_text_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{MENU_HOVER_TEXT_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-blue"><lang package='theme'>浮动窗口</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="float_bg_color"><lang package='theme'>弹出窗口背景色</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[float_bg_color]' id='stylevar[float_bg_color]' value='{$arrThemeData['data']['float_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[float_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['float_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[float_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="float_bg_color_img" name="stylevarbgimg[float_bg_color_img]" value="{$arrThemeData['data']['float_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="float_bg_color_extra" name="stylevarbgextra[float_bg_color_extra]" value="{$arrThemeData['data']['float_bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{FLOAT_BG_COLOR},{FLOAT_BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="float_mask_bg_color"><lang package='theme'>弹出窗口边框颜色</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[float_mask_bg_color]' id='stylevar[float_mask_bg_color]' value='{$arrThemeData['data']['float_mask_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[float_mask_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['float_mask_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[float_mask_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="float_mask_bg_color_img" name="stylevarbgimg[float_mask_bg_color_img]" value="{$arrThemeData['data']['float_mask_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="float_mask_bg_color_extra" name="stylevarbgextra[float_mask_bg_color_extra]" value="{$arrThemeData['data']['float_mask_bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{FLOAT_MASK_BG_COLOR},{FLOAT_MASK_BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-red"><lang package='theme'>输入框</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="input_border"><lang package='theme'>输入框边框浅色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[input_border]' id='stylevar[input_border]' value='{$arrThemeData['data']['input_border']}' size='8'	onfocus='curInput=E("stylevar[input_border]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['input_border']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[input_border]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{INPUT_BORDER}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="input_border_dark_color"><lang package='theme'>输入框边框深色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[input_border_dark_color]' id='stylevar[input_border_dark_color]' value='{$arrThemeData['data']['input_border_dark_color']}' size='8'	onfocus='curInput=E("stylevar[input_border_dark_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['input_border_dark_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[input_border_dark_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{INPUT_BORDER_DARK_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="input_bg"><lang package='theme'>输入框背景色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[input_bg]' id='stylevar[input_bg]' value='{$arrThemeData['data']['input_bg']}' size='8'	onfocus='curInput=E("stylevar[input_bg]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['input_bg']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[input_bg]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{INPUT_BG}</div>
+			</td>
+		</tr>
+			<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-yellow"><lang package='theme'>下拉菜单</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="drop_menu_border"><lang package='theme'>下拉菜单边框色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[drop_menu_border]' id='stylevar[drop_menu_border]' value='{$arrThemeData['data']['drop_menu_border']}' size='8'	onfocus='curInput=E("stylevar[drop_menu_border]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['drop_menu_border']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[drop_menu_border]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{DROP_MENU_BORDER}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="drop_menu_bg_color"><lang package='theme'>下拉菜单背景色</lang>:</label></th>
+				<td>
+					<input type='text' class='field' name='stylevar[drop_menu_bg_color]' id='stylevar[drop_menu_bg_color]' value='{$arrThemeData['data']['drop_menu_bg_color']['color']}' size='8'	onfocus='curInput=E("stylevar[drop_menu_bg_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['drop_menu_bg_color']['color']}' />
+					<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[drop_menu_bg_color]"); colorpicker.choose(event);' />
+					<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+					<input type="text" class='field' id="drop_menu_bg_color_img" name="stylevarbgimg[drop_menu_bg_color_img]" value="{$arrThemeData['data']['drop_menu_bg_color']['img']}" size="40">
+					<div class="description"><lang package='theme'>输入背景图片地址</lang></div>
+					<input type="text" class='field' id="drop_menu_bg_color_extra" name="stylevarbgextra[drop_menu_bg_color_extra]" value="{$arrThemeData['data']['drop_menu_bg_color']['extra']}" size="40">
+					<div class="description"><lang package='theme'>输入附加属性</lang></div>
+					<div class="warning">{DROP_MENU_BG_COLOR},{DROP_MENU_BGCODE}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top" colspan="2"><label for=""><span class="label label-green"><lang package='theme'>其他</lang></span></label></th>
+			</tr>
+			<tr>
+			<th valign="top"><label for="interval_line_color"><lang package='theme'>通用边框颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[interval_line_color]' id='stylevar[interval_line_color]' value='{$arrThemeData['data']['interval_line_color']}' size='8'	onfocus='curInput=E("stylevar[interval_line_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['interval_line_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[interval_line_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{INTERVAL_LINE_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="common_background_color"><lang package='theme'>通用显示区域背景颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[common_background_color]' id='stylevar[common_background_color]' value='{$arrThemeData['data']['common_background_color']}' size='8'	onfocus='curInput=E("stylevar[common_background_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['common_background_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[common_background_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{COMMON_BACKGROUND_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="special_border"><lang package='theme'>彩色区域边框</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[special_border]' id='stylevar[special_border]' value='{$arrThemeData['data']['special_border']}' size='8'	onfocus='curInput=E("stylevar[special_border]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['special_border']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[special_border]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{SPECIAL_BORDER}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="special_bg"><lang package='theme'>彩色区域背景色（用户信息栏、表头）</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[special_bg]' id='stylevar[special_bg]' value='{$arrThemeData['data']['special_bg']}' size='8'	onfocus='curInput=E("stylevar[special_bg]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['special_bg']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[special_bg]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{SPECIAL_BG}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="interleave_color"><lang package='theme'>隔行换色背景</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[interleave_color]' id='stylevar[interleave_color]' value='{$arrThemeData['data']['interleave_color']}' size='8'	onfocus='curInput=E("stylevar[interleave_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['interleave_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[interleave_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{INTERLEAVE_COLOR}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="noticetext_color"><lang package='theme'>提示信息颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[noticetext_color]' id='stylevar[noticetext_color]' value='{$arrThemeData['data']['noticetext_color']}' size='8'	onfocus='curInput=E("stylevar[noticetext_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['noticetext_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[noticetext_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{NOTICE_TEXT}</div>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top"><label for="noticetext_border_color"><lang package='theme'>提示信息边框颜色</lang>:</label></th>
+			<td><input type='text' class='field' name='stylevar[noticetext_border_color]' id='stylevar[noticetext_border_color]' value='{$arrThemeData['data']['noticetext_border_color']}' size='8'	onfocus='curInput=E("stylevar[noticetext_border_color]"); colorpicker.choose(event);' style='color:{$arrThemeData['data']['noticetext_border_color']}'/>
+				<img src='__TMPLPUB__/Images/ico_color.gif' align='absmiddle' border='0' id='img_color' class='colorpicker' onclick='curInput=E("stylevar[noticetext_border_color]"); colorpicker.choose(event);' />
+			<div class="description"><lang package='theme'>输入 16 进制颜色 #RRGGBB</lang></div>
+			<div class="warning">{NOTICE_BORDER_TEXT}</div>
+			</td>
+		</tr>
+
+		</table>
+		<script type="text/javascritp">
+		var inps = $('previewbody').getElementsByTagName('INPUT');
+		for(i = 0;i < inps.length;i++) {
+			if(inps[i].onchange) {
+				var change = inps[i].onchange.toString();
+				if(change) {
+					var start = change.indexOf('{');
+					var end = change.lastIndexOf('}');
+					s = change.substring(start + 1, end);
+					s = s.replace(/this\.value/ig, "'" + inps[i].value + "'");
+					eval(s)
+				}
+			}
+			}
+		</script>
+		<p class="center">
+			<input type="hidden" name="theme" value="{$sTheme}">
+			<input type="hidden" name="template_id" value="{$sTheme}">
+			<input type="hidden" name="app" value="{$sApp}">
+			<input id="submit_button" type="submit"class="button button-blue" title="<lang package='theme'>点击提交您的修改</lang>" value="  <lang>提 交</lang>  " />
+			<input type="button" onclick="location.href='{:G::U( 'theme/diy?theme='.$sTheme.'&app='.$sApp )}'" class="button button-green" value="  <lang package='theme'>切换到简单模式</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

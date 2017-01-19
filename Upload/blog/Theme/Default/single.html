@@ -1,0 +1,87 @@
+<include file="header">
+
+{script}
+var _COMMENT_URL_ = '{:G::U('comment/post')}';
+{/script}
+
+	<div id="content">
+		<div id="content2">
+
+			<div id="nav-above" class="previous-next-box">
+				<div class="nav-previous">{$TheController:the_previous_post( $oBlog,array( 'cut'=>20 ) )}</div>
+				<div class="nav-next">{$TheController:the_next_post( $oBlog,array( 'cut'=>20 ) )}</div>
+			</div>
+			<div class="clearer"></div>
+
+			<div class="entry" id="post-{$oBlog:blog_id}">
+				<a href="{$TheController:the_title_url( $oBlog )}" class="avatar">
+					<img src="{:Blog_Extend::getGravatar($oBlog->user_id,'small')}" />
+				</a>
+				<i class="line_h"></i>
+				{$TheController:the_title( $oBlog,array( 'before'=>'<h2>','after'=>'</h2>','cut'=>35 ) )}
+				<div class="entryinfo">
+					<lang package='defaultTheme'>来源</lang>：{$TheController:the_from( $oBlog )} |　<lang package='defaultTheme'>作者</lang>：{$TheController:the_author( $oBlog->user )}</strong> | <lang package='defaultTheme'>发布时间</lang>：{$oBlog:blog_dateline|date='F j, Y',**} | <lang package='defaultTheme'>分类</lang>：{$TheController:the_category( $oBlog->category )}
+					{$TheController:the_mobile( $oBlog )}
+					{$TheController:the_upload( $oBlog )}
+					{$TheController:the_top( $oBlog )}
+				</div>
+
+				<div id="entry-action-toolbar" class="entry-action-toolbar" >
+					{$TheController:the_toolbar( $oBlog )}
+				</div>
+
+				{if $nNewpage==1}<div class="post-excerpt">{$oBlog:blog_excerpt}</div>{/if}
+
+				<p>
+					<div id="content-zoom-text">{$oBlog:blog_content}</div>
+					{$sNewpageNavbar}
+					{$TheController:the_digg( $oBlog )}
+				</p>
+
+				{if $nNewpage==1}
+					{if !empty( $oBlog->update_dateline )}
+						<p style="text-align:center;">
+							<i class="pstatus"> <lang package='defaultTheme'>本文最后于</lang> {$oBlog:update_dateline|date='Y-m-d H:i:s',**} <lang package='defaultTheme'>编辑</lang> </i>
+						</p>
+					{/if}
+				{/if}
+
+				<div class="under">
+					{~$sTagText = $TheController->the_tag( $oBlog,array( 'display'=>0 ) )}
+					{if $sTagText!==false}
+					<div class="tag"><lang package='defaultTheme'>标签</lang>:
+						{$sTagText}
+					</div>
+					{/if}
+					<div class="count">
+						{$TheController:the_comment( $oBlog )}
+						{$TheController:the_trackback( $oBlog )}
+						{$TheController:the_view( $oBlog )}
+					</div>
+				</div>
+
+				<div id="nav-below" class="previous-next-box" >
+					<div class="nav-previous">{$TheController:the_previous_post( $oBlog,array( 'cut'=>20 ) )}</div>
+					<div class="nav-next">{$TheController:the_next_post( $oBlog,array( 'cut'=>20 ) )}</div>
+				</div>
+				<div class="clearer"></div>
+
+				{:G::W( 'relatedblog',array( 'blog'=>$oBlog ) )}
+
+				{:G::W( 'trackbackurl',array( 'data'=>$arrTrackbackData ) )}
+
+				{:G::W( 'blogtrackback',array( 'blog'=>$oBlog ) )}
+
+				<h2 id="comments"><lang package='defaultTheme'>总评论数</lang>( <span id="comment-totalnums">{$oBlog:blog_commentnum}</span> )</h2>
+				<include file="comments">
+				{if Global_Extend+getOption( 'default_comment_status' )==1 && Global_Extend+getOption("blog_comment_status")==1 && $oBlog['blog_islock']==0}
+				<include file="commentform">
+				{/if}
+			</div>
+
+		</div>
+	</div>
+
+	<include file="sidebartwo">
+
+<include file="footer">

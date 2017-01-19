@@ -1,0 +1,14 @@
+{$before_widget}
+<foreach for=data key=nBlogRecordYear value=arrBlogRecord >
+	<ul class="{$ul_class}">
+		<p class="{$archive_group}">{$nBlogRecordYear}<lang>年</lang></p>
+		{~ksort($arrBlogRecord)}
+		<foreach for=arrBlogRecord key=nBlogRecordMonth value=nBlogRecordNum >
+			 <li><a href="{:PageType_Extend::getArchiveUrl($nBlogRecordYear.$nBlogRecordMonth)}">{$nBlogRecordMonth}<lang>月</lang></a>({$nBlogRecordNum})</li>
+		</foreach>
+	</ul>
+	{$clear}
+ </foreach>
+{$after_widget}
+
+{$clear}

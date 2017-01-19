@@ -1,0 +1,45 @@
+<div class="clearer"></div>
+	</div>
+{:Global_Extend::templateHooks('global_footer')}
+<div id="footer_sidebar">
+		<div id="footer_sidebar_box">
+		<div id="footer_left" class="footer_widgets">
+			<div class="widget_recentpost">
+				{:Template_Extend::recentpostW(array('before_title'=>'<h2 class="widgettitle">','title_cutnum'=>25))}
+			</div>
+		</div>
+		<div id="footer_center" class="footer_widgets">
+			<div class="widget_commentpost">
+				{:Template_Extend::commentpostW(array('before_title'=>'<h2 class="widgettitle">','title_cutnum'=>25))}
+			</div>
+		</div>
+		<div id="footer_right" class="footer_widgets">
+			<div class="widget_hotpost">
+				{:Template_Extend::hotpostW(array('before_title'=>'<h2 class="widgettitle">','title_cutnum'=>25))}
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div id="footer">
+		<div id="footerw">
+			<div id="about">
+				<a href="{:Global_Extend::getOption( 'blog_url' )}"><lang package='defaultTheme'>主页</lang></a>
+				{~$arrPagePosts=Blog_Extend::getWidgetCache( 'pagepost' )}
+				<foreach for=arrPagePosts value=arrPagePost >
+				<a href="{:PageType_Extend::getPageUrl( $arrPagePost )}" title="{$arrPagePost['blog_title']}">{$arrPagePost['blog_title']}</a>
+				</foreach>
+			</div>
+
+			<div class="clearer"></div>
+
+			<div id="copyright">
+				<br><big><strong>Copyright &copy; 2012 <a href="{:Global_Extend::getOption('blog_url')}" >{:Global_Extend::getOption('blog_name')}</a>. All rights reserved.</strong>{:Global_Extend::templateHooks('global_footerlink')}</big><br>
+				<small><strong>Powered by <a target="_blank" title="Blog {:BLOG_SERVER_VERSION} Release {:BLOG_SERVER_RELEASE}" href="{:Global_Extend::getOption('blog_program_url')}">{:Global_Extend::getOption('blog_program_name')}</a><sup>&copy;2009-2012</sup><strong>{:Global_Extend::getOption('footer_extend_message')}</small>
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<include file="public+header">
+{if $sEditor=='kindeditor'}
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Kindeditor/lang/zh_CN.js"></script>
+{/if}
+{if $sEditor=='ubb'}
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Ubb/ubbeditor.js"></script>
+{/if}
+{if $sEditor=='quicktags'}
+<script type="text/javascript" src="__PUBLIC__/Images/Editor/Quicktags/js_quicktags.js"></script>
+{/if}
+{script}
+<!--
+{if $sEditor=='ubb'}
+$(document).ready(function(){
+	init_ubb('blog_content');
+});
+{/if}
+function add(draft){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update(draft);
+		return;
+	}
+	if( draft==1 ){
+		$('#draft').val(1);
+		$("input[name='blog_isshow'][value=0]").attr("checked",true);
+		$("#save_draft").val(D.L( "正在保存"));
+		$("#save_draft").attr("disabled", "disabled");
+	}
+	else{
+		$('#draft').val(0);
+		$("input[name='blog_isshow'][value=1]").attr("checked",true);
+		$("#save_public").val(D.L( "正在发布"));
+		$("#save_public").attr("disabled", "disabled");
+	}
+	{if $sEditor=='kindeditor'}
+	$('#blog_content').val( editor.html());
+	{/if}
+	Dyhb.AjaxSubmit('pageAdd','{:G::U('blog/insert')}','',complete);
+}
+function update(draft){
+	if( draft==1 ){
+		$('#draft').val(1);
+		$("input[name='blog_isshow'][value=0]").attr("checked",true);
+		$("#save_draft").val(D.L( "正在保存"));
+		$("#save_draft").attr("disabled", "disabled");
+	}
+	else{
+		$('#draft').val(0);
+		$("input[name='blog_isshow'][value=1]").attr("checked",true);
+		$("#save_public").val(D.L( "正在发布"));
+		$("#save_public").attr("disabled", "disabled");
+	}
+	{if $sEditor=='kindeditor'}
+	$('#blog_content').val( editor.html());
+	{/if}
+	Dyhb.AjaxSubmit('pageAdd','{:G::U('blog/update')}','',complete);
+}
+function complete(data,status){
+
+	if( $('#draft').val()==1 ){
+		$("#save_draft").attr("disabled", false);
+		$("#save_draft").val(D.L("保存草稿"));
+	}
+	if(status==1){
+		if( $('#draft').val()==1 ){
+			if( data.blog_id ){
+				$('#id').val(data.blog_id);
+			}
+		}
+		else{
+			if( data.blog_id ){
+				$('#id').val(data.blog_id);
+			}
+			$("#save_public").val(D.L("发布成功"));
+			if( $("#img2local").attr( "checked" )=='checked' ){
+				window.location.href='{:G::U('page/img2local')}';
+			}
+			else{
+				window.location.href='{:G::U('page/index')}';
+			}
+		}
+	}
+	else{
+		$("#save_public").attr("disabled", false);
+		$("#save_public").val(D.L("发布日志"));
+	}
+}
+-->
+{/script}
+{if $sEditor=='kindeditor'}
+{script}
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="blog_content"]', {
+		allowPreviewEmoticons : false,
+		allowImageUpload : false,
+		allowFlashUpload :false,
+		allowMediaUpload:false,
+		allowFileManager : false,
+		resizeMode : 1,
+		items : ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image',
+				'flash', 'media', 'insertfile', 'table', 'hr','map', 'code', 'pagebreak',
+				'link', 'unlink'],
+	});
+});
+{/script}
+{/if}
+
+{if $sEditor=='ubb'}
+{script}
+function insertemot (emotcode) {
+	var emot="[emot]"+emotcode+"[/emot]";
+	AddText(emot);
+	document.getElementById('emotid').style.display='none';
+}
+
+function showemot () {
+	if (document.getElementById('emotid').style.display=='block') document.getElementById('emotid').style.display='none';
+	else document.getElementById('emotid').style.display='block';
+}
+{/script}
+{/if}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='blog'>添加页面</lang><else/><lang package='blog'>编辑页面</lang></if> ( <a href="{:G::U('page/index')}"><lang package='blog'>返回页面列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<div id='automessage' style="padding:5px 30px;color:red;font-weight:bold;"></div>
+		<form action="<if condition="empty( $nId )" >{:G::U('page/insert')}<else/>{:G::U('page/update')}</if>" method="post" id="pageAdd">
+		{script}$("#blog_title").focus();{/script}
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="blog_title"><lang package='blog'>标题：</lang></label></th>
+			<td><div id="add_blog_input"><input type="text" name="blog_title" id="blog_title" onclick="if (this.value=='<lang package='blog'>请输入标题</lang>') this.value='';" class="field" size="72" value="<if condition="isset( $oValue ) && $oValue:blog_title">{$oValue:blog_title}<else/><lang package='blog'>请输入标题</lang></if>" mixlength="300"/></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_category"><lang package='blog'>工具栏:</lang></label></th>
+			<td class="importent">
+				<a href="javascript:handSave();dyhbFrame('{:G::U('upload/upload_page')}','<lang package='blog'>文件管理器</lang>',700,350);"><lang package='blog'>文件管理器</lang></a>
+				<a href="javascript:newPage();"><lang package='blog'>插入分页符</lang></a>
+				<lang package='blog'>图片本地化:</lang><input type="checkbox" value="1" name="img2local" id="img2local"/>&nbsp;
+				<lang package='blog'>日志别名：</lang><input type="text" name="blog_urlname" id="blog_urlname" class="field" size="45" value="<if condition="isset( $oValue )">{$oValue:blog_urlname}</if>"/>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_content"><lang package='blog'>内容：</lang></label></th>
+			<td>{if $sEditor=='ubb'}	
+			<div id="ubb-editor" class="ubb-editor" >
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="bold()" title="<lang package='ubb'>粗体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/bold.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="italicize()" title="<lang package='ubb'>斜体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/italic.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="underline()" title="<lang package='ubb'>下划线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/underline.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="strike()" title="<lang package='ubb'>删除线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/strikethrough.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="subsup('sup')" title="<lang package='ubb'>上标</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/superscript.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="subsup('sub')" title="<lang package='ubb'>下标</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/subscript.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="center()" title="<lang package='ubb'>设置文字对齐方式</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/center.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="hyperlink()" title="<lang package='ubb'>插入超链接</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/url.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="email()" title="<lang package='ubb'>插入邮件地址</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/email.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="image()" title="<lang package='ubb'>插入图片</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertimage.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('swf');" title="<lang package='ubb'>插入Flash</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/swf.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('wmp');" title="<lang package='ubb'>插入Windows Media Player文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/wmp.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('real');" title="<lang package='ubb'>插入Real文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/real.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="mp3()" title="<lang package='ubb'>插入Mp3文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/mp3.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('flv');" title="<lang package='ubb'>插入Flv (Flash Video)文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/flv.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="showcode()" title="<lang package='ubb'>插入代码</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/code.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="quoteme()" title="<lang package='ubb'>插入引用文字</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/quote.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addacronym();" title="<lang package='ubb'>插入注释文字</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/acronym.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="AddText('[hr]')" title="<lang package='ubb'>插入分割线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/line.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="addfile();" title="<lang package='ubb'>插入普通文件下载</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/file.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="showemot()" title="<lang package='ubb'>表情选择</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertsmile.gif" ></a>
+				<a href="JavaScript: void(0); "><IMG border="0" onclick="AddText('[newpage]')" title="<lang package='ubb'>插入分页符</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/newpage.gif" ></a>
+				<script type="text/javascript">
+					if (is_firefox) {
+						document.write("<a href='JavaScript: void(0); '><IMG border=0 onclick='undo_fx();' title='<lang package='ubb'>挽回数据</lang>' src='__PUBLIC__/Images/Editor/Ubb/images/undo.gif' ></a>");
+					}
+				</script>
+				<div id='emotid' style="display:none;">
+					<volist name="arrEmots" id="arrEmot" mod="26">
+						<eq name="mod" value="1">
+							<br/>
+						</eq>
+						<a href="javascript: insertemot('{$arrEmot['name']}');"><img src="__PUBLIC__/Images/Emot/{$arrEmot['thumb']}" alt='{$arrEmot['name']}' border='0'/></a>
+						</volist>
+				</div>
+				<br><lang package='ubb'>字体:</lang>
+				<select onChange="showfont(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=font>
+					<option value="#define#" selected><lang package='ubb'>请选择字体</lang></option>
+					<option value="<lang package='ubb'>宋体</lang>"><lang package='ubb'>宋体</lang></option>
+					<option value="<lang package='ubb'>楷体_GB2312</lang>"><lang package='ubb'>楷体_GB2312</lang></option>
+					<option value="<lang package='ubb'>新宋体</lang>"><lang package='ubb'>新宋体</lang></option>
+					<option value="<lang package='ubb'>黑体</lang>"><lang package='ubb'>黑体</lang></option>
+					<option value="<lang package='ubb'>隶书</lang>"><lang package='ubb'>隶书</lang></option>
+					<option value="<lang package='ubb'>仿宋_GB2312</lang>"><lang package='ubb'>仿宋_GB2312</lang></option>
+					<option value="<lang package='ubb'>Arial</lang>"><lang package='ubb'>Arial</lang></option>
+					<option value="<lang package='ubb'>Tahoma</lang>"><lang package='ubb'>Tahoma</lang></option>
+					<option value="<lang package='ubb'>Verdana</lang>"><lang package='ubb'>Verdana</lang></option>
+					<option value="<lang package='ubb'>Times New Roman</lang>"><lang package='ubb'>Times New Roman</lang></option>
+					<option value="<lang package='ubb'>Bookman Old Style</lang>"><lang package='ubb'>Bookman Old Style</lang></option>
+					<option value="<lang package='ubb'>Century Gothic</lang>"><lang package='ubb'>Century Gothic</lang></option>
+					<option value="<lang package='ubb'>Comic Sans MS</lang>"><lang package='ubb'>Comic Sans MS</lang></option>
+					<option value="<lang package='ubb'>Courier New</lang>"><lang package='ubb'>Courier New</lang></option>
+					<option value="<lang package='ubb'>Wingdings</lang>"><lang package='ubb'>Wingdings</lang></option>
+					<option value="#define#"><lang package='ubb'>自定义</lang></option>
+					</select>
+					&nbsp;&nbsp;<lang package='ubb'>字号：</lang>
+					<select onChange="showsize(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=size>
+					<option value="#define#" selected><lang package='ubb'>请选择字号</lang></option>
+					<option value=1>1</option>
+					<option value=2>2</option>
+					<option value=3>3</option>
+					<option value=4>4</option>
+					<option value=5>5</option>
+					<option value=6>6</option>
+					</select>
+					&nbsp;&nbsp;<lang package='ubb'>颜色：</lang> 
+				<select onChange="showcolor(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=color>
+					<option value="#define#" selected><lang package='ubb'>请选择颜色</lang></option>
+					<option value="#87CEEB" style="color:#87CEEB"><lang package='ubb'>天蓝</lang></option>
+					<option value="#4169E1" style="color:#4169E1"><lang package='ubb'>品蓝</lang></option>
+					<option value="#0000FF" style="color:#0000FF"><lang package='ubb'>蓝</lang></option>
+					<option value="#00008B" style="color:#00008B"><lang package='ubb'>暗蓝</lang></option>
+					<option value="#FFA500" style="color:#FFA500"><lang package='ubb'>橙</lang></option>
+					<option value="#FF4500" style="color:#FF4500"><lang package='ubb'>桔红</lang></option>
+					<option value="#DC143C" style="color:#DC143C"><lang package='ubb'>深红</lang></option>
+					<option value="#FF0000" style="color:#FF0000"><lang package='ubb'>红</lang></option>
+					<option value="#B22222" style="color:#B22222"><lang package='ubb'>棕</lang></option>
+					<option value="#8B0000" style="color:#8B0000"><lang package='ubb'>暗红</lang></option>
+					<option value="#008000" style="color:#008000"><lang package='ubb'>绿色</lang></option>
+					<option value="#32CD32" style="color:#32CD32"><lang package='ubb'>灰绿</lang></option>
+					<option value="#2E8B57" style="color:#2E8B57"><lang package='ubb'>海绿</lang></option>
+					<option value="#FF1493" style="color:#FF1493"><lang package='ubb'>粉</lang></option>
+					<option value="#FF6347" style="color:#FF6347"><lang package='ubb'>西红柿色</lang></option>
+					<option value="#FF7F50" style="color:#FF7F50"><lang package='ubb'>珊瑚色</lang></option>
+					<option value="#800080" style="color:#800080"><lang package='ubb'>紫色</lang></option>
+					<option value="#4B0082" style="color:#4B0082"><lang package='ubb'>靛青</lang></option>
+					<option value="#DEB887" style="color:#DEB887"><lang package='ubb'>棕木</lang></option>
+					<option value="#F4A460" style="color:#F4A460"><lang package='ubb'>沙褐</lang></option>
+					<option value="#A0522D" style="color:#A0522D"><lang package='ubb'>土黄</lang></option>
+					<option value="#D2691E" style="color:#D2691E"><lang package='ubb'>巧克力色</lang></option>
+					<option value="#008080" style="color:#008080"><lang package='ubb'>土绿</lang></option>
+					<option value="#C0C0C0" style="color:#C0C0C0"><lang package='ubb'>银</lang></option>
+					<option value="#define#"><lang package='ubb'>自定义</lang></option>
+				</select>
+				</div><input type="hidden" id='blog_content_old' value=''>
+					<textarea name='blog_content' id='blog_content' rows='20' cols='100' class='field' ><if condition="isset( $oValue )">{$oValue:blog_content|stripslashes}</if></textarea>
+				{/if}
+				{if $sEditor=='kindeditor'}<textarea id="blog_content" name="blog_content" style="width:750px;height:400px;visibility:hidden;"><if condition="isset( $oValue )">{$oValue:blog_content|stripslashes}</if></textarea>
+				{/if}
+				{if $sEditor=='quicktags'}
+				{script}edToolbar();{/script}
+				<textarea name='blog_content' id='blog_content' rows='20' cols='100' class='field' ></textarea>
+				{script}var edCanvas = document.getElementById('blog_content');{/script}
+				<br>
+				<b><lang package='blog'>如何只在首页显示一部分内容？</lang></b>
+				<br><lang package='blog'>要在首页只显示一部分内容，并在点击“阅读全文”后才能看到完整内容，请在需要截断日志的地方插入<B>[separator]</B>标记。或者，您可以点击QuickTags编辑栏上的<B>SEPAR</B>按钮。</lang><br><b><lang package='blog'>如何给文章分页？</lang></b><br><lang package='blog'>请在需要分页的地方插入<B>[newpage]</B>标记。或者，您可以点击QuickTags编辑栏上的<B>PAGE</B>按钮。一篇文章可包含多个分页符。</lang>
+				<br>
+				{/if}
+				{if $sEditor=='no' || empty( $sEditor )}
+				<input type="hidden" id='blog_content_old' value=''>
+				<textarea name='blog_content' id='blog_content' rows='20' cols='100' class='field' >{$oValue:blog_content|stripslashes}</textarea>
+				<br><p><lang package='blog'>不喜欢这个空白的编辑器？请点击上方的“显示选项”更换编辑器吧！</lang></p><br>
+				{/if}</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_content"><lang package='blog'>自动保存：</lang></label></th>
+			<td><script type="text/javascript" src="__PUBLIC__/Images/Js/autosave.js"></script>
+		<span id="timemsg"><lang package='blog'>禁止自动保存</lang></span>
+		<a href="###" onclick="stopAutosaver();"><lang package='blog'>暂停</lang></a> - <a href="###" onclick="restartAutosaver();"><lang package='blog'>开始</lang></a> - <a href="###" onclick="stopForever();"><lang package='blog'>禁止</lang></a> - <a href="###" onclick="handSave();"><lang package='blog'>立即保存</lang></a>
+		<span id="timemsg2"></span></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="dateline"><lang package='blog'>时间:</lang></label></th>
+			<td>
+			{if isset($oValue)&&empty($oValue->blog_dateline )}{~$oValue->blog_dateline=CURRENT_TIMESTAMP}{/if}
+				<lang package='blog'>更改发布时间</lang> <input class="field" name="newyear" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='Y',**}<else/>{$nCurrentTimestamp|date='Y',**}</if>" maxlength="4" style="width:30px"><lang>年</lang>
+			<input class="field" name="newmonth" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='m',**}<else/>{$nCurrentTimestamp|date='m',**}</if>" maxlength="2" style="width:20px"> <lang>月</lang>
+			<input class="field" name="newday" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='d',**}<else/>{$nCurrentTimestamp|date='d',**}</if>" maxlength="2" style="width:20px"> <lang>日</lang>
+			<input class="field" name="newhour" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='H',**}<else/>{$nCurrentTimestamp|date='H',**}</if>" maxlength="2" style="width:20px"> <lang>时</lang>
+			<input class="field" name="newmin" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='i',**}<else/>{$nCurrentTimestamp|date='i',**}</if>" maxlength="2" style="width:20px"> <lang>分</lang>
+			<input class="field" name="newsec" type="text" value="<if condition="isset( $oValue )">{$oValue:blog_dateline|date='s',**}<else/>{$nCurrentTimestamp|date='s',**}</if>" maxlength="2" style="width:20px"> <lang>秒</lang>
+			<input class="button button-green" type="button" onclick="dyhbAlert('<lang package='blog'>有效的时间戳典型范围是从格林威治时间 1901 年 12 月 13 日 星期五 20:45:54 到 2038年 1 月 19 日 星期二 03:14:07</lang>\n\n<lang package='blog'>该日期根据 32 位有符号整数的最小值和最大值而来</lang>\n\n<lang package='blog'>取值说明: 日取 01 到 30 之间, 时取 0 到 24 之间, 分和秒取 0 到 60 之间!</lang>\n\n<lang package='blog'>系统会自动检查时间有效性,如果不在有效范围内,将不会执行更改时间操作</lang>\n\n<lang package='blog'>注意:如果系统是按照时间而不是提交次序排列文章,修改时间可以改变文章的顺序.</lang>');" value="<lang package='blog'>时间说明</lang>">
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_thumb"><lang package='blog'>日志缩略图：</lang></label></th>
+			<td><input type="text" name="blog_thumb" id="blog_thumb" class="field" size="80" value="<if condition="isset( $oValue )">{$oValue:blog_thumb}</if>"/>
+			<div class="description"><lang package='blog'>日志缩略图为一篇日志的图像效果，这非常酷。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_islock"><lang package='blog'>常用控制：</lang></label></th>
+			<td><p><lang package='blog'>是否锁定？</lang><lang>是</lang><input type="radio"value="1" <if condition="isset( $oValue ) && $oValue:blog_islock==1">checked="checked"</if> name="blog_islock" id="blog_islock"/>
+				<lang>否</lang>&nbsp;&nbsp;<lang package='blog'>是否显示？</lang><lang>是</lang><input type="radio" <if condition="isset( $oValue ) && $oValue:blog_isshow==1">checked="checked"</if> value="1"name="blog_isshow"id="blog_isshow"/>
+				<lang>否</lang>&nbsp;&nbsp;<lang package='blog'>是否新窗口？</lang><lang>是</lang><input type="radio" <if condition="isset( $oValue ) && $oValue:blog_isblank==1">checked="checked"</if> value="1"name="blog_isblank"id="blog_isblank"/>
+				<lang>否</lang><input type="radio"value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:blog_isblank==0 )">checked="checked"</if> name="blog_isblank"id="blog_isblank"/></p>
+			<div class="description"><lang package='blog'>控制页面的相关属性，请仔细阅读。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_keyword"><lang package='blog'>日志关键字（SEO）：</lang></label></th>
+			<td><input type="text" name="blog_keyword" id="blog_keyword" class="field" size="80" value="<if condition="isset( $oValue )">{$oValue:blog_keyword}</if>"/>
+			<div class="description"><lang package='blog'>日志在搜索引擎的关键字，利于收录！</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_description"><lang package='blog'>日志描述（SEO）：</lang></label></th>
+			<td><input type="text" name="blog_description" id="blog_description" class="field" size="80" value="<if condition="isset( $oValue )">{$oValue:blog_description}</if>"/>
+			<div class="description"><lang package='blog'>日志在搜索引擎的描述，吸引用户点击！</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="blog_gotourl"><lang package='blog'>日志转向URL：</lang></label></th>
+			<td><input type="text" name="blog_gotourl" id="blog_gotourl" class="field" size="80" value="<if condition="isset( $oValue )">{$oValue:blog_gotourl}</if>"/>
+			<div class="description"><lang package='blog'>日志转向URL，填写了将直接打开一个外部网址！</lang></div>
+			</td>
+			</tr>
+		</table>
+
+		<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="category_id" id="category_id" value="-1">
+			<input type="hidden" name="blog_ispage" id="blog_ispage" value="1">
+			<input type="hidden" name="draft" id="draft" value="0">
+			<input type="hidden" name="module" id="module" value="__MODULE_NAME__" >
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="save_draft" type="button" onclick="if(checkform()===false){return false;}<if condition="!empty( $nId )" >update(1)<else/>add(1)</if>" class="button button-green" value="  <if condition="!empty( $nId )" ><lang package='blog'>更新草稿</lang><else/><lang package='blog'>保存草稿</lang></if>  " />
+			<input id="save_public" type="button" onclick="if(checkform()===false){return false;}<if condition="!empty( $nId )" >update(0)<else/>add(0)</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+		</p>
+		</form>
+	</div>
+	</div>
+	
+
+<include file="public+footer">

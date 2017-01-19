@@ -1,0 +1,40 @@
+{$before_widget}
+	 {$before_header}
+			<p><strong>{$image_text}</strong></p>
+			<div class="{$link_header_url_image}" >
+			{$img_link}
+			</div>
+			<p><strong>{$text_text}</strong></p>
+			 <div class="{$link_header_url_text}" >
+			 {$text_link}
+			 </div>
+		{$after_header}
+
+		{if !empty($img)}
+		{$before_link_logo_box}
+			<h4>{$image_text}</h4>
+			<ul class="{$ul_image_class}">
+				<foreach for=img value=arrImgLink >
+				<li><a href="{$arrImgLink['link_url']}" title="{$arrImgLink['link_name']}{if !empty($arrImgLink['link_description'])} | {$arrImgLink['link_description']}{/if}" alt="{$arrImgLink['link_name']}{if !empty($arrImgLink['link_description'])} | {$arrImgLink['link_description']}{/if}" target="_blank">
+						<img src="{$arrImgLink['link_logo']}">
+					</a>
+				</li>
+				</foreach>
+			</ul>
+		{$after_link_logo_box}
+		{$clear}
+		{/if}
+
+		{if !empty($text)}
+		{$before_link_text_box}
+			<h4>{$text_text}</h4>
+			<ul class="{$ul_text_class}">
+			 <foreach for=text value=arrTextLink >
+			 <li><a href="{$arrTextLink['link_url']}" title="{$arrTextLink['link_name']}{if !empty($arrTextLink['link_description'])} | {$arrTextLink['link_description']}{/if}"	target="_blank">{$arrTextLink['link_name']}</a><br/>
+			 </li>
+			 </foreach>
+			</ul>
+		{$after_link_text_box}
+	 {$clear}
+	 {/if}
+{$after_widget}

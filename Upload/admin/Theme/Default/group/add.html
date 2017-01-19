@@ -1,0 +1,81 @@
+<include file="public+header">
+
+{script}
+<!--
+function add(){
+	if( $('#id').val()!='' && $('#id').val()!==null	){
+		update();
+		return;
+	}
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('添加角色分组中') );
+	Dyhb.AjaxSubmit('groupAdd','{:G::U('group/insert')}','',complete);
+}
+function update(){
+	$("#submit_button").attr("disabled", "disabled");
+	$("#submit_button").val( D.L('更新角色分组中') );
+	Dyhb.AjaxSubmit('groupAdd','{:G::U('group/update')}','',function(){ $("#submit_button").attr("disabled", false);$("#submit_button").val( D.L('更新角色分组') ); });
+}
+function complete(data,status){
+	$("#submit_button").attr("disabled", false);
+	$("#submit_button").val( D.L('添加角色分组') );
+	if(status==1){
+		$('#id').val(data.group_id);
+	}
+}
+-->
+{/script}
+
+	
+	<div class="title"><if condition="empty( $nId )" ><lang package='group'>添加角色分组</lang><else/><lang package='group'>编辑角色分组</lang></if> ( <a href="{:G::U('group/index')}"><lang package='group'>返回角色分组列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+		<form action="<if condition="empty( $nId )" >{:G::U('group/insert')}<else/>{:G::U('group/update')}</if>" method="post" id="groupAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="group_sort"><lang package='group'>序号</lang>：</label></th>
+			<td><input type="text" name="group_sort" id="group_sort" class="field" size="10" value="<if condition="isset( $oValue ) && !empty( $oValue:group_sort )">{$oValue:group_sort}<else/>0</if>"/>
+			<div class="description"><lang package='group'>节点组序号，用于节点组排序</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="group_name"><lang package='group'>组名</lang>：</label></th>
+			<td><input type="text" name="group_name" id="group_name" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:group_name}</if>"/>
+			<div class="description"><lang package='group'>节点组的名字</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="group_title"><lang package='group'>显示名</lang>：</label></th>
+			<td><input type="text" name="group_title" id="group_title" class="field" size="40" value="<if condition="isset( $oValue )">{$oValue:group_title}</if>"/>
+			<div class="description"><lang package='group'>节点组的别名</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="group_status"><lang package='group'>状态</lang>：</label></th>
+			<td><SELECT class="field"	name="group_status">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:group_status==1">selected</if>><lang>启用</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:group_status==0 ) ">selected</if>><lang>禁用</lang></option>
+				</SELECT>
+				<div class="description"><lang package='group'>节点组的状态，启用后才能够使用</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="group_show"><lang package='group'>显示</lang>：</label></th>
+			<td><SELECT class="field"	name="group_show">
+				<option value="1" <if condition="isset( $oValue ) && $oValue:group_show==1">selected</if>><lang>显示</lang></option>
+				<option value="0" <if condition="!isset( $oValue ) || ( isset( $oValue ) && $oValue:group_show==0 ) ">selected</if>><lang>关闭</lang></option>
+				</SELECT>
+				<div class="description"><lang package='group'>节点组是否显示</lang></div>
+			</td>
+			</tr>
+
+			</table>
+			<p class="center"><input type="hidden" name="ajax" value="1">
+			<input type="hidden" name="id" id="id" value="<if condition="!empty( $nId )" >{$nId}</if>"/>
+			<input id="submit_button" type="button" onclick="<if condition="!empty( $nId )" >update()<else/>add()</if>" class="button button-blue" value="  <if condition="!empty( $nId )" ><lang>更  新</lang><else/><lang>发  布</lang></if>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

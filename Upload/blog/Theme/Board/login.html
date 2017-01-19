@@ -1,0 +1,67 @@
+<include file="header">
+
+{script}
+Dyhb.Ajax.Dyhb.UpdateTips='logining...';
+function login_handle( data,status ){
+	if (status==1){
+		window.location = '__APP__';
+	}
+}
+function keydown(e){
+	var e = e || event;
+	if (e.keyCode==13){
+		Dyhb.AjaxSubmit('loginform','{:G::U( 'login/check' )}','returnmessage',login_handle);
+	}
+}
+{/script}
+
+<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> </div>
+
+<div id="wrap" class="wrap s_clear">
+<div class="main">
+<div class="content nofloat">
+
+<div class="fcontent" id="main_messaqge">
+	<div id="layer_login">
+		<h3 class="float_ctrl">
+			<em id="returnmessage"><lang package='boardTheme'>用户登录</lang></em>
+		</h3>
+		{:Global_Extend::templateHooks('index_top')}
+		<div class="postbox">
+			<form method="post" name="login" id="loginform" class="s_clear" action="{:G::U( 'login/check' )}">
+				<input type="hidden" value="1" name="ajax" />
+				<div class="loginform nolabelform">
+					<div class="selectinput" id="account">
+						<input type="text" name="user_name" id="user_name" autocomplete="off" size="36" tabindex="1" value="" />
+					</div>
+					<p class="selectinput loginpsw">
+						<label for="user_password"><lang package='boardTheme'>登录密码</lang>:</label>
+						<input type="password" name="user_password" id="user_password" size="36" tabindex="1" />
+					</p>
+					{if Global_Extend+getOption( 'loginseccode' )}
+					<div id="seccodelayer">
+					<input onfocus="updateSeccode();this.onfocus = null;" type="text" onKeyDown="keydown(event)"	onBlur="checkSeccode( 'result' );" class="field" name="seccode" size="10" id="seccode"/>
+					<span id="seccodeMessage">&nbsp;</span><br/>
+					<div id="seccodeImage"></div>
+					</div>
+					{/if}
+				</div>
+				<div class="logininfo multinfo">
+					<h4><lang package='boardTheme'>没有帐号？</lang><a href="{:G::U( 'register/index' )}"><lang package='boardTheme'>注册</lang></a></h4>
+					<p><a href="{:G::U( 'login/clear' )}"><lang package='boardTheme'>清除痕迹</lang></a></p>
+				</div>
+				<p class="fsubmit s_clear">
+					<button class="submit" type="button" name="loginsubmit" onClick="Dyhb.AjaxSubmit('loginform','{:G::U( 'login/check' )}','returnmessage',login_handle);" value="true" tabindex="1"><lang package='boardTheme'>登录</lang></button>
+					</label>
+				</p>
+			</form>
+		</div>
+		{:Global_Extend::templateHooks('index_bottom')}
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+<include file="footer">

@@ -1,0 +1,45 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='blog'>日志整理</lang> ( <a href="{:G::U('blog/index')}"><lang package='blog'>返回日志列表</lang></a> )</div>
+
+	
+	<div id="content" class="content">
+
+		<form action="{:G::U('blog/repaire_blog')}" method="post">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="type"><lang package='blog'>日志整理类型</lang>：</label></th>
+			<td><select name="type" id="type" >
+				<option value="comment" selected><lang package='blog'>评论数量</lang></option>
+				<option value="trackback"><lang package='blog'>引用数量</lang></option>
+				<option value="upload"><lang package='blog'>附件数量</lang></option>
+				</select>
+			<div class="description"><lang package='blog'>你可以选择评论数量、引用数量、附件数量等等。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="start"><lang package='blog'>开始 ID</lang>：</label></th>
+			<td><input type="text" name="start" id="start" class="field" size="10" value=""/>
+			<div class="description"><lang package='blog'>待处理的日志开始ID ，如果不指定为所有日志，则为0开始。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="end"><lang package='blog'>结束 ID</lang>：</label></th>
+			<td><input type="text" name="end" id="end" class="field" size="10" value=""/>
+			<div class="description"><lang package='blog'>日志结束ID，如果不指定则为所有最后一个日志。</lang></div></td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pagesize"><lang package='blog'>日志循环数量</lang>：</label></th>
+			<td><input type="text" name="pagesize" id="pagesize" class="field" size="10" value="50"/>
+			<div class="description"><lang package='blog'>使用循环处理，能够防止处理日志的时候卡死。</lang></div></td>
+			</tr>
+			</table>
+			<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='blog'>循环处理日志</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+
+	</div>
+	
+
+<include file="public+footer">

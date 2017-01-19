@@ -1,0 +1,19 @@
+<include file="header">
+
+<div class="title">Select Language | DYHB.BLOG_X-{$sVersion} - {$sVersionTime}</div>
+<div id="main">
+	<div class="item-title">We provide you with two admin templates!</div>
+	<p style="margin:5px 20px 20px 0;"><img src="__TMPL__/Public/Images/preview.jpg" width="600" height="200" /></p>
+    <div class="item-title">Please select your language!</div>
+	<p>{~$sLangCookieName=APP_NAME.'_language'}
+			<select name="lang-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
+				<option value="">-- Please select your language --</option>
+				<foreach for=arrInstallLangs value=sInstallLangs>
+				<option value="?l={$sInstallLangs|strtolower}" {if strtolower(G+cookie($sLangCookieName))==strtolower($sInstallLangs)}selected{/if}>{$sInstallLangs}</option>
+				</foreach>
+			</select>
+	</p>
+	<div align='center'><input type='button' value='Next' class='inbut' onclick="window.location.href='{:G::U( 'index/step2' )}'"/></div>
+</div>
+
+<include file="footer">

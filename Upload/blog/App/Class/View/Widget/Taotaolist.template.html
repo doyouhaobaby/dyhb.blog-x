@@ -1,0 +1,28 @@
+{$before_widget}
+	 <ul class="{$ul_class}" >
+	 <foreach for=data>
+			<li class="li">
+				{$before_img}
+					<img src="{if $value['user_id']>0}{:Blog_Extend::getGravatar($value->user_id,'small')}{d*else}{$no_img}{/if}" width="{$avatar_size}px" height="{$avatar_size}px" />
+				{$after_img}
+				{$before_taotao_content}
+					<a href="{:G::U('taotao/index?uid='.$value->user_id)}" >
+						{if !empty($value:user:user_name)}
+						{if !empty($value:user:user_nikename)}{$value:user:user_nikename}{d*else}{$value:user:user_name}{/if}
+						{d*else}<lang>跌名</lang>{/if}
+					</a><br />
+					{$value:taotao_content|stripslashes}{if $value['taotao_ismobile']==1}<br/>
+			<span class="taotao-mobile"><img src="{$mobile_img}" title="<lang package='app'>手机心情</lang>" /><lang package='app'>此信息来自博客手机版！</lang><lang package='app'>手机访问,随时随地自由交流！</lang><br/>
+			{:Global_Extend::getOption('blog_url')}/wap.php{/if}
+				{$after_taotao_content}
+				{$clear}
+				{$before_taotao_bottom}
+					<p class="{$taotao_reply}"><a href="{:PageType_Extend::getTaotaoUrl($value)}#comments"><lang>回复</lang>(<span id="taotao-reply-{$value->taotao_id}">{$value:taotao_commentnum}</span>)</a></p>
+					<p class="{$taotao_time}">{$value:create_dateline|Date+smartDate}</p>
+				{$after_taotao_bottom}
+			</li>
+		</foreach>
+		</ul>
+{$after_widget}
+
+{$clear}

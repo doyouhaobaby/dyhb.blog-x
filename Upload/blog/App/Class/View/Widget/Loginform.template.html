@@ -1,0 +1,67 @@
+{script}
+//<![CDATA[
+Dyhb.Ajax.Dyhb.UpdateTips='logining...';
+function login_handle(data,status){
+	if(status==1){
+		window.location='__APP__';
+	}
+}
+
+function keydown(e){
+	var e=e || event;
+	if(e.keyCode==13){
+		Dyhb.AjaxSubmit('loginform','{:G::U('login/check')}','returnmessage',login_handle);
+	}
+}
+//]]>
+{/script}
+
+{$before}
+	<form method="post" name="login" id="loginform" class="s_clear" action="{:G::U('login/check')}">
+	 <input type="hidden" value="1" name="ajax" />
+	{$before_table}
+			<table>
+			<tbody>
+				 <tr>
+					 <td class="label">&nbsp;</td>
+							 <td class="field"><em id="returnmessage"><lang>用户登录</lang></em></td>
+					 </tr>
+					 <tr>
+							 <td class="label"><label id="label-user-name" for="user-name">*<lang>用户名/E-mail</lang></label></td>
+							 <td class="field"><input type="text" name="user_name" id="user_name" autocomplete="off" size="36" tabindex="1" value="" /></td>
+					 </tr>
+				 <tr>
+							 <td class="label"><label id="label-user-nikename" for="user-nikename"><lang>密码</lang></label></td>
+							 <td class="field"><input type="password" name="user_password" id="user_password" size="36" tabindex="1" /></td>
+					 </tr>
+				 {if Global_Extend+getOption('loginseccode')}
+					 <tr>
+							<td class="label"><label id="label-user-password" for="user-password">*<lang>验证码</lang></label></td>
+							<td class="field">
+							<div id="seccodelayer">
+								<input onfocus="updateSeccode();this.onfocus=null;" type="text" onKeyDown="keydown(event)"	onBlur="checkSeccode();" class="field" name="seccode" size="10" id="seccode"/>&nbsp;<div id="seccodeImage"></div>		
+								<input type="hidden" id="seccode_type" name="seccode_type" value="login" />
+							</div>
+						</td>
+					 </tr>
+				 {/if}
+				 <tr>
+							<td class="label"><label id="label-login-submit" for="login-submit"><lang>登录</lang></label></td>
+							<td class="field" colspan="2">
+							<input id="login-submit" name="login_submit" type="button" onClick="Dyhb.AjaxSubmit('loginform','{:G::U('login/check')}','returnmessage',login_handle);" value="<lang>登录</lang>" />
+							</td>
+						</tr>
+					<tr>
+							 <td class="label">&nbsp;</td>
+							 <td class="field">
+							<div class="logininfo multinfo">
+								<h4><lang>没有帐号？</lang><a href="{:G::U('register/index')}"><lang>注册</lang></a></h4>
+								<p><a href="{:G::U('login/clear')}"><lang>清除痕迹</lang></a></p>
+							</div>
+					 </td>
+					 </tr>
+			 </tbody>
+			 </table>
+		{$after_table}
+	</form>
+{$after}

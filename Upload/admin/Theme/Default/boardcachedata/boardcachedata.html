@@ -1,0 +1,31 @@
+<include file="public+header">
+
+	
+	<div class="title"><lang package='boardcachedata'>论坛缓存统计数据</lang></div>
+
+	
+	<div id="content" class="content">
+
+	<form action="{:G::U( 'boardcachedata/rebuild_count' )}" method="post" id="badwordManyAdd" name="badwordManyAdd">
+	<div id="tab_addmanybadword">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for=""><lang package='boardcachedata'>缓存说明</lang>:</label></th>
+			<td><div class="description"><lang package='boardcachedata'>这里的缓存为论坛头部的统计数据，包括今日，昨日，主题，帖子等等。</lang>
+			<lang package='boardcachedata'>我们这里会对主题，帖子和用户数量进行重新统计一边。</lang>
+			</div>
+			</td>
+			</tr>
+		</table>
+		<p class="center">
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang package='boardcachedata'>开始更新统计</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+	</div>
+	</form>
+
+
+	</div>
+	
+
+<include file="public+footer">

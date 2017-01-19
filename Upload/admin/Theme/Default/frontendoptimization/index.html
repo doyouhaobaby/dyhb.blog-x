@@ -1,0 +1,63 @@
+<include file="public+header">
+
+{script}
+$(document).ready(function() {
+	$("#configs > ul").tabs();
+});
+{/script}
+
+	
+	<div class="title"><lang package='frontendoptimization'>博客系统前端缓存</lang></div>
+
+	
+	<div id="content" class="content">
+
+	<div id="configs">
+		<ul>
+		<li><a href="#tab_javascript"><span><lang package='frontendoptimization'>Javascript 优化</lang></span></a></li>
+		<li><a href="#tab_css"><span><lang package='frontendoptimization'>Css 优化</lang></span></a></li>
+		</ul>
+	</div>
+
+	<form action="{:G::U('frontendoptimization/update_javascript')}" method="post">
+	<div id="tab_javascript">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="javascript_dir"><lang package='frontendoptimization'>Javascript 脚本目录</lang>:</label></th>
+			<td><input class="radio" name="configs[javascript_dir]" value="default" {if $arrOptions['javascript_dir']=='default'}checked="checked"{/if} type="radio"> <lang package='frontendoptimization'>默认目录 “Public/Images/Js”</lang><br/>
+				<input class="radio" name="configs[javascript_dir]" value="cache" {if $arrOptions['javascript_dir']=='cache'}checked="checked"{/if} type="radio"> <lang package='frontendoptimization'>缓存目录</lang><br/>
+				<div class="description"><lang package='frontendoptimization'>设置博客 Javascript 脚本的目录。当脚本目录为缓存目录时，系统会将默认目录中的 *.js 文件进行压缩然后保存到缓存目录以提高读取速度</lang></div></td>
+		</tr>
+	</table>
+
+	<p class="center">	
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+	</p>
+	</div>
+
+	</form>
+
+	<form action="{:G::U('frontendoptimization/update_css')}" method="post">
+	<div id="tab_css">
+		<table class="form-table full">
+		<tr>
+			<th valign="top"><label for="javascript_dir"><lang package='frontendoptimization'>CSS 优化说明</lang>:</label></th>
+			<td><div class="description"><lang package='frontendoptimization'>为了提高系统运行速度，我们将前端的css代码进行零空格压缩，以便于提高页面渲染速度。</lang><br/>
+			<lang package='frontendoptimization'>如果你修改了模板数据没有及时更新，点击这里可以更新css缓存。</lang></div></td>
+		</tr>
+		</table>
+		
+
+		<p class="center">	
+			<input id="submit_button" type="submit" class="button button-blue" value="  <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+
+	</form>
+	</div>
+
+	</div>
+	
+
+<include file="public+footer">

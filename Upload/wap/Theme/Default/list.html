@@ -1,0 +1,21 @@
+<include file="header">
+
+	<div id="m">
+		
+		{if defined('IS_CATEGORY')}<div class="list_title"><lang>分类归档</lang>：{if $oCategory==-1}<lang>未分类</lang>{d*else}{$oCategory['category_name']}{/if}</div>{/if}
+		{if defined('IS_TAG')}<div class="list_title"><lang>标签归档</lang>：{$oTag['tag_name']}</div>{/if}
+		{if defined('IS_USER')}<div class="list_title"><lang>用户归档</lang>：{if $oUser==-1}<lang>跌名</lang>{d*else}{$oUser['user_name']}{/if}</div>{/if}
+		
+		<foreach for=arrBlogLists>
+		<div class="title">
+			{:$TheController->the_top($value) }{:$TheController->the_mobile($value) }[{:$TheController->the_category($value->category) }] <a href="{:G::U('blog/show?id='.$value['blog_id'])}">{$value['blog_title']|String+subString=0,$nBlogTitleCutnum}</a>
+		</div>
+		<div class="info">{$value['blog_dateline']|date='Y-m-d H:i:s',**}</div>
+		<div class="info2"><lang>阅读</lang>:{$value['blog_viewnum']} <lang>评论</lang>:{$value['blog_commentnum']}</div>
+		</foreach>
+		<div id="page">
+		{$sPageNavbar}
+		</div>
+	</div>
+
+<include file="footer">

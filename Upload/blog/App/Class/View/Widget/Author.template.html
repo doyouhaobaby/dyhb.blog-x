@@ -1,0 +1,74 @@
+{$before_widget}
+
+{script}
+//<![CDATA[
+function addFriend(userid){
+	Dyhb.AjaxSend('{:G::U('friend/add')}','ajax=1&uid='+userid,'',complete);
+}
+function complete(data,status){
+	if(status==1){
+
+	}
+}
+//]]>
+{/script}
+
+	<table class="formtable profile-header" style="table-layout: fixed;" cellpadding="0">
+	<tbody>
+		<tr>
+			 <td width="100px;"><div class="profile-avatar"><img src="{:Blog_Extend::getGravatar($data->user_id,'middle')}"></div></th>
+			 <td>
+				 <ul id="profile-act">
+						<li class="pm"><a href="{:G::U('pm/pm_new?uid='.$data['user_id'])}" id="sendpm" prompt="sendpm" title="<lang>发送短消息</lang>" ><lang>发短消息</lang></a></li>
+						<li class="buddy"><a href="###" id="addbuddy" prompt="addbuddy" onclick="addFriend('{$data:user_id}');return false;" title="<lang>加为好友</lang>" ><lang>加为好友</lang></a></li>
+						<li class="searchpost"><a href="{:PageType_Extend::getUserUrl($data)}"><lang>用户日志</lang></a></li>
+						<li class="space"><a href="{:PageType_Extend::getAuthorUrl($data)}"><lang>个人空间</lang></a></li>
+				</ul>
+			</td>
+			 <td><h1>{$data:user_name}</h1>(UID: {$data:user_id})</td>
+		</tr>
+	</tbody>
+	</table>
+	<div id="baseprofile">
+		<table class="formtable" style="table-layout: fixed;" cellpadding="0">
+			<tbody>
+				<tr>
+					<th width="70"><lang>昵称</lang>:</th>
+					<td>{$sUserNikename}</td>
+					<th width="70"><lang>性别</lang>:</th>
+					<td>{$sUserSex}</td>
+				</tr>
+				<tr>
+					<th width="70"><lang>年龄</lang>:</th>
+					<td>{$data:user_age}</td>
+					<th width="70"><lang>是否结婚</lang>:</th>
+					<td>{$sUserMarry}</td>
+				</tr>
+				<tr>
+					<th width="70"><lang>爱好</lang>:</th>
+					<td>{$data:user_love}</td>
+					<th width="70"><lang>职业</lang>:</th>
+					<td>{$data:user_work}</td>
+				</tr>
+				<tr>
+					<th width="70">QQ:</th>
+					<td>{$data:user_qq}</td>
+					<th width="70"><lang>主页</lang>:</th>
+					<td>{if $data:user_homepage}<a href="{$data:user_homepage}">{$data:user_homepage}</a>{/if}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<hr class="dashline">
+	<h3 class="blocktitle lightlink"><lang>用户足迹</lang></h3>
+	<div class="s_clear">
+		<ul class="commonlist right" style="width: 50%;">
+			<li><lang>注册日期</lang>: {$data:create_dateline|date='Y-m-d H:i:s',**}</li>
+			<li><lang>最后登录</lang>: {$data:user_lastlogintime|date='Y-m-d H:i:s',**} </li>
+		</ul>
+		<ul class="commonlist">
+			<li><lang>日志</lang>: {$nUserPost} <lang>篇</lang>(<lang>占全部日志的</lang> {$nPercent}%)</li>
+			<li><lang>平均每日发文章</lang>: {$nPostPerDay} <lang>篇</lang></li>
+		</ul>
+	</div>
+{$after_widget}

@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>{$sBlogName}</title>
+<style type="text/css">
+body		{ background-color: #FFF; color: #000; font-family: Verdana, Tahoma; font-size: 12px; margin: 20px; padding: 0px; }
+#largetext	{ font-size: 18px; font-weight: bold; margin-bottom: 10px; padding-top: 3px; width: auto; }
+#userinfo	{ font-size: 12px; color: #888; text-align: right; width: auto; }
+#copyright	{ margin-top: 30px; font-size: 11px; text-align: center; }
+.wrapper	{ }
+.pm		{ color: #000; padding: 10px; margin-top:10px; border: 1px solid #888; }
+.content	{ color: #888; }
+.msgborder	{ margin: 2em; margin-top: 3px;	padding: 10px; border: 1px solid #888; word-break: break-all; }
+.quote 		{ margin: 10px 0; padding: 10px 10px 10px 5px; border: 1px solid #CCC; }
+.blockcode 	{ margin: 10px 0; padding: 10px 10px 10px 25px; border: 1px solid #CCC; }
+
+</style>
+</head>
+<body>
+<div id="wrapper">
+	<div id="largetext"><lang package='defaultTheme'>导出</lang></div>
+	<div id="userinfo"><a href="{$sBlogUrl}/index.php?c=author&a={$nUserId}" target="_blank">{$oOnePm['pm_msgfrom']} @ {$sCurrentTimestamp}</a></div>
+	<br />
+	<foreach for=arrPms value=oPm>
+	<div class="pm">
+	<strong>{$oPm['pm_msgfrom']}</strong> {$oPm['create_dateline']|date='Y-m-d H:i:s',**}:<br />
+	<br />
+	<div class="content">{$oPm['pm_message']}</div>
+	</div>
+ </foreach>
+</div>
+<div id='copyright'>
+	Powered by <strong><a href="{:Global_Extend::getOption( 'blog_program_url' )}" target="_blank">{:Global_Extend::getOption( 'blog_program_name' )}</a> {$sVersion}</strong></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<script src="__PUBLIC__/Images/Jquery/Jquery.validate.min.js?v=1.5.5" type="text/javascript"></script>
+
+{script}
+//<![CDATA[
+var __member_update__="{:G::U('member/update')}";
+var __check_email__="{:G::U('member/check_email?uid='.$user['user_id'])}";
+//]]>
+{/script}
+<script src="{$member}" type="text/javascript"></script>
+
+{$before}
+	<form id="memberform" name="memberform" autocomplete="off" method="post" action="">
+	<input id="user-id" name="user_id" type="hidden" value="{$user['user_id']}" maxlength="8" />
+	{$before_table}	
+			<table>
+			<tbody>
+					 <tr>
+							 <td class="label"><label id="label-user-name" for="user-name">*<lang>用户名</lang></label></td>
+							 <td class="field">{$user['user_name']}</td>
+							 <td class="status"></td>
+					 </tr>
+				 <tr>
+							 <td class="label"><label id="label-user-nikename" for="user-nikename"><lang>昵称</lang></label></td>
+							 <td class="field"><input size="25" id="user-nikename" name="user_nikename" type="text" maxlength="50" value="{$user['user_nikename']}"/></td>
+							 <td class="status"></td>
+					 </tr>
+						<tr>
+							<td class="label"><label id="label-user-email" for="user-email">*<lang>Email 地址</lang></label></td>
+							<td class="field"><input size="25" id="user-email" name="user_email" type="text" value="{$user['user_email']}" maxlength="150" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-remark" for="user-remark"><lang>个人资料</lang></label></td>
+							<td class="field"><textarea rows="4" cols="30" name="user_remark" id="user-remark" maxlength="300" >{$user['user_remark']}</textarea>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-sex" for="user-sex"><lang>性别</lang></label></td>
+							<td class="field"><select name="user_sex" id="user-sex" >
+											<option value="0" {if $user['user_sex']==0}selected="selected"{/if}><lang>男</lang></option>
+											<option value="1" {if $user['user_sex']==1}selected="selected"{/if}><lang>女</lang></option>
+											<option value="2" {if $user['user_sex']==2}selected="selected"{/if}><lang>保密</lang></option>
+										</select>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-birthday" for="user-birthday"><lang>生日</lang></label></td>
+							<td class="field"><input size="25" id="user-birthday" name="user_birthday" type="text" value="{$user['user_birthday']}" maxlength="10" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-age" for="user-age"><lang>年龄</lang></label></td>
+							<td class="field"><input size="25" id="user-age" name="user_birthday" type="text" value="{$user['user_age']}" maxlength="3" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-love" for="user-love"><lang>爱好</lang></label></td>
+							<td class="field"><input size="25" id="user-love" name="user_love" type="text" value="{$user['user_love']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-work" for="user-love"><lang>职业</lang></label></td>
+							<td class="field"><input size="25" id="user-work" name="user_work" type="text" value="{$user['user_work']}" maxlength="50" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-marry" for="user-marry"><lang>婚姻状况</lang></label></td>
+							<td class="field"><select name="user_marry" id="user-marry" >
+											<option value="0" {if $user['user_marry']==0}selected="selected"{/if}><lang>未婚</lang></option>
+											<option value="1" {if $user['user_marry']==1}selected="selected"{/if}><lang>已婚</lang></option>
+											<option value="2" {if $user['user_marry']==2}selected="selected"{/if}><lang>保密</lang></option>
+										</select>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-hometown" for="user-hometown"><lang>家乡</lang></label></td>
+							<td class="field"><input size="25" id="user-hometown" name="user_hometown" type="text" value="{$user['user_hometown']}" maxlength="50" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-nowplace" for="user-nowplace"><lang>现居地</lang></label></td>
+							<td class="field"><input size="25" id="user-nowplace" name="user_nowplace" type="text" value="{$user['user_nowplace']}" maxlength="50" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+						<td cols="3">&nbsp;</td>
+					<tr/>
+					<tr>
+							<td class="label"><label id="label-user-school" for="user-school"><lang>当前学校</lang></label></td>
+							<td class="field"><select name="user_school" id="user-school" >
+											<option value="0" {if $user['user_school']==0}selected="selected"{/if}><lang>幼儿班</lang></option>
+											<option value="1" {if $user['user_school']==1}selected="selected"{/if}><lang>小学</lang></option>
+											<option value="2" {if $user['user_school']==2}selected="selected"{/if}><lang>初中</lang></option>
+											<option value="3" {if $user['user_school']==3}selected="selected"{/if}><lang>高中</lang></option>
+											<option value="4" {if $user['user_school']==4}selected="selected"{/if}><lang>大学</lang></option>
+											<option value="5" {if $user['user_school']==5}selected="selected"{/if}><lang>研究生</lang></option>
+											<option value="6" {if $user['user_school']==6}selected="selected"{/if}><lang>硕士</lang></option>
+											<option value="7" {if $user['user_school']==7}selected="selected"{/if}><lang>博士</lang></option>
+											<option value="8" {if $user['user_school']==8}selected="selected"{/if}><lang>工作</lang></option>
+										</select>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-primaryschool" for="user-primaryschool"><lang>小学</lang></label></td>
+							<td class="field"><input size="25" id="user-primaryschool" name="user_primaryschool" type="text" value="{$user['user_primaryschool']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-juniorhighschool" for="user-juniorhighschool"><lang>初中</lang></label></td>
+							<td class="field"><input size="25" id="user-juniorhighschool" name="user_juniorhighschool" type="text" value="{$user['user_juniorhighschool']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-highschool" for="user-highschool"><lang>高中</lang></label></td>
+							<td class="field"><input size="25" id="user-highschool" name="user_highschool" type="text" value="{$user['user_highschool']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-university" for="user-university"><lang>大学</lang></label></td>
+							<td class="field"><input size="25" id="user-university" name="user_university" type="text" value="{$user['user_university']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+						<td cols="3">&nbsp;</td>
+					<tr/>
+					<tr>
+							<td class="label"><label id="label-user-homepage" for="user-homepage"><lang>个人网站</lang></label></td>
+							<td class="field"><input size="25" id="user-homepage" name="user_homepage" type="text" value="{$user['user_homepage']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-qq" for="user-qq"><lang>QQ</lang></label></td>
+							<td class="field"><input size="25" id="user-qq" name="user_qq" type="text" value="{$user['user_qq']}" maxlength="20" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-alipay" for="user-alipay"><lang>支付宝</lang></label></td>
+							<td class="field"><input size="25" id="user-alipay" name="user_alipay" type="text" value="{$user['user_alipay']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-aliwangwang" for="user-aliwangwang"><lang>阿里旺旺</lang></label></td>
+							<td class="field"><input size="25" id="user-aliwangwang" name="user_aliwangwang" type="text" value="{$user['user_aliwangwang']}" maxlength="50" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-yahoo" for="user-yahoo"><lang>雅虎</lang></label></td>
+							<td class="field"><input size="25" id="user-yahoo" name="user_yahoo" type="text" value="{$user['user_yahoo']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-msn" for="user-msn"><lang>MSN</lang></label></td>
+							<td class="field"><input size="25" id="user-msn" name="user_msn" type="text" value="{$user['user_msn']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-google" for="user-google"><lang>谷歌</lang></label></td>
+							<td class="field"><input size="25" id="user-google" name="user_google" type="text" value="{$user['user_google']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-skype" for="user-skype"><lang>Skype</lang></label></td>
+							<td class="field"><input size="25" id="user-skype" name="user_skype" type="text" value="{$user['user_skype']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-renren" for="user-renren"><lang>人人网</lang></label></td>
+							<td class="field"><input size="25" id="user-renren" name="user_renren" type="text" value="{$user['user_renren']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-twritercom" for="user-doyouhaobaby"><lang>Twriter</lang></label></td>
+							<td class="field"><input size="25" id="user-twritercom" name="user_twritercom" type="text" value="{$user['user_twritercom']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-weibocom" for="user-weibocom"><lang>新浪微博</lang></label></td>
+							<td class="field"><input size="25" id="user-weibocom" name="user_weibocom" type="text" value="{$user['user_weibocom']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-tqqcom" for="user-tqqcom"><lang>腾讯微博</lang></label></td>
+							<td class="field"><input size="25" id="user-tqqcom" name="user_tqqcom" type="text" value="{$user['user_tqqcom']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+							<td class="label"><label id="label-user-diandian" for="user-diandian"><lang>点点网</lang></label></td>
+							<td class="field"><input size="25" id="user-diandian" name="user_diandian" type="text" value="{$user['user_diandian']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					<tr>
+						<td cols="3">&nbsp;</td>
+					<tr/>
+					<tr>
+							<td class="label"><label id="label-user-doyouhaobaby" for="user-doyouhaobaby"><lang>DoYouHaoBaby</lang></label></td>
+							<td class="field"><input size="25" id="user-doyouhaobaby" name="user_doyouhaobaby" type="text" value="{$user['user_doyouhaobaby']}" maxlength="300" /></td>
+							<td class="status"></td>
+						</tr>
+					{if $seccode===true}
+					<tr>	
+					<td valign="top">&nbsp;</td>
+					<td><p> 
+						<input onfocus="updateSeccode();this.onfocus=null;" onBlur="checkSeccode();" type="text"	class="seccode" name="seccode" size="6" id="seccode" tabindex="8" />
+						<label for="seccode"><small><lang>验证码</lang></small></label>
+						&nbsp;<div class="seccodeImage" id="seccodeImage"></div>	
+						<input type="hidden" id="seccode_type" name="seccode_type" value="member" />
+						</p>
+				 </td>
+				 <td>&nbsp;</td>
+				 </tr>
+				 {/if}
+						<tr>
+							<td class="label"><label id="label-member-submit" for="member-submit"><lang>修改资料</lang></label></td>
+							<td class="field" colspan="2">
+							<input id="member-submit" name="member_submit" type="submit" value="<lang>修改资料</lang>" />
+							</td>
+						</tr>
+			 </tbody>
+			 </table>
+		{$after_table}
+	</form>
+{$after}

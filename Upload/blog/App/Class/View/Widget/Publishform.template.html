@@ -1,0 +1,246 @@
+<script src="__PUBLIC__/Images/Jquery/Jquery.validate.min.js?v=1.5.5" type="text/javascript"></script>
+<link href="__PUBLIC__/Images/Uploadify/default.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/Images/Uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="__PUBLIC__/Images/Uploadify/swfobject.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Images/Uploadify/jquery.uploadify.v2.1.0.min.js"></script>
+{script}
+//<![CDATA[
+var __check_urlname__="{:G::U('publish/check_urlname')}";
+var Editor='ubb';
+function insertInput(thevalue, InputId){
+	$("#"+InputId).val(thevalue);
+}
+function deleteUploadFile(id){
+	Dyhb.AjaxSend('{:G::U('upload/delete_file')}','ajax=1&id='+id,'',function(data,status){ if(status==1){ $('#filelist-id-'+id).hide(); } });
+}
+//]]>
+{/script}
+<script src="{$publish}" type="text/javascript"></script>
+
+{$before}
+<form id="publishform" name="publishform" autocomplete="off" method="post" action="">
+	{$before_table}
+	<div id="errorContainer" style="display:none;">&nbsp;</div>
+		<table>
+			<tbody>
+					<tr>
+						<td class="label"><label id="label-blog-title" for="blog-title">*<lang>日志标题</lang></label></td>
+						<td class="field"><input id="blog_title" name="blog_title" type="text" size="80" value="" maxlength="300" /></td>
+					</tr>
+					<tr>
+						<td class="label" ><label id="label-blog-content" for="blog-content">*<lang>内容</lang></label></td>
+						<td class="field">
+					<script type="text/javascript" src="__PUBLIC__/Images/Editor/Ubb/ubbeditor.js"></script>
+					{script}
+					 //<![CDATA[
+					 $(document).ready(function(){
+						 init_ubb('blog_content');
+					 });
+
+					 function insertemot(emotcode){
+						var emot="[emot]"+emotcode+"[/emot]";
+						AddText(emot);
+						document.getElementById('emotid').style.display='none';
+					 }
+
+					 function showemot(){
+						if(document.getElementById('emotid').style.display=='block')document.getElementById('emotid').style.display='none';
+						else document.getElementById('emotid').style.display='block';
+					 }
+					 //]]>
+					 {/script}
+
+					 <div id="ubb-editor" class="ubb-editor" >
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="bold()" title="<lang package='ubb'>粗体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/bold.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="italicize()"title="<lang package='ubb'>斜体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/italic.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="underline()"title="<lang package='ubb'>下划线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/underline.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="strike()"title="<lang package='ubb'>删除线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/strikethrough.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="subsup('sup')"title="<lang package='ubb'>上标</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/superscript.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="subsup('sub')"title="<lang package='ubb'>下标</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/subscript.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="center()"title="<lang package='ubb'>设置文字对齐方式</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/center.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="hyperlink()"title="<lang package='ubb'>插入超链接</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/url.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="email()"title="<lang package='ubb'>插入邮件地址</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/email.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="image()" title="<lang package='ubb'>插入图片</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertimage.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('swf');" title="<lang package='ubb'>插入Flash</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/swf.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('wmp');" title="<lang package='ubb'>插入Windows Media Player文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/wmp.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('real');" title="<lang package='ubb'>插入Real文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/real.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="mp3()" title="<lang package='ubb'>插入Mp3文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/mp3.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addmedia('flv');" title="<lang package='ubb'>插入Flv(Flash Video)文件</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/flv.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="showcode()" title="<lang package='ubb'>插入代码</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/code.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="quoteme()" title="<lang package='ubb'>插入引用文字</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/quote.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addacronym();" title="<lang package='ubb'>插入注释文字</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/acronym.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="AddText('[hr]')" title="<lang package='ubb'>插入分割线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/line.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="addfile();" title="<lang package='ubb'>插入普通文件下载</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/file.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="showemot()" title="<lang package='ubb'>表情选择</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertsmile.gif" ></a>
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="AddText('[newpage]')" title="<lang package='ubb'>插入分页符</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/newpage.gif" ></a>
+						 {script}
+						 //<![CDATA[
+						 if(is_firefox){
+								document.write("<a href='JavaScript: void(0); '><IMG border=0 onclick='undo_fx();' title='<lang package='ubb'>挽回数据</lang>' src='__PUBLIC__/Images/Editor/Ubb/images/undo.gif' ></a>");
+						 }
+						function showUpload(){
+							showWindow('uploadlist',D.U('upload/lists?module=publish&id='+document.getElementById('id').value));
+						}
+						//]]>
+						 {/script}
+						 <a href="JavaScript: void(0); "><IMG border="0" onclick="javascript:handSave();setTimeout('showUpload()',500);" title="<lang>附件上传</lang>" src="__PUBLIC__/Images/Blog/store.gif" ></a>
+						 <div id='emotid' style="display:none;">
+							<volist name="emots" id="arrEmot" mod="20">
+								<eq name="mod" value="1">
+								<br/>
+								</eq>
+								<a href="javascript: insertemot('{$arrEmot['name']}');"><img src="__PUBLIC__/Images/Emot/{$arrEmot['thumb']}" alt='{$arrEmot['name']}' border='0'/></a>
+							</volist>
+						 </div>
+						 <br><lang package='ubb'>字体:</lang>
+						 <select onChange="showfont(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=font>
+							 <option value="#define#" selected><lang package='ubb'>请选择字体</lang></option>
+							 <option value="<lang package='ubb'>宋体</lang>"><lang package='ubb'>宋体</lang></option>
+							 <option value="<lang package='ubb'>楷体_GB2312</lang>"><lang package='ubb'>楷体_GB2312</lang></option>
+							 <option value="<lang package='ubb'>新宋体</lang>"><lang package='ubb'>新宋体</lang></option>
+							 <option value="<lang package='ubb'>黑体</lang>"><lang package='ubb'>黑体</lang></option>
+							 <option value="<lang package='ubb'>隶书</lang>"><lang package='ubb'>隶书</lang></option>
+							 <option value="<lang package='ubb'>仿宋_GB2312</lang>"><lang package='ubb'>仿宋_GB2312</lang></option>
+							 <option value="<lang package='ubb'>Arial</lang>"><lang package='ubb'>Arial</lang></option>
+							 <option value="<lang package='ubb'>Tahoma</lang>"><lang package='ubb'>Tahoma</lang></option>
+							 <option value="<lang package='ubb'>Verdana</lang>"><lang package='ubb'>Verdana</lang></option>
+							 <option value="<lang package='ubb'>Times New Roman</lang>"><lang package='ubb'>Times New Roman</lang></option>
+							 <option value="<lang package='ubb'>Bookman Old Style</lang>"><lang package='ubb'>Bookman Old Style</lang></option>
+							 <option value="<lang package='ubb'>Century Gothic</lang>"><lang package='ubb'>Century Gothic</lang></option>
+							 <option value="<lang package='ubb'>Comic Sans MS</lang>"><lang package='ubb'>Comic Sans MS</lang></option>
+							 <option value="<lang package='ubb'>Courier New</lang>"><lang package='ubb'>Courier New</lang></option>
+							 <option value="<lang package='ubb'>Wingdings</lang>"><lang package='ubb'>Wingdings</lang></option>
+							 <option value="#define#"><lang package='ubb'>自定义</lang></option>
+						 </select>&nbsp;&nbsp;
+						 <lang package='ubb'>字号：</lang>
+						 <select onChange="showsize(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=size>
+							 <option value="#define#" selected><lang package='ubb'>请选择字号</lang></option>
+							 <option value=1>1</option>
+							 <option value=2>2</option>
+							 <option value=3>3</option>
+							 <option value=4>4</option>
+							 <option value=5>5</option>
+							 <option value=6>6</option>
+							</select>&nbsp;&nbsp;
+							<lang package='ubb'>颜色：</lang>
+							<select onChange="showcolor(this.options[this.selectedIndex].value);this.options[0].selected='selected';" name=color>
+							 <option value="#define#" selected><lang package='ubb'>请选择颜色</lang></option>
+							 <option value="#87CEEB" style="color:#87CEEB"><lang package='ubb'>天蓝</lang></option>
+							 <option value="#4169E1" style="color:#4169E1"><lang package='ubb'>品蓝</lang></option>
+							 <option value="#0000FF" style="color:#0000FF"><lang package='ubb'>蓝</lang></option>
+							 <option value="#00008B" style="color:#00008B"><lang package='ubb'>暗蓝</lang></option>
+							 <option value="#FFA500" style="color:#FFA500"><lang package='ubb'>橙</lang></option>
+							 <option value="#FF4500" style="color:#FF4500"><lang package='ubb'>桔红</lang></option>
+							 <option value="#DC143C" style="color:#DC143C"><lang package='ubb'>深红</lang></option>
+							 <option value="#FF0000" style="color:#FF0000"><lang package='ubb'>红</lang></option>
+							 <option value="#B22222" style="color:#B22222"><lang package='ubb'>棕</lang></option>
+							 <option value="#8B0000" style="color:#8B0000"><lang package='ubb'>暗红</lang></option>
+							 <option value="#008000" style="color:#008000"><lang package='ubb'>绿色</lang></option>
+							 <option value="#32CD32" style="color:#32CD32"><lang package='ubb'>灰绿</lang></option>
+							 <option value="#2E8B57" style="color:#2E8B57"><lang package='ubb'>海绿</lang></option>
+							 <option value="#FF1493" style="color:#FF1493"><lang package='ubb'>粉</lang></option>
+							 <option value="#FF6347" style="color:#FF6347"><lang package='ubb'>西红柿色</lang></option>
+							 <option value="#FF7F50" style="color:#FF7F50"><lang package='ubb'>珊瑚色</lang></option>
+							 <option value="#800080" style="color:#800080"><lang package='ubb'>紫色</lang></option>
+							 <option value="#4B0082" style="color:#4B0082"><lang package='ubb'>靛青</lang></option>
+							 <option value="#DEB887" style="color:#DEB887"><lang package='ubb'>棕木</lang></option>
+							 <option value="#F4A460" style="color:#F4A460"><lang package='ubb'>沙褐</lang></option>
+							 <option value="#A0522D" style="color:#A0522D"><lang package='ubb'>土黄</lang></option>
+							 <option value="#D2691E" style="color:#D2691E"><lang package='ubb'>巧克力色</lang></option>
+							 <option value="#008080" style="color:#008080"><lang package='ubb'>土绿</lang></option>
+							 <option value="#C0C0C0" style="color:#C0C0C0"><lang package='ubb'>银</lang></option>
+							 <option value="#define#"><lang package='ubb'>自定义</lang></option>
+							</select>
+						</div>
+						<input type="hidden" id='blog_content_old' value=''>
+						<textarea id="blog_content" name="blog_content" rows='20' style="width:90%;" ></textarea></td>
+					 </tr>
+					 <tr>
+						<td colspan="2"><script type="text/javascript" src="__PUBLIC__/Images/Js/autosave.js"></script>
+										<span id="timemsg"><lang>禁止自动保存</lang></span>
+										<a href="###" onclick="stopAutosaver();"><lang>暂停</lang></a> - <a href="###" onclick="restartAutosaver();"><lang>开始</lang></a> - <a href="###" onclick="stopForever();"> <lang>禁止</lang></a> - <a href="###" onclick="handSave();"><lang>立即保存</lang></a>
+										<span id="timemsg2"></span></td>
+					 </tr>
+					 <tr>
+							<td class="label"><label id="label-category-id" for="category-id"><lang>分类</lang></label></td>
+							<td class="field">
+					<select name="category_id" id="category-id" >
+					<option value="-1" {if $cid==-1}selected{/if}><lang>请选择分类</lang></option>
+					{~$arrCategory=$category->getChilds()}
+					<foreach for=arrCategory value=nCId>
+					<option value="{$nCId}" {if $cid==$nCId}selected{/if}>|{$category:getLayer($nCId, '--')}{$category:getValue($nCId)}</option>
+					</foreach>
+					</select>&nbsp;&nbsp;
+					<lang>日志别名</lang> <input id="blog-urlname" name="blog_urlname" type="text" size="50" value="" maxlength="50" />
+					</td>
+					</tr>
+					 <tr>
+							<td class="label"><label id="label-blog-tag" for="blog-tag"><lang>日志标签</lang></label></td>
+							<td class="field"><input id="blog-tag" name="blog_tag" type="text" size="80" value="" maxlength="50" /></td>
+					 </tr>
+					  <tr>
+							<td class="label"><label id="label-blog-tag" for="blog-tag"><lang>缩略图</lang></label></td>
+							<td class="field"><input type="text" name="blog_thumb" id="blog_thumb" class="field" size="80" value=""/></td>
+					 </tr>
+				 <tr>
+							<td class="label"><label id="label-blog-from" for="blog-from"><lang>文章来源</lang></label></td>
+							<td class="field"><input id="blog-from" name="blog_from" type="text" size="80" value="<lang>本站原创</lang>" maxlength="50" /></td>
+					 </tr>
+				 <tr>
+							<td class="label"><label id="label-blog-fromurl" for="blog-fromurl"><lang>来源 URL</lang></label></td>
+							<td class="field"><input id="blog-fromurl" name="blog-fromurl" type="text" size="80" value="" maxlength="50" /></td>
+					 </tr>
+					 <tr>
+							<td class="label">&nbsp;</td>
+							<td class="field" colspan="2">
+								<div id="terms-wrap">
+									<input id="publish-terms" type="checkbox" name="publish_terms" />
+								<label id="label-publish-terms" for="publish_terms" style="cursor: pointer;" onclick="showBoardRule();" ><lang>同意我们的服务的条款</lang></label>
+							</div>
+							</td>
+					 </tr>
+				 {if $seccode===true}
+				 <tr>
+					<td valign="top">&nbsp;</td>
+					<td><p>
+						<input onfocus="updateSeccode();this.onfocus=null;" onBlur="checkSeccode();" type="text"	class="seccode" name="seccode" size="6" id="seccode" tabindex="8" />
+						<label for="seccode"><small><lang>验证码</lang></small></label>
+						&nbsp;<div class="seccodeImage" id="seccodeImage"></div>
+						<input type="hidden" id="seccode_type" name="seccode_type" value="publish" />
+					</p>
+					</td>
+				 </tr>
+				{/if}
+					 <tr>
+						 <td class="label"><label id="label-publish-submit" for="publish-submit"><lang>提交发布信息</lang></label></td>
+						 <td class="field" colspan="2">
+						 <input type="hidden" name="id" id="id" value=""/>
+						 <input id="publish-submit" name="publish_submit" type="submit" value="<lang>投稿</lang>" />
+						 </td>
+					 </tr>
+			</tbody>
+			</table>
+		{$after_table}
+	</form>
+	{script}
+	//<![CDATA[
+	function showBoardRule(){
+		showDialog(document.getElementById('layer_bbrule').innerHTML, 'info', '{:Global_Extend::getOption('blog_name')} <lang>网站投稿条款</lang>');
+		document.getElementById('fwin_dialog_close').style.display='none';
+	}
+	//]]>
+	{/script}
+
+	<div id="layer_bbrule" style="display: none">
+		<div class="c" style="width:700px;height:350px;overflow:auto"><br />
+		{$licencetxt}
+		<br />
+		<br />
+	</div>
+	<p class="button-toolbar">
+		<button class="button" onclick="hideMenu('fwin_dialog', 'dialog');"><span><lang>同意</lang></span></button>
+		<button class="button" onclick="location.href='__APP__'"><span><lang>不同意</lang></span></button>
+	</p>
+</div>
+
+{$after}

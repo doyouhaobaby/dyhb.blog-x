@@ -1,0 +1,84 @@
+<div id="comment-place">
+	<div class="comment-post" id="comment-post">
+		<div class="cancel-reply" id="cancel-reply" style="display:none"><a href="javascript:void(0);" onclick="cancelReply()">{$comment_cancel_reply_name}</a></div>
+		{if $show_comment_header==1}<p class="comment-header"><h2>{$comment_header_name}</h2><a name="respond"></a></p>{/if}
+		<form method="post" name="commentform" action="{:G::U('comment/post')}" id="commentform">
+			{if $login===true}
+			<div class="comment-infomation-toolbar" >{$comment_information_login} {$the_comment_name} | <a href="{:G::U('login/logout')}"><span class="logout-comment-information">{$logout_information_change}</span></a></div>
+			<div style="display:none;" >
+			{elseif !empty($the_comment_name)}
+			<div class="comment-infomation-toolbar" >{$comment_information_welcome} {$the_comment_name} | <span class="change-comment-information" onclick="javascript:$('#hide-comment-information').toggle('slow');" style="cursor:pointer;" >{$comment_information_change}</span></div>
+			<div id="hide-comment-information" style="display:none;" >
+			{/if}
+			<p>
+				<input class="comment-name" type="text"	name="comment_name" id="comment-name"	maxlength="25" size="42" tabindex="1" value="{$the_comment_name}" >
+				<label for="comment-name"><small>{$comment_name_name}</small></label>
+			</p>
+			<p>
+				<input class="comment-email" type="text"	name="comment_email" id="comment-email"	maxlength="300" size="42" tabindex="2" value="{$the_comment_email}" >
+				<label for="comment-email"><small>{$comment_email_name}</small></label>
+			</p>
+			<p>
+				<input class="comment-url" type="text" name="comment_url"	id="comment-url" maxlength="300" size="42" tabindex="3" value="{$the_comment_url}" >
+				<label for="comment-url"><small>{$comment_url_name}</small></label>
+			</p>
+			{if !empty($the_comment_name)}
+			</div>
+			{/if}
+			<p>
+			{script}
+			//<![CDATA[
+			function insertemot(emotcode){
+						var emot="[emot]"+emotcode+"[/emot]";
+						AddText(emot);
+						document.getElementById('emotid').style.display='none';
+			 }
+			 //]]>
+			 {/script}
+			<div id="ubbid" class="formbox-comment-ubb" style="display:none;">
+				<script type="text/javascript" src="__PUBLIC__/Images/Editor/Ubb/ubbeditor_tiny.js"></script>
+				<div style="margin: 4px 0px 4px 0px;">
+					<img src="__PUBLIC__/Images/Editor/Ubb/images/bar.gif" alt=''/> &nbsp;
+					<a href="javascript: bold();"><img border='0' title="<lang package='ubb'>粗体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/bold.gif" alt=''/></a> &nbsp;
+					<a href="javascript: italicize();"><img border='0' title="<lang package='ubb'>斜体</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/italic.gif" alt=''/></a> &nbsp;
+					<a href="javascript: underline();"><img border='0' title="<lang package='ubb'>下划线</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/underline.gif"	alt=''/></a> &nbsp;
+					<img src="__PUBLIC__/Images/Editor/Ubb/images/bar.gif" alt=''/> &nbsp;
+					<a href="javascript: image();"><img border='0' title="<lang package='ubb'>插入图片</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertimage.gif" alt=''/></a>&nbsp;
+					<a href="javascript: hyperlink();"><img border='0' title="<lang package='ubb'>插入超链接</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/url.gif" alt=''/></a> &nbsp;
+					<a href="javascript: email();"><img border='0' title="<lang package='ubb'>插入邮件地址</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/email.gif"	alt=''/></a> &nbsp;
+					<a href="javascript: quoteme();"><img border='0' title="<lang package='ubb'>插入引用文字</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/quote.gif" alt=''/></a>
+					<a href="JavaScript: void(0); "><IMG border=0 onclick="showDiv('emotid');" title="<lang package='ubb'>表情选择</lang>" src="__PUBLIC__/Images/Editor/Ubb/images/insertsmile.gif" ></a>
+				 </div>
+			 </div>
+			 <div id="emotid" class="panel-smilies" style="display: none;" onclick="showDiv('emotid')">
+			<div class="panel-smilies-content">
+				<foreach for=emots value=arrEmot>
+					 <a href="javascript: insertemot('{$arrEmot['name']}');"><img src="__PUBLIC__/Images/Emot/{$arrEmot['thumb']}" alt='{$arrEmot['name']}' border='0'/></a>
+				</foreach>
+			</div>
+		</div>
+			<textarea onfocus="document.getElementById('ubbid').style.display='block';" class="comment-content" name="comment_content" id="comment-content" cols="50%" rows="10" tabindex="4"></textarea></p>
+			<p>
+				<input class="coment-isshow" type="checkbox" name="comment_isshow"	id="comment-isshow" maxlength="1"	tabindex="6" value="0" >
+				<label for="comment-url"><small>{$coment_isshow}</small></label>
+			</p>
+			<p>
+				<input class="comment-isreplymail" type="checkbox" name="comment_isreplymail"	id="comment-isreplymail" maxlength="1"	tabindex="7" value="1" >
+				<label for="comment-isreplymail"><small>{$coment_isreplymail}</small></label>
+			</p>
+			{if $seccode===true}
+			<p>
+				<input onfocus="updateSeccode();this.onfocus=null;" onBlur="checkSeccode();" type="text"	class="seccode" name="seccode" size="6" id="seccode" tabindex="8" />
+				<label for="seccode"><small><lang>验证码</lang></small></label>
+				&nbsp;<div class="seccodeImage" id="seccodeImage"></div>
+			</p>
+			{/if}
+			<p> <input class="comment-submit" name="comment-submit" type="button" onclick="if(commentCheckForm()===false){return false;}commentSubmit();" id="comment-submit" tabindex="5" value="{$comment_submit_name}" /></p>
+			{if $is_ajax==1}<input type="hidden" name="ajax" id="ajax" maxlength="1" value="1" />{/if}
+			{if !empty($the_data['category_id'])}<input type="hidden" name="category_id" id="category_id" maxlength="1" value="{$the_data['category_id']}" />{/if}
+			<input type="hidden" name="comment_relationtype" id="comment-relationtype" maxlength="10" value="{$comment_relation_type}" />
+			<input type="hidden" name="comment_relationvalue" id="comment-relationvalue" maxlength="8" value="{$comment_relation_value}" />
+			<input type="hidden" name="comment_parentid" id="comment-parentid" value="0" maxlength="8" tabindex="1"/>
+		</form>
+ </div>
+</div>

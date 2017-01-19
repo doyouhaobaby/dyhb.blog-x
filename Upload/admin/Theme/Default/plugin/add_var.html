@@ -1,0 +1,69 @@
+<include file="public+header" />
+	
+	<div class="title">{$oPluginValue:plugin_name}<lang package='plugin'>插件</lang> ({if $oPluginValue['plugin_active']}<lang package='plugin'>插件已启用</lang>{d*else}<lang package='plugin'>插件未启用</lang>{/if}) | <a href="{:G::U('plugin/index')}"><lang package='plugin'>插件列表</lang></a> | <a href="{:G::U('plugin/export?id='.$nPluginId)}"><lang package='plugin'>导出插件</lang></a> | <a class="a-button" href="{:G::U('plugin/edit?id='.$nPluginId)}#tab_var"><lang package='plugin'>返回插件设计</lang></a></div>
+
+	
+	<div id="content" class="content">
+
+	<form action="{if isset($_GET['var_id'])}{:G::U('plugin/update_var')}{d*else}{:G::U('plugin/var_insert')}{/if}" method="post" id="pluginvarAdd" name="pluginvarAdd">
+		<table class="form-table full">
+			<tr>
+			<th valign="top"><label for="pluginvar_displayorder"><lang package='plugin'>变量排序</lang>：</label></th>
+			<td><input type="text" name="pluginvar_displayorder" id="pluginvar_displayorder" class="field" size="5" value="<if condition="isset( $oValue ) && $oValue:pluginvar_displayorder">{$oValue:pluginvar_displayorder}<else/>0</if>" maxlength="3"/>
+			<br/><div class="description"><lang package='plugin'>变量排序，用于为变量排序。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pluginvar_title"><lang package='plugin'>配置名称</lang>(require)：</label></th>
+			<td><input type="text" name="pluginvar_title" id="pluginvar_title" class="field" size="40" value="<if condition="isset( $oValue ) && $oValue:pluginvar_title">{$oValue:pluginvar_title}</if>" maxlength="100"/>
+			<br/><div class="description"><lang package='plugin'>中英文均可，用于显示在插件配置的菜单中，最多 100 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pluginvar_description"><lang package='plugin'>配置说明</lang>：</label></th>
+			<td><textarea name="pluginvar_description" id="pluginvar_description" class="field" cols="70" rows="5"><if condition="isset( $oValue ) && $oValue:pluginvar_description">{$oValue:pluginvar_description}</if></textarea>
+			<br/><div class="description"><lang package='plugin'>描述此项配置的用途和取值范围，详细的描述有利于插件使用者了解这个设置的作用，最多 255 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pluginvar_variable"><lang>配置变量名</lang>(require)：</label></th>
+			<td><input type="text" name="pluginvar_variable" id="pluginvar_variable" class="field" size="40" value="<if condition="isset( $oValue ) && $oValue:pluginvar_variable">{$oValue:pluginvar_variable}</if>" maxlength="40"/>
+				<div class="description"><lang package='plugin'>设置配置项目的变量名，用于插件程序中调用，可包含英文、数字和下划线，在同一个插件中需要保持变量名的唯一性，最多 40 个字节。</lang></div>
+			</td>
+			</tr>
+			<tr>
+			<th valign="top"><label for="pluginvar_type"><lang package='plugin'>配置类型</lang>：</label></th>
+			<td><select name="pluginvar_type">
+				<option value="number" {if isset($oValue) && $oValue['pluginvar_type']=='number'}selected{/if}><lang package='plugin'>数字(number)</lang></option>
+				<option value="text" {if isset($oValue) && $oValue['pluginvar_type']=='text'}selected{/if}><lang package='plugin'>字串(text)</lang></option>
+				<option value="textarea" {if isset($oValue) && $oValue['pluginvar_type']=='textarea'}selected{/if}><lang package='plugin'>文本(textarea)</lang></option>
+				<option value="radio" {if isset($oValue) && $oValue['pluginvar_type']=='radio'}selected{/if}><lang package='plugin'>开关(radio)</lang></option>
+				<option value="select" {if isset($oValue) && $oValue['pluginvar_type']=='select'}selected{/if}><lang package='plugin'>单选选择(select)</lang></option>
+				<option value="selects" {if isset($oValue) && $oValue['pluginvar_type']=='selects'}selected{/if}><lang package='plugin'>多项选择(selects)</lang></option>
+				<option value="color" {if isset($oValue) && $oValue['pluginvar_type']=='color'}selected{/if}><lang package='plugin'>颜色(color)</lang></option>
+				</select>
+			<br/><div class="description"><lang package='plugin'>插件变量配置类型。</lang></div>
+			</td>
+			</tr>
+			{if isset($oValue) && in_array($oValue['pluginvar_type'],array('select','selects'))}
+			<tr>
+			<th valign="top"><label for="pluginvar_extra"><lang package='plugin'>扩充设置</lang>：</label></th>
+			<td><textarea name="pluginvar_extra" id="pluginvar_extra" class="field" cols="70" rows="5"><if condition="isset( $oValue ) && $oValue:pluginvar_extra">{$oValue:pluginvar_extra}</if></textarea>
+			<br/><div class="description"><lang package='plugin'>只在配置类型为“选择(select)”时有效，用于设定选项值。等号前面为选项索引(建议用数字)，后面为内容，例如: 1 = 光电鼠标，回车换行添加下一个项。</lang>
+			<lang package='plugin'>注意: 选项确定后请勿修改索引和内容的对应关系，但仍可以新增选项。如需调换显示顺序，可以通过移动整行的上下位置来实现。</lang></div>
+			</td>
+			</tr>
+			{/if}
+			</table>
+			<p class="center">
+			<input type="hidden" name="id" id="id" value="{$nPluginId}"/>
+			<input type="hidden" name="var_id" id="var_id" value="{if isset($oValue)}{$oValue:pluginvar_id}{/if}"/>
+		<input id="submit_button" type="submit" class="button button-blue" value=" <lang>发  布</lang>  " />
+			<input type="reset" class="button button-green" value="  <lang>重  置</lang>  " />
+		</p>
+		</form>
+	
+	</div>
+	
+
+<include file="public+footer">

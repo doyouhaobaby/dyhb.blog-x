@@ -1,0 +1,15 @@
+<include file="header">
+
+	<div id="nav"><a href="{:Global_Extend::getOption( 'blog_url' )}" title="{:Global_Extend::getOption( 'blog_name' )} - <lang package='boardTheme'>首页</lang>">{:Global_Extend::getOption( 'blog_name' )}</a> &raquo; <lang package='boardTheme'>发送短消息</lang></div>
+
+	<div id="wrap" class="wrap with_side s_clear">
+		<div class="main">
+			<div class="content">
+				{:G::W( 'pmnewform',array( 'data'=>$sUser,'content'=>$sContent ) )}
+			</div>
+		</div>
+
+		<include file="sidebarmember">
+		</div>
+
+<include file="footer">

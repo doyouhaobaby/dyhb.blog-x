@@ -1,0 +1,74 @@
+<include file="public+header" />
+
+
+	<div class="title"><lang package='loginlog'>登录记录列表</lang> | <a href="{:G::U('loginlog/clear')}"><lang package='loginlog'>清理登录记录</lang></a></div>
+
+
+	<div class="toolbar">
+
+		<div class="operate left" >
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'loginlog/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="loginlog_user" title="<lang package='loginlog'>登录用户</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+
+	<span class="clear"></span>
+
+
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('loginlog_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='loginlog_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='loginlog_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('loginlog_user','{$sSortByUrl}')" {if G+getGpc('order_','G')=='loginlog_user' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='loginlog_user' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照登录用户</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>登录用户</lang></a></th>
+			<th><a href="javascript:sortBy('loginlog_ip','{$sSortByUrl}')" {if G+getGpc('order_','G')=='loginlog_ip' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='loginlog_ip' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照登录IP</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>登录IP</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照登录时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>登录时间</lang></a></th>
+			<th><a href="javascript:sortBy('loginlog_status','{$sSortByUrl}')" {if G+getGpc('order_','G')=='loginlog_status' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='loginlog_status' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照登录状态</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>登录状态</lang></a></th>
+			<th><a href="javascript:sortBy('login_application','{$sSortByUrl}')" {if G+getGpc('order_','G')=='login_application' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='login_application' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='loginlog'>按照登录应用</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='loginlog'>登录应用</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:loginlog_id}"></td>
+			<td>{$value:loginlog_id}</td>
+			<td>{$value:loginlog_user}
+			<div class="row-actions">
+				<span class='delete'><a href="javascript:foreverdel('{$value:loginlog_id}');" title="<lang>删除</lang>"><lang>删除</lang></a></span>
+			</div></td>
+			<td>{$value:loginlog_ip}</td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			<td><img src="__TMPLPUB__/Images/<if condition="$value:loginlog_status eq 1" >yes<else/>no</if>.gif"/></td>
+			<td>{$value:login_application}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+
+		<div class="toolbar">
+
+			<div class="operate" >
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+
+		{$sPageNavbar}
+
+	</div>
+
+
+<include file="public+footer">

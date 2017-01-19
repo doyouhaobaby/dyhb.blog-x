@@ -1,0 +1,17 @@
+<include file="header">
+
+	<div id="m">
+		<foreach for=arrTaotaoLists>
+		<div class="twcont">[{if !empty($value:user:user_name)}
+						{if !empty($value:user:user_nikename)}{$value:user:user_nikename}{d*else}{$value:user:user_name}{/if}
+						{d*else}<lang>跌名</lang>{/if}]：{$value['taotao_content']}{if $value['taotao_ismobile']==1}<br/>{:$TheController->the_taotao_mobile($value) }<span class="mobile"><lang>此信息来自博客手机版！</lang><lang>手机访问,随时随地自由交流！</lang><br/>
+			{:Global_Extend::getOption('blog_url') }/wap.php{/if}</div>
+		<div class="info">{$value['create_dateline']|Date+smartDate}</div>
+		<div class="twinfo"><a href="{:Url_Extend::getTaotaoUrl($value)}"><lang>浏览</lang></a> <lang>查看评论</lang>(<a href="{:G::U('blog/comment?taotao_id='.$value['taotao_id'])}">{$value['taotao_commentnum']}</a>)</div>
+		</foreach>
+		<div id="page">
+		{$sPageNavbar}
+		</div>
+	</div>
+
+<include file="footer">

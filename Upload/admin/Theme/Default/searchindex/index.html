@@ -1,0 +1,77 @@
+<include file="public+header" />
+
+	
+	<div class="title"><lang package='searchindex'>搜索结果列表</lang> ( <a href="{:G::U( 'searchindex/clear' )}" title="<lang package='searchindex'>清空所有搜索记录</lang>" class="button button-red"><lang package='searchindex'>清空</lang></a> )</div>
+
+	
+	<div class="toolbar">
+		
+		<div class="operate left" >
+			<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+		</div>
+		
+		<div class="right search_form">
+		<form method='get' action="{:G::U( 'searchindex/index' )}">
+			<div class="left">
+				<input type="hidden" name="c" value="__MODULE_NAME__"/>
+				<input type="hidden" name="a" value="__ACTION_NAME__"/>
+				<input type="text" name="searchindex_keywords" title="<lang package='searchindex'>搜索关键字</lang>" class="field" >
+				<input type="submit" id="" value="<lang>查询</lang>" onclick="" class="search button">
+			</div>
+		</form>
+	</div>
+	</div>
+
+	
+	<span class="clear"></span>
+
+	
+	<div id="content" class="content">
+		<table class="data full" id="checkList">
+		<thead>
+		<tr>
+			<th><input type="checkbox" onclick="checkAll('checkList')"></th>
+			<th><a href="javascript:sortBy('searchindex_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='searchindex_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='searchindex_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照编号</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>编号</lang></a></th>
+			<th><a href="javascript:sortBy('searchindex_keywords','{$sSortByUrl}')" {if G+getGpc('order_','G')=='searchindex_keywords' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='searchindex_keywords' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照搜索关键字</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>关键字</lang></a></th>
+			<th><a href="javascript:sortBy('create_dateline','{$sSortByUrl}')" {if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='create_dateline' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照搜索时间</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>搜索时间</lang></a></th>
+			<th><a href="javascript:sortBy('searchindex_totals','{$sSortByUrl}')" {if G+getGpc('order_','G')=='searchindex_totals' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='searchindex_totals' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照搜索结果数</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>搜索结果</lang></a></th>
+			<th><a href="javascript:sortBy('searchindex_searchfrom','{$sSortByUrl}')" {if G+getGpc('order_','G')=='searchindex_searchfrom' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='searchindex_searchfrom' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照搜索范围</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>搜索范围</lang></a></th>
+			<th><a href="javascript:sortBy('searchindex_ip','{$sSortByUrl}')" {if G+getGpc('order_','G')=='searchindex_ip' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='searchindex_ip' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照IP 地址</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>IP 地址</lang></a></th>
+			<th><a href="javascript:sortBy('user_id','{$sSortByUrl}')" {if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='asc'}class="order_desc"{/if}{if G+getGpc('order_','G')=='user_id' && G+getGpc('sort_','G')=='desc'}class="order_asc"{/if} title="<lang package='searchindex'>按照搜索用户</lang>{$sSortByDescription}<lang>排列</lang> "><lang package='searchindex'>搜索用户</lang></a></th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach for=oList>
+			<tr>
+			<td><input type="checkbox" name="key" value="{$value:searchindex_id}"></td>
+			<td>{$value:searchindex_id}</td>
+			<td>{$value:searchindex_keywords}
+			<div class="row-actions">
+				<span class='delete'><a href="javascript:foreverdel('{$value:searchindex_id}');" title="<lang>删除</lang>"><lang>删除</lang></a></span>
+			</div>
+			</td>
+			<td>{$value:create_dateline|date='Y-m-d',**}</td>
+			<td>{$value:searchindex_totals}</td>
+			<td>{$value:searchindex_searchfrom}</td>
+			<td>{$value:searchindex_ip}</td>
+			<td>{if $value:user_id==-1}<lang>跌名</lang>{d*else}{:UserModel::getUserNameById( $value['user_id'] )}{/if}</td>
+			</tr>
+			</foreach>
+		</tbody>
+		</table>
+
+		
+		<div class="toolbar">
+			
+			<div class="operate" >
+				<input type="button" name="delete" value="<lang>删除</lang>" onclick="foreverdel()" class="delete button">
+			</div>
+		</div>
+
+		
+		{$sPageNavbar}
+
+	</div>
+	
+
+<include file="public+footer">
